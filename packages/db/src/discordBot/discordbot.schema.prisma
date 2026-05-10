@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+  moduleFormat = "esm"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Guild {
+  id Int @id @default(autoincrement())
+  guildId String
+  features Json
+}
+
+model ActivityStatus {
+  id Int @id @default(autoincrement())
+  type Int
+  name String
+}
+
+model ServerName {
+  id Int @id @default(autoincrement())
+  name String
+}

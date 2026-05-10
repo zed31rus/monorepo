@@ -1,0 +1,13 @@
+{
+    "name": "@shared/config",
+    "version": "1.0.0",
+    "private":"true",
+    "type": "module",
+    "dependencies": {
+        "@zed31rus/types": "workspace:*",
+        "@shared/errors": "workspace:*"
+    },
+    "exports": {
+        ".": "./index.ts"
+    }
+}

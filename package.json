@@ -1,0 +1,13 @@
+{
+  "name": "zed31rus-monorepo",
+  "version": "1.0.0",
+  "description": "zed31rus ts monorepository",
+  "keywords": [],
+  "author": "zed31rus_",
+  "license": "GPL-3.0",
+  "packageManager": "pnpm@10.33.2",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "winston": "^3.19.0"
+  }
+}

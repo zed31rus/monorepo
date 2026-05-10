@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+  moduleFormat = "esm"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+  
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  uuid String @unique @default(uuid())
+  login String @unique
+  email String @unique
+  nickname String?
+  avatar String?
+  passwordHash String?
+  allowLoginFind Boolean @default(true)
+  allowEmailFind Boolean @default(true)
+  emailConfirmed Boolean @default(false)
+  isAdmin Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tokens RefreshToken[]
+  oauthAccounts OauthAccount[]
+  verificationCodes VerificationCode[]
+}
+
+model RefreshToken {
+  id Int @id @default(autoincrement())
+  hashedToken String @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userUuid], references: [uuid], onDelete: Cascade)
+  userUuid String
+}
+
+model OauthAccount {
+  id Int @id @default(autoincrement())
+
+  //google / github / discord / etc
+  provider String
+
+  providerUserId String
+  accessToken String?
+  refreshToken String?
+  expiresAt DateTime?
+  scope String?
+
+  rawProfile Json?
+
+  user User @relation(fields: [userUuid], references: [uuid], onDelete: Cascade)
+  userUuid String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([ provider, providerUserId ])
+  @@unique([ userUuid, provider ])
+}
+
+model VerificationCode {
+  id Int @id @default(autoincrement())
+  hashedCode String
+  type String // 'EMAIL_CONFIRMATION', 'PASSWORD_RESET'...
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userUuid], references: [uuid], onDelete: Cascade)
+  userUuid String
+
+  @@unique([userUuid, type])
+}

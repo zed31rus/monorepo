@@ -1,0 +1,24 @@
+{
+  "name": "@packages/db",
+  "version": "1.0.0",
+  "private":"true",
+  "type": "module",
+  "exports": {
+      ".": "./index.ts"
+  },
+  "dependencies": {
+    "@zed31rus/types": "workspace:*",
+    "@zed31rus/base": "workspace:*",
+    "@shared/errors": "workspace:*",
+    "@shared/config": "workspace:*",
+    
+    "@prisma/adapter-pg": "^7.3.0",
+    "@prisma/client": "^7.3.0",
+    "pg": "^8.17.2",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.16.0",
+    "prisma": "^7.3.0"
+  }
+}
