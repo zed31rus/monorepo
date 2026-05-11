@@ -12,44 +12,10 @@ monorepo
 │  │  │  │  ├─ index.container.ts
 │  │  │  │  ├─ manager.container.ts
 │  │  │  │  └─ services.container.ts
-│  │  │  ├─ generated
-│  │  │  │  └─ prisma
-│  │  │  │     ├─ browser.ts
-│  │  │  │     ├─ client.ts
-│  │  │  │     ├─ commonInputTypes.ts
-│  │  │  │     ├─ enums.ts
-│  │  │  │     ├─ internal
-│  │  │  │     │  ├─ class.ts
-│  │  │  │     │  ├─ prismaNamespace.ts
-│  │  │  │     │  └─ prismaNamespaceBrowser.ts
-│  │  │  │     ├─ models
-│  │  │  │     │  ├─ OauthAccount.ts
-│  │  │  │     │  ├─ RefreshToken.ts
-│  │  │  │     │  ├─ User.ts
-│  │  │  │     │  └─ VerificationCode.ts
-│  │  │  │     └─ models.ts
 │  │  │  ├─ managers
 │  │  │  │  ├─ otp.manager.ts
 │  │  │  │  └─ session.manager.ts
 │  │  │  ├─ prisma
-│  │  │  │  └─ migrations
-│  │  │  │     ├─ 20260121195853_base
-│  │  │  │     │  └─ migration.sql
-│  │  │  │     ├─ 20260123151148_verification_codes
-│  │  │  │     │  └─ migration.sql
-│  │  │  │     ├─ 20260123224904_uuid
-│  │  │  │     │  └─ migration.sql
-│  │  │  │     ├─ 20260124020639_allow_user_find
-│  │  │  │     │  └─ migration.sql
-│  │  │  │     ├─ 20260127014001_creted
-│  │  │  │     │  └─ migration.sql
-│  │  │  │     ├─ 20260202131407_uuid
-│  │  │  │     │  └─ migration.sql
-│  │  │  │     ├─ 20260202211948_unique_provider_user_uuid
-│  │  │  │     │  └─ migration.sql
-│  │  │  │     ├─ 20260202212725
-│  │  │  │     │  └─ migration.sql
-│  │  │  │     └─ migration_lock.toml
 │  │  │  └─ services
 │  │  │     ├─ account.service.ts
 │  │  │     ├─ auth.service.ts
@@ -145,22 +111,6 @@ monorepo
 │  │  │  │  ├─ auth.db.ts
 │  │  │  │  ├─ auth.prisma.config.ts
 │  │  │  │  ├─ auth.schema.prisma
-│  │  │  │  ├─ generated
-│  │  │  │  │  └─ prisma
-│  │  │  │  │     ├─ browser.ts
-│  │  │  │  │     ├─ client.ts
-│  │  │  │  │     ├─ commonInputTypes.ts
-│  │  │  │  │     ├─ enums.ts
-│  │  │  │  │     ├─ internal
-│  │  │  │  │     │  ├─ class.ts
-│  │  │  │  │     │  ├─ prismaNamespace.ts
-│  │  │  │  │     │  └─ prismaNamespaceBrowser.ts
-│  │  │  │  │     ├─ models
-│  │  │  │  │     │  ├─ OauthAccount.ts
-│  │  │  │  │     │  ├─ RefreshToken.ts
-│  │  │  │  │     │  ├─ User.ts
-│  │  │  │  │     │  └─ VerificationCode.ts
-│  │  │  │  │     └─ models.ts
 │  │  │  │  ├─ oauth
 │  │  │  │  │  ├─ classes
 │  │  │  │  │  │  ├─ createOauthAccount.ts
@@ -198,20 +148,6 @@ monorepo
 │  │  │     ├─ discordbot.db.ts
 │  │  │     ├─ discordbot.prisma.config.ts
 │  │  │     ├─ discordbot.schema.prisma
-│  │  │     ├─ generated
-│  │  │     │  └─ prisma
-│  │  │     │     ├─ browser.ts
-│  │  │     │     ├─ client.ts
-│  │  │     │     ├─ commonInputTypes.ts
-│  │  │     │     ├─ enums.ts
-│  │  │     │     ├─ internal
-│  │  │     │     │  ├─ class.ts
-│  │  │     │     │  ├─ prismaNamespace.ts
-│  │  │     │     │  └─ prismaNamespaceBrowser.ts
-│  │  │     │     ├─ models
-│  │  │     │     │  ├─ ActivityStatus.ts
-│  │  │     │     │  └─ ServerName.ts
-│  │  │     │     └─ models.ts
 │  │  │     └─ serverName
 │  │  │        ├─ cases
 │  │  │        │  ├─ create.serverName.db.case.ts
