@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
 import BaseConfig from '../config.base.js';
 
+dotenv.config();
+
 export default class EnvConfig extends BaseConfig {
     readonly DATABASE_URL: string;
     readonly SMTP_API_KEY: string;
