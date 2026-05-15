@@ -1,20 +1,20 @@
 {
   "name": "@packages/db",
   "version": "1.0.0",
-  "private":"true",
+  "private": "true",
   "type": "module",
   "exports": {
-      ".": "./index.ts"
+    ".": "./index.ts"
   },
   "dependencies": {
-    "@zed31rus/types": "workspace:*",
-    "@zed31rus/base": "workspace:*",
-    "@shared/errors": "workspace:*",
-    "@shared/config": "workspace:*",
-    
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
+    "@shared/config": "workspace:*",
+    "@shared/errors": "workspace:*",
+    "@zed31rus/base": "workspace:*",
+    "@zed31rus/types": "workspace:*",
     "pg": "^8.17.2",
+    "prisma-json-types-generator": "^5.0.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {

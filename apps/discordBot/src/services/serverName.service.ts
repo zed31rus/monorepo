@@ -1,8 +1,8 @@
 import cron from 'node-cron';
 import BaseService from '../base/service.base';
+import { Features } from '@zed31rus/types/features.discordBot.js';
 
 export default class MultiServerNameManager extends BaseService {
-    private serverNames: Map<string, { name: string }> = new Map();
 
     constructor(...serviceBaseArgs: BaseService.Args) {
         super(...serviceBaseArgs);
@@ -10,31 +10,31 @@ export default class MultiServerNameManager extends BaseService {
     }
 
     private async init() {
-        await this.refreshAllServerNames();
+        await this.updateAllServerNames();
         this.createCronSchedule();
     }
 
-    private async refreshAllServerNames() {
+    private async updateAllServerNames() {
         try {
-            const activeServers = await this.db.guilds.get.allActive(this.db.client);
+            const activeGuilds = await this.db.guilds.get.whereFeature(this.db.client, Features.serverName);
 
-            for (const guild of activeServers) {
-                await this.updateSingleServerName(guild.id);
+            for (const guild of activeGuilds) {
+                await this.updateServerName(guild.guildId);
             }
+
         } catch (error) {
             this.logger.error('Failed to refresh server names:', error);
         }
     }
 
-    public async updateSingleServerName(serverId: string) {
-        const oldName = this.serverNames.get(serverId)?.name || '';
+    public async updateServerName(serverId: string) {
+        const guild = await this.client.guilds.fetch(serverId);
+        const oldName = guild.name;
         let newServerName;
 
         do {
             newServerName = await this.db.serverName.get.random(this.db.client);
         } while (newServerName.name === oldName);
-
-        this.serverNames.set(serverId, newServerName);
 
         this.events.emit('serverNameUpdate', { 
             serverId, 
@@ -44,13 +44,9 @@ export default class MultiServerNameManager extends BaseService {
 
     private createCronSchedule() {
         cron.schedule('*/10 * * * *', async () => {
-            await this.refreshAllServerNames();
+            await this.updateAllServerNames();
         }, {
             timezone: "Europe/Moscow"
         });
-    }
-
-    public getServerName(serverId: string) {
-        return this.serverNames.get(serverId);
     }
 }

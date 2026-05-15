@@ -1,7 +1,5 @@
 import baseMiddleware from "#web/base/middleware.base.js";
-import { getCookie } from "hono/cookie";
 import { type OptionalUserEnv, type UserEnv } from "#web/types/Env.js";
-import LibContainer from "@packages/libs";
 
 export default class AuthMiddleware extends baseMiddleware {
 

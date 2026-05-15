@@ -2,8 +2,9 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import * as prisma from './generated/prisma/client.js';
 import pg from "pg";
 import BaseDb from "../db.base.js";
-import ActivityStatus from "./activityStatus/activityStatus.db.js";
+import ActivityStatusDiscordBotDb from "./activityStatus/activityStatus.discordbot.db.js";
 import ServerName from "./serverName/serverName.db.js";
+import GuildsDiscordBotDb from "./guilds/guilds.discordbot.db.js";
 
 class DiscordBotDB extends BaseDb {
     client: prisma.PrismaClient
@@ -16,12 +17,15 @@ class DiscordBotDB extends BaseDb {
         this.client = new prisma.PrismaClient({ adapter });
     }
 
-    activityStatus = new ActivityStatus();
+    activityStatus = new ActivityStatusDiscordBotDb();
     serverName = new ServerName();
-
+    guilds = new GuildsDiscordBotDb();
 }
 
 namespace DiscordBotDB {
+    export namespace Guild {
+        export type Model = prisma.Prisma.GuildModel;
+    }
     export type PrismaClient = prisma.PrismaClient;
     export type TransactionClient = prisma.Prisma.TransactionClient;
     export type InputJsonValue = prisma.Prisma.InputJsonValue;

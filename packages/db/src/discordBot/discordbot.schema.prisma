@@ -5,13 +5,21 @@ generator client {
   importFileExtension = "js"
 }
 
+generator json {
+  provider  = "prisma-json-types-generator"
+  namespace = "PrismaJson"
+  allowAny  = false
+}
+
 datasource db {
   provider = "postgresql"
 }
 
 model Guild {
   id Int @id @default(autoincrement())
-  guildId String
+  guildId String @unique
+
+  /// [features]
   features Json
 }
 

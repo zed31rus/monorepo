@@ -1,6 +1,6 @@
 import ApiErrors from "./errors/api.errors.js";
 import ConfigErrors from "./errors/config.errors.js";
-import PrismaErrors from "./errors/prisma.errors.js";
+import PrismaErrorss from "./errors/prisma.errors.js";
 import { ApiError } from "./errors/api.errors.js";
 import { ConfigError } from "./errors/config.errors.js";
 
@@ -8,13 +8,18 @@ class ErrorsContainer {
     constructor(
         readonly api: ApiErrors,
         readonly config: ConfigErrors,
-        readonly prisma: PrismaErrors
+        readonly prisma: PrismaErrorss
     ){}
 
-    static deps = { ApiErrors, ConfigErrors, PrismaErrors }
+    static deps = { ApiErrors, ConfigErrors, PrismaErrors: PrismaErrorss }
     static ApiError = ApiError;
     static ConfigError = ConfigError;
 }
 
+namespace ErrorsContainer {
+    export namespace PrismaErrors {
+        export type ErrorInstance = PrismaErrorss.ErrorInstance
+    }
+}
 
 export default ErrorsContainer;
