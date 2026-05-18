@@ -9,20 +9,20 @@ import BaseDb, { type BaseDbArgs } from '../db.base.js';
 import { type PublicUser as PubUser, type PersonalUser as PerUser } from './user/user.class.js';
 
 class authDB extends BaseDb {
-    client: prisma.PrismaClient;
-    static prisma = prisma.Prisma;
+	client: prisma.PrismaClient;
+	static prisma = prisma.Prisma;
 
-    constructor(...baseArgs: BaseDbArgs) {
-        super(...baseArgs);
-        const pool = new pg.Pool({ connectionString: this.config.env.DATABASE_URL });
-        const adapter = new PrismaPg(pool, { schema: 'auth' });
-        this.client = new prisma.PrismaClient({ adapter });
-    }
+	constructor(...baseArgs: BaseDbArgs) {
+		super(...baseArgs);
+		const pool = new pg.Pool({ connectionString: this.config.env.DATABASE_URL });
+		const adapter = new PrismaPg(pool, { schema: 'auth' });
+		this.client = new prisma.PrismaClient({ adapter });
+	}
 
-    users = new Users();
-    refreshToken = new refreshToken();
-    oauthAccount = new oauthAccount();
-    verificationCode = new verificationCode();
+	users = new Users();
+	refreshToken = new refreshToken();
+	oauthAccount = new oauthAccount();
+	verificationCode = new verificationCode();
 }
 
 export import AuthDBType = prisma.Prisma;

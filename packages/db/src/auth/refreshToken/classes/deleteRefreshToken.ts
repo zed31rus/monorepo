@@ -1,11 +1,11 @@
-import { authDBType } from '../../auth.db.js';
+import { AuthDBType } from '../../auth.db.js';
 
 export default class DeleteRefreshToken {
-    async delete(client: authDBType.TransactionClient, refreshToken: authDBType.RefreshTokenModel) {
-        await client.refreshToken.delete({
-            where: {
-                hashedToken: refreshToken.hashedToken,
-            },
-        });
-    }
+	async delete(client: AuthDBType.TransactionClient, refreshToken: AuthDBType.RefreshTokenModel) {
+		await client.refreshToken.delete({
+			where: {
+				hashedToken: refreshToken.hashedToken,
+			},
+		});
+	}
 }
