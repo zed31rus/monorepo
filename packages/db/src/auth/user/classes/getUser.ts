@@ -1,52 +1,52 @@
-import authDB from "../../auth.db.js";
+import type { authDBType, PublicUser, RawUser } from '../../auth.db.js';
 
 export default class GetUser {
     orThrow = {
-        async byPublicUser(client: authDB.TransactionClient, publicUser: authDB.User.Public) {
+        async byPublicUser(client: authDBType.TransactionClient, publicUser: PublicUser) {
             return await client.user.findUniqueOrThrow({ where: { uuid: publicUser.uuid } });
         },
-        async byUuid(client: authDB.TransactionClient, uuid: authDB.User.Raw['uuid']) {
+        async byUuid(client: authDBType.TransactionClient, uuid: RawUser['uuid']) {
             return await client.user.findUniqueOrThrow({ where: { uuid } });
         },
-        async byLogin(client: authDB.TransactionClient, login: authDB.User.Raw['login']) {
+        async byLogin(client: authDBType.TransactionClient, login: RawUser['login']) {
             return await client.user.findUniqueOrThrow({ where: { login } });
         },
-        async byEmail(client: authDB.TransactionClient, email: authDB.User.Raw['email']) { 
+        async byEmail(client: authDBType.TransactionClient, email: RawUser['email']) {
             return await client.user.findUniqueOrThrow({ where: { email } });
         },
-        async byNick(client: authDB.TransactionClient, nickname: authDB.User.Raw['nickname']) { 
+        async byNick(client: authDBType.TransactionClient, nickname: RawUser['nickname']) {
             return await client.user.findFirstOrThrow({ where: { nickname } });
         },
-    }
+    };
 
     orNull = {
-        async byPublicUser(client: authDB.TransactionClient, publicUser: authDB.User.Public) {
+        async byPublicUser(client: authDBType.TransactionClient, publicUser: PublicUser) {
             return await client.user.findUnique({ where: { uuid: publicUser.uuid } });
         },
-        async byUuid(client: authDB.TransactionClient, uuid: authDB.User.Raw['uuid']) {
+        async byUuid(client: authDBType.TransactionClient, uuid: RawUser['uuid']) {
             return await client.user.findUnique({ where: { uuid } });
         },
-        async byLogin(client: authDB.TransactionClient, login: authDB.User.Raw['login']) {
+        async byLogin(client: authDBType.TransactionClient, login: RawUser['login']) {
             return await client.user.findUnique({ where: { login } });
         },
-        async byEmail(client: authDB.TransactionClient, email: authDB.User.Raw['email']) { 
+        async byEmail(client: authDBType.TransactionClient, email: RawUser['email']) {
             return await client.user.findUnique({ where: { email } });
         },
-        async byNick(client: authDB.TransactionClient, nickname: authDB.User.Raw['nickname']) { 
+        async byNick(client: authDBType.TransactionClient, nickname: RawUser['nickname']) {
             return await client.user.findFirst({ where: { nickname } });
         },
-    }
+    };
 
     many = {
-        async all(client: authDB.TransactionClient, ) {
+        async all(client: authDBType.TransactionClient) {
             return await client.user.findMany();
         },
-        async page(client: authDB.TransactionClient, page: number, limit: number) {
+        async page(client: authDBType.TransactionClient, page: number, limit: number) {
             return await client.user.findMany({
                 skip: (page - 1) * limit,
                 take: limit,
-                orderBy: { createdAt: 'desc' }
+                orderBy: { createdAt: 'desc' },
             });
-        }
-    }
+        },
+    };
 }

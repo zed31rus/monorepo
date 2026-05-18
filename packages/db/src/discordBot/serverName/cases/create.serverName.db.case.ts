@@ -1,13 +1,11 @@
-import DiscordBotDB from "../../discordbot.db.js"
+import { DiscordBotDBType } from '../../discordbot.db.js';
 
 export default class CreateServerName {
-
-    async create(client: DiscordBotDB.TransactionClient, name: string) {
+    async create(client: DiscordBotDBType.TransactionClient, name: string) {
         await client.serverName.create({
             data: {
-                name: name
-            }
-        })
+                name: name,
+            },
+        });
     }
-
 }

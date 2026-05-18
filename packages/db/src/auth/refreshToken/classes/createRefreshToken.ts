@@ -1,13 +1,18 @@
-import authDB from "../../auth.db.js";
+import { authDBType } from '../../auth.db.js';
 
 export default class CreateRefreshToken {
-    async create(client: authDB.TransactionClient, hashedToken: string, expiresAt: Date, user: authDB.UserModel) {
+    async create(
+        client: authDBType.TransactionClient,
+        hashedToken: string,
+        expiresAt: Date,
+        user: authDBType.UserModel
+    ) {
         await client.refreshToken.create({
             data: {
                 hashedToken: hashedToken,
                 expiresAt: expiresAt,
-                user: {connect: {uuid: user.uuid}}
-            }
-        })
+                user: { connect: { uuid: user.uuid } },
+            },
+        });
     }
 }

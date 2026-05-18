@@ -2,51 +2,56 @@ import cron from 'node-cron';
 import BaseService from '../base/service.base';
 import { Features } from '@zed31rus/types/features.discordBot.js';
 
-export default class MultiServerNameManager extends BaseService {
+export default class ServerNameManager extends BaseService {
+	constructor(...serviceBaseArgs: BaseService.Args) {
+		super(...serviceBaseArgs);
+		this.init();
+	}
 
-    constructor(...serviceBaseArgs: BaseService.Args) {
-        super(...serviceBaseArgs);
-        this.init();
-    }
+	private async init() {
+		await this.updateAllServerNames();
+		this.createCronSchedule();
+	}
 
-    private async init() {
-        await this.updateAllServerNames();
-        this.createCronSchedule();
-    }
+	private async updateAllServerNames() {
+		try {
+			const activeGuilds = await this.db.guilds.get.whereFeature(
+				this.db.client,
+				Features.serverName
+			);
 
-    private async updateAllServerNames() {
-        try {
-            const activeGuilds = await this.db.guilds.get.whereFeature(this.db.client, Features.serverName);
+			for (const guild of activeGuilds) {
+				await this.updateServerName(guild.guildId);
+			}
+		} catch (error) {
+			this.logger.error('Failed to refresh server names:', error);
+		}
+	}
 
-            for (const guild of activeGuilds) {
-                await this.updateServerName(guild.guildId);
-            }
+	public async updateServerName(serverId: string) {
+		const guild = await this.client.guilds.fetch(serverId);
+		const oldName = guild.name;
+		let newServerName;
 
-        } catch (error) {
-            this.logger.error('Failed to refresh server names:', error);
-        }
-    }
+		do {
+			newServerName = await this.db.serverName.get.random(this.db.client);
+		} while (newServerName.name === oldName);
 
-    public async updateServerName(serverId: string) {
-        const guild = await this.client.guilds.fetch(serverId);
-        const oldName = guild.name;
-        let newServerName;
+		this.events.emit('serverNameUpdate', {
+			serverId,
+			newName: newServerName.name,
+		});
+	}
 
-        do {
-            newServerName = await this.db.serverName.get.random(this.db.client);
-        } while (newServerName.name === oldName);
-
-        this.events.emit('serverNameUpdate', { 
-            serverId, 
-            newName: newServerName.name 
-        });
-    }
-
-    private createCronSchedule() {
-        cron.schedule('*/10 * * * *', async () => {
-            await this.updateAllServerNames();
-        }, {
-            timezone: "Europe/Moscow"
-        });
-    }
+	private createCronSchedule() {
+		cron.schedule(
+			'*/10 * * * *',
+			async () => {
+				await this.updateAllServerNames();
+			},
+			{
+				timezone: 'Europe/Moscow',
+			}
+		);
+	}
 }

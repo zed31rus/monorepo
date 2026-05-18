@@ -1,36 +1,41 @@
-import type { Features } from "@zed31rus/types/features.discordBot.js"
-import type DiscordBotDB from "../../discordbot.db.js"
+import type { Features } from '@zed31rus/types/features.discordBot.js';
+import type { DiscordBotDBType } from '../../discordbot.db.js';
 
 export default class GetGuildDbCase {
     orNull = {
-        async byId(client: DiscordBotDB.TransactionClient, guildId: DiscordBotDB.Guild.Model['guildId']) {
+        async byId(
+            client: DiscordBotDBType.TransactionClient,
+            guildId: DiscordBotDBType.GuildModel['guildId']
+        ) {
             return client.guild.findUnique({
                 where: {
-                    guildId: guildId
-                }
-            })
+                    guildId: guildId,
+                },
+            });
         },
+    };
 
-    }
-    
     orThrow = {
-        async byId(client: DiscordBotDB.TransactionClient, guildId: DiscordBotDB.Guild.Model['guildId']) {
+        async byId(
+            client: DiscordBotDBType.TransactionClient,
+            guildId: DiscordBotDBType.GuildModel['guildId']
+        ) {
             return client.guild.findUniqueOrThrow({
                 where: {
-                    guildId: guildId
-                }
-            })
+                    guildId: guildId,
+                },
+            });
         },
-    }
+    };
 
-    async whereFeature(client: DiscordBotDB.TransactionClient, feature: Features) {
+    async whereFeature(client: DiscordBotDBType.TransactionClient, feature: Features) {
         return client.guild.findMany({
             where: {
-                features: { 
+                features: {
                     path: [feature],
-                    equals: true
-                    }
-            }
-        })
+                    equals: true,
+                },
+            },
+        });
     }
 }

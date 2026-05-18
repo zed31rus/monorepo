@@ -1,13 +1,17 @@
-import type DiscordBotDB from "../../discordbot.db.js";
+import type { DiscordBotDBType } from '../../discordbot.db.js';
 
 export default class CreateGuildDbCase {
-    async create(client: DiscordBotDB.TransactionClient, guildId: string) {
-
+    async create(client: DiscordBotDBType.TransactionClient, guildId: string) {
         return client.guild.create({
             data: {
                 guildId: guildId,
-                features: {}
-            }
-        })
+                features: {
+                    voice: {
+                        status: false,
+                        settings: {},
+                    },
+                },
+            },
+        });
     }
 }

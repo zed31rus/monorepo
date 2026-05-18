@@ -1,16 +1,11 @@
-import Base from "@zed31rus/base";
+import Base from '@zed31rus/base';
 
 abstract class BaseDb extends Base {
-    constructor(
-        
-        ...baseArgs: Base.Args
-    ) {
-        super(...baseArgs)
-    }
+	constructor(...baseArgs: Base.Args) {
+		super(...baseArgs);
+	}
 }
 
-namespace BaseDb {
-    export type Args = ConstructorParameters<typeof BaseDb>
-}
+export type BaseDbArgs = ConstructorParameters<typeof BaseDb>;
 
-export default BaseDb
+export default BaseDb;
