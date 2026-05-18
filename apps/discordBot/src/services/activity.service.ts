@@ -1,6 +1,6 @@
 import { ActivityType } from 'discord.js';
 import cron from 'node-cron';
-import BaseService from '../base/service.base';
+import BaseService, { type BaseServiceArgs } from '../base/service.base.js';
 
 interface Activity {
 	type: ActivityType;
@@ -10,7 +10,7 @@ interface Activity {
 export default class ActivityService extends BaseService {
 	private currentActivity: Activity;
 
-	constructor(...serviceBaseArgs: BaseService.Args) {
+	constructor(...serviceBaseArgs: BaseServiceArgs) {
 		super(...serviceBaseArgs);
 		this.currentActivity = { type: ActivityType.Custom, name: 'Загрузка...' };
 

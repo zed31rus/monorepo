@@ -1,9 +1,9 @@
 import cron from 'node-cron';
-import BaseService from '../base/service.base';
+import BaseService, { type BaseServiceArgs } from '../base/service.base.js';
 import { Features } from '@zed31rus/types/features.discordBot.js';
 
 export default class ServerNameManager extends BaseService {
-	constructor(...serviceBaseArgs: BaseService.Args) {
+	constructor(...serviceBaseArgs: BaseServiceArgs) {
 		super(...serviceBaseArgs);
 		this.init();
 	}

@@ -8,7 +8,7 @@
       "@zed31rus/types": ["../../types/index.ts"],
       "@shared/errors": ["../../shared/errors/index.ts"],
       "@shared/config": ["../../shared/config/index.ts"],
-      "@zed31rus/base": ["../../base/index.ts"],
+      "@zed31rus/base": ["../../base/index.ts"]
     }
   },
   "include": ["./**/*"],

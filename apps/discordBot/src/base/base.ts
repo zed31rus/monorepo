@@ -16,8 +16,6 @@ abstract class BotBase extends Base {
     }
 }
 
-namespace BotBase {
-    export type Args = ConstructorParameters<typeof BotBase>
-}
+export type BotBaseArgs = ConstructorParameters<typeof BotBase>
 
 export default  BotBase;

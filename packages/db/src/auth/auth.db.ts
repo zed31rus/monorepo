@@ -25,7 +25,7 @@ class authDB extends BaseDb {
     verificationCode = new verificationCode();
 }
 
-export import authDBType = prisma.Prisma;
+export import AuthDBType = prisma.Prisma;
 export type RawUser = prisma.User;
 export type PublicUser = PubUser;
 export type PersonalUser = PerUser;

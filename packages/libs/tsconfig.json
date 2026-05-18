@@ -9,7 +9,7 @@
       "@shared/errors": ["../../shared/errors/index.ts"],
       "@shared/config": ["../../shared/config/index.ts"],
       "@zed31rus/base": ["../../base/index.ts"],
-      "@zed31rus/db": ["../db/index.ts"],
+      "@zed31rus/db": ["../db/index.ts"]
     }
   },
   "include": ["./**/*"],

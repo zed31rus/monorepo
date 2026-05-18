@@ -1,15 +1,13 @@
-import BotBase from "./base";
+import BotBase, { type BotBaseArgs } from "./base.js";
 
 abstract class BaseService extends BotBase {
     constructor(
-        botBaseArgs: BotBase.Args
+        botBaseArgs: BotBaseArgs
     ) {
         super(...botBaseArgs)
     }
 }
 
-namespace BaseService {
-    export type Args = ConstructorParameters<typeof BaseService>
-}
+export type BaseServiceArgs = ConstructorParameters<typeof BaseService>
 
 export default BaseService;
