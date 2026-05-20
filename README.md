@@ -1,6 +1,7 @@
 
-```
+```structure
 monorepo
+├─ .prettierrc
 ├─ apps
 │  ├─ auth
 │  │  ├─ core
@@ -15,7 +16,6 @@ monorepo
 │  │  │  ├─ managers
 │  │  │  │  ├─ otp.manager.ts
 │  │  │  │  └─ session.manager.ts
-│  │  │  ├─ prisma
 │  │  │  └─ services
 │  │  │     ├─ account.service.ts
 │  │  │     ├─ auth.service.ts
@@ -86,11 +86,9 @@ monorepo
 │     │  ├─ base
 │     │  │  ├─ base.ts
 │     │  │  └─ service.base.ts
-│     │  └─ services
+│     │  └─ managers
 │     │     ├─ activity.service.ts
 │     │     ├─ serverName.service.ts
-│     │     ├─ soundpad.service.ts
-│     │     ├─ users.service.ts
 │     │     └─ voice.service.ts
 │     └─ tsconfig.json
 ├─ base
@@ -100,6 +98,7 @@ monorepo
 │  │  └─ base
 │  │     └─ base.ts
 │  └─ tsconfig.json
+├─ eslint.config.ts
 ├─ LICENSE
 ├─ package.json
 ├─ packages
@@ -140,7 +139,7 @@ monorepo
 │  │  │  ├─ db.container.ts
 │  │  │  └─ discordBot
 │  │  │     ├─ activityStatus
-│  │  │     │  ├─ activityStatus.db.ts
+│  │  │     │  ├─ activityStatus.discordbot.db.ts
 │  │  │     │  └─ cases
 │  │  │     │     ├─ create.activityStatus.db.case.ts
 │  │  │     │     ├─ delete.activityStatus.db.case.ts
@@ -148,13 +147,26 @@ monorepo
 │  │  │     ├─ discordbot.db.ts
 │  │  │     ├─ discordbot.prisma.config.ts
 │  │  │     ├─ discordbot.schema.prisma
+│  │  │     ├─ guilds
+│  │  │     │  ├─ cases
+│  │  │     │  │  ├─ create.guild.discordbot.db.case.ts
+│  │  │     │  │  ├─ delete.guild.discordbot.db.case.ts
+│  │  │     │  │  └─ get.guild.discordbot.db.case.ts
+│  │  │     │  ├─ features
+│  │  │     │  │  ├─ cases
+│  │  │     │  │  │  ├─ add.feature.guild.db.case.ts
+│  │  │     │  │  │  └─ delete.feature.guild.db.case.ts
+│  │  │     │  │  └─ features.guild.discordbot.db.ts
+│  │  │     │  └─ guilds.discordbot.db.ts
 │  │  │     └─ serverName
 │  │  │        ├─ cases
 │  │  │        │  ├─ create.serverName.db.case.ts
 │  │  │        │  ├─ delete.serverName.db.case.ts
 │  │  │        │  └─ get.serverName.db.case.ts
 │  │  │        └─ serverName.db.ts
-│  │  └─ tsconfig.json
+│  │  ├─ tsconfig.json
+│  │  └─ types
+│  │     └─ declarations.ts
 │  ├─ infra
 │  │  ├─ index.ts
 │  │  ├─ package.json
@@ -222,6 +234,7 @@ monorepo
    ├─ package.json
    ├─ src
    │  ├─ account.ts
+   │  ├─ features.discordBot.ts
    │  ├─ oauth
    │  │  └─ discord.ts
    │  ├─ oauth.ts

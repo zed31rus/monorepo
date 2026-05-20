@@ -5,15 +5,20 @@
     "outDir": "./dist",
     "composite": true,
     "paths": {
+
+      "#base/*": ["./src/base/*"],
+      "#containers/*": ["./src/containers/*"],
+      "#events/*": ["./src/events/*"],
+      "#managers/*": ["./src/managers/*"],
+      "#discordBot/*": ["./src/*"],
+
       "@zed31rus/types": ["../../types/index.ts"],
       "@shared/errors": ["../../shared/errors/index.ts"],
       "@shared/config": ["../../shared/config/index.ts"],
       "@zed31rus/base": ["../../base/index.ts"],
       "@packages/libs": ["../../packages/libs/index.ts"],
       "@packages/db": ["../../packages/db/index.ts"],
-      "@packages/infra": ["../../packages/infra/index.ts"],
-
-      "#discordBot/*": ["./src/*"]
+      "@packages/infra": ["../../packages/infra/index.ts"]
     }
   },
   "include": [

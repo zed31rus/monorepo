@@ -1,36 +1,40 @@
-import baseMiddleware from "#web/base/middleware.base.js";
-import { type AvatarEnv } from "#web/types/Env.js";
-import DbContainer from "@packages/db";
-import { z } from "@hono/zod-openapi";
-import path from "node:path";
-import { workDir } from "#root/start.js";
+import baseMiddleware from '#web/base/middleware.base.js';
+import { type AvatarEnv } from '#web/types/Env.js';
+import { z } from '@hono/zod-openapi';
+import path from 'node:path';
+import { workDir } from '#root/start.js';
 import fs from 'fs';
+import type { PublicUser } from '@packages/db';
 
 export default class FileMiddleware extends baseMiddleware {
+	public withAvatar<T extends AvatarEnv>(user: PublicUser) {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const dto = this.dto;
 
-    public withAvatar<T extends AvatarEnv>(user: DbContainer.authDB.User.Public) { 
+		type J = T & {
+			out: { form: z.infer<typeof dto.file.avatarSchema> };
+		};
 
-        const dto = this.dto
+		return this.createFactory<J>().createMiddleware<J>(async (c, next) => {
+			const { avatar } = c.req.valid('form');
+			const { uuid } = user;
 
-        type J = T & {
-          out: { form: z.infer<typeof dto.file.avatarSchema> }
-        };
+			const avatarArrayBuffer = await avatar.arrayBuffer();
 
-        return this.createFactory<J>().createMiddleware<J>( async (c, next) => {
-            const { avatar } = c.req.valid('form');
-            const { uuid } = user;
+			const fileName = `${uuid}${path.extname(avatar.name)}`;
+			const publicDirPath = this.config.env.PUBLIC_DIR_PATH;
+			const avatarsPublicPathDir = this.config.env.AVATARS_PUBLIC_DIR_PATH;
+			const avatarAbsolutePath = path.join(
+				workDir,
+				publicDirPath,
+				avatarsPublicPathDir,
+				fileName
+			);
 
-            const avatarArrayBuffer = await avatar.arrayBuffer();
+			await fs.promises.writeFile(avatarAbsolutePath, Buffer.from(avatarArrayBuffer));
 
-            const fileName = `${uuid}${path.extname(avatar.name)}`;
-            const publicDirPath = this.config.env.PUBLIC_DIR_PATH;
-            const avatarsPublicPathDir = this.config.env.AVATARS_PUBLIC_DIR_PATH;
-            const avatarAbsolutePath = path.join(workDir, publicDirPath, avatarsPublicPathDir, fileName);
-
-            await fs.promises.writeFile(avatarAbsolutePath, Buffer.from(avatarArrayBuffer));
-
-            c.set('avatarPath', fileName);
-            await next();
-        });
-    }
-};
+			c.set('avatarPath', fileName);
+			await next();
+		});
+	}
+}

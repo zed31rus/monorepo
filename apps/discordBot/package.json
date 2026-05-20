@@ -1,18 +1,25 @@
 {
-  "name": "@apps/discordbot",
-  "version": "1.0.0",
-  "description": "discord bot/microservice zed31rus",
-  "type": "module",
-  "dependencies": {
-    "@discordjs/voice": "^0.19.2",
-    "@packages/db": "workspace:*",
-    "@packages/infra": "workspace:*",
-    "@packages/libs": "workspace:*",
-    "@shared/config": "workspace:*",
-    "@shared/errors": "workspace:*",
-    "@zed31rus/base": "workspace:*",
-    "@zed31rus/types": "workspace:*",
-    "discord.js": "^14.26.4",
-    "node-cron": "^4.2.1"
-  }
+	"name": "@apps/discordbot",
+	"version": "1.0.0",
+	"description": "discord bot/microservice zed31rus",
+	"type": "module",
+	"imports": {
+		"#base/*": "./src/base/*",
+		"#containers/*": "./src/containers/*",
+		"#events/*": "./src/events/*",
+		"#managers/*": "./src/managers/*",
+		"#discordBot/*": "./src/*"
+	},
+	"dependencies": {
+		"@discordjs/voice": "^0.19.2",
+		"@packages/db": "workspace:*",
+		"@packages/infra": "workspace:*",
+		"@packages/libs": "workspace:*",
+		"@shared/config": "workspace:*",
+		"@shared/errors": "workspace:*",
+		"@zed31rus/base": "workspace:*",
+		"@zed31rus/types": "workspace:*",
+		"discord.js": "^14.26.4",
+		"node-cron": "^4.2.1"
+	}
 }

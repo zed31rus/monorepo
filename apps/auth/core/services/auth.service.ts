@@ -1,65 +1,83 @@
-import BaseService from "#core/base/service.base.js";
-import type DbContainer from "@packages/db";
-import type SessionManager from "../managers/session.manager.js";
+import BaseService from '#core/base/service.base.js';
+import type SessionManager from '../managers/session.manager.js';
+import type { PersonalUser, PublicUser } from '@packages/db';
 
 export default class AuthService extends BaseService {
+	async register(
+		login: string,
+		email: string,
+		password: string,
+		nickname: string
+	): Promise<{ user: PublicUser }> {
+		const hashedPassword = await this.libs.hash.bcrypt.create(password, 10);
 
-    async register(login: string, email: string, password: string, nickname: string): Promise<{user: DbContainer.authDB.User.Public}> {
+		const rawUser = await this.db.users.create.createUser(
+			this.db.client,
+			nickname,
+			login,
+			email,
+			hashedPassword,
+			false
+		);
+		const publicUser = this.db.users.toPublicJSON(rawUser);
 
-        const hashedPassword = await this.libs.hash.bcrypt.create(password, 10);
-        
-        const rawUser = await this.db.users.create.createUser(this.db.client, nickname, login, email, hashedPassword, false);
-        const publicUser = this.db.users.toPublicJSON(rawUser);
+		return { user: publicUser };
+	}
 
-        return { user: publicUser };
-    }
+	async login(
+		email: string,
+		password: string
+	): Promise<{ user: PersonalUser } & Awaited<ReturnType<SessionManager['createSession']>>> {
+		const rawUser = await this.db.users.get.orThrow.byEmail(this.db.client, email);
+		const personalUser = this.db.users.toPersonalJSON(rawUser);
+		const isPasswordCorrect = await this.libs.hash.bcrypt.compare(
+			password,
+			rawUser.passwordHash!
+		);
+		if (!isPasswordCorrect) throw this.errors.api.Unauthorized('Invalid credentials');
 
-    async login(email: string, password: string): Promise<{ user: DbContainer.authDB.User.Personal } & Awaited<ReturnType<SessionManager['createSession']>>> {
+		const session = await this.manager.session.createSession(rawUser, this.db.client);
 
-        const rawUser = await this.db.users.get.orThrow.byEmail(this.db.client, email);
-        const personalUser = this.db.users.toPersonalJSON(rawUser);
-        const isPasswordCorrect = await this.libs.hash.bcrypt.compare(password, rawUser.passwordHash!);
-        if (!isPasswordCorrect) throw this.errors.api.Unauthorized("Invalid credentials");
+		return { user: personalUser, ...session };
+	}
 
-        const session = await this.manager.session.createSession(rawUser, this.db.client);
+	async refresh(
+		incomingRefreshToken: string
+	): Promise<{ user: PersonalUser } & Awaited<ReturnType<SessionManager['createSession']>>> {
+		const hashedIncomingToken = await this.libs.hash.sha256.create(incomingRefreshToken);
+		const incomingRefreshTokenRecord = await this.db.refreshToken.get.orThrow.byHashedToken(
+			this.db.client,
+			hashedIncomingToken
+		);
 
-        return { user: personalUser, ...session };
+		const expired = this.libs.refreshToken.checkExpired(incomingRefreshTokenRecord);
+		if (expired) {
+			await this.db.refreshToken.delete.delete(this.db.client, incomingRefreshTokenRecord);
+			throw this.errors.api.Unauthorized();
+		}
 
-    }
+		const rawUser = incomingRefreshTokenRecord.user;
+		const personalUser = this.db.users.toPersonalJSON(rawUser);
 
-    async refresh(incomingRefreshToken: string): Promise<{ user: DbContainer.authDB.User.Personal } & Awaited<ReturnType<SessionManager['createSession']>>> {
+		const session = await this.db.client.$transaction(async (tx) => {
+			await this.db.refreshToken.delete.delete(tx, incomingRefreshTokenRecord);
 
-        const hashedIncomingToken = await this.libs.hash.sha256.create(incomingRefreshToken);
-        const incomingRefreshTokenRecord = await this.db.refreshToken.get.orThrow.byHashedToken(this.db.client, hashedIncomingToken);
+			const session = await this.manager.session.createSession(rawUser, tx);
+			return session;
+		});
 
-        const expired = this.libs.refreshToken.checkExpired(incomingRefreshTokenRecord);
-        if (expired) {
-            await this.db.refreshToken.delete.delete(this.db.client, incomingRefreshTokenRecord);
-            throw this.errors.api.Unauthorized();
-        }
+		return { user: personalUser, ...session };
+	}
 
-        const rawUser = incomingRefreshTokenRecord.user;
-        const personalUser = this.db.users.toPersonalJSON(rawUser);
-        
-        const session = await this.db.client.$transaction(async (tx) => {
-            await this.db.refreshToken.delete.delete(tx, incomingRefreshTokenRecord);
-
-            const session = await this.manager.session.createSession(rawUser, tx);
-            return session;
-
-        })
-        
-        return { user: personalUser, ...session };
-    }
-
-    async logOut(incomingRefreshToken: string) {
-
-        const hashedIncomingToken = await this.libs.hash.sha256.create(incomingRefreshToken);
-        const incomingRefreshTokenRecord = await this.db.refreshToken.get.orNull.byHashedToken(this.db.client, hashedIncomingToken);
-        if (incomingRefreshTokenRecord) {
-          await this.db.refreshToken.delete.delete(this.db.client, incomingRefreshTokenRecord);
-        }
-        return {};
-
-    }
+	async logOut(incomingRefreshToken: string) {
+		const hashedIncomingToken = await this.libs.hash.sha256.create(incomingRefreshToken);
+		const incomingRefreshTokenRecord = await this.db.refreshToken.get.orNull.byHashedToken(
+			this.db.client,
+			hashedIncomingToken
+		);
+		if (incomingRefreshTokenRecord) {
+			await this.db.refreshToken.delete.delete(this.db.client, incomingRefreshTokenRecord);
+		}
+		return {};
+	}
 }

@@ -1,16 +1,16 @@
+import BaseManager, { type BaseManagerArgs } from '#discordBot/base/manager.base.js';
 import { ActivityType } from 'discord.js';
 import cron from 'node-cron';
-import BaseService, { type BaseServiceArgs } from '../base/service.base.js';
 
 interface Activity {
 	type: ActivityType;
 	name: string;
 }
 
-export default class ActivityService extends BaseService {
+export default class ActivityManager extends BaseManager {
 	private currentActivity: Activity;
 
-	constructor(...serviceBaseArgs: BaseServiceArgs) {
+	constructor(...serviceBaseArgs: BaseManagerArgs) {
 		super(...serviceBaseArgs);
 		this.currentActivity = { type: ActivityType.Custom, name: 'Загрузка...' };
 
@@ -29,7 +29,10 @@ export default class ActivityService extends BaseService {
 		} while (newActivity.name === this.currentActivity.name);
 
 		this.currentActivity = newActivity;
-		this.events.emit('activityUpdate', this.currentActivity);
+		this.client.user.setActivity(this.currentActivity.name, {
+			type: this.currentActivity.type,
+		});
+		this.events.emit('activityUpdated', this.currentActivity);
 	}
 
 	private createCronSchedule() {
