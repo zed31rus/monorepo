@@ -1,13 +1,17 @@
-import OnConnectGuildVoiceEvent from '#events/guild/voice/hub/onConnect.hub.guildVoice.event.js';
-import OnDisconnectGuildVoiceEvent from '#events/guild/voice/hub/onDisconnect.hub.guildVoice.event.js';
 import { Client, GatewayIntentBits } from 'discord.js';
 import EventContainer from './event.container.js';
 import DbContainer from '@packages/db';
 import InfraContainer from '@packages/infra';
 import LibContainer from '@packages/libs';
 import ConfigContainer from '@shared/config';
-import Logger from '@shared/logger;
+import Logger from '@shared/logger';
 import ErrorsContainer from '@shared/errors';
+import OnConnectGuildVoiceEvent from '#events/guild/voice/hub/onConnect.hub.voice.guild.event.js';
+import OnDisconnectGuildVoiceEvent from '#events/guild/voice/hub/onDisconnect.hub.voice.guild.event.js';
+import ManagerContainer from './manager.container.js';
+import ActivityManager from '#managers/activity.manager.js';
+import ServerNameManager from '#managers/serverName.manager.js';
+import VoiceManager from '#managers/voice.manager.js';
 
 const errors = new ErrorsContainer(
 	new ErrorsContainer.deps.ApiErrors(),
@@ -45,15 +49,24 @@ const client = new Client({
 	],
 });
 
-let readyClient: Client<true> | undefined;
+const readyClient = await new Promise<Client<true>>((resolve) => {
+	client.once('ready', (readyClient) => {
+		resolve(readyClient as Client<true>);
+	});
+	client.login(configs.env.DISCORD_BOT_TOKEN);
+});
 
-once;
+const managerContainer = new ManagerContainer(
+	new ActivityManager(),
+	new ServerNameManager(),
+	new VoiceManager()
+);
 
 const eventContainer = new EventContainer({
 	voice: {
 		hub: {
 			onConnect: new OnConnectGuildVoiceEvent(readyClient, db, configs, errors, logger),
-			onDisconnect: new OnDisconnectGuildVoiceEvent(readyClient),
+			onDisconnect: new OnDisconnectGuildVoiceEvent(readyClient, db, configs, errors, logger),
 		},
 	},
 });

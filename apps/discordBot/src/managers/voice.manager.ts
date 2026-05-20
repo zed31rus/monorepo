@@ -21,8 +21,8 @@ export default class VoiceManager extends BaseManager {
 	private readonly MAX_RECONNECT_ATTEMPTS = 5;
 	private readonly RECONNECT_DELAY_MS = 5000;
 
-	constructor(...baseServiceArgs: BaseManagerArgs) {
-		super(...baseServiceArgs);
+	constructor(...managerBaseArgs: BaseManagerArgs) {
+		super(...managerBaseArgs);
 	}
 
 	async init() {

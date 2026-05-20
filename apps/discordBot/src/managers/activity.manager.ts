@@ -10,8 +10,8 @@ interface Activity {
 export default class ActivityManager extends BaseManager {
 	private currentActivity: Activity;
 
-	constructor(...serviceBaseArgs: BaseManagerArgs) {
-		super(...serviceBaseArgs);
+	constructor(...managerBaseArgs: BaseManagerArgs) {
+		super(...managerBaseArgs);
 		this.currentActivity = { type: ActivityType.Custom, name: 'Загрузка...' };
 
 		this.init();

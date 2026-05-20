@@ -3,8 +3,8 @@ import { Features } from '@zed31rus/types/features.discordBot.js';
 import BaseManager, { type BaseManagerArgs } from '#discordBot/base/manager.base.js';
 
 export default class ServerNameManager extends BaseManager {
-	constructor(...serviceBaseArgs: BaseManagerArgs) {
-		super(...serviceBaseArgs);
+	constructor(...managerBaseArgs: BaseManagerArgs) {
+		super(...managerBaseArgs);
 		this.init();
 	}
 
