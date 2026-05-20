@@ -1,37 +1,34 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "./dist",
-    "composite": true,
-    "paths": {
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": ".",
+		"outDir": "./dist",
+		"composite": true,
+		"paths": {
+			"#base/*": ["./src/base/*"],
+			"#containers/*": ["./src/containers/*"],
+			"#events/*": ["./src/events/*"],
+			"#managers/*": ["./src/managers/*"],
+			"#discordBot/*": ["./src/*"],
 
-      "#base/*": ["./src/base/*"],
-      "#containers/*": ["./src/containers/*"],
-      "#events/*": ["./src/events/*"],
-      "#managers/*": ["./src/managers/*"],
-      "#discordBot/*": ["./src/*"],
-
-      "@zed31rus/types": ["../../types/index.ts"],
-      "@shared/errors": ["../../shared/errors/index.ts"],
-      "@shared/config": ["../../shared/config/index.ts"],
-      "@zed31rus/base": ["../../base/index.ts"],
-      "@packages/libs": ["../../packages/libs/index.ts"],
-      "@packages/db": ["../../packages/db/index.ts"],
-      "@packages/infra": ["../../packages/infra/index.ts"]
-    }
-  },
-  "include": [
-    "start.ts",
-    "src/**/*"
-  ],
-  "references": [
-    { "path": "../../types" },
-    { "path": "../../shared/errors" },
-    { "path": "../../shared/config" },
-    { "path": "../../base" },
-    { "path": "../../packages/libs" },
-    { "path": "../../packages/db" },
-    { "path": "../../packages/infra" }
-  ]
+			"@zed31rus/types": ["../../types/index.ts"],
+			"@shared/errors": ["../../shared/errors/index.ts"],
+			"@shared/config": ["../../shared/config/index.ts"],
+			"@zed31rus/base": ["../../base/index.ts"],
+			"@packages/libs": ["../../packages/libs/index.ts"],
+			"@packages/db": ["../../packages/db/index.ts"],
+			"@packages/infra": ["../../packages/infra/index.ts"]
+		}
+	},
+	"include": ["start.ts", "src/**/*"],
+	"references": [
+		{ "path": "../../types" },
+		{ "path": "../../shared/errors" },
+		{ "path": "../../shared/config" },
+		{ "path": "../../shared/logger" },
+		{ "path": "../../base" },
+		{ "path": "../../packages/libs" },
+		{ "path": "../../packages/db" },
+		{ "path": "../../packages/infra" }
+	]
 }

@@ -4,9 +4,9 @@ import DBContainer from '@packages/db';
 import { type Client } from 'discord.js';
 
 abstract class BotBase extends Base {
+	events: EventEmitter;
 	constructor(
 		readonly client: Client<true>,
-		readonly events: EventEmitter,
 		protected readonly db: InstanceType<typeof DBContainer>['discordBot'],
 		...baseArgs: Base.Args
 	) {

@@ -17,6 +17,7 @@
 		"@packages/libs": "workspace:*",
 		"@shared/config": "workspace:*",
 		"@shared/errors": "workspace:*",
+		"@shared/logger": "workspace:*",
 		"@zed31rus/base": "workspace:*",
 		"@zed31rus/types": "workspace:*",
 		"discord.js": "^14.26.4",

@@ -22,11 +22,11 @@ export default class OnConnectGuildVoiceEvent extends BaseEvent {
 		);
 
 		if (!hubChannel || !hubChannel.parent) return;
+		if (channel.id !== hubChannel.id) return;
 
 		const category = hubChannel.parent;
 
 		if (channel.parentId !== category.id) return;
-		if (channel.id !== hubChannel.id) return;
 
 		const memberName = member.displayName;
 		const tempChannelName = member.user?.primaryGuild?.tag
