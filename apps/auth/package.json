@@ -1,27 +1,32 @@
 {
-  "name": "@apps/auth",
-  "version": "1.0.0",
-  "description": "auth microservice zed31rus",
-  "type": "module",
-  "dependencies": {
-    "@hono/node-server": "^2.0.1",
-    "@hono/swagger-ui": "^0.6.1",
-    "@hono/zod-openapi": "^1.3.0",
-    "@hono/zod-validator": "^0.7.6",
-    "@packages/db": "workspace:*",
-    "@packages/infra": "workspace:*",
-    "@packages/libs": "workspace:*",
-    "@shared/config": "workspace:*",
-    "@shared/errors": "workspace:*",
-    "@shared/logger": "workspace:*",
-    "@zed31rus/base": "workspace:*",
-    "@zed31rus/types": "workspace:*",
-    "hono": "^4.12.16",
-    "hono-rate-limiter": "^0.5.3",
-    "jsonwebtoken": "^9.0.3",
-    "zod": "^4.3.6"
-  },
-  "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.10"
-  }
+	"name": "@apps/auth",
+	"version": "1.0.0",
+	"description": "auth microservice zed31rus",
+	"type": "module",
+	"imports": {
+		"#core/*": "./core/*",
+		"#web/*": "./web/*",
+		"#root/*": "./*"
+	},
+	"dependencies": {
+		"@hono/node-server": "^2.0.1",
+		"@hono/swagger-ui": "^0.6.1",
+		"@hono/zod-openapi": "^1.3.0",
+		"@hono/zod-validator": "^0.7.6",
+		"@packages/db": "workspace:*",
+		"@packages/infra": "workspace:*",
+		"@packages/libs": "workspace:*",
+		"@shared/config": "workspace:*",
+		"@shared/errors": "workspace:*",
+		"@shared/logger": "workspace:*",
+		"@zed31rus/base": "workspace:*",
+		"@zed31rus/types": "workspace:*",
+		"hono": "^4.12.16",
+		"hono-rate-limiter": "^0.5.3",
+		"jsonwebtoken": "^9.0.3",
+		"zod": "^4.3.6"
+	},
+	"devDependencies": {
+		"@types/jsonwebtoken": "^9.0.10"
+	}
 }

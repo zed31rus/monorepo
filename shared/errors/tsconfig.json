@@ -9,7 +9,7 @@
       "@shared/errors": ["../errors/index.ts"]
     }
   },
-  "include": ["src/**/*", "index.ts"],
+  "include": ["./**/*"],
   "references": [
     { "path": "../../types" }
   ]

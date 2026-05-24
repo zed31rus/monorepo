@@ -4,9 +4,10 @@
     { "path": "./types" },
     { "path": "./shared/errors" },
     { "path": "./shared/config" },
+    { "path": "./shared/logger" },
     { "path": "./base" },
     { "path": "./packages/db" },
-    { "path": "./packages/lib" },
+    { "path": "./packages/libs" },
     { "path": "./packages/infra" },
     { "path": "./apps/auth" },
     { "path": "./apps/discordBot"}

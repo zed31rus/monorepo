@@ -1,16 +1,15 @@
-import ManagerContainer from "#core/containers/manager.container.js";
-import CoreBase from "./core.base.js";
+import ManagerContainer from '#core/containers/manager.container.js';
+import CoreBase, { type CoreBaseArgs } from './core.base.js';
 
 abstract class BaseService extends CoreBase {
-    constructor(
-        protected readonly manager: ManagerContainer,
-        ...coreBaseArgs: CoreBase.Args) {
-            super(...coreBaseArgs)
-        }
+	constructor(
+		protected readonly manager: ManagerContainer,
+		...coreBaseArgs: CoreBaseArgs
+	) {
+		super(...coreBaseArgs);
+	}
 }
 
-namespace BaseService {
-    export type Args = ConstructorParameters<typeof BaseService>
-}
+export type BaseServiceArgs = ConstructorParameters<typeof BaseService>;
 
 export default BaseService;

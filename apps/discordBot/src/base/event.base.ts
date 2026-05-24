@@ -1,9 +1,10 @@
 import type { ClientEvents } from 'discord.js';
 import BotBase, { type BotBaseArgs } from './base.js';
 import ManagerContainer from '#containers/manager.container.js';
+import type { RabbitFromAuthQueues } from '@zed31rus/types/rabbitmq.js';
 
 export abstract class BaseEvent<
-	EventType extends keyof ClientEvents = keyof ClientEvents,
+	EventType = keyof ClientEvents | keyof RabbitFromAuthQueues,
 > extends BotBase {
 	protected readonly type: EventType;
 

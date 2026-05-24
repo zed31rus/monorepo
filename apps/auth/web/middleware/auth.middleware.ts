@@ -1,7 +1,7 @@
-import baseMiddleware from '#web/base/middleware.base.js';
+import BaseMiddleware from '#web/base/middleware.base.js';
 import { type OptionalUserEnv, type UserEnv } from '#web/types/Env.js';
 
-export default class AuthMiddleware extends baseMiddleware {
+export default class AuthMiddleware extends BaseMiddleware {
 	public withUser<T extends UserEnv>() {
 		return this.createFactory<T>().createMiddleware(async (c, next) => {
 			const Authorization = c.req.header('Authorization');

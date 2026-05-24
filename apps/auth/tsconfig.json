@@ -20,9 +20,7 @@
     }
   },
   "include": [
-    "start.ts",
-    "core/**/*",
-    "web/**/*"
+    "./**/*"
   ],
   "references": [
     { "path": "../../types" },

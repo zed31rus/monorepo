@@ -1,15 +1,15 @@
 import BaseManager from '#core/base/manager.base.js';
 import type { AuthDBType, RawUser } from '@packages/db';
-import type LibContainer from '@packages/libs';
+import type { JWTExpires, RefreshTokenExpires } from '@packages/libs';
 
 export type SessionType = {
 	refresh: {
 		token: string;
-		expires: LibContainer.RefreshToken.Expires;
+		expires: RefreshTokenExpires;
 	};
 	access: {
 		token: string;
-		expires: LibContainer.JWT.Expires;
+		expires: JWTExpires;
 	};
 };
 

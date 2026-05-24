@@ -1,13 +1,9 @@
-import ErrorsContainer from "@shared/errors"
+import ErrorsContainer from '@shared/errors';
 
 abstract class BaseConfig {
-    constructor(
-        readonly errors: ErrorsContainer
-    ) {}
+	constructor(readonly errors: ErrorsContainer) {}
 }
 
-namespace BaseConfig {
-    export type Args = ConstructorParameters<typeof BaseConfig>
-}
+export type BaseConfigArgs = ConstructorParameters<typeof BaseConfig>;
 
 export default BaseConfig;

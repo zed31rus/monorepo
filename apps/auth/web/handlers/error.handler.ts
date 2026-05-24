@@ -1,12 +1,12 @@
 import { AuthDBType } from '@packages/db';
 import ErrorsContainer from '@shared/errors';
-import baseHandler from '#web/base/handler.base.js';
+import BaseHandler from '#web/base/handler.base.js';
 import { type Context } from 'hono';
 import { type HTTPResponseError } from 'hono/types';
 import jsonwebtoken from 'jsonwebtoken';
 const { JsonWebTokenError, TokenExpiredError } = jsonwebtoken;
 
-export default class ErrorHandler extends baseHandler {
+export default class ErrorHandler extends BaseHandler {
 	errorHander(err: Error | HTTPResponseError, c: Context) {
 		if (err instanceof ErrorsContainer.ApiError) {
 			if (err.status == 401) this.manager.session.deleteSession(c);

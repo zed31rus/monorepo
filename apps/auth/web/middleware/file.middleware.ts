@@ -1,4 +1,4 @@
-import baseMiddleware from '#web/base/middleware.base.js';
+import BaseMiddleware from '#web/base/middleware.base.js';
 import { type AvatarEnv } from '#web/types/Env.js';
 import { z } from '@hono/zod-openapi';
 import path from 'node:path';
@@ -6,7 +6,7 @@ import { workDir } from '#root/start.js';
 import fs from 'fs';
 import type { PublicUser } from '@packages/db';
 
-export default class FileMiddleware extends baseMiddleware {
+export default class FileMiddleware extends BaseMiddleware {
 	public withAvatar<T extends AvatarEnv>(user: PublicUser) {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const dto = this.dto;

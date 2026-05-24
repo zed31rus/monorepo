@@ -1,16 +1,11 @@
-import Base from "@zed31rus/base";
+import Base, { type BaseArgs } from '@zed31rus/base';
 
 abstract class BaseInfra extends Base {
-    constructor(
-
-        ...baseArgs: Base.Args
-    ) {
-        super(...baseArgs)
-    }
+	constructor(...baseArgs: BaseArgs) {
+		super(...baseArgs);
+	}
 }
 
-namespace BaseInfra {
-    export type Args = ConstructorParameters<typeof BaseInfra>
-}
+export type BaseInfraArgs = ConstructorParameters<typeof BaseInfra>;
 
 export default BaseInfra;

@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import BaseConfig from '../config.base.js';
+import BaseConfig, { type BaseConfigArgs } from '../config.base.js';
 
 dotenv.config();
 
@@ -20,7 +20,7 @@ export default class EnvConfig extends BaseConfig {
 	readonly SMTP_PORT: string;
 	readonly DISCORD_BOT_TOKEN: string;
 
-	constructor(...baseArgs: BaseConfig.Args) {
+	constructor(...baseArgs: BaseConfigArgs) {
 		super(...baseArgs);
 		this.DATABASE_URL = this.getEnv('DATABASE_URL');
 		this.SMTP_API_KEY = this.getEnv('SMTP_API_KEY');

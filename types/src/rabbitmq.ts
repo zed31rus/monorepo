@@ -1,7 +1,7 @@
-export enum FromAuthNewOauthQueues {
+export enum RabbitFromAuthQueues {
 	oauthRegisteredNewUser = 'oauthRegisteredNewUser',
 }
 
-export enum MailQueues {
+export enum RabbitToMailQueues {
 	mailSendMessage = 'mailSendMessage',
 }

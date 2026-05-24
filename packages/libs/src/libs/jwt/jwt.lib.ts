@@ -1,40 +1,39 @@
-import BaseLib from "../../lib.base.js";
-import jsonWebToken from "jsonwebtoken";
+import BaseLib from '../../lib.base.js';
+import jsonWebToken from 'jsonwebtoken';
 import { type SignOptions } from 'jsonwebtoken';
 
 class JWT extends BaseLib {
-    async create(payload: any, expiresIn: SignOptions['expiresIn'], JWT_SECRET: string) {
-        return jsonWebToken.sign(payload, JWT_SECRET, {expiresIn: expiresIn});
-    }
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	async create(payload: any, expiresIn: SignOptions['expiresIn'], JWT_SECRET: string) {
+		return jsonWebToken.sign(payload, JWT_SECRET, { expiresIn: expiresIn });
+	}
 
-    async verify(token: string, JWT_SECRET: string) {
-        return jsonWebToken.verify(token, JWT_SECRET);
-    }
+	async verify(token: string, JWT_SECRET: string) {
+		return jsonWebToken.verify(token, JWT_SECRET);
+	}
 
-    getExpires() {
-        const time = this.getExpiresTime();
-        const atTime = this.getExpiresAtTime(time);
-        const expires: JWT.Expires = {
-            time,
-            atTime
-        }
-        return expires
-    }
+	getExpires() {
+		const time = this.getExpiresTime();
+		const atTime = this.getExpiresAtTime(time);
+		const expires: JWTExpires = {
+			time,
+			atTime,
+		};
+		return expires;
+	}
 
-    private getExpiresAtTime(expiresTime: number) {
-        return new Date(Date.now() + expiresTime);
-    }
+	private getExpiresAtTime(expiresTime: number) {
+		return new Date(Date.now() + expiresTime);
+	}
 
-    private getExpiresTime() {
-        return (15 * 60 * 1000);
-    }
+	private getExpiresTime() {
+		return 15 * 60 * 1000;
+	}
 }
 
-namespace JWT {
-    export type Expires = {
-        time: number,
-        atTime: Date
-    }
-}
+export type JWTExpires = {
+	time: number;
+	atTime: Date;
+};
 
 export default JWT;

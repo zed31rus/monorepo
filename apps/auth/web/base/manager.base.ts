@@ -1,13 +1,11 @@
-import WebBase from "./web.base.js";
+import WebBase, { type WebBaseArgs } from './web.base.js';
 
 abstract class BaseWebManager extends WebBase {
-    constructor(...webBaseArgs: WebBase.Args) {
-        super(...webBaseArgs);
-    }
+	constructor(...webBaseArgs: WebBaseArgs) {
+		super(...webBaseArgs);
+	}
 }
 
-namespace BaseWebManager {
-    export type Args = ConstructorParameters<typeof BaseWebManager>
-}
+export type BaseWebManagerArgs = ConstructorParameters<typeof BaseWebManager>;
 
 export default BaseWebManager;
