@@ -23,11 +23,11 @@ export default class OnDisconnectGuildVoiceEvent extends BaseEvent {
 
 		const category = hubChannel.parent;
 
-		if (channel.parentId === category.id) {
-			if (channel.id === hubChannel.id) return;
-			if (channel.members.size !== 0) return;
+		if (channel.parentId !== category.id) return;
 
-			await channel.delete();
-		}
+		if (channel.id === hubChannel.id) return;
+		if (channel.members.size !== 0) return;
+
+		await channel.delete();
 	}
 }

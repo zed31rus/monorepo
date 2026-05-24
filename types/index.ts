@@ -6,5 +6,5 @@ import * as RabbitMqs from './src/rabbitmq.js';
 export import DiscordOauth = DiscordOauths;
 export import OauthProviders = Oauths.Providers;
 export import OtpTypes = Accounts.OtpTypes;
-export type OauthQueues = RabbitMqs.OauthQueues;
+export type OauthQueues = RabbitMqs.FromAuthNewOauthQueues;
 export type MailQueues = RabbitMqs.MailQueues;
