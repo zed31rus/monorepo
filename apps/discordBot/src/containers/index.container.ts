@@ -1,16 +1,17 @@
 import { Client, GatewayIntentBits } from 'discord.js';
-import EventContainer from './event.container.js';
+import EventContainer from './event/discord.event.container.js';
 import DbContainer from '@packages/db';
 import InfraContainer from '@packages/infra';
 import ConfigContainer from '@shared/config';
 import Logger from '@shared/logger';
 import ErrorsContainer from '@shared/errors';
-import OnConnectGuildVoiceEvent from '#events/guild/voice/hub/onConnect.hub.voice.guild.event.js';
-import OnDisconnectGuildVoiceEvent from '#events/guild/voice/hub/onDisconnect.hub.voice.guild.event.js';
+import OnConnectGuildVoiceEvent from '#events/discord/guild/voice/hub/onConnect.hub.voice.guild.discord.event.js';
+import OnDisconnectGuildVoiceEvent from '#events/discord/guild/voice/hub/onDisconnect.hub.voice.guild.discord.event.js';
 import ManagerContainer from './manager.container.js';
 import ActivityManager from '#managers/activity.manager.js';
 import ServerNameManager from '#managers/serverName.manager.js';
 import VoiceManager from '#managers/voice.manager.js';
+import OauthRegisteredNewUser from '#events/internal/rabbitMq/auth/from/oauthRegisteredNewUser.from.auth.rabbitMq.internal.event.js';
 
 const errorsContainer = new ErrorsContainer(
 	new ErrorsContainer.deps.ApiErrors(),
@@ -60,27 +61,40 @@ const managerContainer = new ManagerContainer(
 	new VoiceManager(readyClient, db, infraContainer, configContainers, errorsContainer, logger)
 );
 
-new EventContainer({
-	voice: {
-		hub: {
-			onConnect: new OnConnectGuildVoiceEvent(
-				managerContainer,
-				readyClient,
-				db,
-				infraContainer,
-				configContainers,
-				errorsContainer,
-				logger
-			),
-			onDisconnect: new OnDisconnectGuildVoiceEvent(
-				managerContainer,
-				readyClient,
-				db,
-				infraContainer,
-				configContainers,
-				errorsContainer,
-				logger
-			),
+new EventContainer(
+	{
+		guild: {
+			voice: {
+				hub: {
+					onConnect: new OnConnectGuildVoiceEvent(
+						managerContainer,
+						readyClient,
+						db,
+						infraContainer,
+						configContainers,
+						errorsContainer,
+						logger
+					),
+					onDisconnect: new OnDisconnectGuildVoiceEvent(
+						managerContainer,
+						readyClient,
+						db,
+						infraContainer,
+						configContainers,
+						errorsContainer,
+						logger
+					),
+				},
+			},
 		},
 	},
-});
+	{
+		rabbitMq: {
+			auth: {
+				from: {
+					oauthRegisteredNewUser: new OauthRegisteredNewUser(),
+				},
+			},
+		},
+	}
+);

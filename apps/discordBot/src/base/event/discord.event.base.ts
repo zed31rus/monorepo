@@ -1,10 +1,9 @@
 import type { ClientEvents } from 'discord.js';
-import BotBase, { type BotBaseArgs } from './base.js';
+import BotBase, { type BotBaseArgs } from '../base.js';
 import ManagerContainer from '#containers/manager.container.js';
-import type { RabbitFromAuthQueues } from '@zed31rus/types/rabbitmq.js';
 
-export abstract class BaseEvent<
-	EventType = keyof ClientEvents | keyof RabbitFromAuthQueues,
+export abstract class BaseDiscordEvent<
+	EventType extends keyof ClientEvents = keyof ClientEvents,
 > extends BotBase {
 	protected readonly type: EventType;
 
@@ -26,5 +25,5 @@ export abstract class BaseEvent<
 
 export type BaseEventArgs =
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	ConstructorParameters<typeof BaseEvent> extends [any, ...infer Rest] ? Rest : [];
-export default BaseEvent;
+	ConstructorParameters<typeof BaseDiscordEvent> extends [any, ...infer Rest] ? Rest : [];
+export default BaseDiscordEvent;

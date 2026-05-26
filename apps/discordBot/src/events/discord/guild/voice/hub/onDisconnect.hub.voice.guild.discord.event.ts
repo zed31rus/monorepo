@@ -1,7 +1,7 @@
-import BaseEvent, { type BaseEventArgs } from '#base/event.base.js';
+import BaseDiscordEvent, { type BaseEventArgs } from '#base/event/discord.event.base.js';
 import { type VoiceState } from 'discord.js';
 
-export default class OnDisconnectGuildVoiceEvent extends BaseEvent {
+export default class OnDisconnectGuildVoiceDiscordEvent extends BaseDiscordEvent {
 	constructor(...baseEventArgs: BaseEventArgs) {
 		super('voiceStateUpdate', ...baseEventArgs);
 	}
