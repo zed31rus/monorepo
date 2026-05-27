@@ -85,11 +85,32 @@ monorepo
 │     ├─ src
 │     │  ├─ base
 │     │  │  ├─ base.ts
-│     │  │  └─ service.base.ts
+│     │  │  ├─ event
+│     │  │  │  ├─ discord.event.base.ts
+│     │  │  │  └─ internal
+│     │  │  │     └─ rabbitMq.event.base.ts
+│     │  │  └─ manager.base.ts
+│     │  ├─ containers
+│     │  │  ├─ event
+│     │  │  │  └─ discord.event.container.ts
+│     │  │  ├─ index.container.ts
+│     │  │  └─ manager.container.ts
+│     │  ├─ events
+│     │  │  ├─ discord
+│     │  │  │  └─ guild
+│     │  │  │     └─ voice
+│     │  │  │        └─ hub
+│     │  │  │           ├─ onConnect.hub.voice.guild.discord.event.ts
+│     │  │  │           └─ onDisconnect.hub.voice.guild.discord.event.ts
+│     │  │  └─ internal
+│     │  │     └─ rabbitMq
+│     │  │        └─ auth
+│     │  │           └─ from
+│     │  │              └─ oauthRegisteredNewUser.from.auth.rabbitMq.internal.event.ts
 │     │  └─ managers
-│     │     ├─ activity.service.ts
-│     │     ├─ serverName.service.ts
-│     │     └─ voice.service.ts
+│     │     ├─ activity.manager.ts
+│     │     ├─ serverName.manager.ts
+│     │     └─ voice.manager.ts
 │     └─ tsconfig.json
 ├─ base
 │  ├─ index.ts
