@@ -8,7 +8,7 @@ export default class MeOpenAPI extends BaseOpenAPI {
 	get = createRoute({
 		method: 'get',
 		path: '/get',
-		middleware: [...this.handler.auth.withValidUser<ProfileEnv>()],
+		middleware: [...this.handlers.auth.withValidUser<ProfileEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Get current user',
 		description: 'Returns the profile data of the currently authenticated user.',

@@ -9,7 +9,7 @@ import type { PublicUser } from '@packages/db';
 export default class FileMiddleware extends BaseMiddleware {
 	public withAvatar<T extends AvatarEnv>(user: PublicUser) {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const dto = this.dto;
+		const dto = this.dtos;
 
 		type J = T & {
 			out: { form: z.infer<typeof dto.file.avatarSchema> };

@@ -1,17 +1,24 @@
-import AccountModule from '#web/modules/account.module.js';
-import AuthModule from '#web/modules/auth.module.js';
-import MeModule from '#web/modules/me.module.js';
-import DiscordOauthModule from '#web/modules/oauth/discord.oauth.module.js';
-import UsersModule from '#web/modules/users.module.js';
+import type UsersInternalModule from '#web/modules/internal/users.internal.module.js';
+import AccountMainModule from '#web/modules/main/account.main.module.js';
+import AuthMainModule from '#web/modules/main/auth.main.module.js';
+import MeMainModule from '#web/modules/main/me.main.module.js';
+import DiscordOauthMainModule from '#web/modules/main/oauth/discord.oauth.main.module.js';
+import UsersMainModule from '#web/modules/main/users.main.module.js';
 
 class ModuleContainer {
 	constructor(
-		readonly account: AccountModule,
-		readonly auth: AuthModule,
-		readonly me: MeModule,
-		readonly users: UsersModule,
-		readonly oauth: {
-			discord: DiscordOauthModule;
+		readonly main: {
+			readonly account: AccountMainModule;
+			readonly auth: AuthMainModule;
+			readonly me: MeMainModule;
+			readonly users: UsersMainModule;
+			readonly oauth: {
+				discord: DiscordOauthMainModule;
+			};
+		},
+
+		readonly internal: {
+			users: UsersInternalModule;
 		}
 	) {}
 }

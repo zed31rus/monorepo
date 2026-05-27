@@ -3,7 +3,7 @@ import coreContainer from '#root/core/containers/index.container.js';
 
 abstract class WebBase extends Base {
 	constructor(readonly core: typeof coreContainer) {
-		super(core.configs, core.errors, core.logger);
+		super(core.configs, core.logger, core.errors);
 	}
 }
 

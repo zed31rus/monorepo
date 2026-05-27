@@ -8,7 +8,7 @@ export default class DiscordOauthOpenAPI extends BaseOpenAPI {
 	callback = createRoute({
 		method: 'get',
 		path: '/callback',
-		middleware: [this.middleware.auth.withOptionalUser<DiscordOauthEnv>()],
+		middleware: [this.middlewares.auth.withOptionalUser<DiscordOauthEnv>()],
 		summary: 'Discord OAuth callback',
 		description:
 			'Handles the Discord OAuth2 callback. Authenticates or links the Discord account to an existing user if already logged in.',

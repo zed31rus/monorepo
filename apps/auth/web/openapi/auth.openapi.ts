@@ -85,7 +85,7 @@ export default class AuthOpenAPI extends BaseOpenAPI {
 			'Issues new access and refresh tokens using the existing refresh token cookie.',
 
 		request: {
-			cookies: this.dto.cookie.required.refresh,
+			cookies: this.dtos.cookie.required.refresh,
 		},
 
 		responses: {
@@ -112,7 +112,7 @@ export default class AuthOpenAPI extends BaseOpenAPI {
 		description: 'Invalidates the current session and clears session cookies.',
 
 		request: {
-			cookies: this.dto.cookie.optional.refresh,
+			cookies: this.dtos.cookie.optional.refresh,
 		},
 
 		responses: {

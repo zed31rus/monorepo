@@ -35,7 +35,7 @@ export default class UsersOpenAPI extends BaseOpenAPI {
 	getByEmail = createRoute({
 		method: 'get',
 		path: '/get/{email}',
-		middleware: [...this.handler.auth.withValidUser<UsersEnv>()],
+		middleware: [...this.handlers.auth.withValidUser<UsersEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Get user by email',
 		description: 'Returns user data by email address. Requires authentication.',
@@ -64,7 +64,7 @@ export default class UsersOpenAPI extends BaseOpenAPI {
 	getByLogin = createRoute({
 		method: 'get',
 		path: '/get/{login}',
-		middleware: [...this.handler.auth.withValidUser<UsersEnv>()],
+		middleware: [...this.handlers.auth.withValidUser<UsersEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Get user by login',
 		description: 'Returns user data by login. Requires authentication.',

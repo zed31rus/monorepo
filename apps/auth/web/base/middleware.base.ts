@@ -7,7 +7,7 @@ import WebBase, { type WebBaseArgs } from './web.base.js';
 
 abstract class BaseMiddleware extends WebBase {
 	constructor(
-		protected readonly dto: DtoContainer,
+		protected readonly dtos: DtoContainer,
 		protected readonly wrappers: WrapperContainer,
 		protected readonly webManagers: WebManagerContainer,
 		...webBaseArgs: WebBaseArgs

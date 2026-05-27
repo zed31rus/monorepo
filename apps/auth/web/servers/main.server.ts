@@ -5,37 +5,37 @@ import { serve } from '@hono/node-server';
 
 export default class MainServer extends BaseServer {
 	configureWebServer() {
-		this.server.use(this.wrapper.cors.cors());
+		this.servers.use(this.wrappers.cors.cors());
 
-		this.server.use(logger());
+		this.servers.use(logger());
 
-		this.server.openAPIRegistry.registerComponent('securitySchemes', 'authBearer', {
+		this.servers.openAPIRegistry.registerComponent('securitySchemes', 'authBearer', {
 			type: 'apiKey',
 			in: 'Bearer',
 			name: 'accessToken',
 		});
 
-		this.server.onError(this.handler.error.errorHander.bind(this.handler.error));
+		this.servers.onError(this.handlers.error.errorHander.bind(this.handlers.error));
 
-		this.server.route('/auth', this.module.auth.router);
-		this.server.route('/account', this.module.account.router);
-		this.server.route('/me', this.module.me.router);
-		this.server.route('/user', this.module.users.router);
-		this.server.route('/oauth2/discord', this.module.oauth.discord.router);
-		this.server.doc('/doc', {
+		this.servers.route('/auth', this.modules.main.auth.router);
+		this.servers.route('/account', this.modules.main.account.router);
+		this.servers.route('/me', this.modules.main.me.router);
+		this.servers.route('/user', this.modules.main.users.router);
+		this.servers.route('/oauth2/discord', this.modules.main.oauth.discord.router);
+		this.servers.doc('/doc', {
 			openapi: '3.0.0',
 			info: {
 				version: '1.0.0',
 				title: 'auth.zed31rus.ru api',
 			},
 		});
-		this.server.get('/doc/ui', swaggerUI({ url: '/doc' }));
+		this.servers.get('/doc/ui', swaggerUI({ url: '/doc' }));
 	}
 
 	startWebServer(port: number) {
 		return serve(
 			{
-				fetch: this.server.fetch,
+				fetch: this.servers.fetch,
 				port: port,
 			},
 			(info) => {

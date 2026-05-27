@@ -4,15 +4,15 @@ import { type UserEnv } from '#web/types/Env.d.js';
 export default class AuthHandler extends BaseHandler {
 	public withValidUser<T extends UserEnv>() {
 		return this.createFactory<T>().createHandlers(
-			this.wrapper.validator.validate('cookie', this.dto.cookie.required.access),
-			this.middleware.auth.withUser<T>()
+			this.wrappers.validator.validate('cookie', this.dtos.cookie.required.access),
+			this.middlewares.auth.withUser<T>()
 		);
 	}
 
 	public withOptionalUser<T extends UserEnv>() {
 		return this.createFactory<T>().createHandlers(
-			this.wrapper.validator.validate('cookie', this.dto.cookie.optional.access),
-			this.middleware.auth.withOptionalUser<T>()
+			this.wrappers.validator.validate('cookie', this.dtos.cookie.optional.access),
+			this.middlewares.auth.withOptionalUser<T>()
 		);
 	}
 }

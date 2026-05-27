@@ -1,13 +1,17 @@
 import DtoContainer from '#web/containers/dto.container.js';
 import HandlerContainer from '#web/containers/handler.container.js';
+import type WebManagerContainer from '#web/containers/managers.container.js';
 import MiddlewareContainer from '#web/containers/middleware.container.js';
+import type WrapperContainer from '#web/containers/wrapper.container.js';
 import WebBase, { type WebBaseArgs } from './web.base.js';
 
 abstract class BaseOpenAPI extends WebBase {
 	constructor(
-		protected readonly dto: DtoContainer,
-		protected readonly middleware: MiddlewareContainer,
-		protected readonly handler: HandlerContainer,
+		protected readonly handlers: HandlerContainer,
+		protected readonly middlewares: MiddlewareContainer,
+		protected readonly dtos: DtoContainer,
+		protected readonly wrappers: WrapperContainer,
+		protected readonly managers: WebManagerContainer,
 		...webBaseArgs: WebBaseArgs
 	) {
 		super(...webBaseArgs);

@@ -8,10 +8,10 @@ import WebBase, { type WebBaseArgs } from './web.base.js';
 
 abstract class BaseHandler extends WebBase {
 	constructor(
-		protected readonly middleware: MiddlewareContainer,
-		protected readonly wrapper: WrapperContainer,
-		protected readonly dto: DtoContainer,
-		protected readonly manager: ManagerContainer,
+		protected readonly middlewares: MiddlewareContainer,
+		protected readonly dtos: DtoContainer,
+		protected readonly wrappers: WrapperContainer,
+		protected readonly managers: ManagerContainer,
 		...webBaseArgs: WebBaseArgs
 	) {
 		super(...webBaseArgs);

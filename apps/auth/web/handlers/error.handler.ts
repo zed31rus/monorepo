@@ -9,7 +9,7 @@ const { JsonWebTokenError, TokenExpiredError } = jsonwebtoken;
 export default class ErrorHandler extends BaseHandler {
 	errorHander(err: Error | HTTPResponseError, c: Context) {
 		if (err instanceof ErrorsContainer.ApiError) {
-			if (err.status == 401) this.manager.session.deleteSession(c);
+			if (err.status == 401) this.managers.session.deleteSession(c);
 
 			return c.json(
 				{
@@ -22,7 +22,7 @@ export default class ErrorHandler extends BaseHandler {
 		}
 
 		if (err instanceof TokenExpiredError) {
-			this.manager.session.deleteSession(c);
+			this.managers.session.deleteSession(c);
 			return c.json({ message: 'Token expired' }, 401);
 		}
 
