@@ -1,7 +1,3 @@
-export enum RabbitFromAuthQueues {
-	oauthRegisteredNewUser = 'oauthRegisteredNewUser',
-}
-
-export enum RabbitToMailQueues {
-	mailSendMessage = 'mailSendMessage',
+export interface RabbitFromAuthQueues {
+	oauthRegisteredNewUser: [uuid: string];
 }

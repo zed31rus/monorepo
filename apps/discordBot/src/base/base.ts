@@ -1,19 +1,27 @@
 import Base, { type BaseArgs } from '@zed31rus/base';
 import { EventEmitter } from 'events';
 import DBContainer from '@packages/db';
-import { type Client } from 'discord.js';
+import { type Client, type ClientEvents } from 'discord.js';
 import type InfraContainer from '@packages/infra';
+import type { RabbitFromAuthQueues } from '@zed31rus/types';
 
 abstract class BotBase extends Base {
-	events: EventEmitter;
+	events: {
+		discord: EventEmitter;
+		internal: EventEmitter<RabbitFromAuthQueues>;
+	};
 	constructor(
 		readonly client: Client<true>,
 		readonly db: InstanceType<typeof DBContainer>['discordBot'],
 		readonly infra: InfraContainer,
+		eventEmitter: EventEmitter<RabbitFromAuthQueues>,
 		...baseArgs: BaseArgs
 	) {
 		super(...baseArgs);
-		this.events = this.client as EventEmitter;
+		this.events = {
+			discord: this.client as EventEmitter<ClientEvents>,
+			internal: eventEmitter,
+		};
 	}
 }
 

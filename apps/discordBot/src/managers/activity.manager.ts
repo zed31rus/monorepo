@@ -32,7 +32,7 @@ export default class ActivityManager extends BaseManager {
 		this.client.user.setActivity(this.currentActivity.name, {
 			type: this.currentActivity.type,
 		});
-		this.events.emit('activityUpdated', this.currentActivity);
+		this.events.internal.emit('activityUpdated', this.currentActivity);
 	}
 
 	private createCronSchedule() {

@@ -37,7 +37,7 @@ export default class ServerNameManager extends BaseManager {
 			newServerName = await this.db.serverName.get.random(this.db.client);
 		} while (newServerName.name === oldName);
 
-		this.events.emit('serverNameUpdate', {
+		this.events.internal.emit('serverNameUpdate', {
 			serverId,
 			newName: newServerName.name,
 		});

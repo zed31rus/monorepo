@@ -1,7 +1,13 @@
-import BaseDiscordEvent from '#base/event/discord.event.base.js';
-import type { ClientEvents } from 'discord.js';
+import BaseRabbitMqEvent, {
+	type BaseRabbitMqEventArgs,
+} from '#base/event/internal/rabbitMq.event.base.js';
 
-export default class OauthRegisteredNewUser extends  {
-    protected type: ;
-    
+export default class OauthRegisteredNewUserRabbitMqEvent extends BaseRabbitMqEvent {
+	protected action(uuid: string) {
+		return uuid as unknown as void; //todo
+	}
+
+	constructor(...baseRabbitMqEventDeps: BaseRabbitMqEventArgs) {
+		super('oauthRegisteredNewUser', ...baseRabbitMqEventDeps);
+	}
 }

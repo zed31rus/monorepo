@@ -12,6 +12,7 @@ import ActivityManager from '#managers/activity.manager.js';
 import ServerNameManager from '#managers/serverName.manager.js';
 import VoiceManager from '#managers/voice.manager.js';
 import OauthRegisteredNewUser from '#events/internal/rabbitMq/auth/from/oauthRegisteredNewUser.from.auth.rabbitMq.internal.event.js';
+import EventEmitter from 'node:events';
 
 const errorsContainer = new ErrorsContainer(
 	new ErrorsContainer.deps.ApiErrors(),
@@ -19,18 +20,22 @@ const errorsContainer = new ErrorsContainer(
 	new ErrorsContainer.deps.PrismaErrors()
 );
 
-const configContainers = new ConfigContainer(new ConfigContainer.deps.EnvConfig(errorsContainer));
+const configDeps = [errorsContainer] as const;
+
+const configContainers = new ConfigContainer(new ConfigContainer.deps.EnvConfig(...configDeps));
 
 const logger = new Logger('auth').appLogger;
 
+const packagesDeps = [configContainers, logger, ...configDeps] as const;
+
 const infraContainer = new InfraContainer(
-	InfraContainer.deps.RabbitMqInfra.getInstance(configContainers, errorsContainer, logger),
-	{ discord: new InfraContainer.deps.oauth.discord(configContainers, errorsContainer, logger) }
+	InfraContainer.deps.RabbitMqInfra.getInstance(...packagesDeps),
+	{ discord: new InfraContainer.deps.oauth.discord(...packagesDeps) }
 );
 
 const db = new DbContainer(
-	new DbContainer.deps.authDB(configContainers, errorsContainer, logger),
-	new DbContainer.deps.discordbotDB(configContainers, errorsContainer, logger)
+	new DbContainer.deps.authDB(...packagesDeps),
+	new DbContainer.deps.discordbotDB(...packagesDeps)
 ).discordBot;
 
 const client = new Client({
@@ -48,42 +53,25 @@ const readyClient = await new Promise<Client<true>>((resolve) => {
 	client.login(configContainers.env.DISCORD_BOT_TOKEN);
 });
 
+const eventEmitter = new EventEmitter();
+
+const managerDeps = [readyClient, db, infraContainer, eventEmitter, ...packagesDeps] as const;
+
 const managerContainer = new ManagerContainer(
-	new ActivityManager(readyClient, db, infraContainer, configContainers, errorsContainer, logger),
-	new ServerNameManager(
-		readyClient,
-		db,
-		infraContainer,
-		configContainers,
-		errorsContainer,
-		logger
-	),
-	new VoiceManager(readyClient, db, infraContainer, configContainers, errorsContainer, logger)
+	new ActivityManager(...managerDeps),
+	new ServerNameManager(...managerDeps),
+	new VoiceManager(...managerDeps)
 );
+
+const emitterDeps = [managerContainer, ...managerDeps] as const;
 
 new EventContainer(
 	{
 		guild: {
 			voice: {
 				hub: {
-					onConnect: new OnConnectGuildVoiceEvent(
-						managerContainer,
-						readyClient,
-						db,
-						infraContainer,
-						configContainers,
-						errorsContainer,
-						logger
-					),
-					onDisconnect: new OnDisconnectGuildVoiceEvent(
-						managerContainer,
-						readyClient,
-						db,
-						infraContainer,
-						configContainers,
-						errorsContainer,
-						logger
-					),
+					onConnect: new OnConnectGuildVoiceEvent(...emitterDeps),
+					onDisconnect: new OnDisconnectGuildVoiceEvent(...emitterDeps),
 				},
 			},
 		},
@@ -92,7 +80,7 @@ new EventContainer(
 		rabbitMq: {
 			auth: {
 				from: {
-					oauthRegisteredNewUser: new OauthRegisteredNewUser(),
+					oauthRegisteredNewUser: new OauthRegisteredNewUser(...emitterDeps),
 				},
 			},
 		},

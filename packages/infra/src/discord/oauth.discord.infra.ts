@@ -1,83 +1,79 @@
-import BaseInfra from "../infra.base.js";
-import Types from "@zed31rus/types"
+import type { OauthDiscord } from '@zed31rus/types';
+import BaseInfra from '../infra.base.js';
 
 export default class DiscordOauthInfra extends BaseInfra {
+	API_ENDPOINT = 'https://discord.com/api/v10';
+	CLIENT_ID = this.config.env.DISCORD_OAUTH_CLIENT_ID;
+	CLIENT_SECRET = this.config.env.DISCORD_OAUTH_CLIENT_SECRET;
+	REDIRECT_URI = this.config.env.DISCORD_OAUTH_REDIRECT_URL;
 
+	async exchangeCode(code: string) {
+		const response = await fetch(`${this.API_ENDPOINT}/oauth2/token`, {
+			method: 'POST',
 
-    API_ENDPOINT = 'https://discord.com/api/v10';
-    CLIENT_ID = this.config.env.DISCORD_OAUTH_CLIENT_ID;
-    CLIENT_SECRET = this.config.env.DISCORD_OAUTH_CLIENT_SECRET;
-    REDIRECT_URI = this.config.env.DISCORD_OAUTH_REDIRECT_URL;
-    
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				Authorization: `Basic ${Buffer.from(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`).toString('base64')}`,
+			},
 
-    async exchangeCode(code: string) {
-    const response = await fetch(`${this.API_ENDPOINT}/oauth2/token`, {
+			body: new URLSearchParams({
+				grant_type: 'authorization_code',
+				code: code,
+				redirect_uri: this.REDIRECT_URI,
+			}),
+		});
 
-            method: 'POST',
+		if (!response.ok) {
+			const errorText = await response.text();
+			throw this.errors.api.BadRequest(
+				`Discord API Error: ${response.status} - ${errorText}`
+			);
+		}
 
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': `Basic ${Buffer.from(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`).toString('base64')}`,
-            },
+		return (await response.json()) as OauthDiscord.ApiExchangeReply;
+	}
 
-            body: new URLSearchParams({
-                grant_type: 'authorization_code',
-                code: code,
-                redirect_uri: this.REDIRECT_URI,
-            })
+	async token(refreshToken: string) {
+		const response = await fetch(`${this.API_ENDPOINT}/oauth2/token`, {
+			method: 'POST',
 
-        });
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				Authorization: `Basic ${Buffer.from(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`).toString('base64')}`,
+			},
 
-        if (!response.ok) {
-        const errorText = await response.text();
-        throw this.errors.api.BadRequest(`Discord API Error: ${response.status} - ${errorText}`);
-        }
+			body: new URLSearchParams({
+				grant_type: 'refresh_token',
+				refresh_token: refreshToken,
+			}),
+		});
 
-        return await response.json() as Types.Oauth.Discord.ApiExchangeReply;
-    }
+		if (!response.ok) {
+			const errorText = await response.text();
+			throw this.errors.api.BadRequest(
+				`Discord API Error: ${response.status} - ${errorText}`
+			);
+		}
 
-    async token(refreshToken: string) {
-        const response = await fetch(`${this.API_ENDPOINT}/oauth2/token`, {
+		return (await response.json()) as OauthDiscord.ApiTokenReply;
+	}
 
-            method: 'POST',
+	async me(accessToken: string) {
+		const response = await fetch(`${this.API_ENDPOINT}/users/@me`, {
+			method: 'GET',
 
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': `Basic ${Buffer.from(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`).toString('base64')}`,
-            },
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		});
 
-            body: new URLSearchParams({
-                grant_type: 'refresh_token',
-                refresh_token: refreshToken,
-            })
+		if (!response.ok) {
+			const errorText = await response.text();
+			throw this.errors.api.BadRequest(
+				`Discord API Error: ${response.status} - ${errorText}`
+			);
+		}
 
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw this.errors.api.BadRequest(`Discord API Error: ${response.status} - ${errorText}`);
-        }
-
-        return await response.json() as Types.Oauth.Discord.ApiTokenReply;
-    }
-
-    async me(accessToken: string) {
-        const response = await fetch(`${this.API_ENDPOINT}/users/@me`, {
-
-            method: 'GET',
-
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-            },
-
-        });
-
-        if (!response.ok) {
-        const errorText = await response.text();
-        throw this.errors.api.BadRequest(`Discord API Error: ${response.status} - ${errorText}`);
-        }
-
-        return await response.json() as Types.Oauth.Discord.ApiMeReply;
-    }
-
+		return (await response.json()) as OauthDiscord.ApiMeReply;
+	}
 }

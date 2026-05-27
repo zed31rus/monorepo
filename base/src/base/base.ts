@@ -5,8 +5,8 @@ import type Logger from '@shared/logger';
 abstract class Base {
 	constructor(
 		readonly config: ConfigContainer,
-		readonly errors: ErrorsContainer,
-		readonly logger: Logger.appLogger
+		readonly logger: Logger['appLogger'],
+		readonly errors: ErrorsContainer
 	) {}
 }
 

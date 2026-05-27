@@ -15,7 +15,7 @@ export abstract class BaseDiscordEvent<
 		super(...botBaseArgs);
 		this.type = eventType;
 
-		this.client.on(this.type, (...args) => {
+		this.events.discord.on(this.type, (...args: ClientEvents[EventType]) => {
 			this.action(...args);
 		});
 	}
