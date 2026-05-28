@@ -20,40 +20,47 @@ const errors = new ErrorsContainer(
 	new ErrorsContainer.deps.PrismaErrors()
 );
 
-const configs = new ConfigContainer(new ConfigContainer.deps.EnvConfig(errors));
+const configDeps = [errors] as const;
+
+const configs = new ConfigContainer(new ConfigContainer.deps.EnvConfig(...configDeps));
 
 const logger = new Logger('auth').appLogger;
 
+const packagesDeps = [configs, logger, ...configDeps] as const;
+
 const libs = new LibContainer(
-	new LibContainer.deps.Hash(configs, errors, logger),
-	new LibContainer.deps.JWT(configs, errors, logger),
-	new LibContainer.deps.Mail(configs, errors, logger),
-	new LibContainer.deps.RefreshToken(configs, errors, logger),
-	new LibContainer.deps.VerificationCode(configs, errors, logger)
+	new LibContainer.deps.Hash(...packagesDeps),
+	new LibContainer.deps.JWT(...packagesDeps),
+	new LibContainer.deps.Mail(...packagesDeps),
+	new LibContainer.deps.RefreshToken(...packagesDeps),
+	new LibContainer.deps.VerificationCode(...packagesDeps)
 );
 
-const infra = new InfraContainer(
-	InfraContainer.deps.RabbitMqInfra.getInstance(configs, errors, logger),
-	{ discord: new InfraContainer.deps.oauth.discord(configs, errors, logger) }
-);
+const infra = new InfraContainer(InfraContainer.deps.RabbitMqInfra.getInstance(...packagesDeps), {
+	discord: new InfraContainer.deps.oauth.discord(...packagesDeps),
+});
 
 const db = new DbContainer(
-	new DbContainer.deps.authDB(configs, errors, logger),
-	new DbContainer.deps.discordbotDB(configs, errors, logger)
+	new DbContainer.deps.authDB(...packagesDeps),
+	new DbContainer.deps.discordbotDB(...packagesDeps)
 ).auth;
 
+const managersDeps = [db, libs, infra, ...packagesDeps] as const;
+
 const managers = new ManagerContainer(
-	new OtpManager(db, libs, infra, configs, errors, logger),
-	new SessionManager(db, libs, infra, configs, errors, logger)
+	new OtpManager(...managersDeps),
+	new SessionManager(...managersDeps)
 );
 
+const servicesDeps = [managers, ...managersDeps] as const;
+
 const services = new ServiceContainer(
-	new AccountService(managers, db, libs, infra, configs, errors, logger),
-	new AuthService(managers, db, libs, infra, configs, errors, logger),
-	new MeService(managers, db, libs, infra, configs, errors, logger),
-	new UsersService(managers, db, libs, infra, configs, errors, logger),
+	new AccountService(...servicesDeps),
+	new AuthService(...servicesDeps),
+	new MeService(...servicesDeps),
+	new UsersService(...servicesDeps),
 	{
-		discord: new DiscordOauthService(managers, db, libs, infra, configs, errors, logger),
+		discord: new DiscordOauthService(...servicesDeps),
 	}
 );
 

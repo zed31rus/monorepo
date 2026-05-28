@@ -33,7 +33,7 @@ export default class RabbitMqInfra extends BaseInfra {
 		});
 	}
 
-	async sendOauthRegistered(data: RabbitFromAuthQueues) {
+	async sendOauthRegistered(...data: RabbitFromAuthQueues['oauthRegisteredNewUser']) {
 		await this.initPromise;
 		this.oauthChannel.sendToQueue(
 			RabbitMqQueues.oauthRegisteredNewUser,

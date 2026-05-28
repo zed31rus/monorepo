@@ -1,6 +1,6 @@
 import BaseService from '#core/base/service.base.js';
 import type { AuthDBType, PublicUser } from '@packages/db';
-import { OauthProviders, type DiscordOauth } from '@zed31rus/types';
+import { OauthProviders, type OauthDiscord } from '@zed31rus/types';
 
 export default class DiscordOauthService extends BaseService {
 	async callback(code: string, publicUser: PublicUser | null) {
@@ -32,7 +32,7 @@ export default class DiscordOauthService extends BaseService {
 		return { user: newPersonalUser, ...session };
 	}
 
-	private async resolveUser(publicUser: PublicUser | null, meRes: DiscordOauth.ApiMeReply) {
+	private async resolveUser(publicUser: PublicUser | null, meRes: OauthDiscord.ApiMeReply) {
 		if (publicUser) {
 			return await this.db.users.get.orThrow.byPublicUser(this.db.client, publicUser);
 		}
