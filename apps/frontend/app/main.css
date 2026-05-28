@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import 'tailwindcss';
+
+@theme {
+	--color-back-main: rgb(67, 67, 67);
+	--font-bebas: 'Bebas Neue', sans-serif;
+}
+
+body {
+	background-image: url(./resources/background.png);
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	color: #e5e7eb;
+	overflow: hidden;
+}
+
+html {
+	overflow: hidden;
+	height: 100%;
+}
