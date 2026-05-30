@@ -1,10 +1,10 @@
 import { type UserEnv } from '#web/types/Env.js';
 import { createRoute, z } from '@hono/zod-openapi';
-import BaseOpenAPI from '../base/openapi.base.js';
+import BaseOpenAPI from '../../base/openapi.base.js';
 
 type UsersEnv = UserEnv & {};
 
-export default class UsersOpenAPI extends BaseOpenAPI {
+export default class UsersPublicOpenAPI extends BaseOpenAPI {
 	getByUuid = createRoute({
 		method: 'get',
 		path: '/get/{uuid}',

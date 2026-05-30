@@ -16,19 +16,19 @@ import AuthHandler from '#web/handlers/auth.handler.js';
 import FileHandler from '#web/handlers/file.handler.js';
 import ErrorHandler from '#web/handlers/error.handler.js';
 import OpenAPIContainer from '#web/containers/openapi.container.js';
-import AccountOpenAPI from '#web/openapi/account.openapi.js';
-import AuthOpenAPI from '#web/openapi/auth.openapi.js';
-import MeOpenAPI from '#web/openapi/me.openapi.js';
-import UsersOpenAPI from '#web/openapi/users.openapi.js';
-import DiscordOauthOpenAPI from '#web/openapi/oauth/discord.oauth.openapi.js';
+import AccountPublicOpenAPI from '#web/openapi/public/account.public.openapi.js';
+import AuthPublicOpenAPI from '#web/openapi/public/auth.public.openapi.js';
+import MePublicOpenAPI from '#web/openapi/public/me.public.openapi.js';
+import UsersPublicOpenAPI from '#web/openapi/public/users.public.openapi.js';
+import DiscordOauthPublicOpenAPI from '#web/openapi/public/oauth/discord.oauth.public.openapi.js';
 import ModuleContainer from './module.container.js';
-import AccountMainModule from '#web/modules/main/account.main.module.js';
-import AuthMainModule from '#web/modules/main/auth.main.module.js';
-import MeMainModule from '#web/modules/main/me.main.module.js';
-import UsersMainModule from '#web/modules/main/users.main.module.js';
-import DiscordOauthMainModule from '#web/modules/main/oauth/discord.oauth.main.module.js';
+import AccountMainModule from '#web/modules/public/account.public.module.js';
+import AuthMainModule from '#web/modules/public/auth.public.module.js';
+import MeMainModule from '#web/modules/public/me.public.module.js';
+import UsersMainModule from '#web/modules/public/users.public.module.js';
+import DiscordOauthMainModule from '#web/modules/public/oauth/discord.oauth.main.module.js';
 import ServerContainer from '#web/containers/server.container.js';
-import MainServer from '#web/servers/main.server.js';
+import PublicServer from '#web/servers/public.server.js';
 import coreContainer from '#core/containers/index.container.js';
 import UsersInternalModule from '#web/modules/internal/users.internal.module.js';
 
@@ -64,11 +64,11 @@ const handlers = new HandlerContainer(
 const openapiDeps = [handlers, ...handlersDeps] as const;
 
 const openapi = new OpenAPIContainer(
-	new AccountOpenAPI(...openapiDeps),
-	new AuthOpenAPI(...openapiDeps),
-	new MeOpenAPI(...openapiDeps),
-	new UsersOpenAPI(...openapiDeps),
-	{ discord: new DiscordOauthOpenAPI(...openapiDeps) }
+	new AccountPublicOpenAPI(...openapiDeps),
+	new AuthPublicOpenAPI(...openapiDeps),
+	new MePublicOpenAPI(...openapiDeps),
+	new UsersPublicOpenAPI(...openapiDeps),
+	{ discord: new DiscordOauthPublicOpenAPI(...openapiDeps) }
 );
 
 const modulesDeps = [openapi, ...openapiDeps] as const;
@@ -91,6 +91,6 @@ const modules = new ModuleContainer(
 
 const serverDeps = [hono, modules, ...modulesDeps] as const;
 
-const serverContainer = new ServerContainer(new MainServer(...serverDeps));
+const serverContainer = new ServerContainer(new PublicServer(...serverDeps));
 
 export default { serverContainer };

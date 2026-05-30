@@ -2,8 +2,8 @@ import BaseServer from '#web/base/server.base.js';
 import { serve } from '@hono/node-server';
 
 export default class InternalServer extends BaseServer {
-	configureWebServer() {}
-	startWebServer(port: number) {
+	configure() {}
+	start(port: number) {
 		return serve(
 			{
 				fetch: this.servers.fetch,

@@ -1,17 +1,17 @@
-import AccountOpenAPI from '#web/openapi/account.openapi.js';
-import AuthOpenAPI from '#web/openapi/auth.openapi.js';
-import MeOpenAPI from '#web/openapi/me.openapi.js';
-import DiscordOauthOpenAPI from '#web/openapi/oauth/discord.oauth.openapi.js';
-import UsersOpenAPI from '#web/openapi/users.openapi.js';
+import AccountPublicOpenAPI from '#web/openapi/public/account.public.openapi.js';
+import AuthPublicOpenAPI from '#web/openapi/public/auth.public.openapi.js';
+import MePublicOpenAPI from '#web/openapi/public/me.public.openapi.js';
+import DiscordOauthPublicOpenAPI from '#web/openapi/public/oauth/discord.oauth.public.openapi.js';
+import UsersPublicOpenAPI from '#web/openapi/public/users.public.openapi.js';
 
 class OpenAPIContainer {
 	constructor(
-		readonly account: AccountOpenAPI,
-		readonly auth: AuthOpenAPI,
-		readonly me: MeOpenAPI,
-		readonly users: UsersOpenAPI,
+		readonly account: AccountPublicOpenAPI,
+		readonly auth: AuthPublicOpenAPI,
+		readonly me: MePublicOpenAPI,
+		readonly users: UsersPublicOpenAPI,
 		readonly oauth: {
-			discord: DiscordOauthOpenAPI;
+			discord: DiscordOauthPublicOpenAPI;
 		}
 	) {}
 }

@@ -5,7 +5,7 @@ import { type UserEnv } from '#web/types/Env.js';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AuthEnv = UserEnv & {};
 
-export default class AuthOpenAPI extends BaseOpenAPI {
+export default class AuthPublicOpenAPI extends BaseOpenAPI {
 	register = createRoute({
 		method: 'post',
 		path: '/register',

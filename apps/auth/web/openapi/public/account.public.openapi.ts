@@ -1,8 +1,8 @@
 import BaseOpenAPI from '#web/base/openapi.base.js';
 import { createRoute, z } from '@hono/zod-openapi';
-import { type AccountMainEnv } from '#web/modules/main/account.main.module.js';
+import { type AccountMainEnv } from '#web/modules/public/account.public.module.js';
 
-export default class AccountOpenAPI extends BaseOpenAPI {
+export default class AccountPublicOpenAPI extends BaseOpenAPI {
 	emailVerificationSend = createRoute({
 		method: 'post',
 		path: '/emailVerification/Send',

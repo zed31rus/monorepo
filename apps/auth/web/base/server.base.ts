@@ -25,8 +25,8 @@ abstract class BaseServer extends WebBase {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	abstract configureWebServer(): any;
-	abstract startWebServer(port: number): ServerType;
+	abstract configure(): any;
+	abstract start(port: number): ServerType;
 }
 
 export type BaseServerArgs = ConstructorParameters<typeof BaseServer>;

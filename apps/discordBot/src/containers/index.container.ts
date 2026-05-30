@@ -11,7 +11,7 @@ import ManagerContainer from './manager.container.js';
 import ActivityManager from '#managers/activity.manager.js';
 import ServerNameManager from '#managers/serverName.manager.js';
 import VoiceManager from '#managers/voice.manager.js';
-import OauthRegisteredNewUser from '#events/internal/rabbitMq/auth/from/oauthRegisteredNewUser.from.auth.rabbitMq.internal.event.js';
+import OauthRegisteredNewUser from '#events/internal/rabbitMq/auth/from/oauthRegisteredNewUser.rabbitmq.event.js';
 import EventEmitter from 'node:events';
 
 const errorsContainer = new ErrorsContainer(

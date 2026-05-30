@@ -3,8 +3,8 @@ import { logger } from 'hono/logger';
 import { swaggerUI } from '@hono/swagger-ui';
 import { serve } from '@hono/node-server';
 
-export default class MainServer extends BaseServer {
-	configureWebServer() {
+export default class PublicServer extends BaseServer {
+	configure() {
 		this.servers.use(this.wrappers.cors.cors());
 
 		this.servers.use(logger());
@@ -32,7 +32,7 @@ export default class MainServer extends BaseServer {
 		this.servers.get('/doc/ui', swaggerUI({ url: '/doc' }));
 	}
 
-	startWebServer(port: number) {
+	start(port: number) {
 		return serve(
 			{
 				fetch: this.servers.fetch,

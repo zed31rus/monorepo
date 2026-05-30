@@ -9,7 +9,7 @@ export default class UsersMainModule extends BaseModule<UsersMainEnv> {
 
 		this.router.openapi(this.openapis.users.getByUuid, async (c) => {
 			const { uuid } = c.req.valid('param');
-			const user = await this.core.services.users.getByUuid(uuid);
+			const user = await this.core.services.users.getByUuid(uuid, false);
 			return c.json({ user });
 		});
 

@@ -1,11 +1,19 @@
 import BaseService from '#core/base/service.base.js';
-import { type PersonalUser, type PublicUser } from '@packages/db';
+import { type InternalUser, type PersonalUser, type PublicUser } from '@packages/db';
 
 export default class UsersService extends BaseService {
-	async getByUuid(uuid: PublicUser['uuid']): Promise<{ user: PublicUser }> {
+	async getByUuid(
+		uuid: PublicUser['uuid'],
+		internal: boolean
+	): Promise<{ user: PublicUser | InternalUser }> {
 		const rawUser = await this.db.users.get.orThrow.byUuid(this.db.client, uuid);
-		const publicUser = this.db.users.toPublicJSON(rawUser);
-		return { user: publicUser };
+		if (internal) {
+			const internalUser = this.db.users.toInternalJSON(rawUser);
+			return { user: internalUser };
+		} else {
+			const publicUser = this.db.users.toPublicJSON(rawUser);
+			return { user: publicUser };
+		}
 	}
 
 	async getByEmail(email: PersonalUser['email']): Promise<{ user: PublicUser }> {

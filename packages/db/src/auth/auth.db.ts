@@ -6,7 +6,11 @@ import oauthAccount from './oauth/oauth.class.js';
 import verificationCode from './verificationCode/verificationCode.class.js';
 import pg from 'pg';
 import BaseDb, { type BaseDbArgs } from '../db.base.js';
-import { type PublicUser as PubUser, type PersonalUser as PerUser } from './user/user.class.js';
+import {
+	type PublicUser as PubUser,
+	type PersonalUser as PerUser,
+	type InternalUser as IntUser,
+} from './user/user.class.js';
 
 class authDB extends BaseDb {
 	client: prisma.PrismaClient;
@@ -29,5 +33,6 @@ export import AuthDBType = prisma.Prisma;
 export type RawUser = prisma.User;
 export type PublicUser = PubUser;
 export type PersonalUser = PerUser;
+export type InternalUser = IntUser;
 
 export default authDB;

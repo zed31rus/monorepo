@@ -1,7 +1,7 @@
-import MainServer from '#web/servers/main.server.js';
+import PublicServer from '#web/servers/public.server.js';
 
 class ServerContainer {
-	constructor(public mainServer: MainServer) {}
+	constructor(public mainServer: PublicServer) {}
 }
 
 export type ServerContainerArgs = ConstructorParameters<typeof ServerContainer>;
