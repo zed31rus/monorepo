@@ -8,13 +8,19 @@
 		"dev": "nuxt dev",
 		"generate": "nuxt generate",
 		"preview": "nuxt preview",
-		"postinstall": "nuxt prepare"
+		"postinstall": "nuxt prepare",
+		"start": "node .output/server/index.mjs"
 	},
 	"dependencies": {
 		"@tailwindcss/vite": "^4.3.0",
+		"@vueuse/core": "^14.3.0",
+		"@vueuse/nuxt": "^14.3.0",
 		"nuxt": "^4.4.6",
 		"tailwindcss": "^4.3.0",
 		"vue": "^3.5.34",
 		"vue-router": "^5.0.7"
+	},
+	"devDependencies": {
+		"@iconify/vue": "^5.0.1"
 	}
 }

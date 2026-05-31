@@ -3,11 +3,11 @@ import { type OptionalUserEnv } from '#root/web/types/Env.js';
 
 type DiscordOauthMainEnv = OptionalUserEnv & {};
 
-export default class DiscordOauthMainModule extends BaseModule<DiscordOauthMainEnv> {
+export default class DiscordOauthExternalModule extends BaseModule<DiscordOauthMainEnv> {
 	init() {
 		this.router.use(this.wrappers.rateLimiter.limit(15 * 60 * 1000, 100));
 
-		this.router.openapi(this.openapis.oauth.discord.callback, async (c) => {
+		this.router.openapi(this.openapis.external.oauth.discord.callback, async (c) => {
 			const { code } = c.req.valid('query');
 			const publicUser = c.get('user');
 

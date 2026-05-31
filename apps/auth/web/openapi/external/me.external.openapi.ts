@@ -4,7 +4,7 @@ import { createRoute, z } from '@hono/zod-openapi';
 
 type ProfileEnv = UserEnv & {};
 
-export default class MePublicOpenAPI extends BaseOpenAPI {
+export default class MeExternalOpenAPI extends BaseOpenAPI {
 	get = createRoute({
 		method: 'get',
 		path: '/get',

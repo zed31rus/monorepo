@@ -19,6 +19,7 @@ export default class EnvConfig extends BaseConfig {
 	readonly DISCORD_OAUTH_REDIRECT_URL: string;
 	readonly SMTP_PORT: string;
 	readonly DISCORD_BOT_TOKEN: string;
+	readonly INTERNAL_TOKEN: string;
 
 	constructor(...baseArgs: BaseConfigArgs) {
 		super(...baseArgs);
@@ -37,6 +38,7 @@ export default class EnvConfig extends BaseConfig {
 		this.DISCORD_OAUTH_REDIRECT_URL = this.getEnv('DISCORD_REDIRECT_URL');
 		this.SMTP_PORT = this.getEnv('SMTP_PORT');
 		this.DISCORD_BOT_TOKEN = this.getEnv('DISCORD_BOT_TOKEN');
+		this.INTERNAL_TOKEN = this.getEnv('INTERNAL_TOKEN');
 	}
 
 	private getEnv(key: string): string {

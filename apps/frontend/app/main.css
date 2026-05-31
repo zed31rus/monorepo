@@ -7,12 +7,14 @@
 }
 
 body {
-	background-image: url(./resources/background.png);
+	background-image: url(/resources/background.png);
 	background-size: cover;
 	background-position: center;
 	background-attachment: fixed;
 	color: #e5e7eb;
 	overflow: hidden;
+	height: 100vh;
+	width: 100vw;
 }
 
 html {

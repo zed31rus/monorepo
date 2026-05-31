@@ -1,6 +1,5 @@
 import amqp from 'amqplib';
 import BaseInfra, { type BaseInfraArgs } from '../infra.base.js';
-import type { RabbitFromAuthQueues } from '@zed31rus/types';
 
 export enum RabbitMqQueues {
 	oauthRegisteredNewUser = 'oauthRegisteredNewUser',
@@ -41,4 +40,8 @@ export default class RabbitMqInfra extends BaseInfra {
 			{ persistent: true }
 		);
 	}
+}
+
+export interface RabbitFromAuthQueues {
+	oauthRegisteredNewUser: [uuid: string];
 }

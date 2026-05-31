@@ -1,6 +1,6 @@
 import BaseInfra from '../infra.base.js';
 
-export default class OauthDiscordInfra extends BaseInfra {
+export default class SpotifyInfra extends BaseInfra {
 	API_ENDPOINT = 'https://discord.com/api/v10';
 	CLIENT_ID = this.config.env.DISCORD_OAUTH_CLIENT_ID;
 	CLIENT_SECRET = this.config.env.DISCORD_OAUTH_CLIENT_SECRET;

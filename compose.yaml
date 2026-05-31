@@ -1,0 +1,13 @@
+services:
+  frontend:
+    container_name: nuxt-frontend
+    environment:
+      PORT: 3001
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+
+    ports:
+      - "3001:3001"
+
+    restart: unless-stopped

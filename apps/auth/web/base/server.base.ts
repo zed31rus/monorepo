@@ -11,7 +11,7 @@ import type ModuleContainer from '#web/containers/module.container.js';
 
 abstract class BaseServer extends WebBase {
 	constructor(
-		protected readonly servers: OpenAPIHono,
+		protected readonly server: OpenAPIHono,
 		protected readonly modules: ModuleContainer,
 		protected readonly openapis: OpenAPIContainer,
 		protected readonly handlers: HandlerContainer,

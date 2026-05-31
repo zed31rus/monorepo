@@ -1,11 +1,12 @@
 import BaseService from '#core/base/service.base.js';
 import type { AuthDBType, PublicUser } from '@packages/db';
-import { OauthProviders, type OauthDiscord } from '@zed31rus/types';
+import type { DiscordUsersMeReply } from '@packages/infra';
+import { OauthProviders } from '@zed31rus/types';
 
 export default class DiscordOauthService extends BaseService {
 	async callback(code: string, publicUser: PublicUser | null) {
-		const exchangeReply = await this.infra.oauth.discord.exchangeCode(code);
-		const meRes = await this.infra.oauth.discord.me(exchangeReply.access_token);
+		const exchangeReply = await this.infra.discord.oauth.exchangeCode(code);
+		const meRes = await this.infra.discord.users.me(exchangeReply.access_token);
 
 		const newRawUser = await this.resolveUser(publicUser, meRes);
 
@@ -32,7 +33,7 @@ export default class DiscordOauthService extends BaseService {
 		return { user: newPersonalUser, ...session };
 	}
 
-	private async resolveUser(publicUser: PublicUser | null, meRes: OauthDiscord.ApiMeReply) {
+	private async resolveUser(publicUser: PublicUser | null, meRes: DiscordUsersMeReply) {
 		if (publicUser) {
 			return await this.db.users.get.orThrow.byPublicUser(this.db.client, publicUser);
 		}

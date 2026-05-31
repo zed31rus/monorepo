@@ -38,4 +38,16 @@ export default class AuthMiddleware extends BaseMiddleware {
 			await next();
 		});
 	}
+
+	public withInternal() {
+		return this.createFactory().createMiddleware(async (c, next) => {
+			const internalToken = c.req.header('X-Internal-Token');
+
+			if (!internalToken || internalToken !== this.config.env.INTERNAL_TOKEN) {
+				throw this.errors.api.Unauthorized('Invalid internal token');
+			}
+
+			await next();
+		});
+	}
 }

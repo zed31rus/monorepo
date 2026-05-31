@@ -4,5 +4,7 @@ import Servers from '#web/containers/index.web.container.js';
 
 export const workDir = path.dirname(fileURLToPath(import.meta.url));
 
-Servers.serverContainer.mainServer.configure();
-Servers.serverContainer.mainServer.start(3100);
+Servers.serverContainer.externalServer.configure();
+Servers.serverContainer.externalServer.start(3100);
+Servers.serverContainer.internalServer.configure();
+Servers.serverContainer.internalServer.start(3101);

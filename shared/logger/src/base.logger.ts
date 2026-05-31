@@ -1,2 +1,1 @@
-export default abstract class BaseLogger {
-}
+export default abstract class BaseLogger {}

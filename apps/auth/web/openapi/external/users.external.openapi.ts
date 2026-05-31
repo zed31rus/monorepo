@@ -4,7 +4,7 @@ import BaseOpenAPI from '../../base/openapi.base.js';
 
 type UsersEnv = UserEnv & {};
 
-export default class UsersPublicOpenAPI extends BaseOpenAPI {
+export default class UsersExternalOpenAPI extends BaseOpenAPI {
 	getByUuid = createRoute({
 		method: 'get',
 		path: '/get/{uuid}',

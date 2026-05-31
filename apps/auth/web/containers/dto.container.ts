@@ -1,10 +1,10 @@
 import CookieDto from '#web/dto/cookie.dto.js';
-import fileDto from '#web/dto/file.dto.js';
+import FileDto from '#web/dto/file.dto.js';
 
 class DtoContainer {
 	constructor(
 		readonly cookie: CookieDto,
-		readonly file: fileDto
+		readonly file: FileDto
 	) {}
 }
 

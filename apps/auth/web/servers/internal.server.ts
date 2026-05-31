@@ -6,7 +6,7 @@ export default class InternalServer extends BaseServer {
 	start(port: number) {
 		return serve(
 			{
-				fetch: this.servers.fetch,
+				fetch: this.server.fetch,
 				port: port,
 			},
 			(info) => {

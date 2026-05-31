@@ -4,7 +4,7 @@ import { createRoute, z } from '@hono/zod-openapi';
 
 type DiscordOauthEnv = OptionalUserEnv & {};
 
-export default class DiscordOauthPublicOpenAPI extends BaseOpenAPI {
+export default class DiscordOauthExternalOpenAPI extends BaseOpenAPI {
 	callback = createRoute({
 		method: 'get',
 		path: '/callback',

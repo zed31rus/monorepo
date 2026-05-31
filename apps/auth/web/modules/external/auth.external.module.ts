@@ -3,11 +3,11 @@ import BaseModule from '#web/base/module.base.js';
 
 type AuthMainEnv = UserEnv & {};
 
-export default class AuthMainModule extends BaseModule<AuthMainEnv> {
+export default class AuthExternalModule extends BaseModule<AuthMainEnv> {
 	init() {
 		this.router.use(this.wrappers.rateLimiter.limit(15 * 60 * 1000, 20));
 
-		this.router.openapi(this.openapis.auth.register, async (c) => {
+		this.router.openapi(this.openapis.external.auth.register, async (c) => {
 			const { login, email, password, nickname } = c.req.valid('json');
 			const { user } = await this.core.services.auth.register(
 				login,
@@ -18,7 +18,7 @@ export default class AuthMainModule extends BaseModule<AuthMainEnv> {
 			return c.json({ user });
 		});
 
-		this.router.openapi(this.openapis.auth.login, async (c) => {
+		this.router.openapi(this.openapis.external.auth.login, async (c) => {
 			const { email, password } = c.req.valid('json');
 			const { user, refresh, access } = await this.core.services.auth.login(email, password);
 			this.webManagers.session.sendSession(c, refresh);
@@ -29,7 +29,7 @@ export default class AuthMainModule extends BaseModule<AuthMainEnv> {
 			});
 		});
 
-		this.router.openapi(this.openapis.auth.refresh, async (c) => {
+		this.router.openapi(this.openapis.external.auth.refresh, async (c) => {
 			const { refreshToken } = c.req.valid('cookie');
 			const { user, refresh, access } = await this.core.services.auth.refresh(refreshToken);
 			this.webManagers.session.sendSession(c, refresh);
@@ -40,7 +40,7 @@ export default class AuthMainModule extends BaseModule<AuthMainEnv> {
 			});
 		});
 
-		this.router.openapi(this.openapis.auth.logout, async (c) => {
+		this.router.openapi(this.openapis.external.auth.logout, async (c) => {
 			this.webManagers.session.deleteSession(c);
 			const { refreshToken } = c.req.valid('cookie');
 			if (refreshToken) await this.core.services.auth.logOut(refreshToken);

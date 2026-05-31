@@ -10,6 +10,9 @@ export default defineNuxtConfig({
 	},
 	vite: {
 		plugins: [tailwindcss()],
+		optimizeDeps: {
+			include: ['@iconify/vue'],
+		},
 	},
 
 	app: {
@@ -22,4 +25,6 @@ export default defineNuxtConfig({
 			],
 		},
 	},
+
+	modules: ['@vueuse/nuxt'],
 });

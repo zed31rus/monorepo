@@ -1,0 +1,19 @@
+{
+	"name": "@apps/spotify",
+	"version": "1.0.0",
+	"description": "spotify microservice zed31rus",
+	"type": "module",
+	"imports": {
+		"#src/*": "./*"
+	},
+	"dependencies": {
+		"@packages/db": "workspace:*",
+		"@packages/infra": "workspace:*",
+		"@packages/libs": "workspace:*",
+		"@shared/config": "workspace:*",
+		"@shared/errors": "workspace:*",
+		"@shared/logger": "workspace:*",
+		"@zed31rus/base": "workspace:*",
+		"@zed31rus/types": "workspace:*"
+	}
+}
