@@ -1,23 +1,396 @@
 
-frontend
-├─ app
-│  ├─ app.vue
-│  ├─ main.css
-│  └─ pages
-├─ components
-│  └─ views
-│     └─ main
-│        ├─ index.vue
-│        └─ variants
-│           ├─ desktop.vue
-│           └─ mobile.vue
-├─ Dockerfile
-├─ nuxt.config.ts
+```structure
+monorepo
+├─ .dockerignore
+├─ .prettierrc
+├─ apps
+│  ├─ auth
+│  │  ├─ core
+│  │  │  ├─ base
+│  │  │  │  ├─ core.base.ts
+│  │  │  │  ├─ manager.base.ts
+│  │  │  │  └─ service.base.ts
+│  │  │  ├─ containers
+│  │  │  │  ├─ index.container.ts
+│  │  │  │  ├─ manager.container.ts
+│  │  │  │  └─ services.container.ts
+│  │  │  ├─ managers
+│  │  │  │  ├─ otp.manager.ts
+│  │  │  │  └─ session.manager.ts
+│  │  │  └─ services
+│  │  │     ├─ account.service.ts
+│  │  │     ├─ auth.service.ts
+│  │  │     ├─ me.service.ts
+│  │  │     ├─ oauth
+│  │  │     │  └─ discord.oauth.service.ts
+│  │  │     └─ users.service.ts
+│  │  ├─ package.json
+│  │  ├─ start.ts
+│  │  ├─ tsconfig.json
+│  │  └─ web
+│  │     ├─ base
+│  │     │  ├─ handler.base.ts
+│  │     │  ├─ manager.web.base.ts
+│  │     │  ├─ middleware.base.ts
+│  │     │  ├─ module.base.ts
+│  │     │  ├─ openapi.base.ts
+│  │     │  ├─ server.base.ts
+│  │     │  ├─ web.base.ts
+│  │     │  └─ wrapper.base.ts
+│  │     ├─ containers
+│  │     │  ├─ dto.container.ts
+│  │     │  ├─ handler.container.ts
+│  │     │  ├─ index.web.container.ts
+│  │     │  ├─ managers.container.ts
+│  │     │  ├─ middleware.container.ts
+│  │     │  ├─ module.container.ts
+│  │     │  ├─ openapi.container.ts
+│  │     │  ├─ server.container.ts
+│  │     │  └─ wrapper.container.ts
+│  │     ├─ dto
+│  │     │  ├─ cookie.dto.ts
+│  │     │  └─ file.dto.ts
+│  │     ├─ handlers
+│  │     │  ├─ auth.handler.ts
+│  │     │  ├─ error.handler.ts
+│  │     │  └─ file.handler.ts
+│  │     ├─ managers
+│  │     │  └─ session.manager.ts
+│  │     ├─ middleware
+│  │     │  ├─ auth.middleware.ts
+│  │     │  └─ file.middleware.ts
+│  │     ├─ modules
+│  │     │  ├─ external
+│  │     │  │  ├─ account.external.module.ts
+│  │     │  │  ├─ auth.external.module.ts
+│  │     │  │  ├─ me.external.module.ts
+│  │     │  │  ├─ oauth
+│  │     │  │  │  └─ discord.oauth.external.module.ts
+│  │     │  │  └─ users.external.module.ts
+│  │     │  └─ internal
+│  │     │     └─ users.internal.module.ts
+│  │     ├─ openapi
+│  │     │  ├─ external
+│  │     │  │  ├─ account.external.openapi.ts
+│  │     │  │  ├─ auth.external.openapi.ts
+│  │     │  │  ├─ me.external.openapi.ts
+│  │     │  │  ├─ oauth
+│  │     │  │  │  └─ discord.oauth.external.openapi.ts
+│  │     │  │  └─ users.external.openapi.ts
+│  │     │  └─ internal
+│  │     │     └─ users.internal.openapi.ts
+│  │     ├─ servers
+│  │     │  ├─ external.server.ts
+│  │     │  └─ internal.server.ts
+│  │     ├─ types
+│  │     │  └─ Env.d.ts
+│  │     └─ wrappers
+│  │        ├─ cors.wrapper.ts
+│  │        ├─ rateLimiter.wrapper.ts
+│  │        └─ validator.wrapper.ts
+│  ├─ discordBot
+│  │  ├─ package.json
+│  │  ├─ src
+│  │  │  ├─ base
+│  │  │  │  ├─ base.ts
+│  │  │  │  ├─ event
+│  │  │  │  │  ├─ discord.event.base.ts
+│  │  │  │  │  └─ internal
+│  │  │  │  │     └─ rabbitMq.internal.event.base.ts
+│  │  │  │  └─ manager.base.ts
+│  │  │  ├─ containers
+│  │  │  │  ├─ event
+│  │  │  │  │  └─ discord.event.container.ts
+│  │  │  │  ├─ index.container.ts
+│  │  │  │  └─ manager.container.ts
+│  │  │  ├─ events
+│  │  │  │  ├─ discord
+│  │  │  │  │  └─ guild
+│  │  │  │  │     └─ voice
+│  │  │  │  │        └─ hub
+│  │  │  │  │           ├─ onConnect.hub.voice.guild.discord.event.ts
+│  │  │  │  │           └─ onDisconnect.hub.voice.guild.discord.event.ts
+│  │  │  │  └─ internal
+│  │  │  │     └─ rabbitMq
+│  │  │  │        └─ auth
+│  │  │  │           └─ from
+│  │  │  │              └─ oauthRegisteredNewUser.rabbitmq.event.ts
+│  │  │  └─ managers
+│  │  │     ├─ activity.manager.ts
+│  │  │     ├─ serverName.manager.ts
+│  │  │     └─ voice.manager.ts
+│  │  └─ tsconfig.json
+│  ├─ frontend
+│  │  ├─ .nuxt
+│  │  │  ├─ app.config.mjs
+│  │  │  ├─ components.d.ts
+│  │  │  ├─ dev
+│  │  │  │  ├─ index.mjs
+│  │  │  │  └─ index.mjs.map
+│  │  │  ├─ imports.d.ts
+│  │  │  ├─ manifest
+│  │  │  │  ├─ latest.json
+│  │  │  │  └─ meta
+│  │  │  │     └─ dev.json
+│  │  │  ├─ nitro.json
+│  │  │  ├─ nuxt.d.ts
+│  │  │  ├─ nuxt.json
+│  │  │  ├─ nuxt.node.d.ts
+│  │  │  ├─ nuxt.shared.d.ts
+│  │  │  ├─ schema
+│  │  │  │  ├─ nuxt.schema.d.ts
+│  │  │  │  └─ nuxt.schema.json
+│  │  │  ├─ tsconfig.app.json
+│  │  │  ├─ tsconfig.json
+│  │  │  ├─ tsconfig.node.json
+│  │  │  ├─ tsconfig.server.json
+│  │  │  ├─ tsconfig.shared.json
+│  │  │  └─ types
+│  │  │     ├─ app.config.d.ts
+│  │  │     ├─ build.d.ts
+│  │  │     ├─ builder-env.d.ts
+│  │  │     ├─ components.d.ts
+│  │  │     ├─ imports.d.ts
+│  │  │     ├─ middleware.d.ts
+│  │  │     ├─ modules.d.ts
+│  │  │     ├─ nitro-config.d.ts
+│  │  │     ├─ nitro-imports.d.ts
+│  │  │     ├─ nitro-layouts.d.ts
+│  │  │     ├─ nitro-nuxt.d.ts
+│  │  │     ├─ nitro-routes.d.ts
+│  │  │     ├─ nitro.d.ts
+│  │  │     ├─ plugins.d.ts
+│  │  │     ├─ runtime-config.d.ts
+│  │  │     ├─ shared-imports.d.ts
+│  │  │     └─ vue-shim.d.ts
+│  │  ├─ .output
+│  │  │  ├─ nitro.json
+│  │  │  ├─ public
+│  │  │  │  ├─ favicon.ico
+│  │  │  │  ├─ resources
+│  │  │  │  │  └─ background.png
+│  │  │  │  ├─ robots.txt
+│  │  │  │  └─ _nuxt
+│  │  │  │     ├─ B5FEYX0x.js
+│  │  │  │     ├─ builds
+│  │  │  │     │  ├─ latest.json
+│  │  │  │     │  └─ meta
+│  │  │  │     │     └─ 17b0b57f-a8f0-464c-8412-1a081caaa970.json
+│  │  │  │     ├─ CcgKF0M5.js
+│  │  │  │     ├─ CmQOVrXy.js
+│  │  │  │     ├─ entry.Cl3gdpq_.css
+│  │  │  │     ├─ error-404.DWttAGPq.css
+│  │  │  │     ├─ error-500.BMejV2GQ.css
+│  │  │  │     └─ qq28Rrw4.js
+│  │  │  └─ server
+│  │  │     ├─ chunks
+│  │  │     │  ├─ build
+│  │  │     │  │  ├─ client.precomputed.mjs
+│  │  │     │  │  ├─ client.precomputed.mjs.map
+│  │  │     │  │  ├─ error-404-CJ6EC4n7.mjs
+│  │  │     │  │  ├─ error-404-CJ6EC4n7.mjs.map
+│  │  │     │  │  ├─ error-404-styles.DjQ6P6aY.mjs
+│  │  │     │  │  ├─ error-404-styles.DjQ6P6aY.mjs.map
+│  │  │     │  │  ├─ error-500-Dv0goSRH.mjs
+│  │  │     │  │  ├─ error-500-Dv0goSRH.mjs.map
+│  │  │     │  │  ├─ error-500-styles.CxUYnWnq.mjs
+│  │  │     │  │  ├─ error-500-styles.CxUYnWnq.mjs.map
+│  │  │     │  │  ├─ server.mjs
+│  │  │     │  │  ├─ server.mjs.map
+│  │  │     │  │  ├─ styles.mjs
+│  │  │     │  │  ├─ styles.mjs.map
+│  │  │     │  │  ├─ _plugin-vue_export-helper-Dognc79Q.mjs
+│  │  │     │  │  └─ _plugin-vue_export-helper-Dognc79Q.mjs.map
+│  │  │     │  ├─ routes
+│  │  │     │  │  ├─ renderer.mjs
+│  │  │     │  │  └─ renderer.mjs.map
+│  │  │     │  ├─ virtual
+│  │  │     │  │  ├─ _virtual_spa-template.mjs
+│  │  │     │  │  └─ _virtual_spa-template.mjs.map
+│  │  │     │  └─ _
+│  │  │     │     ├─ error-500.mjs
+│  │  │     │     ├─ error-500.mjs.map
+│  │  │     │     ├─ nitro.mjs
+│  │  │     │     └─ nitro.mjs.map
+│  │  │     ├─ index.mjs
+│  │  │     ├─ index.mjs.map
+│  │  │     └─ package.json
+│  │  ├─ app
+│  │  │  ├─ app.vue
+│  │  │  ├─ components
+│  │  │  │  └─ views
+│  │  │  │     └─ main
+│  │  │  │        ├─ index.vue
+│  │  │  │        └─ variants
+│  │  │  │           ├─ desktop.vue
+│  │  │  │           └─ mobile.vue
+│  │  │  ├─ composables
+│  │  │  │  └─ useIsMobile.ts
+│  │  │  ├─ main.css
+│  │  │  └─ pages
+│  │  ├─ Dockerfile
+│  │  ├─ nuxt.config.ts
+│  │  ├─ package.json
+│  │  ├─ public
+│  │  │  ├─ favicon.ico
+│  │  │  ├─ resources
+│  │  │  │  └─ background.png
+│  │  │  └─ robots.txt
+│  │  ├─ README.md
+│  │  └─ tsconfig.json
+│  └─ spotify
+│     ├─ package.json
+│     ├─ src
+│     └─ tsconfig.json
+├─ base
+│  ├─ index.ts
+│  ├─ package.json
+│  ├─ src
+│  │  └─ base
+│  │     └─ base.ts
+│  └─ tsconfig.json
+├─ compose.yaml
+├─ eslint.config.ts
+├─ LICENSE
 ├─ package.json
-├─ public
-│  ├─ favicon.ico
-│  ├─ resources
-│  │  └─ background.png
-│  └─ robots.txt
+├─ packages
+│  ├─ db
+│  │  ├─ index.ts
+│  │  ├─ package.json
+│  │  ├─ src
+│  │  │  ├─ auth
+│  │  │  │  ├─ auth.db.ts
+│  │  │  │  ├─ auth.prisma.config.ts
+│  │  │  │  ├─ auth.schema.prisma
+│  │  │  │  ├─ oauth
+│  │  │  │  │  ├─ classes
+│  │  │  │  │  │  ├─ createOauthAccount.ts
+│  │  │  │  │  │  ├─ getOauthAccount.ts
+│  │  │  │  │  │  ├─ updateOauthAccount.ts
+│  │  │  │  │  │  └─ upsertOauthAccount.ts
+│  │  │  │  │  └─ oauth.class.ts
+│  │  │  │  ├─ refreshToken
+│  │  │  │  │  ├─ classes
+│  │  │  │  │  │  ├─ createRefreshToken.ts
+│  │  │  │  │  │  ├─ deleteRefreshToken.ts
+│  │  │  │  │  │  └─ getRefreshToken.ts
+│  │  │  │  │  └─ refreshToken.class.ts
+│  │  │  │  ├─ user
+│  │  │  │  │  ├─ classes
+│  │  │  │  │  │  ├─ createUser.ts
+│  │  │  │  │  │  ├─ getUser.ts
+│  │  │  │  │  │  └─ updateUser.ts
+│  │  │  │  │  └─ user.class.ts
+│  │  │  │  └─ verificationCode
+│  │  │  │     ├─ classes
+│  │  │  │     │  ├─ deleteVerificationCode.ts
+│  │  │  │     │  ├─ getVerificationCode.ts
+│  │  │  │     │  └─ upsertVerificationCode.ts
+│  │  │  │     └─ verificationCode.class.ts
+│  │  │  ├─ db.base.ts
+│  │  │  ├─ db.container.ts
+│  │  │  └─ discordBot
+│  │  │     ├─ activityStatus
+│  │  │     │  ├─ activityStatus.discordbot.db.ts
+│  │  │     │  └─ cases
+│  │  │     │     ├─ create.activityStatus.db.case.ts
+│  │  │     │     ├─ delete.activityStatus.db.case.ts
+│  │  │     │     └─ get.activityStatus.db.case.ts
+│  │  │     ├─ discordbot.db.ts
+│  │  │     ├─ discordbot.prisma.config.ts
+│  │  │     ├─ discordbot.schema.prisma
+│  │  │     ├─ guilds
+│  │  │     │  ├─ cases
+│  │  │     │  │  ├─ create.guild.discordbot.db.case.ts
+│  │  │     │  │  ├─ delete.guild.discordbot.db.case.ts
+│  │  │     │  │  └─ get.guild.discordbot.db.case.ts
+│  │  │     │  ├─ features
+│  │  │     │  │  ├─ cases
+│  │  │     │  │  │  ├─ add.feature.guild.db.case.ts
+│  │  │     │  │  │  └─ delete.feature.guild.db.case.ts
+│  │  │     │  │  └─ features.guild.discordbot.db.ts
+│  │  │     │  └─ guilds.discordbot.db.ts
+│  │  │     └─ serverName
+│  │  │        ├─ cases
+│  │  │        │  ├─ create.serverName.db.case.ts
+│  │  │        │  ├─ delete.serverName.db.case.ts
+│  │  │        │  └─ get.serverName.db.case.ts
+│  │  │        └─ serverName.db.ts
+│  │  ├─ tsconfig.json
+│  │  └─ types
+│  │     └─ declarations.ts
+│  ├─ infra
+│  │  ├─ index.ts
+│  │  ├─ package.json
+│  │  ├─ src
+│  │  │  ├─ discord
+│  │  │  │  ├─ oauth.discord.infra.ts
+│  │  │  │  └─ users.discord.infra.ts
+│  │  │  ├─ infra.base.ts
+│  │  │  ├─ infra.container.ts
+│  │  │  ├─ rabbitmq
+│  │  │  │  └─ rabbitmq.infra.ts
+│  │  │  └─ spotify
+│  │  │     └─ spotify.infra.ts
+│  │  └─ tsconfig.json
+│  └─ libs
+│     ├─ index.ts
+│     ├─ package.json
+│     ├─ src
+│     │  ├─ lib.base.ts
+│     │  ├─ lib.container.ts
+│     │  └─ libs
+│     │     ├─ hash
+│     │     │  └─ hash.lib.ts
+│     │     ├─ jwt
+│     │     │  └─ jwt.lib.ts
+│     │     ├─ mail
+│     │     │  └─ mail.lib.ts
+│     │     ├─ refreshToken
+│     │     │  └─ refreshToken.lib.ts
+│     │     └─ verificationCode
+│     │        └─ verificationCode.lib.ts
+│     └─ tsconfig.json
+├─ pnpm-lock.yaml
+├─ pnpm-workspace.yaml
 ├─ README.md
-└─ tsconfig.json
+├─ shared
+│  ├─ config
+│  │  ├─ index.ts
+│  │  ├─ package.json
+│  │  ├─ src
+│  │  │  ├─ config.base.ts
+│  │  │  ├─ config.container.ts
+│  │  │  └─ configs
+│  │  │     └─ env.config.ts
+│  │  └─ tsconfig.json
+│  ├─ errors
+│  │  ├─ index.ts
+│  │  ├─ package.json
+│  │  ├─ src
+│  │  │  ├─ errors
+│  │  │  │  ├─ api.errors.ts
+│  │  │  │  ├─ config.errors.ts
+│  │  │  │  └─ prisma.errors.ts
+│  │  │  ├─ errors.base.ts
+│  │  │  └─ errors.container.ts
+│  │  └─ tsconfig.json
+│  └─ logger
+│     ├─ index.ts
+│     ├─ package.json
+│     ├─ src
+│     │  ├─ base.logger.ts
+│     │  └─ logger.ts
+│     └─ tsconfig.json
+├─ tsconfig.base.json
+├─ tsconfig.json
+└─ types
+   ├─ index.ts
+   ├─ package.json
+   ├─ src
+   │  ├─ account.ts
+   │  ├─ features.discordBot.ts
+   │  └─ oauth.ts
+   └─ tsconfig.json
+
+```
