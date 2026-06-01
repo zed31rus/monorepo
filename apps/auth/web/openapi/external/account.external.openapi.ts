@@ -2,13 +2,13 @@ import BaseOpenAPI from '#web/base/openapi.base.js';
 import { createRoute, z } from '@hono/zod-openapi';
 import type { UserEnv } from '#web/types/Env.js';
 
-export type AccountMainEnv = UserEnv & {};
+export type AccountExternalEnv = UserEnv & {};
 
 export default class AccountExternalOpenAPI extends BaseOpenAPI {
 	emailVerificationSend = createRoute({
 		method: 'post',
 		path: '/emailVerification/Send',
-		middleware: [...this.handlers.auth.withValidUser<AccountMainEnv>()],
+		middleware: [...this.handlers.auth.withValidUser<AccountExternalEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Send verification email',
 		description: "Sends a verification code to the authenticated user's email address.",
@@ -33,7 +33,7 @@ export default class AccountExternalOpenAPI extends BaseOpenAPI {
 	emailVerificationConfirm = createRoute({
 		method: 'patch',
 		path: '/emailVerification/Confirm',
-		middleware: [...this.handlers.auth.withValidUser<AccountMainEnv>()],
+		middleware: [...this.handlers.auth.withValidUser<AccountExternalEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Confirm Email',
 		description: 'Verifies the user account using the code received via email.',
@@ -69,7 +69,7 @@ export default class AccountExternalOpenAPI extends BaseOpenAPI {
 	changePasswordRequest = createRoute({
 		method: 'post',
 		path: '/changePassword/request',
-		middleware: [...this.handlers.auth.withValidUser<AccountMainEnv>()],
+		middleware: [...this.handlers.auth.withValidUser<AccountExternalEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Request password change',
 		description: "Sends a password reset/change code to the user's email.",
@@ -94,7 +94,7 @@ export default class AccountExternalOpenAPI extends BaseOpenAPI {
 	changePasswordConfirm = createRoute({
 		method: 'patch',
 		path: '/changePassword/confirm',
-		middleware: [...this.handlers.auth.withValidUser<AccountMainEnv>()],
+		middleware: [...this.handlers.auth.withValidUser<AccountExternalEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Confirm password change',
 		description: 'Updates the user password using the verification code.',

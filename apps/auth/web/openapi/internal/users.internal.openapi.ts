@@ -3,7 +3,7 @@ import { createRoute, z } from '@hono/zod-openapi';
 import BaseOpenAPI from '../../base/openapi.base.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-type UsersEnv = UserEnv & {};
+type UsersInternalEnv = UserEnv & {};
 
 export default class UsersInternalOpenAPI extends BaseOpenAPI {
 	getByUuid = createRoute({

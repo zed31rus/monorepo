@@ -7,9 +7,9 @@ export default class PublicServer extends BaseServer {
 		this.server.use(this.wrappers.cors.external());
 
 		this.server.openAPIRegistry.registerComponent('securitySchemes', 'authBearer', {
-			type: 'apiKey',
-			in: 'Bearer',
-			name: 'accessToken',
+			type: 'http',
+			scheme: 'bearer',
+			bearerFormat: 'JWT',
 		});
 
 		this.server.onError(this.handlers.error.errorHander.bind(this.handlers.error));

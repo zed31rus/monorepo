@@ -2,7 +2,7 @@ import { type UserEnv } from '#web/types/Env.js';
 import { createRoute, z } from '@hono/zod-openapi';
 import BaseOpenAPI from '../../base/openapi.base.js';
 
-type UsersEnv = UserEnv & {};
+type UsersExternalEnv = UserEnv & {};
 
 export default class UsersExternalOpenAPI extends BaseOpenAPI {
 	getByUuid = createRoute({
@@ -35,7 +35,7 @@ export default class UsersExternalOpenAPI extends BaseOpenAPI {
 	getByEmail = createRoute({
 		method: 'get',
 		path: '/get/{email}',
-		middleware: [...this.handlers.auth.withValidUser<UsersEnv>()],
+		middleware: [...this.handlers.auth.withValidUser<UsersExternalEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Get user by email',
 		description: 'Returns user data by email address. Requires authentication.',
@@ -64,7 +64,7 @@ export default class UsersExternalOpenAPI extends BaseOpenAPI {
 	getByLogin = createRoute({
 		method: 'get',
 		path: '/get/{login}',
-		middleware: [...this.handlers.auth.withValidUser<UsersEnv>()],
+		middleware: [...this.handlers.auth.withValidUser<UsersExternalEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Get user by login',
 		description: 'Returns user data by login. Requires authentication.',

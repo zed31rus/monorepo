@@ -1,7 +1,7 @@
 import BaseModule from '#web/base/module.base.js';
-import type { AccountMainEnv } from '#web/openapi/external/account.external.openapi.js';
+import type { AccountExternalEnv } from '#web/openapi/external/account.external.openapi.js';
 
-export default class AccountExternalModule extends BaseModule<AccountMainEnv> {
+export default class AccountExternalModule extends BaseModule<AccountExternalEnv> {
 	init() {
 		this.router.use(this.wrappers.rateLimiter.limit(15 * 60 * 1000, 10));
 

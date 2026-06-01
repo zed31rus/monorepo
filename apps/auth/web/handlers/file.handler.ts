@@ -1,5 +1,5 @@
 import BaseHandler from '#web/base/handler.base.js';
-import { type AvatarEnv } from '#web/types/Env.d.js';
+import { type AvatarEnv } from '#web/types/Env.js';
 import { type PublicUser } from '@packages/db';
 
 export default class FileHandler extends BaseHandler {

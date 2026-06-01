@@ -8,7 +8,7 @@ export default class InternalServer extends BaseServer {
 
 		this.server.openAPIRegistry.registerComponent('securitySchemes', 'internalToken', {
 			type: 'apiKey',
-			in: 'X-Internal-Token',
+			in: 'header',
 			name: 'X-Internal-Token',
 		});
 
