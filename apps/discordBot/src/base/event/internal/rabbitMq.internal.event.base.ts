@@ -1,6 +1,6 @@
 import BotBase, { type BotBaseArgs } from '../../base.js';
 import ManagerContainer from '#containers/manager.container.js';
-import type { RabbitFromAuthQueues } from '@zed31rus/types/rabbitmq.js';
+import type { RabbitFromAuthQueues } from '@packages/infra';
 
 export abstract class BaseRabbitMqEvent<
 	EventType extends keyof RabbitFromAuthQueues = keyof RabbitFromAuthQueues,

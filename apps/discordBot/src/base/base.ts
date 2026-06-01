@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import DBContainer from '@packages/db';
 import { type Client, type ClientEvents } from 'discord.js';
 import type InfraContainer from '@packages/infra';
-import type { RabbitFromAuthQueues } from '@zed31rus/types';
+import type { RabbitFromAuthQueues } from '@packages/infra';
 
 abstract class BotBase extends Base {
 	events: {

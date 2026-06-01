@@ -30,7 +30,10 @@ const packagesDeps = [configContainers, logger, ...configDeps] as const;
 
 const infraContainer = new InfraContainer(
 	InfraContainer.deps.RabbitMqInfra.getInstance(...packagesDeps),
-	{ discord: new InfraContainer.deps.oauth.discord(...packagesDeps) }
+	{
+		oauth: new InfraContainer.deps.discord.oauth(...packagesDeps),
+		users: new InfraContainer.deps.discord.users(...packagesDeps),
+	}
 );
 
 const db = new DbContainer(

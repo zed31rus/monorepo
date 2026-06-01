@@ -11,6 +11,7 @@ export default class UsersInternalOpenAPI extends BaseOpenAPI {
 		path: '/get/{uuid}',
 		summary: 'Get user by UUID',
 		description: 'Returns internal user data by UUID.',
+		middleware: [...this.handlers.auth.withInternal()],
 
 		request: {
 			params: z.object({

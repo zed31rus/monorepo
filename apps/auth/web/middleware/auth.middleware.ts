@@ -4,8 +4,8 @@ import { type OptionalUserEnv, type UserEnv } from '#web/types/Env.js';
 export default class AuthMiddleware extends BaseMiddleware {
 	public withUser<T extends UserEnv>() {
 		return this.createFactory<T>().createMiddleware(async (c, next) => {
-			const Authorization = c.req.header('Authorization');
-			const accessToken = Authorization?.replace('Bearer ', '');
+			const authorization = c.req.header('Authorization');
+			const accessToken = authorization?.replace('Bearer ', '');
 
 			if (!accessToken) throw this.errors.api.Unauthorized();
 
@@ -22,8 +22,8 @@ export default class AuthMiddleware extends BaseMiddleware {
 
 	public withOptionalUser<T extends OptionalUserEnv>() {
 		return this.createFactory<T>().createMiddleware(async (c, next) => {
-			const Authorization = c.req.header('Authorization');
-			const accessToken = Authorization?.replace('Bearer ', '');
+			const authorization = c.req.header('Authorization');
+			const accessToken = authorization?.replace('Bearer ', '');
 
 			let publicUser = null;
 			if (accessToken) {
