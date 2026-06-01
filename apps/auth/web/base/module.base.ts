@@ -14,10 +14,10 @@ abstract class BaseModule<T extends OptionalUserEnv> extends WebBase {
 	public router = new OpenAPIHono<T>();
 
 	constructor(
-		protected readonly openapis: OpenAPIContainer,
+		protected readonly openapi: OpenAPIContainer,
 		protected readonly handlers: HandlerContainer,
 		protected readonly middlewares: MiddlewareContainer,
-		protected readonly dtos: DtoContainer,
+		protected readonly dto: DtoContainer,
 		protected readonly wrappers: WrapperContainer,
 		protected readonly webManagers: WebManagerContainer,
 		...webBaseArgs: WebBaseArgs

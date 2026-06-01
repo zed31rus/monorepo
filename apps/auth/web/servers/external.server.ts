@@ -1,13 +1,10 @@
 import BaseServer from '#web/base/server.base.js';
-import { logger } from 'hono/logger';
 import { swaggerUI } from '@hono/swagger-ui';
 import { serve } from '@hono/node-server';
 
 export default class PublicServer extends BaseServer {
 	configure() {
-		this.server.use(this.wrappers.cors.cors());
-
-		this.server.use(logger());
+		this.server.use(this.wrappers.cors.external());
 
 		this.server.openAPIRegistry.registerComponent('securitySchemes', 'authBearer', {
 			type: 'apiKey',

@@ -7,7 +7,7 @@ export default class DiscordOauthExternalModule extends BaseModule<DiscordOauthM
 	init() {
 		this.router.use(this.wrappers.rateLimiter.limit(15 * 60 * 1000, 100));
 
-		this.router.openapi(this.openapis.external.oauth.discord.callback, async (c) => {
+		this.router.openapi(this.openapi.external.oauth.discord.callback, async (c) => {
 			const { code } = c.req.valid('query');
 			const publicUser = c.get('user');
 

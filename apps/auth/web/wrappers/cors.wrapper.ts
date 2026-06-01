@@ -6,19 +6,30 @@ export default class CorsWrapper extends BaseWrapper {
 		super(...baseArgs);
 	}
 
-	cors() {
+	external() {
 		return cors({
-			origin: ['zed31rus.ru', 'http://localhost:3000', 'http://127.0.0.1:3000'],
+			origin: (origin) => {
+				if (
+					!origin ||
+					origin == 'https://zed31rus.ru' ||
+					origin.endsWith('.zed31rus.ru') ||
+					origin == 'http://localhost:3000'
+				) {
+					return origin;
+				}
+				return null;
+			},
 			credentials: true,
 		});
-		//  cors({
-		//    origin: (origin) => {
-		//      if (!origin || origin == 'https://zed31rus.ru' || origin.endsWith(".zed31rus.ru") || origin == "http://localhost:3000") {
-		//        return origin;
-		//      }
-		//      return null;
-		//    },
-		//    credentials: true,
-		//  })
+	}
+
+	internal() {
+		return cors({
+			origin: (origin) => {
+				if (origin) {
+					return null;
+				}
+			},
+		});
 	}
 }

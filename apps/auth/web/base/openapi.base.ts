@@ -9,7 +9,7 @@ abstract class BaseOpenAPI extends WebBase {
 	constructor(
 		protected readonly handlers: HandlerContainer,
 		protected readonly middlewares: MiddlewareContainer,
-		protected readonly dtos: DtoContainer,
+		protected readonly dto: DtoContainer,
 		protected readonly wrappers: WrapperContainer,
 		protected readonly managers: WebManagerContainer,
 		...webBaseArgs: WebBaseArgs

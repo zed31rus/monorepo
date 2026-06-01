@@ -10,7 +10,7 @@ export default class AuthHandler extends BaseHandler {
 		return this.createFactory<T>().createHandlers(this.middlewares.auth.withOptionalUser<T>());
 	}
 
-	public withInternal<T extends UserEnv>() {
-		return this.createFactory<T>().createHandlers(this.middlewares.auth.withInternal());
+	public withInternal() {
+		return this.createFactory().createHandlers(this.middlewares.auth.withInternal());
 	}
 }

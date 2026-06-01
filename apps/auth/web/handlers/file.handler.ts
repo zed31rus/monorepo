@@ -5,7 +5,7 @@ import { type PublicUser } from '@packages/db';
 export default class FileHandler extends BaseHandler {
 	public ValidAvatar<T extends AvatarEnv>(params: { user: PublicUser }) {
 		return this.createFactory<T>().createHandlers(
-			this.wrappers.validator.validate('form', this.dtos.file.avatarSchema),
+			this.wrappers.validator.validate('form', this.dto.file.avatarSchema),
 			this.middlewares.file.withAvatar<T>(params.user)
 		);
 	}
