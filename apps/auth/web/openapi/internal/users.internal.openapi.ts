@@ -1,6 +1,7 @@
 import { type UserEnv } from '#web/types/Env.js';
 import { createRoute, z } from '@hono/zod-openapi';
 import BaseOpenAPI from '../../base/openapi.base.js';
+import { OauthProviders } from '@zed31rus/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 type UsersInternalEnv = UserEnv & {};
@@ -18,6 +19,15 @@ export default class UsersInternalOpenAPI extends BaseOpenAPI {
 			params: z.object({
 				uuid: z.uuid(),
 			}),
+			body: {
+				content: {
+					'application/json': {
+						schema: z.object({
+							provider: z.enum(OauthProviders),
+						}),
+					},
+				},
+			},
 		},
 
 		responses: {
@@ -26,7 +36,7 @@ export default class UsersInternalOpenAPI extends BaseOpenAPI {
 				content: {
 					'application/json': {
 						schema: z.object({
-							user: this.core.db.users.PublicUserSchema,
+							user: this.core.db.users.InternalUserSchema,
 						}),
 					},
 				},

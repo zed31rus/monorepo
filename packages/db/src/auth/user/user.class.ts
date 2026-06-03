@@ -14,7 +14,7 @@ const personalUserFields = [
 	'emailConfirmed',
 	'isAdmin',
 ] as const;
-const internalUserFields = [...personalUserFields, 'updatedAt'] as const;
+const internalUserFields = [...personalUserFields, 'updatedAt', 'oauthAccounts'] as const;
 
 class Users {
 	get = new GetUser();

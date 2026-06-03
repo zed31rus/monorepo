@@ -30,7 +30,7 @@ class authDB extends BaseDb {
 }
 
 export import AuthDBType = prisma.Prisma;
-export type RawUser = prisma.User;
+export type RawUser = prisma.Prisma.UserGetPayload<{ include: { oauthAccounts: true } }>;
 export type PublicUser = PubUser;
 export type PersonalUser = PerUser;
 export type InternalUser = IntUser;

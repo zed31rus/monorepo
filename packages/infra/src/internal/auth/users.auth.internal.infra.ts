@@ -1,7 +1,21 @@
-export default class UsersAuthInternalInfra {
-	async getByUUID() {
-		const res = fetch('http://localhost:3201', {
-            headers: 
-        });
+import type { OauthProviders } from '@zed31rus/types';
+import BaseInfra from '../../infra.base.js';
+import { type InternalUser } from '@packages/db';
+
+export default class UsersAuthInternalInfra extends BaseInfra {
+	async getByUUID(uuid: string, provider?: OauthProviders): Promise<InternalUser> {
+		const res = await fetch(`http://localhost:3201/users/uuid/${uuid}`, {
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Internal-Token': this.config.env.INTERNAL_TOKEN,
+			},
+			body: JSON.stringify({
+				provider: provider,
+			}),
+		});
+
+		const data = (await res.json()) as InternalUser;
+
+		return data;
 	}
 }

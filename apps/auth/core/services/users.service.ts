@@ -1,19 +1,22 @@
 import BaseService from '#core/base/service.base.js';
 import { type InternalUser, type PersonalUser, type PublicUser } from '@packages/db';
+import { OauthProviders } from '@zed31rus/types';
 
 export default class UsersService extends BaseService {
-	async getByUuid(
-		uuid: PublicUser['uuid'],
-		internal: boolean
-	): Promise<{ user: PublicUser | InternalUser }> {
+	async getInternalByUuid(uuid: string, provider: OauthProviders): Promise<InternalUser> {
+		const rawUser = await this.db.users.get.orThrow.withProvider(
+			this.db.client,
+			uuid,
+			provider
+		);
+		const internalUser = await this.db.users.toInternalJSON(rawUser);
+		return internalUser;
+	}
+
+	async getByUuid(uuid: string): Promise<{ user: PublicUser | InternalUser }> {
 		const rawUser = await this.db.users.get.orThrow.byUuid(this.db.client, uuid);
-		if (internal) {
-			const internalUser = this.db.users.toInternalJSON(rawUser);
-			return { user: internalUser };
-		} else {
-			const publicUser = this.db.users.toPublicJSON(rawUser);
-			return { user: publicUser };
-		}
+		const publicUser = this.db.users.toPublicJSON(rawUser);
+		return { user: publicUser };
 	}
 
 	async getByEmail(email: PersonalUser['email']): Promise<{ user: PublicUser }> {
