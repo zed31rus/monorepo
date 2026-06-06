@@ -13,10 +13,10 @@ abstract class BaseServer extends WebBase {
 	constructor(
 		protected readonly server: OpenAPIHono,
 		protected readonly modules: ModuleContainer,
-		protected readonly openapis: OpenAPIContainer,
+		protected readonly openapi: OpenAPIContainer,
 		protected readonly handlers: HandlerContainer,
 		protected readonly middlewares: MiddlewareContainer,
-		protected readonly dtos: DtoContainer,
+		protected readonly dto: DtoContainer,
 		protected readonly wrappers: WrapperContainer,
 		protected readonly webManagers: WebManagerContainer,
 		...webBaseArgs: WebBaseArgs

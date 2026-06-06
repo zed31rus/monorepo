@@ -1,4 +1,4 @@
-import BotBase, { type BotBaseArgs } from './base.js';
+import BotBase, { type BotBaseArgs } from './bot.base.js';
 
 abstract class BaseManager extends BotBase {
 	constructor(...botBaseArgs: BotBaseArgs) {

@@ -1,5 +1,5 @@
 import type { ClientEvents } from 'discord.js';
-import BotBase, { type BotBaseArgs } from '../base.js';
+import BotBase, { type BotBaseArgs } from '../bot.base.js';
 import ManagerContainer from '#containers/manager.container.js';
 
 export abstract class BaseDiscordEvent<

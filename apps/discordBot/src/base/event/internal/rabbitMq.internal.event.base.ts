@@ -1,4 +1,4 @@
-import BotBase, { type BotBaseArgs } from '../../base.js';
+import BotBase, { type BotBaseArgs } from '../../bot.base.js';
 import ManagerContainer from '#containers/manager.container.js';
 import type { RabbitFromAuthQueues } from '@packages/infra';
 
