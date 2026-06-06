@@ -5,7 +5,13 @@ export default class GetRefreshToken {
 		async byHashedToken(client: AuthDBType.TransactionClient, hashedToken: string) {
 			return await client.refreshToken.findUniqueOrThrow({
 				where: { hashedToken },
-				include: { user: true },
+				include: {
+					user: {
+						include: {
+							oauthAccounts: true,
+						},
+					},
+				},
 			});
 		},
 	};
@@ -14,7 +20,13 @@ export default class GetRefreshToken {
 		async byHashedToken(client: AuthDBType.TransactionClient, hashedToken: string) {
 			return await client.refreshToken.findUnique({
 				where: { hashedToken },
-				include: { user: true },
+				include: {
+					user: {
+						include: {
+							oauthAccounts: true,
+						},
+					},
+				},
 			});
 		},
 	};

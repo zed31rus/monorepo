@@ -17,6 +17,9 @@ export default class CreateUsers {
 				passwordHash,
 				emailConfirmed,
 			},
+			include: {
+				oauthAccounts: true,
+			},
 		});
 	}
 }

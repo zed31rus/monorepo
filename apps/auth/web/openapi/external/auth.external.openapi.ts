@@ -3,7 +3,7 @@ import BaseOpenAPI from '#web/base/openapi.base.js';
 import { type UserEnv } from '#web/types/Env.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AuthEnv = UserEnv & {};
+type AuthExternalEnv = UserEnv & {};
 
 export default class AuthExternalOpenAPI extends BaseOpenAPI {
 	register = createRoute({

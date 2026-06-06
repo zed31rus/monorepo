@@ -37,7 +37,13 @@ export default class GetOauthAccount {
 				where: {
 					provider_providerUserId: { provider: provider, providerUserId: providerUserId },
 				},
-				include: { user: true },
+				include: {
+					user: {
+						include: {
+							oauthAccounts: true,
+						},
+					},
+				},
 			});
 		},
 

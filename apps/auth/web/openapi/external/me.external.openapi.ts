@@ -2,13 +2,13 @@ import { type UserEnv } from '#web/types/Env.js';
 import BaseOpenAPI from '#web/base/openapi.base.js';
 import { createRoute, z } from '@hono/zod-openapi';
 
-type ProfileEnv = UserEnv & {};
+type ProfileExternalEnv = UserEnv & {};
 
 export default class MeExternalOpenAPI extends BaseOpenAPI {
 	get = createRoute({
 		method: 'get',
 		path: '/get',
-		middleware: [...this.handlers.auth.withValidUser<ProfileEnv>()],
+		middleware: [...this.handlers.auth.withValidUser<ProfileExternalEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Get current user',
 		description: 'Returns the profile data of the currently authenticated user.',

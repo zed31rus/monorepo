@@ -5,6 +5,9 @@ export default class UpdateUsers {
 		return await client.user.update({
 			where: { uuid: user.uuid },
 			data: { allowLoginFind: allow },
+			include: {
+				oauthAccounts: true,
+			},
 		});
 	}
 
@@ -12,6 +15,9 @@ export default class UpdateUsers {
 		return await client.user.update({
 			where: { uuid: user.uuid },
 			data: { allowEmailFind: allow },
+			include: {
+				oauthAccounts: true,
+			},
 		});
 	}
 
@@ -23,6 +29,9 @@ export default class UpdateUsers {
 		return await client.user.update({
 			where: { uuid: user.uuid },
 			data: { nickname },
+			include: {
+				oauthAccounts: true,
+			},
 		});
 	}
 
@@ -30,6 +39,9 @@ export default class UpdateUsers {
 		return await client.user.update({
 			where: { uuid: user.uuid },
 			data: { avatar },
+			include: {
+				oauthAccounts: true,
+			},
 		});
 	}
 
@@ -41,6 +53,9 @@ export default class UpdateUsers {
 		return await client.user.update({
 			where: { uuid: user.uuid },
 			data: { passwordHash },
+			include: {
+				oauthAccounts: true,
+			},
 		});
 	}
 
@@ -52,6 +67,9 @@ export default class UpdateUsers {
 		return await client.user.update({
 			where: { uuid: user.uuid },
 			data: { emailConfirmed: confirmed },
+			include: {
+				oauthAccounts: true,
+			},
 		});
 	}
 }

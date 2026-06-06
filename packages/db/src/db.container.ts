@@ -1,14 +1,16 @@
-import authDB from "./auth/auth.db.js";
-import DiscordBotDB from "./discordBot/discordbot.db.js";
+import authDBs from './auth/auth.db.js';
+import DiscordBotDBs from './discordBot/discordbot.db.js';
 
 class DbContainer {
-    constructor(
-        readonly auth: authDB,
-        readonly discordBot: DiscordBotDB
-    ) {}
+	constructor(
+		readonly auth: authDBs,
+		readonly discordBot: DiscordBotDBs
+	) {}
 
-    static deps = { authDB: authDB, discordbotDB: DiscordBotDB }
+	static deps = { authDB: authDBs, discordbotDB: DiscordBotDBs };
 }
 
-export default DbContainer
+export type authDB = authDBs;
+export type discordbotDB = DiscordBotDBs;
 
+export default DbContainer;

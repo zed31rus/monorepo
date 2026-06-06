@@ -29,10 +29,15 @@ const logger = new Logger('auth').appLogger;
 const packagesDeps = [configContainers, logger, ...configDeps] as const;
 
 const infraContainer = new InfraContainer(
-	InfraContainer.deps.RabbitMqInfra.getInstance(...packagesDeps),
+	InfraContainer.deps.rabbitmq.getInstance(...packagesDeps),
 	{
 		oauth: new InfraContainer.deps.discord.oauth(...packagesDeps),
 		users: new InfraContainer.deps.discord.users(...packagesDeps),
+	},
+	{
+		auth: {
+			users: new InfraContainer.deps.internal.auth.users(...packagesDeps),
+		},
 	}
 );
 
