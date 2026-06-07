@@ -1,4 +1,3 @@
-
 ```structure
 monorepo
 ├─ .dockerignore
@@ -83,7 +82,7 @@ monorepo
 │  │     │  ├─ external.server.ts
 │  │     │  └─ internal.server.ts
 │  │     ├─ types
-│  │     │  └─ Env.d.ts
+│  │     │  └─ Env.ts
 │  │     └─ wrappers
 │  │        ├─ cors.wrapper.ts
 │  │        ├─ rateLimiter.wrapper.ts
@@ -92,7 +91,7 @@ monorepo
 │  │  ├─ package.json
 │  │  ├─ src
 │  │  │  ├─ base
-│  │  │  │  ├─ base.ts
+│  │  │  │  ├─ bot.base.ts
 │  │  │  │  ├─ event
 │  │  │  │  │  ├─ discord.event.base.ts
 │  │  │  │  │  └─ internal
@@ -234,6 +233,9 @@ monorepo
 │  │  │  │  └─ users.discord.infra.ts
 │  │  │  ├─ infra.base.ts
 │  │  │  ├─ infra.container.ts
+│  │  │  ├─ internal
+│  │  │  │  └─ auth
+│  │  │  │     └─ users.auth.internal.infra.ts
 │  │  │  ├─ rabbitmq
 │  │  │  │  └─ rabbitmq.infra.ts
 │  │  │  └─ spotify

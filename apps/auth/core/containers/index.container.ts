@@ -13,6 +13,7 @@ import ConfigContainer from '@shared/config';
 import DbContainer from '@packages/db';
 import InfraContainer from '@packages/infra';
 import Logger from '@shared/logger';
+import type winston from 'winston';
 
 const errors = new ErrorsContainer(
 	new ErrorsContainer.deps.ApiErrors(),
@@ -73,6 +74,15 @@ const services = new ServiceContainer(
 	}
 );
 
-const coreContainer = { libs, db, infra, managers, services, configs, errors, logger };
+const coreContainer: {
+	libs: LibContainer;
+	db: DbContainer['auth'];
+	infra: InfraContainer;
+	managers: ManagerContainer;
+	services: ServiceContainer;
+	configs: ConfigContainer;
+	errors: ErrorsContainer;
+	logger: winston.Logger;
+} = { libs, db, infra, managers, services, configs, errors, logger };
 
 export default coreContainer;

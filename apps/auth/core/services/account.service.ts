@@ -26,7 +26,12 @@ export default class AccountService extends BaseService {
 		return { user: personalUser };
 	}
 
-	async emailVerificationConfirm(user: PublicUser, submitCode: string) {
+	async emailVerificationConfirm(
+		user: PublicUser,
+		submitCode: string
+	): Promise<{
+		user: PersonalUser;
+	}> {
 		const rawUser = await this.db.users.get.orThrow.byPublicUser(this.db.client, user);
 		const personalUser = this.db.users.toPersonalJSON(rawUser);
 
