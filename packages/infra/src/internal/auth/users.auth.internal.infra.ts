@@ -3,8 +3,9 @@ import BaseInfra from '../../infra.base.js';
 import { type InternalUser } from '@packages/db';
 
 export default class UsersAuthInternalInfra extends BaseInfra {
-	async getByUUID(uuid: string, provider?: OauthProviders): Promise<InternalUser> {
+	async getByUUID(uuid: string, provider: OauthProviders): Promise<{ user: InternalUser }> {
 		const res = await fetch(`http://localhost:3201/users/uuid/${uuid}`, {
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				'X-Internal-Token': this.config.env.INTERNAL_TOKEN,
@@ -14,7 +15,7 @@ export default class UsersAuthInternalInfra extends BaseInfra {
 			}),
 		});
 
-		const data = (await res.json()) as InternalUser;
+		const data = (await res.json()) as { user: InternalUser };
 
 		return data;
 	}

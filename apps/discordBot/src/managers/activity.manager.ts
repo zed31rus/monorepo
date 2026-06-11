@@ -8,7 +8,7 @@ interface Activity {
 }
 
 export default class ActivityManager extends BaseManager {
-	private currentActivity: Activity;
+	private currentActivity: Activity | null;
 
 	constructor(...managerBaseArgs: BaseManagerArgs) {
 		super(...managerBaseArgs);
@@ -18,21 +18,36 @@ export default class ActivityManager extends BaseManager {
 	}
 
 	private async init() {
-		this.currentActivity = await this.db.activityStatus.get.random(this.db.client);
+		const activity = await this.db.activityStatus.get.random(this.db.client);
+
+		if (!activity) {
+			this.currentActivity = null;
+			this.client.user.setPresence({ activities: [] });
+		} else {
+			this.currentActivity = activity;
+			this.client.user.setActivity(activity.name, { type: activity.type });
+		}
+
 		this.createCronSchedule();
 	}
 
 	private async updateRandomActivity() {
-		let newActivity: Activity;
-		do {
-			newActivity = await this.db.activityStatus.get.random(this.db.client);
-		} while (newActivity.name === this.currentActivity.name);
+		const checkAny = await this.db.activityStatus.get.random(this.db.client);
+		if (!checkAny) {
+			this.currentActivity = null;
+			this.client.user.setPresence({ activities: [] });
+			return;
+		}
 
-		this.currentActivity = newActivity;
-		this.client.user.setActivity(this.currentActivity.name, {
-			type: this.currentActivity.type,
-		});
-		this.events.internal.emit('activityUpdated', this.currentActivity);
+		const newActivity = await this.db.activityStatus.get.random(this.db.client);
+
+		if (newActivity) {
+			this.currentActivity = newActivity;
+			this.client.user.setActivity(this.currentActivity.name, {
+				type: this.currentActivity.type,
+			});
+			this.events.internal.emit('activityUpdated', this.currentActivity);
+		}
 	}
 
 	private createCronSchedule() {

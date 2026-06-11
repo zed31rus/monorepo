@@ -4,6 +4,9 @@
 	"private": "true",
 	"type": "module",
 	"exports": {
-		"./*": "./src/*"
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
 	}
 }

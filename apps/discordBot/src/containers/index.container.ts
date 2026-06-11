@@ -24,7 +24,7 @@ const configDeps = [errorsContainer] as const;
 
 const configContainers = new ConfigContainer(new ConfigContainer.deps.EnvConfig(...configDeps));
 
-const logger = new Logger('auth').appLogger;
+const logger = new Logger('discordBot').appLogger;
 
 const packagesDeps = [configContainers, logger, ...configDeps] as const;
 

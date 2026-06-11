@@ -4,7 +4,7 @@ import {
 	type DiscordOauthExchangeReply as DOER,
 } from './src/discord/oauth.discord.infra.js';
 import { type DiscordUsersMeReply as DUMR } from './src/discord/users.discord.infra.js';
-import { type RabbitFromAuthQueues as RFAQ } from './src/rabbitmq/rabbitmq.infra.js';
+import { type RabbitQueues as RFAQ } from './src/rabbitmq/rabbitmq.infra.js';
 
 export default InfraContainer;
 

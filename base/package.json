@@ -1,15 +1,21 @@
 {
-    "name": "@zed31rus/base",
-    "version": "1.0.0",
-    "private":"true",
-    "type": "module",
-    "exports": {
-        ".": "./index.ts"
-    },
-    "dependencies": {
-        "@shared/errors": "workspace:*",
-        "@shared/config": "workspace:*",
-        "@shared/logger": "workspace:*",
-        "@zed31rus/types": "workspace:*"
-    }
+	"name": "@zed31rus/base",
+	"version": "1.0.0",
+	"private": "true",
+	"type": "module",
+	"scripts": {
+		"build": "tsc"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"dependencies": {
+		"@shared/errors": "workspace:*",
+		"@shared/config": "workspace:*",
+		"@shared/logger": "workspace:*",
+		"@zed31rus/types": "workspace:*"
+	}
 }

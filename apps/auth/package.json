@@ -3,10 +3,14 @@
 	"version": "1.0.0",
 	"description": "auth microservice zed31rus",
 	"type": "module",
+	"scripts": {
+		"build": "tsc",
+		"start": "node ./dist/start.js"
+	},
 	"imports": {
-		"#core/*": "./core/*",
-		"#web/*": "./web/*",
-		"#root/*": "./*"
+		"#core/*": "./dist/core/*",
+		"#web/*": "./dist/web/*",
+		"#root/*": "./dist/*"
 	},
 	"dependencies": {
 		"@hono/node-server": "^2.0.1",

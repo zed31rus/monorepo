@@ -1,13 +1,16 @@
 {
-    "name": "@shared/config",
-    "version": "1.0.0",
-    "private":"true",
-    "type": "module",
-    "dependencies": {
-        "@zed31rus/types": "workspace:*",
-        "@shared/errors": "workspace:*"
-    },
-    "exports": {
-        ".": "./index.ts"
-    }
+	"name": "@shared/config",
+	"version": "1.0.0",
+	"private": "true",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"dependencies": {
+		"@zed31rus/types": "workspace:*",
+		"@shared/errors": "workspace:*"
+	}
 }

@@ -32,16 +32,44 @@ export default class RabbitMqInfra extends BaseInfra {
 		});
 	}
 
-	async sendOauthRegistered(...data: RabbitFromAuthQueues['oauthRegisteredNewUser']) {
+	async send<K extends keyof RabbitQueues>(queue: K, ...data: RabbitQueues[K]) {
 		await this.initPromise;
-		this.oauthChannel.sendToQueue(
-			RabbitMqQueues.oauthRegisteredNewUser,
-			Buffer.from(JSON.stringify(data)),
-			{ persistent: true }
+		const payload = Array.isArray(data) ? data : [data];
+
+		this.oauthChannel.sendToQueue(queue, Buffer.from(JSON.stringify(payload)), {
+			persistent: true,
+		});
+	}
+
+	async on<K extends keyof RabbitQueues>(
+		queueName: K,
+		onMessage: (...data: RabbitQueues[K]) => Promise<void> | void
+	) {
+		await this.initPromise;
+
+		await this.oauthChannel.assertQueue(queueName, { durable: true });
+
+		await this.oauthChannel.consume(
+			queueName,
+			async (msg) => {
+				if (!msg) return;
+
+				try {
+					const data: RabbitQueues[K] = JSON.parse(msg.content.toString());
+
+					await onMessage(...data);
+
+					this.oauthChannel.ack(msg);
+				} catch (error) {
+					this.logger.error(`Ошибка обработки очереди ${queueName}:`, error);
+					this.oauthChannel.nack(msg, false, true);
+				}
+			},
+			{ noAck: false }
 		);
 	}
 }
 
-export interface RabbitFromAuthQueues {
+export interface RabbitQueues {
 	oauthRegisteredNewUser: [uuid: string];
 }

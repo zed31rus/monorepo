@@ -7,7 +7,7 @@ type UsersExternalEnv = UserEnv & {};
 export default class UsersExternalOpenAPI extends BaseOpenAPI {
 	getByUuid = createRoute({
 		method: 'get',
-		path: '/get/{uuid}',
+		path: '/uuid/{uuid}',
 		summary: 'Get user by UUID',
 		description: 'Returns public user data by UUID. Does not require authentication.',
 
@@ -34,7 +34,7 @@ export default class UsersExternalOpenAPI extends BaseOpenAPI {
 
 	getByEmail = createRoute({
 		method: 'get',
-		path: '/get/{email}',
+		path: '/email/{email}',
 		middleware: [...this.handlers.auth.withValidUser<UsersExternalEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Get user by email',
@@ -63,7 +63,7 @@ export default class UsersExternalOpenAPI extends BaseOpenAPI {
 
 	getByLogin = createRoute({
 		method: 'get',
-		path: '/get/{login}',
+		path: '/login/{login}',
 		middleware: [...this.handlers.auth.withValidUser<UsersExternalEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Get user by login',

@@ -14,6 +14,7 @@ export default class PublicServer extends BaseServer {
 
 		this.server.onError(this.handlers.error.errorHander.bind(this.handlers.error));
 
+		this.server.route('/oauth2/discord', this.modules.external.oauth.discord.router);
 		this.server.route('/auth', this.modules.external.auth.router);
 		this.server.route('/account', this.modules.external.account.router);
 		this.server.route('/me', this.modules.external.me.router);
@@ -35,7 +36,7 @@ export default class PublicServer extends BaseServer {
 				port: port,
 			},
 			(info) => {
-				console.log(`http://localhost:${info.port}`);
+				this.logger.info(`externalServer started at: http://localhost:${info.port}`);
 			}
 		);
 	}

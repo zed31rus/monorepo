@@ -1,4 +1,4 @@
 export enum Features {
-  serverName = 'serverName',
-  voice = 'voice',
+	serverName = 'serverName',
+	voice = 'voice',
 }

@@ -4,11 +4,14 @@
 	"description": "discord bot/microservice zed31rus",
 	"type": "module",
 	"imports": {
-		"#base/*": "./src/base/*",
-		"#containers/*": "./src/containers/*",
-		"#events/*": "./src/events/*",
-		"#managers/*": "./src/managers/*",
-		"#discordBot/*": "./src/*"
+		"#base/*": "./dist/src/base/*",
+		"#containers/*": "./dist/src/containers/*",
+		"#events/*": "./dist/src/events/*",
+		"#managers/*": "./dist/src/managers/*",
+		"#discordBot/*": "./dist/src/*"
+	},
+	"scripts": {
+		"test": "node ./dist/src/containers/index.container.js"
 	},
 	"dependencies": {
 		"@discordjs/voice": "^0.19.2",

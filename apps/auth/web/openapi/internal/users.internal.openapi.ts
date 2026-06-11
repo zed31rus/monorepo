@@ -8,8 +8,8 @@ type UsersInternalEnv = UserEnv & {};
 
 export default class UsersInternalOpenAPI extends BaseOpenAPI {
 	getByUuid = createRoute({
-		method: 'get',
-		path: '/get/{uuid}',
+		method: 'post',
+		path: '/uuid/{uuid}',
 		summary: 'Get user by UUID',
 		description: 'Returns internal user data by UUID.',
 		security: [{ internalToken: [] }],

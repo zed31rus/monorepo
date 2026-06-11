@@ -1,4 +1,4 @@
-import type { Features } from '@zed31rus/types/features.discordBot.js';
+import type { Features } from '@zed31rus/types';
 import type { DiscordBotDBType } from '../../discordbot.db.js';
 
 export default class GetGuildDbCase {

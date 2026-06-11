@@ -1,4 +1,4 @@
-import type { Features } from '@zed31rus/types/features.discordBot.js';
+import type { Features } from '@zed31rus/types';
 
 declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace

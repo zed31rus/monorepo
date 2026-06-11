@@ -5,7 +5,7 @@ import {
 	VoiceConnection,
 	VoiceConnectionStatus,
 } from '@discordjs/voice';
-import { Features } from '@zed31rus/types/features.discordBot.js';
+import { Features } from '@zed31rus/types';
 import type { DiscordBotDBType } from '@packages/db';
 import BaseManager, { type BaseManagerArgs } from '#base/manager.base.js';
 

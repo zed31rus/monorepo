@@ -1,26 +1,29 @@
 {
-  "name": "@packages/libs",
-  "version": "1.0.0",
-  "private": "true",
-  "type": "module",
-  "exports": {
-    ".": "./src/lib.container.js"
-  },
-  "dependencies": {
-    "@shared/config": "workspace:*",
-    "@shared/errors": "workspace:*",
-    "@zed31rus/base": "workspace:*",
-    "@zed31rus/types": "workspace:*",
-    "amqplib": "^1.0.3",
-    "bcrypt": "^6.0.0",
-    "jsonwebtoken": "^9.0.3",
-    "nodemailer": "^7.0.12"
-  },
-  "devDependencies": {
-    "@types/amqplib": "^0.10.8",
-    "@types/bcrypt": "^6.0.0",
-    "@types/cors": "^2.8.19",
-    "@types/jsonwebtoken": "^9.0.10",
-    "@types/nodemailer": "^7.0.9"
-  }
+	"name": "@packages/libs",
+	"version": "1.0.0",
+	"private": "true",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"dependencies": {
+		"@shared/config": "workspace:*",
+		"@shared/errors": "workspace:*",
+		"@zed31rus/base": "workspace:*",
+		"@zed31rus/types": "workspace:*",
+		"amqplib": "^1.0.3",
+		"bcrypt": "^6.0.0",
+		"jsonwebtoken": "^9.0.3",
+		"nodemailer": "^7.0.12"
+	},
+	"devDependencies": {
+		"@types/amqplib": "^0.10.8",
+		"@types/bcrypt": "^6.0.0",
+		"@types/cors": "^2.8.19",
+		"@types/jsonwebtoken": "^9.0.10",
+		"@types/nodemailer": "^7.0.9"
+	}
 }

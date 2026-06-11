@@ -15,7 +15,7 @@ export abstract class BaseRabbitMqEvent<
 		super(...botBaseArgs);
 		this.type = eventType;
 
-		this.events.internal.on(this.type, (...args) => {
+		this.infra.rabbitmq.on(this.type, (...args) => {
 			this.action(...args);
 		});
 	}

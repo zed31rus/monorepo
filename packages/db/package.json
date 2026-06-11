@@ -4,7 +4,10 @@
 	"private": "true",
 	"type": "module",
 	"exports": {
-		".": "./index.ts"
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
 	},
 	"dependencies": {
 		"@prisma/adapter-pg": "^7.3.0",

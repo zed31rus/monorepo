@@ -10,9 +10,11 @@ import {
 import { DiscordBotDBType as DiscordBotDbT } from './src/discordBot/discordbot.db.js';
 
 export default DbContainer;
+
+export { AuthDbT as AuthDBType };
+export { DiscordBotDbT as DiscordBotDBType };
+
 export type PrismaJsonFeatures = PJF;
-export import AuthDBType = AuthDbT;
-export import DiscordBotDBType = DiscordBotDbT;
 export type RawUser = RUser;
 export type PublicUser = PubUser;
 export type PersonalUser = PerUser;

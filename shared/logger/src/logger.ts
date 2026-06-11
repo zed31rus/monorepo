@@ -2,26 +2,27 @@ import winston from 'winston';
 import BaseLogger from './base.logger.js';
 
 class Logger extends BaseLogger {
-	private mainLogger: winston.Logger;
-	appLogger: winston.Logger;
+	public appLogger: winston.Logger;
 
 	constructor(appName: string) {
 		super();
-		this.mainLogger = winston.createLogger({
+
+		const mainLogger = winston.createLogger({
 			level: 'info',
 			format: winston.format.combine(
 				winston.format.errors({ stack: true }),
-				winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' })
+				winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+				winston.format.printf(({ timestamp, level, message, app, stack }) => {
+					return `[${timestamp}] [${app}] ${level}: ${stack || message}`;
+				})
 			),
 			transports: [new winston.transports.Console()],
 		});
 
-		this.appLogger = this.mainLogger.child({ app: appName });
+		this.appLogger = mainLogger.child({ app: appName });
 	}
-
-	static appLogger = winston.createLogger().child({ app: '' });
 }
 
-export type AppLogger = InstanceType<typeof Logger>['appLogger'];
+export type AppLogger = winston.Logger;
 
 export default Logger;

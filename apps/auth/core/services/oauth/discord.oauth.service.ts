@@ -42,7 +42,7 @@ export default class DiscordOauthService extends BaseService {
 
 		const session = await this.manager.session.createSession(newRawUser, this.db.client);
 
-		this.infra.rabbitmq.sendOauthRegistered(newPublicUser.uuid);
+		this.infra.rabbitmq.send('oauthRegisteredNewUser', newPublicUser.uuid);
 
 		return { user: newPersonalUser, ...session };
 	}

@@ -1,6 +1,6 @@
 import cron from 'node-cron';
-import { Features } from '@zed31rus/types/features.discordBot.js';
 import BaseManager, { type BaseManagerArgs } from '#discordBot/base/manager.base.js';
+import { Features } from '@zed31rus/types';
 
 export default class ServerNameManager extends BaseManager {
 	constructor(...managerBaseArgs: BaseManagerArgs) {
@@ -30,12 +30,12 @@ export default class ServerNameManager extends BaseManager {
 
 	public async updateServerName(serverId: string) {
 		const guild = await this.client.guilds.fetch(serverId);
-		const oldName = guild.name;
-		let newServerName;
 
-		do {
-			newServerName = await this.db.serverName.get.random(this.db.client);
-		} while (newServerName.name === oldName);
+		const newServerName = await this.db.serverName.get.random(this.db.client);
+
+		if (newServerName) {
+			guild.setName(newServerName.name);
+		}
 
 		this.events.internal.emit('serverNameUpdate', {
 			serverId,
