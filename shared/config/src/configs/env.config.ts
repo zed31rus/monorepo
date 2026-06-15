@@ -20,6 +20,7 @@ export default class EnvConfig extends BaseConfig {
 	readonly SMTP_PORT: string;
 	readonly DISCORD_BOT_TOKEN: string;
 	readonly INTERNAL_TOKEN: string;
+	readonly PRIMARY_SERVER_ID: string;
 
 	constructor(...baseArgs: BaseConfigArgs) {
 		super(...baseArgs);
@@ -39,6 +40,7 @@ export default class EnvConfig extends BaseConfig {
 		this.SMTP_PORT = this.getEnv('SMTP_PORT');
 		this.DISCORD_BOT_TOKEN = this.getEnv('DISCORD_BOT_TOKEN');
 		this.INTERNAL_TOKEN = this.getEnv('INTERNAL_TOKEN');
+		this.PRIMARY_SERVER_ID = this.getEnv('PRIMARY_SERVER_ID');
 	}
 
 	private getEnv(key: string): string {
