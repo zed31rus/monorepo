@@ -1,5 +1,5 @@
 
-```strucrture
+```structure
 monorepo
 ├─ .dockerignore
 ├─ .prettierrc
@@ -169,30 +169,30 @@ monorepo
 │  │  │  │  ├─ auth.prisma.config.ts
 │  │  │  │  ├─ auth.schema.prisma
 │  │  │  │  ├─ oauth
-│  │  │  │  │  ├─ classes
-│  │  │  │  │  │  ├─ createOauthAccount.ts
-│  │  │  │  │  │  ├─ getOauthAccount.ts
-│  │  │  │  │  │  ├─ updateOauthAccount.ts
-│  │  │  │  │  │  └─ upsertOauthAccount.ts
-│  │  │  │  │  └─ oauth.class.ts
+│  │  │  │  │  ├─ cases
+│  │  │  │  │  │  ├─ createOauthAccount.db.case.ts
+│  │  │  │  │  │  ├─ getOauthAccount.db.case.ts
+│  │  │  │  │  │  ├─ updateOauthAccount.db.case.ts
+│  │  │  │  │  │  └─ upsertOauthAccount.db.case.ts
+│  │  │  │  │  └─ oauth.db.ts
 │  │  │  │  ├─ refreshToken
-│  │  │  │  │  ├─ classes
-│  │  │  │  │  │  ├─ createRefreshToken.ts
-│  │  │  │  │  │  ├─ deleteRefreshToken.ts
-│  │  │  │  │  │  └─ getRefreshToken.ts
-│  │  │  │  │  └─ refreshToken.class.ts
+│  │  │  │  │  ├─ cases
+│  │  │  │  │  │  ├─ createRefreshToken.db.case.ts
+│  │  │  │  │  │  ├─ deleteRefreshToken.db.case.ts
+│  │  │  │  │  │  └─ getRefreshToken.db.case.ts
+│  │  │  │  │  └─ refreshToken.db.ts
 │  │  │  │  ├─ user
-│  │  │  │  │  ├─ classes
-│  │  │  │  │  │  ├─ createUser.ts
-│  │  │  │  │  │  ├─ getUser.ts
-│  │  │  │  │  │  └─ updateUser.ts
-│  │  │  │  │  └─ user.class.ts
+│  │  │  │  │  ├─ cases
+│  │  │  │  │  │  ├─ createUser.db.case.ts
+│  │  │  │  │  │  ├─ getUser.db.case.ts
+│  │  │  │  │  │  └─ updateUser.db.case.ts
+│  │  │  │  │  └─ user.db.ts
 │  │  │  │  └─ verificationCode
-│  │  │  │     ├─ classes
-│  │  │  │     │  ├─ deleteVerificationCode.ts
-│  │  │  │     │  ├─ getVerificationCode.ts
-│  │  │  │     │  └─ upsertVerificationCode.ts
-│  │  │  │     └─ verificationCode.class.ts
+│  │  │  │     ├─ cases
+│  │  │  │     │  ├─ deleteVerificationCode.db.case.ts
+│  │  │  │     │  ├─ getVerificationCode.db.case.ts
+│  │  │  │     │  └─ upsertVerificationCode.db.case.ts
+│  │  │  │     └─ verificationCode.db.ts
 │  │  │  ├─ db.base.ts
 │  │  │  ├─ db.container.ts
 │  │  │  └─ discordBot
