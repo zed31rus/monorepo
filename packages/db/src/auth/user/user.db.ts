@@ -1,7 +1,7 @@
 import { type RawUser } from '../auth.db.js';
-import GetUser from './classes/getUser.js';
-import CreateUsers from './classes/createUser.js';
-import UpdateUsers from './classes/updateUser.js';
+import GetUser from './cases/getUser.db.case.js';
+import CreateUsers from './cases/createUser.db.case.js';
+import UpdateUsers from './cases/updateUser.db.case.js';
 import z from 'zod';
 
 const publicUserFields = ['uuid', 'nickname', 'avatar', 'createdAt'] as const;

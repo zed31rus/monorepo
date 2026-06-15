@@ -1,4 +1,5 @@
-```structure
+
+```strucrture
 monorepo
 ├─ .dockerignore
 ├─ .prettierrc

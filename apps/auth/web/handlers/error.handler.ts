@@ -13,8 +13,8 @@ export default class ErrorHandler extends BaseHandler {
 
 			return c.json(
 				{
+					code: err.code,
 					message: err.message,
-					errors: err.errors,
 				},
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				err.status as any

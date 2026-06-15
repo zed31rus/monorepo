@@ -14,7 +14,7 @@ export default class UsersDiscordInfra extends BaseInfra {
 
 		if (!response.ok) {
 			const errorText = await response.text();
-			throw this.errors.api.BadRequest(
+			throw this.errors.api.badRequest(
 				`Discord API Error: ${response.status} - ${errorText}`
 			);
 		}

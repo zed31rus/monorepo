@@ -1,16 +1,16 @@
 import { PrismaPg } from '@prisma/adapter-pg';
 import * as prisma from './generated/prisma/client.js';
-import Users from './user/user.class.js';
-import refreshToken from './refreshToken/refreshToken.class.js';
-import oauthAccount from './oauth/oauth.class.js';
-import verificationCode from './verificationCode/verificationCode.class.js';
+import Users from './user/user.db.js';
+import refreshToken from './refreshToken/refreshToken.db.js';
+import oauthAccount from './oauth/oauth.db.js';
+import verificationCode from './verificationCode/verificationCode.db.js';
 import pg from 'pg';
 import BaseDb, { type BaseDbArgs } from '../db.base.js';
 import {
 	type PublicUser as PubUser,
 	type PersonalUser as PerUser,
 	type InternalUser as IntUser,
-} from './user/user.class.js';
+} from './user/user.db.js';
 
 class authDB extends BaseDb {
 	client: prisma.PrismaClient;

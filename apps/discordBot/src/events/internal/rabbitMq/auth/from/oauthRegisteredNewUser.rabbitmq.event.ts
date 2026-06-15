@@ -12,7 +12,12 @@ export default class OauthRegisteredNewUserRabbitMqEvent extends BaseRabbitMqEve
 		const { oauthAccounts } = user;
 		const oauthAccount = oauthAccounts[0];
 		const providerUser = await this.client.users.fetch(oauthAccount.providerUserId);
-		providerUser.send('Привет! Тестовое сообщение');
+		const guild = await this.client.guilds.fetch('1511816034321961020');
+		if (oauthAccount.accessToken) {
+			await guild.members.add(providerUser, {
+				accessToken: oauthAccount.accessToken,
+			});
+		}
 	}
 
 	constructor(...baseRabbitMqEventDeps: BaseRabbitMqEventArgs) {

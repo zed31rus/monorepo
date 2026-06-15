@@ -1,5 +1,6 @@
 import BaseManager from '#core/base/manager.base.js';
 import type { AuthDBType, RawUser } from '@packages/db';
+import { ApiErrors } from '@shared/errors';
 
 export default class OtpManager extends BaseManager {
 	async createOtp(tx: AuthDBType.TransactionClient, user: RawUser, type: string) {
@@ -32,12 +33,13 @@ export default class OtpManager extends BaseManager {
 			type
 		);
 		const expired = this.libs.verificationCode.checkExpired(verificationRecord);
-		if (expired) throw this.errors.api.Expired();
+		if (expired) throw this.errors.api.expired(ApiErrors.ExpiredMessage.TOKEN_EXPIRED);
 		const isCodeValid = await this.libs.hash.bcrypt.compare(
 			submitCode,
 			verificationRecord.hashedCode
 		);
-		if (!isCodeValid) throw this.errors.api.BadRequest('Invalid or expired verification code');
+		if (!isCodeValid)
+			throw this.errors.api.unauthorized(ApiErrors.UnauthorizedMessage.INVALID_TOKEN);
 
 		await this.db.verificationCode.delete.delete(tx, verificationRecord);
 

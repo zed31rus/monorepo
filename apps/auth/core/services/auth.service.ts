@@ -1,4 +1,5 @@
 import BaseService from '#core/base/service.base.js';
+import { ApiErrors } from '@shared/errors';
 import type SessionManager from '../managers/session.manager.js';
 import type { PersonalUser, PublicUser } from '@packages/db';
 
@@ -34,7 +35,8 @@ export default class AuthService extends BaseService {
 			password,
 			rawUser.passwordHash!
 		);
-		if (!isPasswordCorrect) throw this.errors.api.Unauthorized('Invalid credentials');
+		if (!isPasswordCorrect)
+			throw this.errors.api.unauthorized(ApiErrors.UnauthorizedMessage.INVALID_CREDENTIALS);
 
 		const session = await this.manager.session.createSession(rawUser, this.db.client);
 
@@ -53,7 +55,7 @@ export default class AuthService extends BaseService {
 		const expired = this.libs.refreshToken.checkExpired(incomingRefreshTokenRecord);
 		if (expired) {
 			await this.db.refreshToken.delete.delete(this.db.client, incomingRefreshTokenRecord);
-			throw this.errors.api.Unauthorized();
+			throw this.errors.api.unauthorized(ApiErrors.UnauthorizedMessage.INVALID_TOKEN);
 		}
 
 		const rawUser = incomingRefreshTokenRecord.user;

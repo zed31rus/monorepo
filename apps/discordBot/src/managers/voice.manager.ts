@@ -8,6 +8,7 @@ import {
 import { Features } from '@zed31rus/types';
 import type { DiscordBotDBType } from '@packages/db';
 import BaseManager, { type BaseManagerArgs } from '#base/manager.base.js';
+import { ApiErrors } from '@shared/errors';
 
 interface GuildVoiceData {
 	voiceConnection: VoiceConnection;
@@ -45,7 +46,7 @@ export default class VoiceManager extends BaseManager {
 		const channel = await guild.channels.fetch(guildRecord.features.voice.settings.channelId);
 
 		if (!channel) {
-			throw this.errors.api.NotFound('voice channel not found');
+			throw this.errors.api.notFound(ApiErrors.NotFoundMessage.CHANNEL_NOT_FOUND);
 		}
 
 		const connection = this.connect(guild, channel);

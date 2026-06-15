@@ -1,5 +1,6 @@
 import BaseService from '#core/base/service.base.js';
 import type { PersonalUser, PublicUser } from '@packages/db';
+import { ApiErrors } from '@shared/errors';
 import { OtpTypes } from '@zed31rus/types';
 
 export default class AccountService extends BaseService {
@@ -18,9 +19,9 @@ export default class AccountService extends BaseService {
 		if (rawOtp)
 			this.libs.mail.sendMail(
 				rawUser.email,
-				'Код подтверждения',
-				`<p>Ваш код подтверждения: ${rawOtp}</p>`,
-				`Ваш код подтверждения: ${rawOtp}`
+				'Verification Code',
+				`<p>Your verification code: ${rawOtp}</p>`,
+				`Your verification code: ${rawOtp}`
 			);
 
 		return { user: personalUser };
@@ -37,24 +38,24 @@ export default class AccountService extends BaseService {
 
 		if (rawUser.emailConfirmed) return { user: personalUser };
 
-		const { newRawUser, success } = await this.db.client.$transaction(async (tx) => {
+		const { newRawUser } = await this.db.client.$transaction(async (tx) => {
 			const { success } = await this.manager.otp.confirmOtp(
 				tx,
 				rawUser,
 				submitCode,
 				OtpTypes.EmailConfirm
 			);
+			if (!success) throw this.errors.api.badRequest(ApiErrors.BadRequestMessage.INVALID_OTP);
 			const newRawUser = await this.db.users.update.setEmailConfirmed(tx, rawUser, true);
-			return { newRawUser, success };
+			return { newRawUser };
 		});
 
-		if (success)
-			this.libs.mail.sendMail(
-				rawUser.email,
-				'Ваш адрес электронной почты подтверждён',
-				'Ваш адрес электронной почты подтверждён',
-				'<p>Ваш адрес электронной почты подтверждён</p>'
-			);
+		this.libs.mail.sendMail(
+			newRawUser.email,
+			'Your email address is verified',
+			'<p>Your email address is verified</p>',
+			'Your email address is verified'
+		);
 
 		const newPersonalUser = this.db.users.toPersonalJSON(newRawUser);
 
@@ -74,9 +75,9 @@ export default class AccountService extends BaseService {
 		if (rawOtp)
 			this.libs.mail.sendMail(
 				rawUser.email,
-				'Код подтверждения',
-				`<p>Ваш код подтверждения: ${rawOtp}</p>`,
-				`Ваш код подтверждения: ${rawOtp}`
+				'Verification Code',
+				`<p>Your verification code: ${rawOtp}</p>`,
+				`Your verification code: ${rawOtp}`
 			);
 
 		return { user: personalUser };
@@ -90,27 +91,27 @@ export default class AccountService extends BaseService {
 		const rawUser = await this.db.users.get.orThrow.byPublicUser(this.db.client, user);
 		const hashedPassword = await this.libs.hash.bcrypt.create(password, 10);
 
-		const { newRawUser, success } = await this.db.client.$transaction(async (tx) => {
+		const { newRawUser } = await this.db.client.$transaction(async (tx) => {
 			const { success } = await this.manager.otp.confirmOtp(
 				tx,
 				rawUser,
 				submitCode,
 				OtpTypes.passwordChange
 			);
+			if (!success) throw this.errors.api.badRequest(ApiErrors.BadRequestMessage.INVALID_OTP);
 			const newRawUser = await this.db.users.update.setPasswordHash(
 				tx,
 				rawUser,
 				hashedPassword
 			);
-			return { newRawUser, success };
+			return { newRawUser };
 		});
-		if (success)
-			this.libs.mail.sendMail(
-				rawUser.email,
-				'Ваш пароль успешно изменён',
-				'Ваш пароль успешно изменён',
-				'<p>Ваш пароль успешно изменён</p>'
-			);
+		this.libs.mail.sendMail(
+			rawUser.email,
+			'Ваш пароль успешно изменён',
+			'Ваш пароль успешно изменён',
+			'<p>Ваш пароль успешно изменён</p>'
+		);
 
 		const newPersonalUser = this.db.users.toPersonalJSON(newRawUser);
 
