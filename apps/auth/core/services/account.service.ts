@@ -109,8 +109,8 @@ export default class AccountService extends BaseService {
 		this.libs.mail.sendMail(
 			rawUser.email,
 			'Ваш пароль успешно изменён',
-			'Ваш пароль успешно изменён',
-			'<p>Ваш пароль успешно изменён</p>'
+			'<p>Ваш пароль успешно изменён</p>',
+			'Ваш пароль успешно изменён'
 		);
 
 		const newPersonalUser = this.db.users.toPersonalJSON(newRawUser);

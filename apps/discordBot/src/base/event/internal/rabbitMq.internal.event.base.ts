@@ -2,7 +2,7 @@ import BotBase, { type BotBaseArgs } from '../../bot.base.js';
 import ManagerContainer from '#containers/manager.container.js';
 import type { RabbitFromAuthQueues } from '@packages/infra';
 
-export abstract class BaseRabbitMqEvent<
+export default abstract class BaseRabbitMqEvent<
 	EventType extends keyof RabbitFromAuthQueues = keyof RabbitFromAuthQueues,
 > extends BotBase {
 	protected readonly type: EventType;
@@ -26,4 +26,3 @@ export abstract class BaseRabbitMqEvent<
 export type BaseRabbitMqEventArgs =
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	ConstructorParameters<typeof BaseRabbitMqEvent> extends [any, ...infer Rest] ? Rest : [];
-export default BaseRabbitMqEvent;

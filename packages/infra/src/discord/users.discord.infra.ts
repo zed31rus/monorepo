@@ -1,3 +1,4 @@
+import { ApiErrors } from '@shared/errors';
 import BaseInfra from '../infra.base.js';
 
 export default class UsersDiscordInfra extends BaseInfra {
@@ -13,10 +14,7 @@ export default class UsersDiscordInfra extends BaseInfra {
 		});
 
 		if (!response.ok) {
-			const errorText = await response.text();
-			throw this.errors.api.badRequest(
-				`Discord API Error: ${response.status} - ${errorText}`
-			);
+			throw this.errors.api.badRequest(ApiErrors.BadRequestMessage.DISCORD_API_ERROR);
 		}
 
 		return (await response.json()) as DiscordUsersMeReply;

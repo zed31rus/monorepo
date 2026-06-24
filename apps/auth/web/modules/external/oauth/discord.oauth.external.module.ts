@@ -11,10 +11,14 @@ export default class DiscordOauthExternalModule extends BaseModule<DiscordOauthM
 			const { code } = c.req.valid('query');
 			const publicUser = c.get('user');
 
+			this.logger.info(`Discord OAuth callback request: hasPublicUser=${!!publicUser}`);
+
 			const { user, refresh, access } = await this.core.services.oauth.discord.callback(
 				code,
 				publicUser
 			);
+
+			this.logger.info(`Discord OAuth callback success: userId=${user.uuid}`);
 
 			this.webManagers.session.sendSession(c, refresh);
 

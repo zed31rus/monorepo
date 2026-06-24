@@ -26,5 +26,5 @@ export default defineNuxtConfig({
 		},
 	},
 
-	modules: ['@vueuse/nuxt'],
+	modules: ['@vueuse/nuxt', '@nuxtjs/device', '@pinia/nuxt'],
 });

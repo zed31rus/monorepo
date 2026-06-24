@@ -1,3 +1,4 @@
+import { ApiErrors } from '@shared/errors';
 import BaseInfra from '../infra.base.js';
 
 export default class SpotifyInfra extends BaseInfra {
@@ -23,10 +24,7 @@ export default class SpotifyInfra extends BaseInfra {
 		});
 
 		if (!response.ok) {
-			const errorText = await response.text();
-			throw this.errors.api.badRequest(
-				`Discord API Error: ${response.status} - ${errorText}`
-			);
+			throw this.errors.api.badRequest(ApiErrors.BadRequestMessage.SPOTIFY_API_ERROR);
 		}
 
 		return (await response.json()) as DiscordOauthExchangeReply;
@@ -48,10 +46,7 @@ export default class SpotifyInfra extends BaseInfra {
 		});
 
 		if (!response.ok) {
-			const errorText = await response.text();
-			throw this.errors.api.badRequest(
-				`Discord API Error: ${response.status} - ${errorText}`
-			);
+			throw this.errors.api.badRequest(ApiErrors.BadRequestMessage.SPOTIFY_API_ERROR);
 		}
 
 		return (await response.json()) as DiscordOauthTokenReply;

@@ -18,6 +18,7 @@ datasource db {
 model Guild {
   id Int @id @default(autoincrement())
   guildId String @unique
+  noticeChannelId String
 
   /// [features]
   features Json

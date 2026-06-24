@@ -124,16 +124,36 @@ monorepo
 │  │  ├─ app
 │  │  │  ├─ app.vue
 │  │  │  ├─ components
-│  │  │  │  └─ views
-│  │  │  │     └─ main
-│  │  │  │        ├─ index.vue
-│  │  │  │        └─ variants
-│  │  │  │           ├─ desktop.vue
-│  │  │  │           └─ mobile.vue
+│  │  │  │  ├─ mainLayout
+│  │  │  │  │  ├─ index.vue
+│  │  │  │  │  └─ variants
+│  │  │  │  │     ├─ desktop.vue
+│  │  │  │  │     └─ mobile.vue
+│  │  │  │  ├─ notifications
+│  │  │  │  │  ├─ area.vue
+│  │  │  │  │  ├─ index.vue
+│  │  │  │  │  └─ instance.vue
+│  │  │  │  ├─ pages
+│  │  │  │  └─ sideBar
+│  │  │  │     ├─ index.vue
+│  │  │  │     ├─ item.vue
+│  │  │  │     └─ variants
+│  │  │  │        ├─ desktop.vue
+│  │  │  │        └─ mobile.vue
 │  │  │  ├─ composables
-│  │  │  │  └─ useIsMobile.ts
+│  │  │  │  └─ notifications.ts
+│  │  │  ├─ layouts
 │  │  │  ├─ main.css
-│  │  │  └─ pages
+│  │  │  ├─ pages
+│  │  │  │  └─ index.vue
+│  │  │  ├─ stores
+│  │  │  │  ├─ notifications.store.ts
+│  │  │  │  ├─ title.store.ts
+│  │  │  │  └─ user.store.ts
+│  │  │  └─ types
+│  │  │     ├─ notification.ts
+│  │  │     ├─ sideBar.ts
+│  │  │     └─ user.ts
 │  │  ├─ Dockerfile
 │  │  ├─ nuxt.config.ts
 │  │  ├─ package.json
