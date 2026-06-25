@@ -7,18 +7,30 @@ const useNotificationStore = defineStore('notificationStore', {
 		items: [] as AppNotification[],
 	}),
 	actions: {
-		async checkPermision() {
+		async checkPermission() {
+			if (typeof window === 'undefined' || !('Notification' in window)) {
+				return false;
+			}
+
 			const permission = Notification.permission;
-			if (permission == 'granted') return true;
-			if (permission == 'denied') return false;
-			await Notification.requestPermission();
+			if (permission === 'granted') return true;
+			if (permission === 'denied') return false;
+			const res = await Notification.requestPermission();
+			if (res === 'denied' || res === 'default') return false;
+			return true;
 		},
 
 		async sendNotification(
 			title: string,
 			options: ConstructorParameters<typeof Notification>[1]
 		) {
-			if (await this.checkPermision()) new Notification(title, options);
+			if (typeof window === 'undefined' || !('Notification' in window)) {
+				return;
+			}
+
+			if (await this.checkPermission()) {
+				new Notification(title, options);
+			}
 		},
 
 		async createNotification(
@@ -27,6 +39,7 @@ const useNotificationStore = defineStore('notificationStore', {
 			action: CallbackType | null = null,
 			duration: number = 3000
 		) {
+			await this.checkPermission();
 			const notification = new AppNotification(type, content, action, duration);
 
 			this.items.unshift(notification);

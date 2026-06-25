@@ -61,7 +61,7 @@
     cursor: pointer;
     overflow: hidden;
     width: 20rem;
-    background-color: rgba(23, 23, 23, 0.5);
+    background-color: var(--notification-color);
     backdrop-filter: blur(24px);
     padding: 1rem;
     border-radius: 1rem 0.375rem 0.375rem 1rem; 
