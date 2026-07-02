@@ -12,7 +12,7 @@ abstract class BotBase extends Base {
 	};
 	constructor(
 		readonly client: Client<true>,
-		readonly db: InstanceType<typeof DBContainer>['discordBot'],
+		readonly db: InstanceType<(typeof DBContainer)['discordBot']>,
 		readonly infra: InfraContainer,
 		eventEmitter: EventEmitter<RabbitFromAuthQueues>,
 		...baseArgs: BaseArgs

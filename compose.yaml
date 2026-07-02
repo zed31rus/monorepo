@@ -1,13 +1,29 @@
 services:
   frontend:
-    container_name: nuxt-frontend
+    container_name: zed31rus.ru
     environment:
       PORT: 3001
     build:
       context: .
       dockerfile: apps/frontend/Dockerfile
+    env_file:
+      - prod.env
 
     ports:
       - "3001:3001"
+      
+
+  spotify:
+    container_name: spotify.zed31rus.ru
+    build:
+      context: .
+      dockerfile: apps/spotify/Dockerfile
+    env_file:
+      - prod.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    ports:
+      - "3102:3102"
 
     restart: unless-stopped

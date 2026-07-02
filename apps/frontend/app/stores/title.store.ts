@@ -11,16 +11,16 @@ const useTitleStore = defineStore('title', {
 
 			useHead({
 				title: () => {
-					if (notificationsStore.items.length > 0)
-						return `(${notificationsStore.items.length}) zed31rus | ${this.currentPageTitle}`;
-					else return `zed31rus | ${this.currentPageTitle}`;
+					const count = notificationsStore.items.length;
+					const title = this.currentPageTitle;
+
+					return `${count ? `(${count}) ` : ''}zed31rus.ru${title ? ` | ${title}` : ''}`;
 				},
 			});
 		},
 		setCurrentPageTitle(title: string) {
 			this.currentPageTitle = title;
 		},
-		setDynamicTitle() {},
 	},
 });
 

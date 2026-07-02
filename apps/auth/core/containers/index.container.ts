@@ -13,12 +13,12 @@ import ConfigContainer from '@shared/config';
 import DbContainer from '@packages/db';
 import InfraContainer from '@packages/infra';
 import Logger from '@shared/logger';
-import type winston from 'winston';
 
 const errors = new ErrorsContainer(
 	new ErrorsContainer.deps.ApiErrors(),
 	new ErrorsContainer.deps.ConfigErrors(),
-	new ErrorsContainer.deps.PrismaErrors()
+	new ErrorsContainer.deps.PrismaErrors(),
+	new ErrorsContainer.deps.InternalErrors()
 );
 
 const configDeps = [errors] as const;
@@ -39,6 +39,9 @@ const infra = new InfraContainer(
 		auth: {
 			users: new InfraContainer.deps.internal.auth.users(...packagesDeps),
 		},
+	},
+	{
+		oauth: new InfraContainer.deps.spotify.oauth(...packagesDeps),
 	}
 );
 
@@ -50,10 +53,7 @@ const libs = new LibContainer(
 	new LibContainer.deps.VerificationCode(...packagesDeps)
 );
 
-const db = new DbContainer(
-	new DbContainer.deps.authDB(...packagesDeps),
-	new DbContainer.deps.discordbotDB(...packagesDeps)
-).auth;
+const db = new DbContainer.auth(...packagesDeps);
 
 const managersDeps = [db, libs, infra, ...packagesDeps] as const;
 
@@ -74,15 +74,6 @@ const services = new ServiceContainer(
 	}
 );
 
-const coreContainer: {
-	libs: LibContainer;
-	db: DbContainer['auth'];
-	infra: InfraContainer;
-	managers: ManagerContainer;
-	services: ServiceContainer;
-	configs: ConfigContainer;
-	errors: ErrorsContainer;
-	logger: winston.Logger;
-} = { libs, db, infra, managers, services, configs, errors, logger };
+const coreContainer = { libs, db, infra, managers, services, configs, errors, logger };
 
 export default coreContainer;

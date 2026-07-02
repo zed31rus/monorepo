@@ -1,0 +1,16 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+  moduleFormat = "esm"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model dailyTrack {
+  id Int @id
+  trackId String @unique
+  updatedAt DateTime @default(now())
+}

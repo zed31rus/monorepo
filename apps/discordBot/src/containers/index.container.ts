@@ -17,7 +17,8 @@ import EventEmitter from 'node:events';
 const errorsContainer = new ErrorsContainer(
 	new ErrorsContainer.deps.ApiErrors(),
 	new ErrorsContainer.deps.ConfigErrors(),
-	new ErrorsContainer.deps.PrismaErrors()
+	new ErrorsContainer.deps.PrismaErrors(),
+	new ErrorsContainer.deps.InternalErrors()
 );
 
 const configDeps = [errorsContainer] as const;
@@ -38,13 +39,13 @@ const infraContainer = new InfraContainer(
 		auth: {
 			users: new InfraContainer.deps.internal.auth.users(...packagesDeps),
 		},
+	},
+	{
+		oauth: new InfraContainer.deps.spotify.oauth(...packagesDeps),
 	}
 );
 
-const db = new DbContainer(
-	new DbContainer.deps.authDB(...packagesDeps),
-	new DbContainer.deps.discordbotDB(...packagesDeps)
-).discordBot;
+const db = new DbContainer.discordBot(...packagesDeps);
 
 const client = new Client({
 	intents: [

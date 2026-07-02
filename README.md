@@ -2,6 +2,7 @@
 ```structure
 monorepo
 ├─ .dockerignore
+├─ .json
 ├─ .prettierrc
 ├─ apps
 │  ├─ auth
@@ -140,6 +141,11 @@ monorepo
 │  │  │  │  │        ├─ desktop.vue
 │  │  │  │  │        └─ mobile.vue
 │  │  │  │  ├─ pages
+│  │  │  │  │  └─ main
+│  │  │  │  │     ├─ index.vue
+│  │  │  │  │     └─ variants
+│  │  │  │  │        ├─ desktop.vue
+│  │  │  │  │        └─ mobile.vue
 │  │  │  │  └─ sideBar
 │  │  │  │     ├─ index.vue
 │  │  │  │     ├─ item.vue
@@ -171,9 +177,58 @@ monorepo
 │  │  ├─ README.md
 │  │  └─ tsconfig.json
 │  └─ spotify
+│     ├─ core
+│     │  ├─ base
+│     │  │  ├─ core.ts
+│     │  │  ├─ emitter.ts
+│     │  │  ├─ instance.ts
+│     │  │  ├─ manager.ts
+│     │  │  └─ services.ts
+│     │  ├─ containers
+│     │  │  ├─ emitter.ts
+│     │  │  ├─ index.ts
+│     │  │  ├─ instances.ts
+│     │  │  ├─ managers.ts
+│     │  │  └─ services.ts
+│     │  ├─ emitters
+│     │  │  └─ schedullers
+│     │  │     └─ dailyTrack.ts
+│     │  ├─ instances
+│     │  │  └─ spotify.ts
+│     │  ├─ managers
+│     │  │  └─ dailyTrack.ts
+│     │  └─ services
+│     │     └─ playlist.ts
+│     ├─ Dockerfile
 │     ├─ package.json
-│     ├─ src
-│     └─ tsconfig.json
+│     ├─ start.ts
+│     ├─ tsconfig.json
+│     └─ web
+│        ├─ base
+│        │  ├─ handler.ts
+│        │  ├─ module.ts
+│        │  ├─ openapi.ts
+│        │  ├─ server.ts
+│        │  ├─ web.ts
+│        │  └─ wrapper.ts
+│        ├─ containers
+│        │  ├─ handler.ts
+│        │  ├─ index.ts
+│        │  ├─ module.ts
+│        │  ├─ openapi.ts
+│        │  ├─ server.ts
+│        │  └─ wrapper.ts
+│        ├─ handlers
+│        │  └─ error.ts
+│        ├─ modules
+│        │  └─ dailyTrack.ts
+│        ├─ openapi
+│        │  └─ dailyTrack.ts
+│        ├─ servers
+│        │  └─ external.ts
+│        └─ wrappers
+│           ├─ cors.ts
+│           └─ rateLimiter.ts
 ├─ base
 │  ├─ index.ts
 │  ├─ package.json
@@ -191,63 +246,72 @@ monorepo
 │  │  ├─ package.json
 │  │  ├─ src
 │  │  │  ├─ auth
-│  │  │  │  ├─ auth.db.ts
-│  │  │  │  ├─ auth.prisma.config.ts
-│  │  │  │  ├─ auth.schema.prisma
+│  │  │  │  ├─ auth.ts
+│  │  │  │  ├─ config.ts
 │  │  │  │  ├─ oauth
 │  │  │  │  │  ├─ cases
-│  │  │  │  │  │  ├─ createOauthAccount.db.case.ts
-│  │  │  │  │  │  ├─ getOauthAccount.db.case.ts
-│  │  │  │  │  │  ├─ updateOauthAccount.db.case.ts
-│  │  │  │  │  │  └─ upsertOauthAccount.db.case.ts
-│  │  │  │  │  └─ oauth.db.ts
+│  │  │  │  │  │  ├─ create.ts
+│  │  │  │  │  │  ├─ get.ts
+│  │  │  │  │  │  ├─ update.ts
+│  │  │  │  │  │  └─ upsert.ts
+│  │  │  │  │  └─ oauth.ts
 │  │  │  │  ├─ refreshToken
 │  │  │  │  │  ├─ cases
-│  │  │  │  │  │  ├─ createRefreshToken.db.case.ts
-│  │  │  │  │  │  ├─ deleteRefreshToken.db.case.ts
-│  │  │  │  │  │  └─ getRefreshToken.db.case.ts
-│  │  │  │  │  └─ refreshToken.db.ts
+│  │  │  │  │  │  ├─ create.ts
+│  │  │  │  │  │  ├─ delete.ts
+│  │  │  │  │  │  └─ get.ts
+│  │  │  │  │  └─ refreshToken.ts
+│  │  │  │  ├─ schema.prisma
 │  │  │  │  ├─ user
 │  │  │  │  │  ├─ cases
-│  │  │  │  │  │  ├─ createUser.db.case.ts
-│  │  │  │  │  │  ├─ getUser.db.case.ts
-│  │  │  │  │  │  └─ updateUser.db.case.ts
-│  │  │  │  │  └─ user.db.ts
+│  │  │  │  │  │  ├─ create.ts
+│  │  │  │  │  │  ├─ get.ts
+│  │  │  │  │  │  └─ update.ts
+│  │  │  │  │  └─ user.ts
 │  │  │  │  └─ verificationCode
 │  │  │  │     ├─ cases
-│  │  │  │     │  ├─ deleteVerificationCode.db.case.ts
-│  │  │  │     │  ├─ getVerificationCode.db.case.ts
-│  │  │  │     │  └─ upsertVerificationCode.db.case.ts
-│  │  │  │     └─ verificationCode.db.ts
+│  │  │  │     │  ├─ delete.ts
+│  │  │  │     │  ├─ get.ts
+│  │  │  │     │  └─ upsert.ts
+│  │  │  │     └─ verificationCode.ts
 │  │  │  ├─ db.base.ts
 │  │  │  ├─ db.container.ts
-│  │  │  └─ discordBot
-│  │  │     ├─ activityStatus
-│  │  │     │  ├─ activityStatus.discordbot.db.ts
-│  │  │     │  └─ cases
-│  │  │     │     ├─ create.activityStatus.db.case.ts
-│  │  │     │     ├─ delete.activityStatus.db.case.ts
-│  │  │     │     └─ get.activityStatus.db.case.ts
-│  │  │     ├─ discordbot.db.ts
-│  │  │     ├─ discordbot.prisma.config.ts
-│  │  │     ├─ discordbot.schema.prisma
-│  │  │     ├─ guilds
+│  │  │  ├─ discordBot
+│  │  │  │  ├─ activityStatus
+│  │  │  │  │  ├─ activityStatus.ts
+│  │  │  │  │  └─ cases
+│  │  │  │  │     ├─ create.ts
+│  │  │  │  │     ├─ delete.ts
+│  │  │  │  │     └─ get.ts
+│  │  │  │  ├─ config.ts
+│  │  │  │  ├─ db.ts
+│  │  │  │  ├─ guilds
+│  │  │  │  │  ├─ cases
+│  │  │  │  │  │  ├─ create.ts
+│  │  │  │  │  │  ├─ delete.ts
+│  │  │  │  │  │  └─ get.ts
+│  │  │  │  │  ├─ features
+│  │  │  │  │  │  ├─ cases
+│  │  │  │  │  │  │  ├─ create.ts
+│  │  │  │  │  │  │  └─ delete.ts
+│  │  │  │  │  │  └─ features.ts
+│  │  │  │  │  └─ guilds.ts
+│  │  │  │  ├─ schema.prisma
+│  │  │  │  └─ serverName
+│  │  │  │     ├─ cases
+│  │  │  │     │  ├─ create.serverName.case.db.ts
+│  │  │  │     │  ├─ delete.serverName.case.db.ts
+│  │  │  │     │  └─ get.serverName.case.db.ts
+│  │  │  │     └─ serverName.db.ts
+│  │  │  └─ spotify
+│  │  │     ├─ config.ts
+│  │  │     ├─ dailyTrack
 │  │  │     │  ├─ cases
-│  │  │     │  │  ├─ create.guild.discordbot.db.case.ts
-│  │  │     │  │  ├─ delete.guild.discordbot.db.case.ts
-│  │  │     │  │  └─ get.guild.discordbot.db.case.ts
-│  │  │     │  ├─ features
-│  │  │     │  │  ├─ cases
-│  │  │     │  │  │  ├─ add.feature.guild.db.case.ts
-│  │  │     │  │  │  └─ delete.feature.guild.db.case.ts
-│  │  │     │  │  └─ features.guild.discordbot.db.ts
-│  │  │     │  └─ guilds.discordbot.db.ts
-│  │  │     └─ serverName
-│  │  │        ├─ cases
-│  │  │        │  ├─ create.serverName.db.case.ts
-│  │  │        │  ├─ delete.serverName.db.case.ts
-│  │  │        │  └─ get.serverName.db.case.ts
-│  │  │        └─ serverName.db.ts
+│  │  │     │  │  ├─ get.ts
+│  │  │     │  │  └─ upsert.ts
+│  │  │     │  └─ dailyTrack.ts
+│  │  │     ├─ schema.prisma
+│  │  │     └─ spotify.db.ts
 │  │  ├─ tsconfig.json
 │  │  └─ types
 │  │     └─ declarations.ts
@@ -266,7 +330,7 @@ monorepo
 │  │  │  ├─ rabbitmq
 │  │  │  │  └─ rabbitmq.infra.ts
 │  │  │  └─ spotify
-│  │  │     └─ spotify.infra.ts
+│  │  │     └─ oauth.spotify.infra.ts
 │  │  └─ tsconfig.json
 │  └─ libs
 │     ├─ index.ts
@@ -304,9 +368,10 @@ monorepo
 │  │  ├─ package.json
 │  │  ├─ src
 │  │  │  ├─ errors
-│  │  │  │  ├─ api.errors.ts
-│  │  │  │  ├─ config.errors.ts
-│  │  │  │  └─ prisma.errors.ts
+│  │  │  │  ├─ api.ts
+│  │  │  │  ├─ config.ts
+│  │  │  │  ├─ internal.ts
+│  │  │  │  └─ prisma.ts
 │  │  │  ├─ errors.base.ts
 │  │  │  └─ errors.container.ts
 │  │  └─ tsconfig.json

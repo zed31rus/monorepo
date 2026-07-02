@@ -4,6 +4,7 @@ import useNotificationStore from '~/stores/notifications.store';
 
 const notificationStore = useNotificationStore();
 const titleStore = useTitleStore();
+titleStore.init()
 </script>
 
 <template>

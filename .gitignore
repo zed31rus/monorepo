@@ -3,5 +3,6 @@
 **/dist
 **/migrations
 **/.env
+**/prod.env
 **/.output
 **/.nuxt

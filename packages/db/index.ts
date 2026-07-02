@@ -6,8 +6,8 @@ import {
 	type PersonalUser as PerUser,
 	type PublicUser as PubUser,
 	type RawUser as RUser,
-} from './src/auth/auth.db.js';
-import { DiscordBotDBType as DiscordBotDbT } from './src/discordBot/discordbot.db.js';
+} from './src/auth/auth.js';
+import { DiscordBotDBType as DiscordBotDbT } from './src/discordBot/db.js';
 
 export default DbContainer;
 

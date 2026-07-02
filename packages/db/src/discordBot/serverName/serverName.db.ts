@@ -1,6 +1,6 @@
-import CreateServerName from './cases/create.serverName.db.case.js';
-import DeleteServerName from './cases/delete.serverName.db.case.js';
-import GetServerName from './cases/get.serverName.db.case.js';
+import CreateServerName from './cases/create.serverName.case.db.js';
+import DeleteServerName from './cases/delete.serverName.case.db.js';
+import GetServerName from './cases/get.serverName.case.db.js';
 
 class ServerName {
 	readonly get = new GetServerName();

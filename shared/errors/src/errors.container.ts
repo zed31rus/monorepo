@@ -1,19 +1,20 @@
-import ApiErrors from './errors/api.errors.js';
-import ConfigErrors from './errors/config.errors.js';
-import PrismaErrorss from './errors/prisma.errors.js';
-import { ApiError } from './errors/api.errors.js';
-import { ConfigError } from './errors/config.errors.js';
+import ApiErrors, { ApiError } from './errors/api.js';
+import ConfigErrors, { ConfigError } from './errors/config.js';
+import InternalErrors, { InternalError } from './errors/internal.js';
+import PrismaErrors from './errors/prisma.js';
 
 class ErrorsContainer {
 	constructor(
 		readonly api: ApiErrors,
 		readonly config: ConfigErrors,
-		readonly prisma: PrismaErrorss
+		readonly prisma: PrismaErrors,
+		readonly internal: InternalErrors
 	) {}
 
-	static deps = { ApiErrors, ConfigErrors, PrismaErrors: PrismaErrorss };
+	static deps = { ApiErrors, ConfigErrors, PrismaErrors, InternalErrors };
 	static ApiError = ApiError;
 	static ConfigError = ConfigError;
+	static InternalError = InternalError;
 }
 
 export default ErrorsContainer;

@@ -21,6 +21,10 @@ export default class EnvConfig extends BaseConfig {
 	readonly DISCORD_BOT_TOKEN: string;
 	readonly INTERNAL_TOKEN: string;
 	readonly PRIMARY_SERVER_ID: string;
+	readonly SPOTIFY_CLIENT_ID: string;
+	readonly SPOTIFY_CLIENT_SECRET: string;
+	readonly SPOTIFY_REFRESH_TOKEN: string;
+	readonly SPOTIFY_PRIMARY_PLAYLIST: string;
 
 	constructor(...baseArgs: BaseConfigArgs) {
 		super(...baseArgs);
@@ -41,6 +45,10 @@ export default class EnvConfig extends BaseConfig {
 		this.DISCORD_BOT_TOKEN = this.getEnv('DISCORD_BOT_TOKEN');
 		this.INTERNAL_TOKEN = this.getEnv('INTERNAL_TOKEN');
 		this.PRIMARY_SERVER_ID = this.getEnv('PRIMARY_SERVER_ID');
+		this.SPOTIFY_CLIENT_ID = this.getEnv('SPOTIFY_CLIENT_ID');
+		this.SPOTIFY_CLIENT_SECRET = this.getEnv('SPOTIFY_CLIENT_SECRET');
+		this.SPOTIFY_REFRESH_TOKEN = this.getEnv('SPOTIFY_REFRESH_TOKEN');
+		this.SPOTIFY_PRIMARY_PLAYLIST = this.getEnv('SPOTIFY_PRIMARY_PLAYLIST');
 	}
 
 	private getEnv(key: string): string {
