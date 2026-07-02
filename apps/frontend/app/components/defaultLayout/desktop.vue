@@ -1,0 +1,4 @@
+<template>
+  <SideBarDesktop/>
+  <NotificationsDesktop/>
+</template>

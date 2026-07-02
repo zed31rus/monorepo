@@ -17,7 +17,11 @@ export default abstract class BaseManager extends CoreBase {
 			const isUnauthorized = error?.statusCode === 401 || error?.message?.includes('token');
 
 			if (isUnauthorized && attempts > 1) {
-				await this.instances.SpotifyApi.client.refreshAccessToken();
+				const refreshResponse = await this.instances.SpotifyApi.client.refreshAccessToken();
+
+				this.instances.SpotifyApi.client.setAccessToken(
+					refreshResponse.body['access_token']
+				);
 
 				return await this.executeSpotify(apiCall, attempts - 1);
 			}

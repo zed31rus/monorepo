@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import useTitleStore from '~/stores/title.store';
-import useNotificationStore from '~/stores/notifications.store';
+  import useTitleStore from '~/stores/title.store';
+  import useNotificationStore from '~/stores/notifications.store';
 
-const notificationStore = useNotificationStore();
-const titleStore = useTitleStore();
-titleStore.init()
+  const titleStore = useTitleStore();
+  onBeforeMount(() => {
+    titleStore.init()
+  })
 </script>
 
 <template>
   <div class="app-root">
-    <MainLayout>
-      <NuxtLayout>
-        <NuxtPage/>
-      </NuxtLayout>
-    </MainLayout>
+    <NuxtLayout>
+      <NuxtPage/>
+    </NuxtLayout>
   </div>
 </template>
 
@@ -24,5 +23,6 @@ titleStore.init()
     left: 0;
     width: 100dvw;
     min-height: 100dvh;
+    box-sizing: border-box;
   }
 </style>

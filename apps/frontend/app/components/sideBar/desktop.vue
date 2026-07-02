@@ -3,12 +3,10 @@ import { ref, computed, watch, nextTick, useTemplateRef } from 'vue';
 import { motion, useAnimate, AnimatePresence } from 'motion-v';
 import { onClickOutside } from '@vueuse/core';
 import { Icon } from '@iconify/vue';
-import type { SideBarPages } from '~/types/sideBar';
-import SideBarItem from '../item.vue';
+import SideBarItem from './item.vue';
+import pages from '~/composables/routes.js';
 
 const MotionSideBarItem = motion.create(SideBarItem);
-
-defineProps<{ pages: SideBarPages[] }>();
 
 const isOpen = ref(false);
 const isVisible = ref(false);

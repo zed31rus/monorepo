@@ -23,8 +23,6 @@ body {
 	background-size: cover;
 	background-position: center;
 	background-attachment: fixed;
-	width: 100%;
-	min-height: 100dvh;
 	color: rgb(var(--text-main-color));
 }
 
