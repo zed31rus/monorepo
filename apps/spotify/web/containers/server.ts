@@ -1,5 +1,5 @@
-import type ExternalServer from '#web/servers/external.js';
+import type ExternalWebServer from '#web/servers/external.js';
 
-export default class ServerContainer {
-	constructor(readonly external: ExternalServer) {}
+export default class WebServerContainer {
+	constructor(readonly external: ExternalWebServer) {}
 }

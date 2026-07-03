@@ -1,6 +1,6 @@
-import BaseModule from '#web/base/module.js';
+import BaseWebModule from '#web/base/module.js';
 
-export default class DailyTrackModule extends BaseModule {
+export default class DailyTrackWebModule extends BaseWebModule {
 	init() {
 		this.router.use(this.wrappers.rateLimiter.limit(15 * 60 * 1000, 10));
 

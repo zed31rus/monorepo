@@ -1,7 +1,7 @@
 import { AuthDBType, type RawUser } from '../../auth.js';
 
 export default class CreateUsers {
-	async createUser(
+	async create(
 		client: AuthDBType.TransactionClient,
 		nickname: RawUser['nickname'],
 		login: RawUser['login'],

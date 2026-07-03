@@ -1,7 +1,7 @@
 import LibContainer, {
 	type JWTExpires as JWTExpiress,
 	type RefreshTokenExpires as RefreshTokenExpiress,
-} from './src/lib.container.js';
+} from './src/container.js';
 
 export default LibContainer;
 export type JWTExpires = JWTExpiress;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useTitleStore from '~/stores/title.store';
+import useTitleStore from '~/stores/title';
 
   const titleStore = useTitleStore();
   titleStore.setCurrentPageTitle('Home')

@@ -1,167 +1,161 @@
-
 ```structure
 monorepo
 ├─ .dockerignore
-├─ .json
 ├─ .prettierrc
 ├─ apps
 │  ├─ auth
 │  │  ├─ core
 │  │  │  ├─ base
-│  │  │  │  ├─ core.base.ts
-│  │  │  │  ├─ manager.base.ts
-│  │  │  │  └─ service.base.ts
+│  │  │  │  ├─ core.ts
+│  │  │  │  ├─ manager.ts
+│  │  │  │  └─ service.ts
 │  │  │  ├─ containers
-│  │  │  │  ├─ index.container.ts
-│  │  │  │  ├─ manager.container.ts
-│  │  │  │  └─ services.container.ts
+│  │  │  │  ├─ index.ts
+│  │  │  │  ├─ manager.ts
+│  │  │  │  └─ services.ts
 │  │  │  ├─ managers
-│  │  │  │  ├─ otp.manager.ts
-│  │  │  │  └─ session.manager.ts
+│  │  │  │  ├─ otp.ts
+│  │  │  │  └─ session.ts
 │  │  │  └─ services
-│  │  │     ├─ account.service.ts
-│  │  │     ├─ auth.service.ts
-│  │  │     ├─ me.service.ts
+│  │  │     ├─ account.ts
+│  │  │     ├─ auth.ts
+│  │  │     ├─ me.ts
 │  │  │     ├─ oauth
-│  │  │     │  └─ discord.oauth.service.ts
-│  │  │     └─ users.service.ts
+│  │  │     │  └─ discord.ts
+│  │  │     └─ users.ts
 │  │  ├─ package.json
 │  │  ├─ start.ts
 │  │  ├─ tsconfig.json
 │  │  └─ web
 │  │     ├─ base
-│  │     │  ├─ handler.base.ts
-│  │     │  ├─ manager.web.base.ts
-│  │     │  ├─ middleware.base.ts
-│  │     │  ├─ module.base.ts
-│  │     │  ├─ openapi.base.ts
-│  │     │  ├─ server.base.ts
-│  │     │  ├─ web.base.ts
-│  │     │  └─ wrapper.base.ts
+│  │     │  ├─ handler.ts
+│  │     │  ├─ manager.ts
+│  │     │  ├─ middleware.ts
+│  │     │  ├─ module.ts
+│  │     │  ├─ openapi.ts
+│  │     │  ├─ server.ts
+│  │     │  ├─ web.ts
+│  │     │  └─ wrapper.ts
 │  │     ├─ containers
-│  │     │  ├─ dto.container.ts
-│  │     │  ├─ handler.container.ts
-│  │     │  ├─ index.web.container.ts
-│  │     │  ├─ managers.container.ts
-│  │     │  ├─ middleware.container.ts
-│  │     │  ├─ module.container.ts
-│  │     │  ├─ openapi.container.ts
-│  │     │  ├─ server.container.ts
-│  │     │  └─ wrapper.container.ts
+│  │     │  ├─ dto.ts
+│  │     │  ├─ handler.ts
+│  │     │  ├─ index.ts
+│  │     │  ├─ managers.ts
+│  │     │  ├─ middleware.ts
+│  │     │  ├─ module.ts
+│  │     │  ├─ openapi.ts
+│  │     │  ├─ server.ts
+│  │     │  └─ wrapper.ts
 │  │     ├─ dto
-│  │     │  ├─ cookie.dto.ts
-│  │     │  └─ file.dto.ts
+│  │     │  ├─ cookie.ts
+│  │     │  └─ file.ts
 │  │     ├─ handlers
-│  │     │  ├─ auth.handler.ts
-│  │     │  ├─ error.handler.ts
-│  │     │  └─ file.handler.ts
+│  │     │  ├─ auth.ts
+│  │     │  ├─ error.ts
+│  │     │  └─ file.ts
 │  │     ├─ managers
-│  │     │  └─ session.manager.ts
+│  │     │  └─ session.ts
 │  │     ├─ middleware
-│  │     │  ├─ auth.middleware.ts
-│  │     │  └─ file.middleware.ts
+│  │     │  ├─ auth.ts
+│  │     │  └─ file.ts
 │  │     ├─ modules
 │  │     │  ├─ external
-│  │     │  │  ├─ account.external.module.ts
-│  │     │  │  ├─ auth.external.module.ts
-│  │     │  │  ├─ me.external.module.ts
+│  │     │  │  ├─ account.ts
+│  │     │  │  ├─ auth.ts
+│  │     │  │  ├─ me.ts
 │  │     │  │  ├─ oauth
-│  │     │  │  │  └─ discord.oauth.external.module.ts
-│  │     │  │  └─ users.external.module.ts
+│  │     │  │  │  └─ discord.ts
+│  │     │  │  └─ users.ts
 │  │     │  └─ internal
-│  │     │     └─ users.internal.module.ts
+│  │     │     └─ users.ts
 │  │     ├─ openapi
 │  │     │  ├─ external
-│  │     │  │  ├─ account.external.openapi.ts
-│  │     │  │  ├─ auth.external.openapi.ts
-│  │     │  │  ├─ me.external.openapi.ts
+│  │     │  │  ├─ account.ts
+│  │     │  │  ├─ auth.ts
+│  │     │  │  ├─ me.ts
 │  │     │  │  ├─ oauth
-│  │     │  │  │  └─ discord.oauth.external.openapi.ts
-│  │     │  │  └─ users.external.openapi.ts
+│  │     │  │  │  └─ discord.ts
+│  │     │  │  └─ users.ts
 │  │     │  └─ internal
-│  │     │     └─ users.internal.openapi.ts
+│  │     │     └─ users.ts
 │  │     ├─ servers
-│  │     │  ├─ external.server.ts
-│  │     │  └─ internal.server.ts
+│  │     │  ├─ external.ts
+│  │     │  └─ internal.ts
 │  │     ├─ types
 │  │     │  └─ Env.ts
 │  │     └─ wrappers
-│  │        ├─ cors.wrapper.ts
-│  │        ├─ rateLimiter.wrapper.ts
-│  │        └─ validator.wrapper.ts
+│  │        ├─ cors.ts
+│  │        ├─ rateLimiter.ts
+│  │        └─ validator.ts
 │  ├─ discordBot
 │  │  ├─ package.json
 │  │  ├─ src
 │  │  │  ├─ base
-│  │  │  │  ├─ bot.base.ts
+│  │  │  │  ├─ bot.ts
 │  │  │  │  ├─ event
-│  │  │  │  │  ├─ discord.event.base.ts
+│  │  │  │  │  ├─ discord.ts
 │  │  │  │  │  └─ internal
-│  │  │  │  │     └─ rabbitMq.internal.event.base.ts
-│  │  │  │  └─ manager.base.ts
+│  │  │  │  │     └─ rabbitMq.ts
+│  │  │  │  └─ manager.ts
 │  │  │  ├─ containers
 │  │  │  │  ├─ event
-│  │  │  │  │  └─ discord.event.container.ts
-│  │  │  │  ├─ index.container.ts
-│  │  │  │  └─ manager.container.ts
+│  │  │  │  │  └─ discord.ts
+│  │  │  │  ├─ index.ts
+│  │  │  │  └─ manager.ts
 │  │  │  ├─ events
 │  │  │  │  ├─ discord
 │  │  │  │  │  └─ guild
 │  │  │  │  │     └─ voice
 │  │  │  │  │        └─ hub
-│  │  │  │  │           ├─ onConnect.hub.voice.guild.discord.event.ts
-│  │  │  │  │           └─ onDisconnect.hub.voice.guild.discord.event.ts
+│  │  │  │  │           ├─ onConnect.ts
+│  │  │  │  │           └─ onDisconnect.ts
 │  │  │  │  └─ internal
 │  │  │  │     └─ rabbitMq
 │  │  │  │        └─ auth
 │  │  │  │           └─ from
-│  │  │  │              └─ oauthRegisteredNewUser.rabbitmq.event.ts
+│  │  │  │              └─ oauthRegisteredNewUser.ts
 │  │  │  └─ managers
-│  │  │     ├─ activity.manager.ts
-│  │  │     ├─ serverName.manager.ts
-│  │  │     └─ voice.manager.ts
+│  │  │     ├─ activity.ts
+│  │  │     ├─ serverName.ts
+│  │  │     └─ voice.ts
 │  │  └─ tsconfig.json
 │  ├─ frontend
 │  │  ├─ app
 │  │  │  ├─ app.vue
 │  │  │  ├─ components
-│  │  │  │  ├─ mainLayout
-│  │  │  │  │  ├─ index.vue
-│  │  │  │  │  └─ variants
-│  │  │  │  │     ├─ desktop.vue
-│  │  │  │  │     └─ mobile.vue
+│  │  │  │  ├─ defaultLayout
+│  │  │  │  │  ├─ desktop.vue
+│  │  │  │  │  └─ mobile.vue
 │  │  │  │  ├─ notifications
 │  │  │  │  │  ├─ area
-│  │  │  │  │  │  └─ variants
-│  │  │  │  │  │     ├─ desktop.vue
-│  │  │  │  │  │     └─ mobile.vue
-│  │  │  │  │  ├─ index.vue
-│  │  │  │  │  └─ instance
-│  │  │  │  │     └─ variants
-│  │  │  │  │        ├─ desktop.vue
-│  │  │  │  │        └─ mobile.vue
+│  │  │  │  │  │  ├─ desktop.vue
+│  │  │  │  │  │  └─ mobile.vue
+│  │  │  │  │  ├─ desktop.vue
+│  │  │  │  │  ├─ instance
+│  │  │  │  │  │  ├─ desktop.vue
+│  │  │  │  │  │  └─ mobile.vue
+│  │  │  │  │  └─ mobile.vue
 │  │  │  │  ├─ pages
-│  │  │  │  │  └─ main
-│  │  │  │  │     ├─ index.vue
-│  │  │  │  │     └─ variants
-│  │  │  │  │        ├─ desktop.vue
-│  │  │  │  │        └─ mobile.vue
+│  │  │  │  │  └─ home
+│  │  │  │  │     ├─ desktop.vue
+│  │  │  │  │     └─ mobile.vue
 │  │  │  │  └─ sideBar
-│  │  │  │     ├─ index.vue
+│  │  │  │     ├─ desktop.vue
 │  │  │  │     ├─ item.vue
-│  │  │  │     └─ variants
-│  │  │  │        ├─ desktop.vue
-│  │  │  │        └─ mobile.vue
+│  │  │  │     └─ mobile.vue
 │  │  │  ├─ composables
-│  │  │  │  └─ notifications.ts
+│  │  │  │  ├─ notifications.ts
+│  │  │  │  ├─ routes.ts
+│  │  │  │  └─ typeColors.ts
 │  │  │  ├─ layouts
+│  │  │  │  └─ default.vue
 │  │  │  ├─ main.css
 │  │  │  ├─ pages
 │  │  │  │  └─ index.vue
 │  │  │  ├─ stores
-│  │  │  │  ├─ notifications.store.ts
-│  │  │  │  ├─ title.store.ts
-│  │  │  │  └─ user.store.ts
+│  │  │  │  ├─ notifications.ts
+│  │  │  │  ├─ title.ts
+│  │  │  │  └─ user.ts
 │  │  │  └─ types
 │  │  │     ├─ notification.ts
 │  │  │     ├─ sideBar.ts
@@ -233,8 +227,7 @@ monorepo
 │  ├─ index.ts
 │  ├─ package.json
 │  ├─ src
-│  │  └─ base
-│  │     └─ base.ts
+│  │  └─ base.ts
 │  └─ tsconfig.json
 ├─ compose.yaml
 ├─ eslint.config.ts
@@ -299,10 +292,10 @@ monorepo
 │  │  │  │  ├─ schema.prisma
 │  │  │  │  └─ serverName
 │  │  │  │     ├─ cases
-│  │  │  │     │  ├─ create.serverName.case.db.ts
-│  │  │  │     │  ├─ delete.serverName.case.db.ts
-│  │  │  │     │  └─ get.serverName.case.db.ts
-│  │  │  │     └─ serverName.db.ts
+│  │  │  │     │  ├─ create.ts
+│  │  │  │     │  ├─ delete.ts
+│  │  │  │     │  └─ get.ts
+│  │  │  │     └─ serverName.ts
 │  │  │  └─ spotify
 │  │  │     ├─ config.ts
 │  │  │     ├─ dailyTrack
@@ -310,8 +303,8 @@ monorepo
 │  │  │     │  │  ├─ get.ts
 │  │  │     │  │  └─ upsert.ts
 │  │  │     │  └─ dailyTrack.ts
-│  │  │     ├─ schema.prisma
-│  │  │     └─ spotify.db.ts
+│  │  │     ├─ db.ts
+│  │  │     └─ schema.prisma
 │  │  ├─ tsconfig.json
 │  │  └─ types
 │  │     └─ declarations.ts
@@ -319,36 +312,36 @@ monorepo
 │  │  ├─ index.ts
 │  │  ├─ package.json
 │  │  ├─ src
+│  │  │  ├─ base.ts
+│  │  │  ├─ container.ts
 │  │  │  ├─ discord
-│  │  │  │  ├─ oauth.discord.infra.ts
-│  │  │  │  └─ users.discord.infra.ts
-│  │  │  ├─ infra.base.ts
-│  │  │  ├─ infra.container.ts
+│  │  │  │  ├─ oauth.ts
+│  │  │  │  └─ users.ts
 │  │  │  ├─ internal
 │  │  │  │  └─ auth
-│  │  │  │     └─ users.auth.internal.infra.ts
+│  │  │  │     └─ users.ts
 │  │  │  ├─ rabbitmq
-│  │  │  │  └─ rabbitmq.infra.ts
+│  │  │  │  └─ rabbitmq.ts
 │  │  │  └─ spotify
-│  │  │     └─ oauth.spotify.infra.ts
+│  │  │     └─ oauth.ts
 │  │  └─ tsconfig.json
 │  └─ libs
 │     ├─ index.ts
 │     ├─ package.json
 │     ├─ src
-│     │  ├─ lib.base.ts
-│     │  ├─ lib.container.ts
+│     │  ├─ base.ts
+│     │  ├─ container.ts
 │     │  └─ libs
 │     │     ├─ hash
-│     │     │  └─ hash.lib.ts
+│     │     │  └─ hash.ts
 │     │     ├─ jwt
-│     │     │  └─ jwt.lib.ts
+│     │     │  └─ jwt.ts
 │     │     ├─ mail
-│     │     │  └─ mail.lib.ts
+│     │     │  └─ mail.ts
 │     │     ├─ refreshToken
-│     │     │  └─ refreshToken.lib.ts
+│     │     │  └─ refreshToken.ts
 │     │     └─ verificationCode
-│     │        └─ verificationCode.lib.ts
+│     │        └─ verificationCode.ts
 │     └─ tsconfig.json
 ├─ pnpm-lock.yaml
 ├─ pnpm-workspace.yaml
@@ -358,28 +351,28 @@ monorepo
 │  │  ├─ index.ts
 │  │  ├─ package.json
 │  │  ├─ src
-│  │  │  ├─ config.base.ts
-│  │  │  ├─ config.container.ts
-│  │  │  └─ configs
-│  │  │     └─ env.config.ts
+│  │  │  ├─ base.ts
+│  │  │  ├─ configs
+│  │  │  │  └─ env.ts
+│  │  │  └─ container.ts
 │  │  └─ tsconfig.json
 │  ├─ errors
 │  │  ├─ index.ts
 │  │  ├─ package.json
 │  │  ├─ src
-│  │  │  ├─ errors
-│  │  │  │  ├─ api.ts
-│  │  │  │  ├─ config.ts
-│  │  │  │  ├─ internal.ts
-│  │  │  │  └─ prisma.ts
-│  │  │  ├─ errors.base.ts
-│  │  │  └─ errors.container.ts
+│  │  │  ├─ base.ts
+│  │  │  ├─ container.ts
+│  │  │  └─ errors
+│  │  │     ├─ api.ts
+│  │  │     ├─ config.ts
+│  │  │     ├─ internal.ts
+│  │  │     └─ prisma.ts
 │  │  └─ tsconfig.json
 │  └─ logger
 │     ├─ index.ts
 │     ├─ package.json
 │     ├─ src
-│     │  ├─ base.logger.ts
+│     │  ├─ base.ts
 │     │  └─ logger.ts
 │     └─ tsconfig.json
 ├─ tsconfig.base.json
@@ -389,7 +382,8 @@ monorepo
    ├─ package.json
    ├─ src
    │  ├─ account.ts
-   │  ├─ features.discordBot.ts
+   │  ├─ discordBot
+   │  │  └─ features.ts
    │  └─ oauth.ts
    └─ tsconfig.json
 

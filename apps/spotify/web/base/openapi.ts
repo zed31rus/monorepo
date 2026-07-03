@@ -1,11 +1,11 @@
-import type HandlerContainer from '#web/containers/handler.js';
-import type WrapperContainer from '#web/containers/wrapper.js';
+import type WebHandlerContainer from '#web/containers/handler.js';
+import type WebWrapperContainer from '#web/containers/wrapper.js';
 import WebBase, { type WebBaseArgs } from './web.js';
 
-abstract class BaseOpenAPI extends WebBase {
+abstract class BaseWebOpenAPI extends WebBase {
 	constructor(
-		protected readonly handlers: HandlerContainer,
-		protected readonly wrappers: WrapperContainer,
+		protected readonly handlers: WebHandlerContainer,
+		protected readonly wrappers: WebWrapperContainer,
 		...webBaseArgs: WebBaseArgs
 	) {
 		super(...webBaseArgs);
@@ -23,6 +23,6 @@ abstract class BaseOpenAPI extends WebBase {
 	};
 }
 
-export type BaseOpenAPIArgs = ConstructorParameters<typeof BaseOpenAPI>;
+export type BaseWebOpenAPIArgs = ConstructorParameters<typeof BaseWebOpenAPI>;
 
-export default BaseOpenAPI;
+export default BaseWebOpenAPI;

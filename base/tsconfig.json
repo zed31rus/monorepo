@@ -7,13 +7,15 @@
     "paths": {
       "@zed31rus/types": ["../types/index.ts"],
       "@shared/errors": ["../shared/errors/index.ts"],
-      "@shared/config": ["../shared/config/index.ts"]
+      "@shared/config": ["../shared/config/index.ts"],
+      "@shared/logger": ["../shared/logger/index.ts"]
     }
   },
-  "include": ["./**/*"],
+  "include": ["./**/*", "./*"],
   "references": [
     { "path": "../types" },
     { "path": "../shared/errors" },
-    { "path": "../shared/config" }
+    { "path": "../shared/config" },
+    { "path": "../shared/logger" }
   ]
 }

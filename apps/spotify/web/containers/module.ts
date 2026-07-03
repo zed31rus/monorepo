@@ -1,5 +1,5 @@
-import type DailyTrackModule from '#web/modules/dailyTrack.js';
+import type DailyTrackWebModule from '#web/modules/dailyTrack.js';
 
-export default class ModuleContainer {
-	constructor(readonly dailyTrack: DailyTrackModule) {}
+export default class WebModuleContainer {
+	constructor(readonly dailyTrack: DailyTrackWebModule) {}
 }

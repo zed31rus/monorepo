@@ -1,4 +1,4 @@
-import { SpotifyDbType } from '../../spotify.db.js';
+import { SpotifyDbType } from '../../db.js';
 
 export default class UpsertCaseDailyTrackSpotifyDb {
 	async upsert(client: SpotifyDbType.TransactionClient, trackId: string) {

@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import Servers from '#web/containers/index.web.container.js';
+import Servers from '#web/containers/index.js';
 
 export const workDir = path.dirname(fileURLToPath(import.meta.url));
 

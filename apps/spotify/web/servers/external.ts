@@ -1,8 +1,8 @@
-import BaseServer from '#web/base/server.js';
+import BaseWebServer from '#web/base/server.js';
 import { serve } from '@hono/node-server';
 import { swaggerUI } from '@hono/swagger-ui';
 
-export default class ExternalServer extends BaseServer {
+export default class ExternalWebServer extends BaseWebServer {
 	configure() {
 		this.server.use(this.wrappers.cors.external());
 

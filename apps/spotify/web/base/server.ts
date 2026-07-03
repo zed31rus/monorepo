@@ -1,18 +1,18 @@
 import { type ServerType } from '@hono/node-server';
 import { OpenAPIHono } from '@hono/zod-openapi';
-import WrapperContainer from '#web/containers/wrapper.js';
+import WebWrapperContainer from '#web/containers/wrapper.js';
 import WebBase, { type WebBaseArgs } from './web.js';
 import type OpenAPIContainer from '#web/containers/openapi.js';
-import type ModuleContainer from '#web/containers/module.js';
-import type HandlerContainer from '#web/containers/handler.js';
+import type WebModuleContainer from '#web/containers/module.js';
+import type WebHandlerContainer from '#web/containers/handler.js';
 
-abstract class BaseServer extends WebBase {
+abstract class BaseWebServer extends WebBase {
 	constructor(
 		protected readonly server: OpenAPIHono,
-		protected readonly modules: ModuleContainer,
+		protected readonly modules: WebModuleContainer,
 		protected readonly openapi: OpenAPIContainer,
-		protected readonly handlers: HandlerContainer,
-		protected readonly wrappers: WrapperContainer,
+		protected readonly handlers: WebHandlerContainer,
+		protected readonly wrappers: WebWrapperContainer,
 		...webBaseArgs: WebBaseArgs
 	) {
 		super(...webBaseArgs);
@@ -23,6 +23,6 @@ abstract class BaseServer extends WebBase {
 	abstract start(port: number): ServerType;
 }
 
-export type BaseServerArgs = ConstructorParameters<typeof BaseServer>;
+export type BaseWebServerArgs = ConstructorParameters<typeof BaseWebServer>;
 
-export default BaseServer;
+export default BaseWebServer;

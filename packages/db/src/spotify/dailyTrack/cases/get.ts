@@ -1,4 +1,4 @@
-import type { SpotifyDbType } from '../../spotify.db.js';
+import type { SpotifyDbType } from '../../db.js';
 
 export default class GetCaseDailyTrackSpotifyDb {
 	orNull = {

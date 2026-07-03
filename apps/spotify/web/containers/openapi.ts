@@ -1,5 +1,5 @@
-import type DailyTrackOpenAPI from '#web/openapi/dailyTrack.js';
+import type DailyTrackWebOpenAPI from '#web/openapi/dailyTrack.js';
 
-export default class OpenApiContainer {
-	constructor(readonly dailyTrack: DailyTrackOpenAPI) {}
+export default class WebOpenApiContainer {
+	constructor(readonly dailyTrack: DailyTrackWebOpenAPI) {}
 }

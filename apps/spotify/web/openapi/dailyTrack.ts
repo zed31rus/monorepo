@@ -1,7 +1,7 @@
-import BaseOpenAPI from '#web/base/openapi.js';
+import BaseWebOpenAPI from '#web/base/openapi.js';
 import { createRoute, z } from '@hono/zod-openapi';
 
-export default class DailyTrackOpenAPI extends BaseOpenAPI {
+export default class DailyTrackWebOpenAPI extends BaseWebOpenAPI {
 	get = createRoute({
 		method: 'get',
 		path: '/get',

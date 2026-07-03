@@ -1,5 +1,5 @@
-import type ErrorHandler from '#web/handlers/error.js';
+import type ErrorWebHandler from '#web/handlers/error.js';
 
-export default class HandlerContainer {
-	constructor(readonly error: ErrorHandler) {}
+export default class WebHandlerContainer {
+	constructor(readonly error: ErrorWebHandler) {}
 }

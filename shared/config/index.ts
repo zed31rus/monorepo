@@ -1,3 +1,3 @@
-import ConfigContainer from "./src/config.container.js"
+import ConfigContainer from './src/container.js';
 
-export default ConfigContainer
+export default ConfigContainer;

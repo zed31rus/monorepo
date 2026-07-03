@@ -1,9 +1,9 @@
-import type CorsWrapper from '#web/wrappers/cors.js';
-import type RateLimiterWrapper from '#web/wrappers/rateLimiter.js';
+import type CorsWebWrapper from '#web/wrappers/cors.js';
+import type RateLimiterWebWrapper from '#web/wrappers/rateLimiter.js';
 
-export default class WrapperContainer {
+export default class WebWrapperContainer {
 	constructor(
-		readonly rateLimiter: RateLimiterWrapper,
-		readonly cors: CorsWrapper
+		readonly rateLimiter: RateLimiterWebWrapper,
+		readonly cors: CorsWebWrapper
 	) {}
 }

@@ -1,0 +1,41 @@
+import BaseWebModule from '#web/base/module.js';
+import type { AccountExternalEnv } from '#web/openapi/external/account.js';
+
+export default class AccountExternalModule extends BaseWebModule<AccountExternalEnv> {
+	init() {
+		this.router.use(this.wrappers.rateLimiter.limit(15 * 60 * 1000, 10));
+
+		this.router.openapi(this.openapi.external.account.emailVerificationSend, async (c) => {
+			const publicUser = c.get('user');
+			const { user } = await this.core.services.account.emailVerificationSend(publicUser);
+			return c.json({ user });
+		});
+
+		this.router.openapi(this.openapi.external.account.emailVerificationConfirm, async (c) => {
+			const publicUser = c.get('user');
+			const { submitCode } = c.req.valid('json');
+			const { user } = await this.core.services.account.emailVerificationConfirm(
+				publicUser,
+				submitCode
+			);
+			return c.json({ user });
+		});
+
+		this.router.openapi(this.openapi.external.account.changePasswordRequest, async (c) => {
+			const publicUser = c.get('user');
+			const { user } = await this.core.services.account.changePasswordRequest(publicUser);
+			return c.json({ user });
+		});
+
+		this.router.openapi(this.openapi.external.account.changePasswordConfirm, async (c) => {
+			const publicUser = c.get('user');
+			const { password, submitCode } = c.req.valid('json');
+			const { user } = await this.core.services.account.changePasswordConfirm(
+				publicUser,
+				password,
+				submitCode
+			);
+			return c.json({ user });
+		});
+	}
+}

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import useTitleStore from '~/stores/title.store';
-  import useNotificationStore from '~/stores/notifications.store';
+  import useTitleStore from '~/stores/title';
+  import useNotificationStore from '~/stores/notifications';
 
   const titleStore = useTitleStore();
   onBeforeMount(() => {

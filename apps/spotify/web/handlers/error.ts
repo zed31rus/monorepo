@@ -1,10 +1,10 @@
 import { AuthDBType } from '@packages/db';
 import ErrorsContainer from '@shared/errors';
-import BaseHandler from '#web/base/handler.js';
+import BaseWebHandler from '#web/base/handler.js';
 import { type Context } from 'hono';
 import { type HTTPResponseError } from 'hono/types';
 
-export default class ErrorHandler extends BaseHandler {
+export default class ErrorWebHandler extends BaseWebHandler {
 	errorHander(err: Error | HTTPResponseError, c: Context) {
 		if (err instanceof ErrorsContainer.ApiError) {
 			return c.json(

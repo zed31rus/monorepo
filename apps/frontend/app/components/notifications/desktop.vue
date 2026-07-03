@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useNotificationStore from '~/stores/notifications.store';
+import useNotificationStore from '~/stores/notifications';
 import getTypeColor from '~/composables/typeColors';
 
   const notificationStore = useNotificationStore();

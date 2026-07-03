@@ -1,16 +1,16 @@
 import { OpenAPIHono } from '@hono/zod-openapi';
 import OpenAPIContainer from '#web/containers/openapi.js';
 import WebBase, { type WebBaseArgs } from './web.js';
-import type WrapperContainer from '#web/containers/wrapper.js';
-import type HandlerContainer from '#web/containers/handler.js';
+import type WebWrapperContainer from '#web/containers/wrapper.js';
+import type WebHandlerContainer from '#web/containers/handler.js';
 
-abstract class BaseModule extends WebBase {
+abstract class BaseWebModule extends WebBase {
 	public router = new OpenAPIHono();
 
 	constructor(
 		protected readonly openapi: OpenAPIContainer,
-		protected readonly handlers: HandlerContainer,
-		protected readonly wrappers: WrapperContainer,
+		protected readonly handlers: WebHandlerContainer,
+		protected readonly wrappers: WebWrapperContainer,
 		...webBaseArgs: WebBaseArgs
 	) {
 		super(...webBaseArgs);
@@ -20,6 +20,6 @@ abstract class BaseModule extends WebBase {
 	protected abstract init(): void;
 }
 
-export type BaseModuleArgs = ConstructorParameters<typeof BaseModule>;
+export type BaseWebModuleArgs = ConstructorParameters<typeof BaseWebModule>;
 
-export default BaseModule;
+export default BaseWebModule;

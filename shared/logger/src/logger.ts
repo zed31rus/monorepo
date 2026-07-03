@@ -1,5 +1,5 @@
 import winston from 'winston';
-import BaseLogger from './base.logger.js';
+import BaseLogger from './base.js';
 
 class Logger extends BaseLogger {
 	public appLogger: winston.Logger;

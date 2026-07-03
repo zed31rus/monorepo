@@ -1,10 +1,10 @@
-import InfraContainer from './src/infra.container.js';
+import InfraContainer from './src/container.js';
 import {
 	type DiscordOauthTokenReply as DOTR,
 	type DiscordOauthExchangeReply as DOER,
-} from './src/discord/oauth.discord.infra.js';
-import { type DiscordUsersMeReply as DUMR } from './src/discord/users.discord.infra.js';
-import { type RabbitQueues as RFAQ } from './src/rabbitmq/rabbitmq.infra.js';
+} from './src/discord/oauth.js';
+import { type DiscordUsersMeReply as DUMR } from './src/discord/users.js';
+import { type RabbitQueues as RFAQ } from './src/rabbitmq/rabbitmq.js';
 
 export default InfraContainer;
 

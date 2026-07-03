@@ -1,6 +1,6 @@
 import authDB from './auth/auth.js';
 import DiscordBotDB from './discordBot/db.js';
-import SpotifyDB from './spotify/spotify.db.js';
+import SpotifyDB from './spotify/db.js';
 
 class DbContainer {
 	static auth = authDB;

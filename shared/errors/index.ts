@@ -1,4 +1,4 @@
-import ErrorsContainer from './src/errors.container.js';
+import ErrorsContainer from './src/container.js';
 import * as ApiErrorss from './src/errors/api.js';
 import * as InternalErrorss from './src/errors/internal.js';
 

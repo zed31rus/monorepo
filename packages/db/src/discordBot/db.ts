@@ -3,7 +3,7 @@ import * as prisma from './generated/prisma/client.js';
 import pg from 'pg';
 import BaseDb, { type BaseDbArgs } from '../db.base.js';
 import ActivityStatusDiscordBotDb from './activityStatus/activityStatus.js';
-import ServerName from './serverName/serverName.db.js';
+import ServerName from './serverName/serverName.js';
 import GuildsDiscordBotDb from './guilds/guilds.js';
 
 class DiscordBotDb extends BaseDb {
