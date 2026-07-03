@@ -2,10 +2,13 @@
   import useTitleStore from '~/stores/title';
   import useNotificationStore from '~/stores/notifications';
 
+  const notificationStore = useNotificationStore();
   const titleStore = useTitleStore();
-  onBeforeMount(() => {
-    titleStore.init()
+  titleStore.init()
+  onMounted(() => {
+    firstTimeHook();
   })
+
 </script>
 
 <template>

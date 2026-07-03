@@ -95,7 +95,6 @@ const embedUrl = computed(() => {
 .track-label {
   font-size: 12px;
   letter-spacing: 3px;
-  color: rgba(255, 255, 255, 0.5);
   padding-left: 6px;
 }
 
@@ -144,11 +143,13 @@ const embedUrl = computed(() => {
 
 .footer {
   position: fixed;
-  bottom: 0;
-  left: 0;
+  bottom: 1%;
+  left: 50%;
+  transform: translateX(-50%);
 
-  width: 100%;
+  width: calc(80%);
   height: 80px;
+  border-radius: 1rem;
 
   display: flex;
   align-items: center;
@@ -157,7 +158,7 @@ const embedUrl = computed(() => {
   padding-right: 10%;
   padding-left: 10%;
 
-  background: rgba(23, 23, 23, 0.75);
+  background: rgba(var(--accent-color), 0.5);
   backdrop-filter: blur(8px);
   box-sizing: border-box;
 }
@@ -169,7 +170,6 @@ const embedUrl = computed(() => {
 
   text-decoration: none;
 
-  color: rgba(115, 115, 115, 1);
   transition: color 0.2s ease;
 
 }

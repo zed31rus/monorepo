@@ -110,7 +110,7 @@ onClickOutside(menuWrapper, () => {
     width: 3rem;
     height: 3rem;
     border-radius: 1rem;
-    background-color: rgb(38 38 38 / 0.5);
+    background-color: rgb(var(--accent-color), 0.5);
     backdrop-filter: blur(8px);
     border: none;
     cursor: pointer;
@@ -139,15 +139,15 @@ onClickOutside(menuWrapper, () => {
     width: 100%;
     height: 100%;
     background-color: transparent;
-    box-shadow: -12px 12px 0 0 #262626;
-    opacity: 0.5;
+    box-shadow: -12px 12px 0 0 rgba(var(--accent-color), 0.5);
+    backdrop-filter: blur(8px);
 }
 
 .side-bar {
     position: absolute;
     top: 2.75rem;
     left: 0;
-    background-color: rgb(38 38 38 / 0.5);
+    background-color: rgba(var(--accent-color), 0.5);
     backdrop-filter: blur(8px);
     overflow: hidden;
     border-bottom-left-radius: 1rem;

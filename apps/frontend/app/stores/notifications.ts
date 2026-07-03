@@ -7,7 +7,7 @@ const useNotificationStore = defineStore('notificationStore', {
 		items: [] as AppNotification[],
 	}),
 	actions: {
-		async checkPermission() {
+		async _checkPermission() {
 			if (typeof window === 'undefined' || !('Notification' in window)) {
 				return false;
 			}
@@ -20,7 +20,7 @@ const useNotificationStore = defineStore('notificationStore', {
 			return true;
 		},
 
-		async sendNotification(
+		async _sendNotification(
 			title: string,
 			options: ConstructorParameters<typeof Notification>[1]
 		) {
@@ -28,7 +28,7 @@ const useNotificationStore = defineStore('notificationStore', {
 				return;
 			}
 
-			if (await this.checkPermission()) {
+			if (await this._checkPermission()) {
 				new Notification(title, options);
 			}
 		},
@@ -39,11 +39,11 @@ const useNotificationStore = defineStore('notificationStore', {
 			action: CallbackType | null = null,
 			duration: number = 3000
 		) {
-			await this.checkPermission();
+			await this._checkPermission();
 			const notification = new AppNotification(type, content, action, duration);
 
 			this.items.unshift(notification);
-			this.sendNotification(content.title, { body: content.message });
+			this._sendNotification(content.title, { body: content.message });
 
 			notification.addEventListener(
 				'close',

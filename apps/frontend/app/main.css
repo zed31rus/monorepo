@@ -1,9 +1,9 @@
 :root {
 	--color-back-main: 67, 67, 67;
 	--font-bebas: 'Bebas Neue', sans-serif;
-	--accent-color: 38, 38, 38;
+	--accent-color: 23, 23, 23;
 	--text-main-color: 248, 248, 255;
-	--notification-color: 23, 23, 23;
+	--text-url-color: 240, 240, 247;
 	--color-info: 8, 145, 17;
 	--color-error: 220, 38, 38;
 	--color-warn: 234, 88, 12;
@@ -23,7 +23,7 @@ body {
 	background-size: cover;
 	background-position: center;
 	background-attachment: fixed;
-	color: rgb(var(--text-main-color));
+	color: rgb(var(--text-main-color)) !important;
 }
 
 svg {
@@ -34,4 +34,8 @@ svg {
 ul {
 	padding: 0;
 	margin: 0;
+}
+
+a {
+	color: rgb(var(--text-url-color));
 }
