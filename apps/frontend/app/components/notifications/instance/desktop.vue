@@ -61,7 +61,7 @@
     cursor: pointer;
     overflow: hidden;
     width: 24rem;
-    background-color: var(--notification-color);
+    background-color: rgba(var(--accent-color), 0.5);
     backdrop-filter: blur(24px);
     padding: 1.25rem;
     border-radius: 1.25rem 0.5rem 0.5rem 1.25rem;
@@ -70,7 +70,7 @@
 }
 
 .notification-item:hover {
-    background-color: rgba(23, 23, 23, 0.7);
+    background-color: rgba(var(--accent-hover-color), 0.5);
 }
 
 .notification-bar {
