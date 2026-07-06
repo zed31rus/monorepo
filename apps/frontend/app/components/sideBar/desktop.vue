@@ -24,6 +24,14 @@ function toggle() {
     isOpen.value = !isOpen.value;
 }
 
+const topPages = computed(() =>
+    pages.filter(p => p.position === 'top')
+);
+
+const bottomPages = computed(() =>
+    pages.filter(p => p.position === 'bottom')
+);
+
 watch(isOpen, async (val) => {
     if (val) {
         isVisible.value = true;
@@ -34,7 +42,11 @@ watch(isOpen, async (val) => {
         animate('.side-bar', { borderTopRightRadius: '16px' }, { duration: 0.2 });
         animate('.shadow-cube', { borderBottomLeftRadius: '16px' }, { duration: 0.25 });
 
-        await animate('.side-bar', { width: '150px', borderBottomRightRadius: '16px', borderBottomLeftRadius: '16px' }, { duration: 0.35, ease: 'easeOut' });
+        await animate('.side-bar', {
+            width: '150px',
+            borderBottomRightRadius: '16px',
+            borderBottomLeftRadius: '16px'
+        }, { duration: 0.35, ease: 'easeOut' });
 
     } else {
         await nextTick();
@@ -70,15 +82,29 @@ onClickOutside(menuWrapper, () => {
                 <div class="shadow-cube"></div>
             </div>
 
-            <div
-                v-if="isVisible"
-                class="side-bar"
-            >
+            <div v-if="isVisible" class="side-bar">
                 <ul class="side-bar-list">
                     <AnimatePresence>
                         <MotionSideBarItem
                             v-if="isOpen"
-                            v-for="page in pages"
+                            v-for="page in topPages"
+                            :key="page.id"
+                            :initial="{ opacity: 0, x: -20 }"
+                            :animate="{ opacity: 1, x: 0, transition: { delay: page.id * 0.05, duration: 0.25 } }"
+                            :exit="{ opacity: 0, x: -20, transition: { duration: 0.2 } }"
+                            :name="page.name"
+                            :path="page.path"
+                            :icon="page.ico"
+                            :position="page.position"
+                        />
+                    </AnimatePresence>
+                </ul>
+
+                <ul class="side-bar-list bottom">
+                    <AnimatePresence>
+                        <MotionSideBarItem
+                            v-if="isOpen"
+                            v-for="page in bottomPages"
                             :key="page.id"
                             :initial="{ opacity: 0, x: -20 }"
                             :animate="{ opacity: 1, x: 0, transition: { delay: page.id * 0.05, duration: 0.25 } }"
@@ -166,5 +192,9 @@ onClickOutside(menuWrapper, () => {
     gap: 0.25rem;
     list-style: none;
     margin: 0;
+}
+
+.bottom {
+    margin-top: auto;
 }
 </style>

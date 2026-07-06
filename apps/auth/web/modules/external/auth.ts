@@ -21,10 +21,9 @@ export default class AuthExternalModule extends BaseWebModule<AuthMainEnv> {
 		this.router.openapi(this.openapi.external.auth.login, async (c) => {
 			const { email, password } = c.req.valid('json');
 			const { user, refresh, access } = await this.core.services.auth.login(email, password);
-			this.webManagers.session.sendSession(c, refresh);
+			this.webManagers.session.sendSession(c, { access, refresh });
 			return c.json({
 				user: user,
-				accessToken: access.token,
 				expires: access.expires.atTime,
 			});
 		});
@@ -32,10 +31,9 @@ export default class AuthExternalModule extends BaseWebModule<AuthMainEnv> {
 		this.router.openapi(this.openapi.external.auth.refresh, async (c) => {
 			const { refreshToken } = c.req.valid('cookie');
 			const { user, refresh, access } = await this.core.services.auth.refresh(refreshToken);
-			this.webManagers.session.sendSession(c, refresh);
+			this.webManagers.session.sendSession(c, { access, refresh });
 			return c.json({
 				user: user,
-				accessToken: access.token,
 				expires: access.expires.atTime,
 			});
 		});

@@ -20,11 +20,10 @@ export default class DiscordOauthExternalModule extends BaseWebModule<DiscordOau
 
 			this.logger.info(`Discord OAuth callback success: userId=${user.uuid}`);
 
-			this.webManagers.session.sendSession(c, refresh);
+			this.webManagers.session.sendSession(c, { access, refresh });
 
 			return c.json({
 				user: user,
-				accessToken: access.token,
 				expires: access.expires.atTime,
 			});
 		});
