@@ -186,62 +186,63 @@ monorepo
 │  │  │     └─ rabbitmq
 │  │  ├─ package.json
 │  │  └─ tsconfig.json
-│  └─ spotify
-│     ├─ core
-│     │  ├─ base
-│     │  │  ├─ core.ts
-│     │  │  ├─ emitter.ts
-│     │  │  ├─ instance.ts
-│     │  │  ├─ manager.ts
-│     │  │  └─ services.ts
-│     │  ├─ containers
-│     │  │  ├─ emitter.ts
-│     │  │  ├─ index.ts
-│     │  │  ├─ instances.ts
-│     │  │  ├─ managers.ts
-│     │  │  └─ services.ts
-│     │  ├─ emitters
-│     │  │  └─ schedullers
-│     │  │     └─ dailyTrack.ts
-│     │  ├─ instances
-│     │  │  └─ spotify.ts
-│     │  ├─ managers
-│     │  │  └─ dailyTrack.ts
-│     │  └─ services
-│     │     └─ playlist.ts
-│     ├─ Dockerfile
-│     ├─ package.json
-│     ├─ start.ts
-│     ├─ tsconfig.json
-│     └─ web
-│        ├─ base
-│        │  ├─ handler.ts
-│        │  ├─ module.ts
-│        │  ├─ openapi.ts
-│        │  ├─ server.ts
-│        │  ├─ web.ts
-│        │  └─ wrapper.ts
-│        ├─ containers
-│        │  ├─ handler.ts
-│        │  ├─ index.ts
-│        │  ├─ module.ts
-│        │  ├─ openapi.ts
-│        │  ├─ server.ts
-│        │  └─ wrapper.ts
-│        ├─ handlers
-│        │  └─ error.ts
-│        ├─ modules
-│        │  └─ dailyTrack.ts
-│        ├─ openapi
-│        │  ├─ external
-│        │  │  └─ dailyTrack.ts
-│        │  └─ internal
-│        ├─ servers
-│        │  ├─ external.ts
-│        │  └─ internal.ts
-│        └─ wrappers
-│           ├─ cors.ts
-│           └─ rateLimiter.ts
+│  ├─ spotify
+│  │  ├─ core
+│  │  │  ├─ base
+│  │  │  │  ├─ core.ts
+│  │  │  │  ├─ emitter.ts
+│  │  │  │  ├─ instance.ts
+│  │  │  │  ├─ manager.ts
+│  │  │  │  └─ services.ts
+│  │  │  ├─ containers
+│  │  │  │  ├─ emitter.ts
+│  │  │  │  ├─ index.ts
+│  │  │  │  ├─ instances.ts
+│  │  │  │  ├─ managers.ts
+│  │  │  │  └─ services.ts
+│  │  │  ├─ emitters
+│  │  │  │  └─ schedullers
+│  │  │  │     └─ dailyTrack.ts
+│  │  │  ├─ instances
+│  │  │  │  └─ spotify.ts
+│  │  │  ├─ managers
+│  │  │  │  └─ dailyTrack.ts
+│  │  │  └─ services
+│  │  │     └─ playlist.ts
+│  │  ├─ Dockerfile
+│  │  ├─ package.json
+│  │  ├─ start.ts
+│  │  ├─ tsconfig.json
+│  │  └─ web
+│  │     ├─ base
+│  │     │  ├─ handler.ts
+│  │     │  ├─ module.ts
+│  │     │  ├─ openapi.ts
+│  │     │  ├─ server.ts
+│  │     │  ├─ web.ts
+│  │     │  └─ wrapper.ts
+│  │     ├─ containers
+│  │     │  ├─ handler.ts
+│  │     │  ├─ index.ts
+│  │     │  ├─ module.ts
+│  │     │  ├─ openapi.ts
+│  │     │  ├─ server.ts
+│  │     │  └─ wrapper.ts
+│  │     ├─ handlers
+│  │     │  └─ error.ts
+│  │     ├─ modules
+│  │     │  └─ dailyTrack.ts
+│  │     ├─ openapi
+│  │     │  ├─ external
+│  │     │  │  └─ dailyTrack.ts
+│  │     │  └─ internal
+│  │     ├─ servers
+│  │     │  ├─ external.ts
+│  │     │  └─ internal.ts
+│  │     └─ wrappers
+│  │        ├─ cors.ts
+│  │        └─ rateLimiter.ts
+│  └─ tsconfig.base.json
 ├─ base
 │  ├─ index.ts
 │  ├─ package.json
@@ -344,26 +345,28 @@ monorepo
 │  │  │  └─ spotify
 │  │  │     └─ oauth.ts
 │  │  └─ tsconfig.json
-│  └─ libs
-│     ├─ index.ts
-│     ├─ package.json
-│     ├─ src
-│     │  ├─ base.ts
-│     │  ├─ container.ts
-│     │  └─ libs
-│     │     ├─ hash
-│     │     │  └─ hash.ts
-│     │     ├─ jwt
-│     │     │  └─ jwt.ts
-│     │     ├─ mail
-│     │     │  └─ mail.ts
-│     │     ├─ refreshToken
-│     │     │  └─ refreshToken.ts
-│     │     └─ verificationCode
-│     │        └─ verificationCode.ts
-│     └─ tsconfig.json
+│  ├─ libs
+│  │  ├─ index.ts
+│  │  ├─ package.json
+│  │  ├─ src
+│  │  │  ├─ base.ts
+│  │  │  ├─ container.ts
+│  │  │  └─ libs
+│  │  │     ├─ hash
+│  │  │     │  └─ hash.ts
+│  │  │     ├─ jwt
+│  │  │     │  └─ jwt.ts
+│  │  │     ├─ mail
+│  │  │     │  └─ mail.ts
+│  │  │     ├─ refreshToken
+│  │  │     │  └─ refreshToken.ts
+│  │  │     └─ verificationCode
+│  │  │        └─ verificationCode.ts
+│  │  └─ tsconfig.json
+│  └─ tsconfig.base.json
 ├─ pnpm-lock.yaml
 ├─ pnpm-workspace.yaml
+├─ README.md
 ├─ shared
 │  ├─ config
 │  │  ├─ index.ts
@@ -386,13 +389,14 @@ monorepo
 │  │  │     ├─ internal.ts
 │  │  │     └─ prisma.ts
 │  │  └─ tsconfig.json
-│  └─ logger
-│     ├─ index.ts
-│     ├─ package.json
-│     ├─ src
-│     │  ├─ base.ts
-│     │  └─ logger.ts
-│     └─ tsconfig.json
+│  ├─ logger
+│  │  ├─ index.ts
+│  │  ├─ package.json
+│  │  ├─ src
+│  │  │  ├─ base.ts
+│  │  │  └─ logger.ts
+│  │  └─ tsconfig.json
+│  └─ tsconfig.base.json
 ├─ tsconfig.base.json
 ├─ tsconfig.json
 └─ types

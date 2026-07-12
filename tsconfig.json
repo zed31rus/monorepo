@@ -1,15 +1,17 @@
 {
   "files": [],
   "references": [
-    { "path": "./types" },
-    { "path": "./shared/errors" },
-    { "path": "./shared/config" },
-    { "path": "./shared/logger" },
-    { "path": "./base" },
-    { "path": "./packages/db" },
-    { "path": "./packages/libs" },
-    { "path": "./packages/infra" },
-    { "path": "./apps/auth" },
-    { "path": "./apps/discordBot"}
+    { "path": "types" },
+    { "path": "base" },
+    { "path": "shared/errors" },
+    { "path": "shared/config" },
+    { "path": "shared/logger" },
+    { "path": "packages/libs" },
+    { "path": "packages/db" },
+    { "path": "packages/infra" },
+    { "path": "apps/auth" },
+    { "path": "apps/discordBot" },
+    { "path": "apps/mail" },
+    { "path": "apps/spotify" }
   ]
 }
