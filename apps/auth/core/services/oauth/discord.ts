@@ -1,24 +1,10 @@
 import BaseService from '#core/base/service.js';
-import type { AuthDBType, PersonalUser, PublicUser } from '@packages/db';
+import type { AuthDBType, PublicUser } from '@packages/db';
 import type { DiscordUsersMeReply } from '@packages/infra';
-import type { JWTExpires, RefreshTokenExpires } from '@packages/libs';
 import { OauthProviders } from '@zed31rus/types';
 
 export default class DiscordOauthService extends BaseService {
-	async callback(
-		code: string,
-		publicUser: PublicUser | null
-	): Promise<{
-		refresh: {
-			token: string;
-			expires: RefreshTokenExpires;
-		};
-		access: {
-			token: string;
-			expires: JWTExpires;
-		};
-		user: PersonalUser;
-	}> {
+	async callback(code: string, publicUser: PublicUser | null) {
 		this.logger.info(`Discord OAuth callback started, hasPublicUser=${!!publicUser}`);
 
 		const exchangeReply = await this.infra.discord.oauth.exchangeCode(code);

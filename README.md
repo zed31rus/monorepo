@@ -1,3 +1,4 @@
+
 ```structure
 monorepo
 ├─ .dockerignore
@@ -123,6 +124,9 @@ monorepo
 │  │  ├─ app
 │  │  │  ├─ app.vue
 │  │  │  ├─ components
+│  │  │  │  ├─ auth
+│  │  │  │  │  ├─ login.vue
+│  │  │  │  │  └─ register.vue
 │  │  │  │  ├─ defaultLayout
 │  │  │  │  │  ├─ desktop.vue
 │  │  │  │  │  └─ mobile.vue
@@ -144,6 +148,7 @@ monorepo
 │  │  │  │     ├─ item.vue
 │  │  │  │     └─ mobile.vue
 │  │  │  ├─ composables
+│  │  │  │  ├─ firstTimeHook.ts
 │  │  │  │  ├─ notifications.ts
 │  │  │  │  ├─ routes.ts
 │  │  │  │  └─ typeColors.ts
@@ -151,7 +156,9 @@ monorepo
 │  │  │  │  └─ default.vue
 │  │  │  ├─ main.css
 │  │  │  ├─ pages
-│  │  │  │  └─ index.vue
+│  │  │  │  ├─ auth.vue
+│  │  │  │  ├─ index.vue
+│  │  │  │  └─ me.vue
 │  │  │  ├─ stores
 │  │  │  │  ├─ notifications.ts
 │  │  │  │  ├─ title.ts
@@ -169,6 +176,15 @@ monorepo
 │  │  │  │  └─ background.png
 │  │  │  └─ robots.txt
 │  │  ├─ README.md
+│  │  ├─ server
+│  │  │  └─ middleware
+│  │  │     └─ auth.ts
+│  │  └─ tsconfig.json
+│  ├─ mail
+│  │  ├─ core
+│  │  │  └─ emitters
+│  │  │     └─ rabbitmq
+│  │  ├─ package.json
 │  │  └─ tsconfig.json
 │  └─ spotify
 │     ├─ core
@@ -217,9 +233,12 @@ monorepo
 │        ├─ modules
 │        │  └─ dailyTrack.ts
 │        ├─ openapi
-│        │  └─ dailyTrack.ts
+│        │  ├─ external
+│        │  │  └─ dailyTrack.ts
+│        │  └─ internal
 │        ├─ servers
-│        │  └─ external.ts
+│        │  ├─ external.ts
+│        │  └─ internal.ts
 │        └─ wrappers
 │           ├─ cors.ts
 │           └─ rateLimiter.ts
@@ -345,7 +364,6 @@ monorepo
 │     └─ tsconfig.json
 ├─ pnpm-lock.yaml
 ├─ pnpm-workspace.yaml
-├─ README.md
 ├─ shared
 │  ├─ config
 │  │  ├─ index.ts

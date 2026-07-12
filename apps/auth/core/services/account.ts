@@ -1,11 +1,11 @@
 import BaseService from '#core/base/service.js';
-import type { PersonalUser, PublicUser } from '@packages/db';
+import type { PublicUser } from '@packages/db';
 import { ApiErrors } from '@shared/errors';
 import { OtpTypes } from '@zed31rus/types';
 
 export default class AccountService extends BaseService {
-	async emailVerificationSend(user: PublicUser): Promise<{ user: PersonalUser }> {
-		const rawUser = await this.db.users.get.orThrow.byPublicUser(this.db.client, user);
+	async emailVerificationSend(publicUser: PublicUser) {
+		const rawUser = await this.db.users.get.orThrow.byPublicUser(this.db.client, publicUser);
 		const personalUser = this.db.users.toPersonalJSON(rawUser);
 
 		if (rawUser.emailConfirmed) return { user: personalUser };
@@ -27,13 +27,8 @@ export default class AccountService extends BaseService {
 		return { user: personalUser };
 	}
 
-	async emailVerificationConfirm(
-		user: PublicUser,
-		submitCode: string
-	): Promise<{
-		user: PersonalUser;
-	}> {
-		const rawUser = await this.db.users.get.orThrow.byPublicUser(this.db.client, user);
+	async emailVerificationConfirm(publicUser: PublicUser, submitCode: string) {
+		const rawUser = await this.db.users.get.orThrow.byPublicUser(this.db.client, publicUser);
 		const personalUser = this.db.users.toPersonalJSON(rawUser);
 
 		if (rawUser.emailConfirmed) return { user: personalUser };
@@ -62,8 +57,8 @@ export default class AccountService extends BaseService {
 		return { user: newPersonalUser };
 	}
 
-	async changePasswordRequest(user: PublicUser): Promise<{ user: PersonalUser }> {
-		const rawUser = await this.db.users.get.orThrow.byPublicUser(this.db.client, user);
+	async changePasswordRequest(publicUser: PublicUser) {
+		const rawUser = await this.db.users.get.orThrow.byPublicUser(this.db.client, publicUser);
 		const personalUser = this.db.users.toPersonalJSON(rawUser);
 
 		const rawOtp = await this.manager.otp.createOtp(
@@ -83,12 +78,8 @@ export default class AccountService extends BaseService {
 		return { user: personalUser };
 	}
 
-	async changePasswordConfirm(
-		user: PublicUser,
-		password: string,
-		submitCode: string
-	): Promise<{ user: PersonalUser }> {
-		const rawUser = await this.db.users.get.orThrow.byPublicUser(this.db.client, user);
+	async changePasswordConfirm(publicUser: PublicUser, password: string, submitCode: string) {
+		const rawUser = await this.db.users.get.orThrow.byPublicUser(this.db.client, publicUser);
 		const hashedPassword = await this.libs.hash.bcrypt.create(password, 10);
 
 		const { newRawUser } = await this.db.client.$transaction(async (tx) => {
@@ -107,10 +98,10 @@ export default class AccountService extends BaseService {
 			return { newRawUser };
 		});
 		this.libs.mail.sendMail(
-			rawUser.email,
-			'Ваш пароль успешно изменён',
-			'<p>Ваш пароль успешно изменён</p>',
-			'Ваш пароль успешно изменён'
+			newRawUser.email,
+			'Password change.',
+			'<p>Your password has been successfully changed.</p>',
+			'Your password has been successfully changed.'
 		);
 
 		const newPersonalUser = this.db.users.toPersonalJSON(newRawUser);

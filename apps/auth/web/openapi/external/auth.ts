@@ -67,7 +67,6 @@ export default class AuthExternalWebOpenAPI extends BaseWebOpenAPI {
 					'application/json': {
 						schema: z.object({
 							user: this.core.db.users.PersonalUserSchema,
-							accessToken: z.string(),
 							expires: z.date(),
 						}),
 					},
@@ -95,7 +94,6 @@ export default class AuthExternalWebOpenAPI extends BaseWebOpenAPI {
 					'application/json': {
 						schema: z.object({
 							user: this.core.db.users.PersonalUserSchema,
-							accessToken: z.string(),
 							expires: z.date(),
 						}),
 					},

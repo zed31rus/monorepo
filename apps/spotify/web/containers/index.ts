@@ -6,7 +6,7 @@ import coreContainer from '#core/containers/index.js';
 import WebHandlerContainer from './handler.js';
 import ErrorWebHandler from '#web/handlers/error.js';
 import WebOpenApiContainer from './openapi.js';
-import DailyTrackWebOpenAPI from '#web/openapi/dailyTrack.js';
+import DailyTrackWebOpenAPI from '#web/openapi/external/dailyTrack.js';
 import WebModuleContainer from './module.js';
 import DailyTrackWebModule from '#web/modules/dailyTrack.js';
 import WebServerContainer from './server.js';

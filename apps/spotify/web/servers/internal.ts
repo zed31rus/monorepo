@@ -2,24 +2,17 @@ import BaseWebServer from '#web/base/server.js';
 import { serve } from '@hono/node-server';
 import { swaggerUI } from '@hono/swagger-ui';
 
-export default class InternalWebServer extends BaseWebServer {
+export default class ExternalWebServer extends BaseWebServer {
 	configure() {
-		this.server.use(this.wrappers.cors.internal());
+		this.server.use(this.wrappers.cors.external());
 
-		this.server.openAPIRegistry.registerComponent('securitySchemes', 'internalToken', {
-			type: 'apiKey',
-			in: 'header',
-			name: 'X-Internal-Token',
-		});
+		this.server.onError(this.handlers.error.errorHander.bind(this.handlers.error));
 
-		this.server.onError(this.handlers.error.errorHandler.bind(this.handlers.error));
-
-		this.server.route('/users', this.modules.internal.users.router);
 		this.server.doc('/doc', {
 			openapi: '3.0.0',
 			info: {
 				version: '1.0.0',
-				title: 'auth.zed31rus.ru internal api',
+				title: 'spotify.zed31rus.ru internal api',
 			},
 		});
 		this.server.get('/doc/ui', swaggerUI({ url: '/doc' }));

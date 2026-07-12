@@ -3,65 +3,96 @@ import ErrorsContainer from '@shared/errors';
 import BaseWebHandler from '#web/base/handler.js';
 import { type Context } from 'hono';
 import { type HTTPResponseError } from 'hono/types';
+import { type ContentfulStatusCode } from 'hono/utils/http-status';
 import jsonwebtoken from 'jsonwebtoken';
+
 const { JsonWebTokenError, TokenExpiredError } = jsonwebtoken;
 
 export default class ErrorWebHandler extends BaseWebHandler {
-	errorHander(err: Error | HTTPResponseError, c: Context) {
+	errorHandler(err: Error | HTTPResponseError, c: Context) {
+		const path = c.req.path;
+		const method = c.req.method;
+
 		if (err instanceof ErrorsContainer.ApiError) {
-			if (err.status == 401) this.managers.session.deleteSession(c);
+			this.logger.warn('API error', {
+				code: err.code,
+				status: err.status,
+				message: err.message,
+				path,
+				method,
+			});
+
+			if (err.status === 401) this.managers.session.deleteSession(c);
 
 			return c.json(
-				{
-					code: err.code,
-					message: err.message,
-				},
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				err.status as any
+				{ code: err.code, message: err.message },
+				err.status as ContentfulStatusCode
 			);
 		}
 
 		if (err instanceof TokenExpiredError) {
+			this.logger.info('Token expired', { path, method });
 			this.managers.session.deleteSession(c);
 			return c.json({ message: 'Token expired' }, 401);
 		}
 
 		if (err instanceof JsonWebTokenError) {
+			this.logger.warn('Invalid token', {
+				message: err.message,
+				path,
+				method,
+			});
 			return c.json({ message: 'Invalid token' }, 401);
 		}
 
 		if (err instanceof ErrorsContainer.ConfigError) {
-			console.error(err);
+			this.logger.error('Config error, shutting down', {
+				message: err.message,
+				stack: err.stack,
+			});
 			process.exit(1);
 		}
 
 		if (err instanceof AuthDBType.PrismaClientKnownRequestError) {
-			const code = err.code as keyof typeof this.errors.prisma;
+			const known = this.errors.prisma[err.code as keyof typeof this.errors.prisma];
 
-			return c.json(
-				{
-					error: this.errors.prisma[code].message,
-				},
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				this.errors.prisma[code].status as any
-			);
+			if (known) {
+				this.logger.warn('Prisma known error', {
+					code: err.code,
+					status: known.status,
+					message: known.message,
+					path,
+					method,
+				});
+
+				return c.json({ error: known.message }, known.status as ContentfulStatusCode);
+			}
+
+			this.logger.error('Unhandled Prisma error code', {
+				code: err.code,
+				message: err.message,
+				meta: err.meta,
+				path,
+				method,
+			});
+			return c.json({ message: 'Internal Server Error' }, 500);
 		}
 
 		if (err instanceof AuthDBType.PrismaClientValidationError) {
-			return c.json(
-				{
-					description: 'Bad request',
-				},
-				400
-			);
+			this.logger.warn('Prisma validation error', {
+				message: err.message,
+				path,
+				method,
+			});
+			return c.json({ description: 'Bad request' }, 400);
 		}
 
-		console.log(err);
-		return c.json(
-			{
-				message: 'Internal Server Error',
-			},
-			500
-		);
+		this.logger.error('Unhandled error', {
+			message: err.message,
+			stack: err.stack,
+			path,
+			method,
+		});
+		return c.json({ message: 'Internal Server Error' }, 500);
 	}
 }

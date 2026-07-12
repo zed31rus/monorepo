@@ -11,7 +11,7 @@
 		"#discordBot/*": "./dist/src/*"
 	},
 	"scripts": {
-		"test": "node ./dist/src/containers/index.container.js"
+		"test": "node ./dist/src/containers/index.js"
 	},
 	"dependencies": {
 		"@discordjs/voice": "^0.19.2",

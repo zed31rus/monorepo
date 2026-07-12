@@ -9,13 +9,10 @@
       "@shared/config": ["../../shared/config/index.ts"],
       "@shared/logger": ["../../shared/logger/index.ts"],
       "@zed31rus/base": ["../../base/index.ts"],
-      "@packages/libs": ["../../packages/libs/index.ts"],
-      "@packages/db": ["../../packages/db/index.ts"],
       "@packages/infra": ["../../packages/infra/index.ts"],
 
-      "#root/*": ["./*"],
       "#core/*": ["./core/*"],
-      "#web/*": ["./web/*"]
+      "#root/*": ["./*"]
     }
   },
   "include": [
@@ -27,8 +24,6 @@
     { "path": "../../shared/config" },
     { "path": "../../shared/logger"},
     { "path": "../../base" },
-    { "path": "../../packages/libs" },
-    { "path": "../../packages/db" },
     { "path": "../../packages/infra" }
   ]
 }

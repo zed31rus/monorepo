@@ -180,6 +180,27 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
 
+  apps/mail:
+    dependencies:
+      '@packages/infra':
+        specifier: workspace:*
+        version: link:../../packages/infra
+      '@shared/config':
+        specifier: workspace:*
+        version: link:../../shared/config
+      '@shared/errors':
+        specifier: workspace:*
+        version: link:../../shared/errors
+      '@shared/logger':
+        specifier: workspace:*
+        version: link:../../shared/logger
+      '@zed31rus/base':
+        specifier: workspace:*
+        version: link:../../base
+      '@zed31rus/types':
+        specifier: workspace:*
+        version: link:../../types
+
   apps/spotify:
     dependencies:
       '@hono/node-server':

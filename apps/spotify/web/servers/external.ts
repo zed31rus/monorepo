@@ -13,7 +13,7 @@ export default class ExternalWebServer extends BaseWebServer {
 			openapi: '3.0.0',
 			info: {
 				version: '1.0.0',
-				title: 'spotify.zed31rus.ru internal api',
+				title: 'spotify.zed31rus.ru public api',
 			},
 		});
 		this.server.get('/doc/ui', swaggerUI({ url: '/doc' }));

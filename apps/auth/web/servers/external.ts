@@ -12,7 +12,7 @@ export default class ExternalWebServer extends BaseWebServer {
 			bearerFormat: 'JWT',
 		});
 
-		this.server.onError(this.handlers.error.errorHander.bind(this.handlers.error));
+		this.server.onError(this.handlers.error.errorHandler.bind(this.handlers.error));
 
 		this.server.route('/oauth2/discord', this.modules.external.oauth.discord.router);
 		this.server.route('/auth', this.modules.external.auth.router);
@@ -23,7 +23,7 @@ export default class ExternalWebServer extends BaseWebServer {
 			openapi: '3.0.0',
 			info: {
 				version: '1.0.0',
-				title: 'auth.zed31rus.ru api',
+				title: 'auth.zed31rus.ru public api',
 			},
 		});
 		this.server.get('/doc/ui', swaggerUI({ url: '/doc' }));

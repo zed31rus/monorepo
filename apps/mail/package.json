@@ -1,0 +1,21 @@
+{
+	"name": "@apps/mail",
+	"version": "1.0.0",
+	"description": "mail microservice zed31rus",
+	"type": "module",
+	"scripts": {
+		"start": "node ./dist/start.js"
+	},
+	"imports": {
+		"#core/*": "./dist/core/*",
+		"#root/*": "./dist/*"
+	},
+	"dependencies": {
+		"@packages/infra": "workspace:*",
+		"@shared/config": "workspace:*",
+		"@shared/errors": "workspace:*",
+		"@shared/logger": "workspace:*",
+		"@zed31rus/base": "workspace:*",
+		"@zed31rus/types": "workspace:*"
+	}
+}
