@@ -1,5 +1,4 @@
 import BotBase, { type BotBaseArgs } from '../../bot.js';
-import ManagerContainer from '#containers/manager.js';
 import type { RabbitFromAuthQueues } from '@packages/infra';
 
 export default abstract class BaseRabbitMqInternalEvent<
@@ -7,11 +6,7 @@ export default abstract class BaseRabbitMqInternalEvent<
 > extends BotBase {
 	protected readonly type: EventType;
 
-	constructor(
-		eventType: EventType,
-		readonly manager: ManagerContainer,
-		...botBaseArgs: BotBaseArgs
-	) {
+	constructor(eventType: EventType, ...botBaseArgs: BotBaseArgs) {
 		super(...botBaseArgs);
 		this.type = eventType;
 

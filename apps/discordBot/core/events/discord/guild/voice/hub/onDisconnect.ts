@@ -1,4 +1,4 @@
-import BaseDiscordEvent, { type BaseDiscordEventArgs } from '#base/event/discord.js';
+import BaseDiscordEvent, { type BaseDiscordEventArgs } from '#core/base/event/discord.js';
 import { type VoiceState } from 'discord.js';
 
 export default class OnDisconnectGuildVoiceDiscordEvent extends BaseDiscordEvent {

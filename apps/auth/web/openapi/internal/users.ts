@@ -1,7 +1,7 @@
 import { type UserEnv } from '#web/types/Env.js';
 import { createRoute, z } from '@hono/zod-openapi';
 import BaseWebOpenAPI from '../../base/openapi.js';
-import { OauthProviders } from '@zed31rus/types';
+import { Oauth } from '@zed31rus/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 type UsersInternalEnv = UserEnv & {};
@@ -23,7 +23,7 @@ export default class UsersInternalWebOpenAPI extends BaseWebOpenAPI {
 				content: {
 					'application/json': {
 						schema: z.object({
-							provider: z.enum(OauthProviders),
+							provider: z.enum(Oauth.Providers),
 						}),
 					},
 				},

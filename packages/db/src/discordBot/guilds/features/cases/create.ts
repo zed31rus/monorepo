@@ -3,8 +3,8 @@ import type { DiscordBotDBType } from '../../../db.js';
 
 export default class CreateFeatureGuildDiscordBotDbCase {
 	async add(
-		client: DiscordBotDBType.TransactionClient,
-		guild: DiscordBotDBType.GuildModel,
+		client: DiscordBotDBType.Prisma.TransactionClient,
+		guild: DiscordBotDBType.Prisma.GuildModel,
 		feature: Features
 	) {
 		return client.guild.update({

@@ -1,4 +1,4 @@
-import BaseManager, { type BaseManagerArgs } from '#base/manager.js';
+import BaseManager, { type BaseManagerArgs } from '#core/base/manager.js';
 import { ActivityType } from 'discord.js';
 import cron from 'node-cron';
 

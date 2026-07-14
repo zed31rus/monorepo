@@ -4,12 +4,6 @@
 		"rootDir": ".",
 		"outDir": "./dist",
 		"paths": {
-			"#base/*": ["./src/base/*"],
-			"#containers/*": ["./src/containers/*"],
-			"#events/*": ["./src/events/*"],
-			"#managers/*": ["./src/managers/*"],
-			"#discordBot/*": ["./src/*"],
-
 			"@zed31rus/types": ["../../types/index.ts"],
 			"@shared/errors": ["../../shared/errors/index.ts"],
 			"@shared/config": ["../../shared/config/index.ts"],
@@ -17,10 +11,14 @@
 			"@zed31rus/base": ["../../base/index.ts"],
 			"@packages/libs": ["../../packages/libs/index.ts"],
 			"@packages/db": ["../../packages/db/index.ts"],
-			"@packages/infra": ["../../packages/infra/index.ts"]
+			"@packages/infra": ["../../packages/infra/index.ts"],
+
+			"#root/*": ["./*"],
+      "#core/*": ["./core/*"],
+      "#web/*": ["./web/*"]
 		}
 	},
-	"include": ["start.ts", "src/**/*"],
+	"include": ["start.ts", "core/**/*"],
 	"references": [
 		{ "path": "../../types" },
 		{ "path": "../../shared/errors" },

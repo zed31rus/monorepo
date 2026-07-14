@@ -1,18 +1,15 @@
 import { Client, GatewayIntentBits } from 'discord.js';
-import EventContainer from './event/discord.js';
+import DiscordEventContainer from './event/discord.js';
 import DbContainer from '@packages/db';
 import InfraContainer from '@packages/infra';
 import ConfigContainer from '@shared/config';
 import Logger from '@shared/logger';
 import ErrorsContainer from '@shared/errors';
-import OnConnectGuildVoiceEvent from '#events/discord/guild/voice/hub/onConnect.js';
-import OnDisconnectGuildVoiceEvent from '#events/discord/guild/voice/hub/onDisconnect.js';
-import ManagerContainer from './manager.js';
-import ActivityManager from '#managers/activity.js';
-import ServerNameManager from '#managers/serverName.js';
-import VoiceManager from '#managers/voice.js';
-import OauthRegisteredNewUser from '#events/internal/rabbitMq/auth/from/oauthRegisteredNewUser.js';
+import OnConnectGuildVoiceEvent from '#core/events/discord/guild/voice/hub/onConnect.js';
+import OnDisconnectGuildVoiceEvent from '#core/events/discord/guild/voice/hub/onDisconnect.js';
+import OauthRegisteredNewUser from '#core/events/internal/rabbitMq/auth/from/oauthRegisteredNewUser.js';
 import EventEmitter from 'node:events';
+import RabbitMqInternalEventContainer from './event/internal/rabbitMq.js';
 
 const errorsContainer = new ErrorsContainer(
 	new ErrorsContainer.deps.ApiErrors(),
@@ -64,34 +61,21 @@ const readyClient = await new Promise<Client<true>>((resolve) => {
 
 const eventEmitter = new EventEmitter();
 
-const managerDeps = [readyClient, db, infraContainer, eventEmitter, ...packagesDeps] as const;
+const servicesDeps = [readyClient, db, infraContainer, eventEmitter, ...packagesDeps] as const;
 
-const managerContainer = new ManagerContainer(
-	new ActivityManager(...managerDeps),
-	new ServerNameManager(...managerDeps),
-	new VoiceManager(...managerDeps)
-);
+const emitterDeps = [...servicesDeps] as const;
 
-const emitterDeps = [managerContainer, ...managerDeps] as const;
-
-new EventContainer(
-	{
-		guild: {
-			voice: {
-				hub: {
-					onConnect: new OnConnectGuildVoiceEvent(...emitterDeps),
-					onDisconnect: new OnDisconnectGuildVoiceEvent(...emitterDeps),
-				},
-			},
+new DiscordEventContainer({
+	voice: {
+		hub: {
+			onConnect: new OnConnectGuildVoiceEvent(...emitterDeps),
+			onDisconnect: new OnDisconnectGuildVoiceEvent(...emitterDeps),
 		},
 	},
-	{
-		rabbitMq: {
-			auth: {
-				from: {
-					oauthRegisteredNewUser: new OauthRegisteredNewUser(...emitterDeps),
-				},
-			},
-		},
-	}
-);
+});
+
+new RabbitMqInternalEventContainer({
+	from: {
+		oauthRegisteredNewUser: new OauthRegisteredNewUser(...emitterDeps),
+	},
+});

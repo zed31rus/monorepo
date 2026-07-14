@@ -1,10 +1,10 @@
 import BaseService from '#core/base/service.js';
 import { type InternalUser, type PersonalUser, type PublicUser } from '@packages/db';
 import { ApiErrors } from '@shared/errors';
-import { OauthProviders } from '@zed31rus/types';
+import { Oauth } from '@zed31rus/types';
 
 export default class UsersService extends BaseService {
-	async getInternalByUuid(uuid: string, provider: OauthProviders): Promise<InternalUser> {
+	async getInternalByUuid(uuid: string, provider: Oauth.Providers): Promise<InternalUser> {
 		const rawUser = await this.db.users.get.orThrow.withProvider(
 			this.db.client,
 			uuid,

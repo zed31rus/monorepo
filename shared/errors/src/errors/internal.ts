@@ -32,6 +32,12 @@ export default class InternalErrors {
 	spotify(message: SpotifyErrorMessage) {
 		return new InternalError(InternalErrorCode.SPOTIFY_ERROR, message);
 	}
+
+	discord = {
+		voice(message: DiscordVoiceErrorMessage) {
+			return new InternalError(InternalErrorCode.DISCORD_VOICE_ERROR, message);
+		},
+	};
 }
 
 export enum InternalErrorCode {
@@ -41,6 +47,7 @@ export enum InternalErrorCode {
 	EXTERNAL_API_ERROR = 'EXTERNAL_API_ERROR',
 	BUSINESS_LOGIC_ERROR = 'BUSINESS_LOGIC_ERROR',
 	SPOTIFY_ERROR = 'SPOTIFY_ERROR',
+	DISCORD_VOICE_ERROR = 'DSICORD_VOICE_ERROR',
 }
 
 export enum DatabaseErrorMessage {
@@ -87,4 +94,13 @@ export enum SpotifyErrorMessage {
 	TOKEN_EXPIRED = 'SPOTIFY_TOKEN_EXPIRED',
 	INVALID_TOKEN = 'SPOTIFY_INVALID_TOKEN',
 	INVALID_RESPONSE = 'SPOTIFY_INVALID_RESPONSE',
+}
+
+export enum DiscordVoiceErrorMessage {
+	DEFAULT = 'VOICE_ERROR',
+	INVALID_CHANNEL_TYPE = 'VOICE_INVALID_CHANNEL_TYPE',
+	CONNECTION_TIMEOUT = 'VOICE_CONNECTION_TIMEOUT',
+	RECONNECT_FAILED = 'VOICE_RECONNECT_FAILED',
+	MAX_RECONNECT_ATTEMPTS_REACHED = 'VOICE_MAX_RECONNECT_ATTEMPTS_REACHED',
+	CHANNEL_NOT_FOUND = 'CHANNEL_NOT_FOUND',
 }

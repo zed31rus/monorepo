@@ -4,8 +4,8 @@ import type { DiscordBotDBType } from '../../db.js';
 export default class GetGuildDbCase {
 	orNull = {
 		async byId(
-			client: DiscordBotDBType.TransactionClient,
-			guildId: DiscordBotDBType.GuildModel['guildId']
+			client: DiscordBotDBType.Prisma.TransactionClient,
+			guildId: DiscordBotDBType.Prisma.GuildModel['guildId']
 		) {
 			return client.guild.findUnique({
 				where: {
@@ -17,8 +17,8 @@ export default class GetGuildDbCase {
 
 	orThrow = {
 		async byId(
-			client: DiscordBotDBType.TransactionClient,
-			guildId: DiscordBotDBType.GuildModel['guildId']
+			client: DiscordBotDBType.Prisma.TransactionClient,
+			guildId: DiscordBotDBType.Prisma.GuildModel['guildId']
 		) {
 			return client.guild.findUniqueOrThrow({
 				where: {
@@ -28,7 +28,7 @@ export default class GetGuildDbCase {
 		},
 	};
 
-	async whereFeature(client: DiscordBotDBType.TransactionClient, feature: Features) {
+	async whereFeature(client: DiscordBotDBType.Prisma.TransactionClient, feature: Features) {
 		return client.guild.findMany({
 			where: {
 				features: {

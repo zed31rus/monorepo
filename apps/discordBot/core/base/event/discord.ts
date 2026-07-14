@@ -1,17 +1,12 @@
 import type { ClientEvents } from 'discord.js';
 import BotBase, { type BotBaseArgs } from '../bot.js';
-import ManagerContainer from '#containers/manager.js';
 
 export abstract class BaseDiscordEvent<
 	EventType extends keyof ClientEvents = keyof ClientEvents,
 > extends BotBase {
 	protected readonly type: EventType;
 
-	constructor(
-		eventType: EventType,
-		readonly manager: ManagerContainer,
-		...botBaseArgs: BotBaseArgs
-	) {
+	constructor(eventType: EventType, ...botBaseArgs: BotBaseArgs) {
 		super(...botBaseArgs);
 		this.type = eventType;
 

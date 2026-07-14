@@ -1,7 +1,7 @@
 import BaseRabbitMqInternalEvent, {
 	type BaseRabbitMqInternalEventArgs,
-} from '#base/event/internal/rabbitMq.js';
-import { OauthProviders } from '@zed31rus/types';
+} from '#core/base/event/internal/rabbitMq.js';
+import { Oauth } from '@zed31rus/types';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
 
 export default class OauthRegisteredNewUserRabbitMqEvent extends BaseRabbitMqInternalEvent {
@@ -10,7 +10,7 @@ export default class OauthRegisteredNewUserRabbitMqEvent extends BaseRabbitMqInt
 
 		const { user } = await this.infra.internal.auth.users.getByUUID(
 			uuid,
-			OauthProviders.discord
+			Oauth.Providers.discord
 		);
 		const { oauthAccounts } = user;
 		const oauthAccount = oauthAccounts[0];

@@ -1,7 +1,7 @@
 import BaseService from '#core/base/service.js';
 import type { PublicUser } from '@packages/db';
 import { ApiErrors } from '@shared/errors';
-import { OtpTypes } from '@zed31rus/types';
+import { OtpTypes } from '#core/types/account.js';
 
 export default class AccountService extends BaseService {
 	async emailVerificationSend(publicUser: PublicUser) {
@@ -13,7 +13,7 @@ export default class AccountService extends BaseService {
 		const rawOtp = await this.manager.otp.createOtp(
 			this.db.client,
 			rawUser,
-			OtpTypes.EmailConfirm
+			OtpTypes.emailConfirm
 		);
 
 		if (rawOtp)
@@ -38,7 +38,7 @@ export default class AccountService extends BaseService {
 				tx,
 				rawUser,
 				submitCode,
-				OtpTypes.EmailConfirm
+				OtpTypes.emailConfirm
 			);
 			if (!success) throw this.errors.api.badRequest(ApiErrors.BadRequestMessage.INVALID_OTP);
 			const newRawUser = await this.db.users.update.setEmailConfirmed(tx, rawUser, true);

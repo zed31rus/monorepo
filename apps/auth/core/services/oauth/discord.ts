@@ -1,7 +1,7 @@
 import BaseService from '#core/base/service.js';
 import type { AuthDBType, PublicUser } from '@packages/db';
 import type { DiscordUsersMeReply } from '@packages/infra';
-import { OauthProviders } from '@zed31rus/types';
+import { Oauth } from '@zed31rus/types';
 
 export default class DiscordOauthService extends BaseService {
 	async callback(code: string, publicUser: PublicUser | null) {
@@ -25,7 +25,7 @@ export default class DiscordOauthService extends BaseService {
 
 		await this.db.oauthAccount.upsert.upsert(
 			this.db.client,
-			{ provider: OauthProviders.discord, providerUserId: meRes.id },
+			{ provider: Oauth.Providers.discord, providerUserId: meRes.id },
 			user,
 			{
 				accessToken: exchangeReply.access_token,
@@ -36,7 +36,7 @@ export default class DiscordOauthService extends BaseService {
 			}
 		);
 		this.logger.info(
-			`OAuth account upserted: userId=${user.id}, provider=${OauthProviders.discord}`
+			`OAuth account upserted: userId=${user.id}, provider=${Oauth.Providers.discord}`
 		);
 
 		const session = await this.manager.session.createSession(user, this.db.client);
@@ -77,7 +77,7 @@ export default class DiscordOauthService extends BaseService {
 
 		const existingOauth = await this.db.oauthAccount.get.orNull.byProvider_providerUserId(
 			this.db.client,
-			OauthProviders.discord,
+			Oauth.Providers.discord,
 			meRes.id
 		);
 		if (existingOauth) {
