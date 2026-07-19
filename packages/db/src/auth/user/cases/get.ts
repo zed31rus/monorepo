@@ -1,4 +1,4 @@
-import type { OauthProviders } from '@zed31rus/types';
+import type { Oauth } from '@zed31rus/types';
 import type { AuthDBType, PublicUser, RawUser } from '../../auth.js';
 
 export default class GetUser {
@@ -46,7 +46,7 @@ export default class GetUser {
 		async withProvider(
 			client: AuthDBType.TransactionClient,
 			uuid: RawUser['uuid'],
-			provider: OauthProviders
+			provider: Oauth.Providers
 		) {
 			return await client.user.findUniqueOrThrow({
 				where: {

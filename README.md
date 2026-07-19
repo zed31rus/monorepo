@@ -17,13 +17,15 @@ monorepo
 │  │  │  ├─ managers
 │  │  │  │  ├─ otp.ts
 │  │  │  │  └─ session.ts
-│  │  │  └─ services
-│  │  │     ├─ account.ts
-│  │  │     ├─ auth.ts
-│  │  │     ├─ me.ts
-│  │  │     ├─ oauth
-│  │  │     │  └─ discord.ts
-│  │  │     └─ users.ts
+│  │  │  ├─ services
+│  │  │  │  ├─ account.ts
+│  │  │  │  ├─ auth.ts
+│  │  │  │  ├─ me.ts
+│  │  │  │  ├─ oauth
+│  │  │  │  │  └─ discord.ts
+│  │  │  │  └─ users.ts
+│  │  │  └─ types
+│  │  │     └─ account.ts
 │  │  ├─ package.json
 │  │  ├─ start.ts
 │  │  ├─ tsconfig.json
@@ -89,20 +91,22 @@ monorepo
 │  │        ├─ rateLimiter.ts
 │  │        └─ validator.ts
 │  ├─ discordBot
-│  │  ├─ package.json
-│  │  ├─ src
+│  │  ├─ core
 │  │  │  ├─ base
 │  │  │  │  ├─ bot.ts
 │  │  │  │  ├─ event
 │  │  │  │  │  ├─ discord.ts
 │  │  │  │  │  └─ internal
 │  │  │  │  │     └─ rabbitMq.ts
+│  │  │  │  ├─ guild
+│  │  │  │  │  └─ manager.ts
 │  │  │  │  └─ manager.ts
 │  │  │  ├─ containers
 │  │  │  │  ├─ event
-│  │  │  │  │  └─ discord.ts
-│  │  │  │  ├─ index.ts
-│  │  │  │  └─ manager.ts
+│  │  │  │  │  ├─ discord.ts
+│  │  │  │  │  └─ internal
+│  │  │  │  │     └─ rabbitMq.ts
+│  │  │  │  └─ index.ts
 │  │  │  ├─ events
 │  │  │  │  ├─ discord
 │  │  │  │  │  └─ guild
@@ -117,8 +121,10 @@ monorepo
 │  │  │  │              └─ oauthRegisteredNewUser.ts
 │  │  │  └─ managers
 │  │  │     ├─ activity.ts
-│  │  │     ├─ serverName.ts
-│  │  │     └─ voice.ts
+│  │  │     └─ guild
+│  │  │        ├─ name.ts
+│  │  │        └─ voice.ts
+│  │  ├─ package.json
 │  │  └─ tsconfig.json
 │  ├─ frontend
 │  │  ├─ app
@@ -309,13 +315,7 @@ monorepo
 │  │  │  │  │  │  │  └─ delete.ts
 │  │  │  │  │  │  └─ features.ts
 │  │  │  │  │  └─ guilds.ts
-│  │  │  │  ├─ schema.prisma
-│  │  │  │  └─ serverName
-│  │  │  │     ├─ cases
-│  │  │  │     │  ├─ create.ts
-│  │  │  │     │  ├─ delete.ts
-│  │  │  │     │  └─ get.ts
-│  │  │  │     └─ serverName.ts
+│  │  │  │  └─ schema.prisma
 │  │  │  └─ spotify
 │  │  │     ├─ config.ts
 │  │  │     ├─ dailyTrack
@@ -327,7 +327,8 @@ monorepo
 │  │  │     └─ schema.prisma
 │  │  ├─ tsconfig.json
 │  │  └─ types
-│  │     └─ declarations.ts
+│  │     ├─ declarations.ts
+│  │     └─ features.ts
 │  ├─ infra
 │  │  ├─ index.ts
 │  │  ├─ package.json
@@ -403,7 +404,7 @@ monorepo
    ├─ index.ts
    ├─ package.json
    ├─ src
-   │  ├─ account.ts
+   │  ├─ auth
    │  ├─ discordBot
    │  │  └─ features.ts
    │  └─ oauth.ts

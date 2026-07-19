@@ -1,10 +1,10 @@
-import type { OauthProviders } from '@zed31rus/types';
+import type { Oauth } from '@zed31rus/types';
 import { AuthDBType, type RawUser } from '../../auth.js';
 
 export default class UpsertOauthAccount {
 	async upsert(
 		client: AuthDBType.TransactionClient,
-		where: { provider: OauthProviders; providerUserId: string },
+		where: { provider: Oauth.Providers; providerUserId: string },
 		user: RawUser,
 		oauthData: {
 			accessToken?: string | null;

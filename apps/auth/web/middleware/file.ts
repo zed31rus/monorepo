@@ -2,7 +2,7 @@ import BaseWebMiddleware from '#web/base/middleware.js';
 import { type AvatarEnv } from '#web/types/Env.js';
 import { z } from '@hono/zod-openapi';
 import path from 'node:path';
-import { workDir } from '#root/start.js';
+import { projectDir } from '#root/start.js';
 import fs from 'fs';
 import type { PublicUser } from '@packages/db';
 
@@ -25,7 +25,7 @@ export default class FileWebMiddleware extends BaseWebMiddleware {
 			const publicDirPath = this.config.env.PUBLIC_DIR_PATH;
 			const avatarsPublicPathDir = this.config.env.AVATARS_PUBLIC_DIR_PATH;
 			const avatarAbsolutePath = path.join(
-				workDir,
+				projectDir,
 				publicDirPath,
 				avatarsPublicPathDir,
 				fileName

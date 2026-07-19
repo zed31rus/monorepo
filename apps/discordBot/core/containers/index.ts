@@ -20,7 +20,10 @@ const errorsContainer = new ErrorsContainer(
 
 const configDeps = [errorsContainer] as const;
 
-const configContainers = new ConfigContainer(new ConfigContainer.deps.EnvConfig(...configDeps));
+const configContainers = new ConfigContainer(
+	new ConfigContainer.deps.EnvConfig(...configDeps),
+	new ConfigContainer.deps.PathConfig(...configDeps)
+);
 
 const logger = new Logger('discordBot').appLogger;
 

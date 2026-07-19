@@ -1,4 +1,4 @@
-import { OauthProviders } from '@zed31rus/types';
+import { Oauth } from '@zed31rus/types';
 import { AuthDBType, type RawUser } from '../../auth.js';
 
 export default class CreateOauthAccount {
@@ -6,7 +6,7 @@ export default class CreateOauthAccount {
 		client: AuthDBType.TransactionClient,
 		user: RawUser,
 		account: {
-			provider: OauthProviders;
+			provider: Oauth.Providers;
 			providerUserId: AuthDBType.OauthAccountModel['providerUserId'];
 		},
 		payload: Omit<AuthDBType.OauthAccountCreateWithoutUserInput, 'provider' | 'providerUserId'>

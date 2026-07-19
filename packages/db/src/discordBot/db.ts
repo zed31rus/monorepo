@@ -3,7 +3,6 @@ import * as prisma from './generated/prisma/client.js';
 import pg from 'pg';
 import BaseDb, { type BaseDbArgs } from '../db.base.js';
 import ActivityStatusDiscordBotDb from './activityStatus/activityStatus.js';
-import ServerName from './serverName/serverName.js';
 import GuildsDiscordBotDb from './guilds/guilds.js';
 import type { Features } from '@zed31rus/types';
 
@@ -19,7 +18,6 @@ class DiscordBotDb extends BaseDb {
 	}
 
 	activityStatus = new ActivityStatusDiscordBotDb();
-	serverName = new ServerName();
 	guilds = new GuildsDiscordBotDb();
 }
 
@@ -32,8 +30,7 @@ export namespace DiscordBotDBType {
 		guildId: string;
 		noticeChannelId: string;
 		features: {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			[K in F]: { status: true; settings: any };
+			[K in F]: Extract<PrismaJson.features[K], { status: true }>;
 		} & Omit<PrismaJson.features, F>;
 	};
 }

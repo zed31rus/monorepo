@@ -1,9 +1,9 @@
-import type { OauthProviders } from '@zed31rus/types';
+import type { Oauth } from '@zed31rus/types';
 import BaseInfra from '../../base.js';
 import { type InternalUser } from '@packages/db';
 
 export default class UsersAuthInternalInfra extends BaseInfra {
-	async getByUUID(uuid: string, provider: OauthProviders): Promise<{ user: InternalUser }> {
+	async getByUUID(uuid: string, provider: Oauth.Providers): Promise<{ user: InternalUser }> {
 		const res = await fetch(`http://localhost:3201/users/uuid/${uuid}`, {
 			method: 'POST',
 			headers: {

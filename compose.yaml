@@ -11,7 +11,9 @@ services:
 
     ports:
       - "3001:3001"
-      
+
+    restart: unless-stopped
+    
 
   spotify:
     container_name: spotify.zed31rus.ru

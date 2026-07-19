@@ -23,7 +23,10 @@ const errors = new ErrorsContainer(
 
 const configDeps = [errors] as const;
 
-const configs = new ConfigContainer(new ConfigContainer.deps.EnvConfig(...configDeps));
+const configs = new ConfigContainer(
+	new ConfigContainer.deps.EnvConfig(...configDeps),
+	new ConfigContainer.deps.PathConfig(...configDeps)
+);
 
 const logger = new Logger('auth').appLogger;
 

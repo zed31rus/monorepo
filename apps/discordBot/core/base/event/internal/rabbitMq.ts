@@ -1,4 +1,4 @@
-import BotBase, { type BotBaseArgs } from '../../bot.js';
+import BotBase, { type BotBaseArgs } from '#core/base/bot.js';
 import type { RabbitFromAuthQueues } from '@packages/infra';
 
 export default abstract class BaseRabbitMqInternalEvent<

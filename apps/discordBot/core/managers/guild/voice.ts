@@ -5,8 +5,9 @@ import {
 	VoiceConnection,
 	VoiceConnectionStatus,
 } from '@discordjs/voice';
-import BaseManager, { type BaseManagerArgs } from '#core/base/manager.js';
 import { InternalErrors } from '@shared/errors';
+import { Features } from '@zed31rus/types';
+import BaseGuildManager from '#core/base/guild/manager.js';
 
 interface VoiceData {
 	connection: VoiceConnection;
@@ -14,24 +15,23 @@ interface VoiceData {
 	reconnectAttempts: number;
 }
 
-export default class VoiceGuildManager extends BaseManager {
+export default class VoiceGuildManager extends BaseGuildManager {
 	private voice: VoiceData | null = null;
 
 	private readonly MAX_RECONNECT_ATTEMPTS = 5;
 	private readonly RECONNECT_DELAY_MS = 5000;
-	private readonly guildId: string;
-	private readonly voiceChannelId: string;
-
-	constructor(guildid: string, voiceChannelId: string, ...baseManagerArgs: BaseManagerArgs) {
-		super(...baseManagerArgs);
-		this.guildId = guildid;
-		this.voiceChannelId = voiceChannelId;
-	}
 
 	async connect() {
+		const guildRecord = await this.db.guilds.get.orThrow.byId.whereFeature(
+			this.db.client,
+			this.guildId,
+			Features.temporaryVoiceChannels
+		);
 		const guild = await this.client.guilds.fetch(this.guildId);
 
-		const channel = await guild.channels.fetch(this.voiceChannelId);
+		const channel = await guild.channels.fetch(
+			guildRecord.features.temporaryVoiceChannels.settings.channelId
+		);
 
 		if (!channel) {
 			throw this.errors.internal.discord.voice(

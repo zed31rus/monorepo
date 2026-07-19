@@ -13,10 +13,10 @@ export default class OnDisconnectGuildVoiceDiscordEvent extends BaseDiscordEvent
 		if (!channel) return;
 
 		const guildRecord = await this.db.guilds.get.orThrow.byId(this.db.client, channel.guildId);
-		if (!guildRecord.features.voice.status) return;
+		if (!guildRecord.features.temporaryVoiceChannels.status) return;
 
 		const hubChannel = await guild.channels.fetch(
-			guildRecord.features.voice.settings.channelId
+			guildRecord.features.temporaryVoiceChannels.settings.channelId
 		);
 
 		if (!hubChannel || !hubChannel.parent) return;

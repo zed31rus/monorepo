@@ -4,7 +4,10 @@ import { ApiErrors } from '@shared/errors';
 import { Oauth } from '@zed31rus/types';
 
 export default class UsersService extends BaseService {
-	async getInternalByUuid(uuid: string, provider: Oauth.Providers): Promise<InternalUser> {
+	async getInternalByUuid(
+		uuid: PublicUser['uuid'],
+		provider: Oauth.Providers
+	): Promise<InternalUser> {
 		const rawUser = await this.db.users.get.orThrow.withProvider(
 			this.db.client,
 			uuid,
@@ -14,7 +17,7 @@ export default class UsersService extends BaseService {
 		return internalUser;
 	}
 
-	async getByUuid(uuid: string): Promise<{ user: PublicUser | InternalUser }> {
+	async getByUuid(uuid: PublicUser['uuid']): Promise<{ user: PublicUser }> {
 		const rawUser = await this.db.users.get.orThrow.byUuid(this.db.client, uuid);
 		const publicUser = this.db.users.toPublicJSON(rawUser);
 		return { user: publicUser };

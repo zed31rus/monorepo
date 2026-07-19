@@ -5,5 +5,5 @@
     "outDir": "./dist",
     "composite": true
   },
-  "include": ["./**/*", "../apps/auth/core/types/account.ts"]
+  "include": ["./**/*"]
 }

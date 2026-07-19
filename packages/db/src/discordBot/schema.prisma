@@ -29,8 +29,3 @@ model ActivityStatus {
   type Int
   name String
 }
-
-model ServerName {
-  id Int @id @default(autoincrement())
-  name String
-}
