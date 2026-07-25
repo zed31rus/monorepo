@@ -1,11 +1,12 @@
 import BaseRabbitMqInternalEvent, {
 	type BaseRabbitMqInternalEventArgs,
 } from '#core/base/event/internal/rabbitMq.js';
+import { RabbitEvents, RabbitQueues, type MessageControl } from '@packages/infra';
 import { Oauth } from '@zed31rus/types';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
 
 export default class OauthRegisteredNewUserRabbitMqEvent extends BaseRabbitMqInternalEvent {
-	protected async action(uuid: string) {
+	async action(control: MessageControl, uuid: string) {
 		this.logger.info(`oauthRegisteredNewUser event received: uuid=${uuid}`);
 
 		const { user } = await this.infra.internal.auth.users.getByUUID(
@@ -53,9 +54,15 @@ export default class OauthRegisteredNewUserRabbitMqEvent extends BaseRabbitMqInt
 			components: [row],
 		});
 		this.logger.info(`Welcome DM sent to user: discordUserId=${oauthAccount.providerUserId}`);
+
+		control.ack();
 	}
 
 	constructor(...baseRabbitMqEventDeps: BaseRabbitMqInternalEventArgs) {
-		super('oauthRegisteredNewUser', ...baseRabbitMqEventDeps);
+		super(
+			RabbitQueues.discordBot,
+			RabbitEvents.oauthRegisteredNewUser,
+			...baseRabbitMqEventDeps
+		);
 	}
 }

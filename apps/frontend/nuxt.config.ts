@@ -15,6 +15,12 @@ export default defineNuxtConfig({
 		},
 	},
 
+	typescript: {
+		tsConfig: {
+			include: ['./types/**/*.d.ts'],
+		},
+	},
+
 	app: {
 		head: {
 			link: [

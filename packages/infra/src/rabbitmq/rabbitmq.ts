@@ -1,8 +1,25 @@
 import amqp from 'amqplib';
 import BaseInfra, { type BaseInfraArgs } from '../base.js';
 
-export enum RabbitMqQueues {
-	oauthRegisteredNewUser = 'oauthRegisteredNewUser',
+export enum RabbitExchanges {
+	authEvents = 'auth.events',
+}
+
+export enum RabbitEvents {
+	oauthRegisteredNewUser = 'oauth.registered.newUser',
+}
+
+export enum RabbitQueues {
+	discordBot = 'discord.bot',
+}
+
+export interface RabbitMessages {
+	[RabbitEvents.oauthRegisteredNewUser]: [uuid: string];
+}
+
+export interface MessageControl {
+	ack: () => void;
+	nack: (requeue?: boolean) => void;
 }
 
 export default class RabbitMqInfra extends BaseInfra {
@@ -10,7 +27,6 @@ export default class RabbitMqInfra extends BaseInfra {
 	private initPromise: Promise<void>;
 
 	private connection!: amqp.ChannelModel;
-	private oauthChannel!: amqp.Channel;
 
 	private constructor(...baseArgs: BaseInfraArgs) {
 		super(...baseArgs);
@@ -21,55 +37,81 @@ export default class RabbitMqInfra extends BaseInfra {
 		if (!RabbitMqInfra.instance) {
 			RabbitMqInfra.instance = new RabbitMqInfra(...baseArgs);
 		}
+
 		return RabbitMqInfra.instance;
 	}
 
 	private async init() {
 		this.connection = await amqp.connect(this.config.env.AMQP_URL);
-		this.oauthChannel = await this.connection.createChannel();
-		await this.oauthChannel.assertQueue(RabbitMqQueues.oauthRegisteredNewUser, {
+	}
+
+	private async getChannel() {
+		await this.initPromise;
+
+		return this.connection.createChannel();
+	}
+
+	async send<K extends keyof RabbitMessages>(event: K, ...data: RabbitMessages[K]) {
+		const channel = await this.getChannel();
+
+		await channel.assertExchange(RabbitExchanges.authEvents, 'topic', {
 			durable: true,
 		});
-	}
 
-	async send<K extends keyof RabbitQueues>(queue: K, ...data: RabbitQueues[K]) {
-		await this.initPromise;
-		const payload = Array.isArray(data) ? data : [data];
-
-		this.oauthChannel.sendToQueue(queue, Buffer.from(JSON.stringify(payload)), {
+		channel.publish(RabbitExchanges.authEvents, event, Buffer.from(JSON.stringify(data)), {
 			persistent: true,
 		});
+
+		await channel.close();
 	}
 
-	async on<K extends keyof RabbitQueues>(
-		queueName: K,
-		onMessage: (...data: RabbitQueues[K]) => Promise<void> | void
+	async on<K extends keyof RabbitMessages>(
+		queueName: RabbitQueues,
+		event: K,
+		onMessage: (data: RabbitMessages[K], control: MessageControl) => Promise<void> | void
 	) {
-		await this.initPromise;
+		const channel = await this.getChannel();
 
-		await this.oauthChannel.assertQueue(queueName, { durable: true });
+		await channel.assertExchange(RabbitExchanges.authEvents, 'topic', {
+			durable: true,
+		});
 
-		await this.oauthChannel.consume(
+		await channel.assertQueue(queueName, {
+			durable: true,
+		});
+
+		await channel.bindQueue(queueName, RabbitExchanges.authEvents, event);
+
+		await channel.consume(
 			queueName,
 			async (msg) => {
 				if (!msg) return;
 
-				try {
-					const data: RabbitQueues[K] = JSON.parse(msg.content.toString());
+				let settled = false;
 
-					await onMessage(...data);
+				const control: MessageControl = {
+					ack: () => {
+						if (settled) return;
 
-					this.oauthChannel.ack(msg);
-				} catch (error) {
-					this.logger.error(`Ошибка обработки очереди ${queueName}:`, error);
-					this.oauthChannel.nack(msg, false, true);
-				}
+						settled = true;
+						channel.ack(msg);
+					},
+
+					nack: (requeue = true) => {
+						if (settled) return;
+
+						settled = true;
+						channel.nack(msg, false, requeue);
+					},
+				};
+
+				const data = JSON.parse(msg.content.toString()) as RabbitMessages[K];
+
+				await onMessage(data, control);
 			},
-			{ noAck: false }
+			{
+				noAck: false,
+			}
 		);
 	}
-}
-
-export interface RabbitQueues {
-	oauthRegisteredNewUser: [uuid: string];
 }

@@ -1,25 +1,29 @@
 import BotBase, { type BotBaseArgs } from '#core/base/bot.js';
-import type { RabbitFromAuthQueues } from '@packages/infra';
+import type { MessageControl, RabbitMessages, RabbitQueues } from '@packages/infra';
 
 export default abstract class BaseRabbitMqInternalEvent<
-	EventType extends keyof RabbitFromAuthQueues = keyof RabbitFromAuthQueues,
+	EventType extends keyof RabbitMessages = keyof RabbitMessages,
 > extends BotBase {
 	protected readonly type: EventType;
 
-	constructor(eventType: EventType, ...botBaseArgs: BotBaseArgs) {
+	constructor(queue: RabbitQueues, eventType: EventType, ...botBaseArgs: BotBaseArgs) {
 		super(...botBaseArgs);
+
 		this.type = eventType;
 
-		this.infra.rabbitmq.on(this.type, (...args) => {
-			this.action(...args);
+		this.infra.rabbitmq.on(queue, this.type, async (data, control) => {
+			await this.action(control, ...data);
 		});
 	}
 
-	protected abstract action(...args: RabbitFromAuthQueues[EventType]): void | Promise<void>;
+	protected abstract action(
+		control: MessageControl,
+		...args: RabbitMessages[EventType]
+	): void | Promise<void>;
 }
 
 export type BaseRabbitMqInternalEventArgs =
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	ConstructorParameters<typeof BaseRabbitMqInternalEvent> extends [any, ...infer Rest]
+	ConstructorParameters<typeof BaseRabbitMqInternalEvent> extends [any, any, ...infer Rest]
 		? Rest
 		: [];

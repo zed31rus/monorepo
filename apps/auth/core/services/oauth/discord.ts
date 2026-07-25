@@ -1,6 +1,6 @@
 import BaseService from '#core/base/service.js';
 import type { AuthDBType, PublicUser } from '@packages/db';
-import type { DiscordUsersMeReply } from '@packages/infra';
+import { RabbitEvents, type DiscordUsersMeReply } from '@packages/infra';
 import { Oauth } from '@zed31rus/types';
 
 export default class DiscordOauthService extends BaseService {
@@ -46,7 +46,7 @@ export default class DiscordOauthService extends BaseService {
 			this.logger.info(
 				`Sending oauthRegisteredNewUser to RabbitMQ: uuid=${newPublicUser.uuid}`
 			);
-			this.infra.rabbitmq.send('oauthRegisteredNewUser', newPublicUser.uuid);
+			this.infra.rabbitmq.send(RabbitEvents.oauthRegisteredNewUser, newPublicUser.uuid);
 
 			this.libs.mail.sendMail(
 				newPersonalUser.email,
