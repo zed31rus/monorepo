@@ -7,7 +7,7 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'disc
 
 export default class OauthRegisteredNewUserRabbitMqEvent extends BaseRabbitMqInternalEvent {
 	async action(control: MessageControl, uuid: string) {
-		this.logger.info(`oauthRegisteredNewUser event received: uuid=${uuid}`);
+		this.logger.info(`oauthRegisteredNewUser event received`, { uuid: uuid });
 
 		const { user } = await this.infra.internal.auth.users.getByUUID(
 			uuid,
@@ -16,12 +16,13 @@ export default class OauthRegisteredNewUserRabbitMqEvent extends BaseRabbitMqInt
 		const { oauthAccounts } = user;
 		const oauthAccount = oauthAccounts[0];
 
-		this.logger.info(
-			`Fetched user: nickname=${user.nickname}, providerUserId=${oauthAccount.providerUserId}`
-		);
+		this.logger.info(`Fetched user`, {
+			nickname: user.nickname,
+			providerUserId: oauthAccount.providerUserId,
+		});
 
 		const providerUser = await this.client.users.fetch(oauthAccount.providerUserId);
-		this.logger.info(`Fetched Discord user: discordUserId=${oauthAccount.providerUserId}`);
+		this.logger.info(`Fetched Discord user`, { discordUserId: oauthAccount.providerUserId });
 
 		const guild = await this.client.guilds.fetch(this.config.env.PRIMARY_SERVER_ID);
 
@@ -29,13 +30,14 @@ export default class OauthRegisteredNewUserRabbitMqEvent extends BaseRabbitMqInt
 			await guild.members.add(providerUser, {
 				accessToken: oauthAccount.accessToken,
 			});
-			this.logger.info(
-				`Added user to guild: discordUserId=${oauthAccount.providerUserId}, guildId=${this.config.env.PRIMARY_SERVER_ID}`
-			);
+			this.logger.info(`Added user to guild`, {
+				discordUserId: oauthAccount.providerUserId,
+				guildId: this.config.env.PRIMARY_SERVER_ID,
+			});
 		} else {
-			this.logger.warn(
-				`No accessToken for user, skipping guild add: discordUserId=${oauthAccount.providerUserId}`
-			);
+			this.logger.warn(`No accessToken for user, skipping guild add`, {
+				discordUserId: oauthAccount.providerUserId,
+			});
 		}
 
 		const testEmbed = new EmbedBuilder()
@@ -53,7 +55,7 @@ export default class OauthRegisteredNewUserRabbitMqEvent extends BaseRabbitMqInt
 			embeds: [testEmbed],
 			components: [row],
 		});
-		this.logger.info(`Welcome DM sent to user: discordUserId=${oauthAccount.providerUserId}`);
+		this.logger.info(`Welcome DM sent to user`, { discordUserId: oauthAccount.providerUserId });
 
 		control.ack();
 	}

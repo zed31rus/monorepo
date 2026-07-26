@@ -15,6 +15,7 @@
 		"@zed31rus/base": "workspace:*",
 		"@zed31rus/types": "workspace:*",
 		"amqplib": "^1.0.3",
+		"argon2": "^0.45.1",
 		"bcrypt": "^6.0.0",
 		"jsonwebtoken": "^9.0.3",
 		"nodemailer": "^7.0.12"

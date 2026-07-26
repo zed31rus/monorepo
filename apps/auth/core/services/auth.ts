@@ -3,7 +3,7 @@ import { ApiErrors } from '@shared/errors';
 
 export default class AuthService extends BaseService {
 	async register(login: string, email: string, password: string, nickname: string) {
-		const hashedPassword = await this.libs.hash.bcrypt.create(password, 10);
+		const hashedPassword = await this.libs.hash.argon2.create(password);
 
 		const rawUser = await this.db.users.create.create(
 			this.db.client,
@@ -21,7 +21,7 @@ export default class AuthService extends BaseService {
 	async login(email: string, password: string) {
 		const rawUser = await this.db.users.get.orThrow.byEmail(this.db.client, email);
 		const personalUser = this.db.users.toPersonalJSON(rawUser);
-		const isPasswordCorrect = await this.libs.hash.bcrypt.compare(
+		const isPasswordCorrect = await this.libs.hash.argon2.compare(
 			password,
 			rawUser.passwordHash!
 		);

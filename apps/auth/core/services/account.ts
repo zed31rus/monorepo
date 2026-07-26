@@ -80,7 +80,7 @@ export default class AccountService extends BaseService {
 
 	async changePasswordConfirm(publicUser: PublicUser, password: string, submitCode: string) {
 		const rawUser = await this.db.users.get.orThrow.byPublicUser(this.db.client, publicUser);
-		const hashedPassword = await this.libs.hash.bcrypt.create(password, 10);
+		const hashedPassword = await this.libs.hash.argon2.create(password);
 
 		const { newRawUser } = await this.db.client.$transaction(async (tx) => {
 			const { success } = await this.manager.otp.confirmOtp(
