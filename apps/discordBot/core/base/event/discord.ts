@@ -1,13 +1,13 @@
 import type { ClientEvents } from 'discord.js';
-import BotBase, { type BotBaseArgs } from '../bot.js';
+import BaseEvent, { type BaseEventArgs } from './base.js';
 
-export abstract class BaseDiscordEvent<
+export default abstract class BaseDiscordEvent<
 	EventType extends keyof ClientEvents = keyof ClientEvents,
-> extends BotBase {
+> extends BaseEvent {
 	protected readonly type: EventType;
 
-	constructor(eventType: EventType, ...botBaseArgs: BotBaseArgs) {
-		super(...botBaseArgs);
+	constructor(eventType: EventType, ...baseEventArgs: BaseEventArgs) {
+		super(...baseEventArgs);
 		this.type = eventType;
 
 		this.events.discord.on(this.type, (...args: ClientEvents[EventType]) => {
@@ -21,5 +21,3 @@ export abstract class BaseDiscordEvent<
 export type BaseDiscordEventArgs =
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	ConstructorParameters<typeof BaseDiscordEvent> extends [any, ...infer Rest] ? Rest : [];
-
-export default BaseDiscordEvent;

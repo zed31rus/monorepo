@@ -1,13 +1,13 @@
-import BotBase, { type BotBaseArgs } from '#core/base/bot.js';
 import type { MessageControl, RabbitMessages, RabbitQueues } from '@packages/infra';
+import BaseEvent, { type BaseEventArgs } from '../base.js';
 
 export default abstract class BaseRabbitMqInternalEvent<
 	EventType extends keyof RabbitMessages = keyof RabbitMessages,
-> extends BotBase {
+> extends BaseEvent {
 	protected readonly type: EventType;
 
-	constructor(queue: RabbitQueues, eventType: EventType, ...botBaseArgs: BotBaseArgs) {
-		super(...botBaseArgs);
+	constructor(queue: RabbitQueues, eventType: EventType, ...baseEventArgs: BaseEventArgs) {
+		super(...baseEventArgs);
 
 		this.type = eventType;
 

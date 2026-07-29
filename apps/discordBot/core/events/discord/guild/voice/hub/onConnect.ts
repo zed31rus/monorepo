@@ -2,8 +2,8 @@ import BaseDiscordEvent, { type BaseDiscordEventArgs } from '#core/base/event/di
 import { ChannelType, type VoiceState } from 'discord.js';
 
 export default class OnConnectGuildVoiceDiscordEvent extends BaseDiscordEvent {
-	constructor(...baseEventArgs: BaseDiscordEventArgs) {
-		super('voiceStateUpdate', ...baseEventArgs);
+	constructor(...baseDiscordEventArgs: BaseDiscordEventArgs) {
+		super('voiceStateUpdate', ...baseDiscordEventArgs);
 	}
 
 	protected async action(oldState: VoiceState, newState: VoiceState) {

@@ -19,7 +19,6 @@ monorepo
 │  │  │  ├─ services
 │  │  │  │  ├─ account.ts
 │  │  │  │  ├─ auth.ts
-│  │  │  │  ├─ file.ts
 │  │  │  │  ├─ me.ts
 │  │  │  │  ├─ oauth
 │  │  │  │  │  └─ discord.ts
@@ -54,13 +53,11 @@ monorepo
 │  │     │  └─ file.ts
 │  │     ├─ handlers
 │  │     │  ├─ auth.ts
-│  │     │  ├─ error.ts
-│  │     │  └─ file.ts
+│  │     │  └─ error.ts
 │  │     ├─ managers
 │  │     │  └─ session.ts
 │  │     ├─ middleware
-│  │     │  ├─ auth.ts
-│  │     │  └─ file.ts
+│  │     │  └─ auth.ts
 │  │     ├─ modules
 │  │     │  ├─ external
 │  │     │  │  ├─ account.ts
@@ -94,19 +91,33 @@ monorepo
 │  │  ├─ core
 │  │  │  ├─ base
 │  │  │  │  ├─ bot.ts
+│  │  │  │  ├─ commands
+│  │  │  │  │  ├─ base.ts
+│  │  │  │  │  ├─ global.ts
+│  │  │  │  │  └─ guild.ts
 │  │  │  │  ├─ event
+│  │  │  │  │  ├─ base.ts
 │  │  │  │  │  ├─ discord.ts
 │  │  │  │  │  └─ internal
 │  │  │  │  │     └─ rabbitMq.ts
-│  │  │  │  ├─ guild
-│  │  │  │  │  └─ manager.ts
-│  │  │  │  └─ manager.ts
+│  │  │  │  ├─ manager
+│  │  │  │  │  ├─ base.ts
+│  │  │  │  │  ├─ guild.ts
+│  │  │  │  │  └─ singleton.ts
+│  │  │  │  ├─ registry.ts
+│  │  │  │  └─ service.ts
+│  │  │  ├─ commands
+│  │  │  │  └─ guild
+│  │  │  │     └─ test.ts
 │  │  │  ├─ containers
 │  │  │  │  ├─ event
 │  │  │  │  │  ├─ discord.ts
 │  │  │  │  │  └─ internal
 │  │  │  │  │     └─ rabbitMq.ts
-│  │  │  │  └─ index.ts
+│  │  │  │  ├─ index.ts
+│  │  │  │  ├─ manager.ts
+│  │  │  │  ├─ registry.ts
+│  │  │  │  └─ service.ts
 │  │  │  ├─ events
 │  │  │  │  ├─ discord
 │  │  │  │  │  └─ guild
@@ -119,14 +130,21 @@ monorepo
 │  │  │  │        └─ auth
 │  │  │  │           └─ from
 │  │  │  │              └─ oauthRegisteredNewUser.ts
-│  │  │  └─ managers
-│  │  │     ├─ activity.ts
-│  │  │     └─ guild
-│  │  │        ├─ name.ts
-│  │  │        └─ voice.ts
-│  │  ├─ package.json
-│  │  ├─ src
+│  │  │  ├─ managers
+│  │  │  │  ├─ activity.ts
+│  │  │  │  └─ guild
+│  │  │  │     ├─ name.ts
+│  │  │  │     └─ voice.ts
+│  │  │  ├─ registry
+│  │  │  │  ├─ command
+│  │  │  │  │  ├─ global.ts
+│  │  │  │  │  └─ guild.ts
+│  │  │  │  └─ feature.ts
+│  │  │  ├─ services
+│  │  │  │  ├─ deployCommands.ts
+│  │  │  │  └─ guild.ts
 │  │  │  └─ types
+│  │  ├─ package.json
 │  │  └─ tsconfig.json
 │  ├─ frontend
 │  │  ├─ app

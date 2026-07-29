@@ -1,4 +1,4 @@
-import BaseManager, { type BaseManagerArgs } from '#core/base/manager.js';
+import BaseManager, { type BaseManagerArgs } from './base.js';
 
 export default abstract class BaseGuildManager extends BaseManager {
 	constructor(

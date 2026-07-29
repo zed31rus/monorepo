@@ -7,7 +7,7 @@ import {
 } from '@discordjs/voice';
 import { InternalErrors } from '@shared/errors';
 import { Features } from '@zed31rus/types';
-import BaseGuildManager from '#core/base/guild/manager.js';
+import BaseGuildManager from '#core/base/manager/guild.js';
 
 interface VoiceData {
 	connection: VoiceConnection;
@@ -15,7 +15,7 @@ interface VoiceData {
 	reconnectAttempts: number;
 }
 
-export default class VoiceGuildManager extends BaseGuildManager {
+export default class TemporaryVoiceChannelsGuildManager extends BaseGuildManager {
 	private voice: VoiceData | null = null;
 
 	private readonly MAX_RECONNECT_ATTEMPTS = 5;

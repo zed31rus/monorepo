@@ -9,11 +9,9 @@ import CorsWebWrapper from '#web/wrappers/cors.js';
 import WebManagerContainer from '#web/containers/managers.js';
 import SessionWebManager from '#web/managers/session.js';
 import WebMiddlewareContainer from '#web/containers/middleware.js';
-import FileWebMiddleware from '#web/middleware/file.js';
 import AuthWebMiddleware from '#web/middleware/auth.js';
 import WebHandlerContainer from '#web/containers/handler.js';
 import AuthWebHandler from '#web/handlers/auth.js';
-import FileWebHandler from '#web/handlers/file.js';
 import ErrorWebHandler from '#web/handlers/error.js';
 import WebOpenAPIContainer from '#web/containers/openapi.js';
 import WebModuleContainer from './module.js';
@@ -48,16 +46,12 @@ const managers = new WebManagerContainer(new SessionWebManager(...utilsDeps));
 
 const middlewareDeps = [dto, wrappers, managers, ...utilsDeps] as const;
 
-const middlewares = new WebMiddlewareContainer(
-	new AuthWebMiddleware(...middlewareDeps),
-	new FileWebMiddleware(...middlewareDeps)
-);
+const middlewares = new WebMiddlewareContainer(new AuthWebMiddleware(...middlewareDeps));
 
 const handlersDeps = [middlewares, ...middlewareDeps] as const;
 
 const handlers = new WebHandlerContainer(
 	new AuthWebHandler(...handlersDeps),
-	new FileWebHandler(...handlersDeps),
 	new ErrorWebHandler(...handlersDeps)
 );
 

@@ -1,9 +1,9 @@
-import BaseGuildManager from '#core/base/guild/manager.js';
+import BaseGuildManager from '#core/base/manager/guild.js';
 import { InternalErrors } from '@shared/errors';
 import { Features } from '@zed31rus/types';
 import cron from 'node-cron';
 
-export default class NameGuildManager extends BaseGuildManager {
+export default class ServerNameGuildManager extends BaseGuildManager {
 	cronSchedule?: cron.ScheduledTask;
 
 	init() {

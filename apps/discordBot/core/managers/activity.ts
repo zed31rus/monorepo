@@ -1,7 +1,7 @@
-import BaseManager from '#core/base/manager.js';
+import BaseSingletonManager from '#core/base/manager/singleton.js';
 import cron from 'node-cron';
 
-export default class ActivityManager extends BaseManager {
+export default class ActivitySingletonManager extends BaseSingletonManager {
 	cronSchedule?: cron.ScheduledTask;
 
 	async init() {
