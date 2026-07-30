@@ -4,7 +4,7 @@ import pg from 'pg';
 import BaseDb, { type BaseDbArgs } from '../db.base.js';
 import ActivityStatusDiscordBotDb from './activityStatus/activityStatus.js';
 import GuildsDiscordBotDb from './guilds/guilds.js';
-import type { Features } from '@zed31rus/types';
+import FeaturesGuildDiscordBotDb from './features/features.js';
 
 class DiscordBotDb extends BaseDb {
 	client: prisma.PrismaClient;
@@ -19,19 +19,25 @@ class DiscordBotDb extends BaseDb {
 
 	activityStatus = new ActivityStatusDiscordBotDb();
 	guilds = new GuildsDiscordBotDb();
+	featurs = new FeaturesGuildDiscordBotDb();
 }
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace DiscordBotDBType {
-	export import Prisma = prisma.Prisma;
+	export import types = prisma;
 
-	export type GuildModelWithFeature<F extends Features> = {
+	export type FeaturesSettings = {
+		[prisma.Features.serverName]: { names: string[] };
+		[prisma.Features.temporaryVoiceChannels]: { channelId: string };
+	};
+
+	export type GuildModelWithFeature<F extends prisma.Features> = {
 		id: number;
 		guildId: string;
 		noticeChannelId: string;
 		features: {
-			[K in F]: Extract<PrismaJson.features[K], { status: true }>;
-		} & Omit<PrismaJson.features, F>;
+			[K in F]: Extract<FeaturesSettings[K], { status: true }>;
+		} & Omit<FeaturesSettings, F>;
 	};
 }
 

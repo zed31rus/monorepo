@@ -1,8 +1,7 @@
 import type BaseGuildManager from '#core/base/manager/guild.js';
 import type { BaseGuildManagerArgs } from '#core/base/manager/guild.js';
 import BaseService, { type BaseServiceArgs } from '#core/base/service.js';
-import type { DiscordBotDBType } from '@packages/db';
-import { Features } from '@zed31rus/types';
+import { DiscordBotDBType } from '@packages/db';
 
 export default class GuildService extends BaseService {
 	private constructor(
@@ -22,48 +21,79 @@ export default class GuildService extends BaseService {
 	}
 
 	features = new Map<
-		DiscordBotDBType.Prisma.GuildModel['guildId'],
-		{
-			[F in Features]?: {
-				status: boolean;
-				instance: BaseGuildManager;
-			};
-		}
+		DiscordBotDBType.types.Prisma.GuildModel['guildId'],
+		Map<DiscordBotDBType.types.Features, BaseGuildManager>
 	>();
 
 	async init() {
 		await Promise.all(
-			Object.values(Features).map(async (feature) => {
-				const guilds = await this.db.guilds.get.whereFeature(this.db.client, feature);
+			Object.values(DiscordBotDBType.types.Features).map(async (feature) => {
+				const guilds = await this.db.guilds.get.many.whereFeature(this.db.client, feature);
 
 				for (const guild of guilds) {
-					const ManagerClass = this.registries.feature.features[feature];
-					const instance = new ManagerClass(guild.guildId, ...this.baseGuildManagerArgs);
-
-					const existing = this.features.get(guild.guildId) ?? {};
-
-					this.features.set(guild.guildId, {
-						...existing,
-						[feature]: { status: true, instance },
-					});
+					await this.createManager(guild.guildId, feature);
 				}
 			})
 		);
 	}
 
-	getWhereFeature<F extends Features>(feature: F) {
+	async enableFeature<F extends DiscordBotDBType.types.Features>(
+		guildId: DiscordBotDBType.types.Prisma.GuildModel['guildId'],
+		feature: F
+	) {
+		const guildRecord = await this.resolveGuildRecord(guildId);
+		await this.db.guilds.features.status.enable(this.db.client, guildRecord, feature);
+		await this.createManager(guildId, feature);
+	}
+
+	async disableFeature(
+		guildId: DiscordBotDBType.types.Prisma.GuildModel['guildId'],
+		feature: DiscordBotDBType.types.Features
+	) {
+		await this.db.guilds.features.status.disable(this.db.client, guildId, feature);
+		const guildFeatures = this.features.get(guildId);
+		guildFeatures?.delete(feature);
+	}
+
+	private async createManager(
+		guildId: DiscordBotDBType.types.Prisma.GuildModel['guildId'],
+		feature: DiscordBotDBType.types.Features
+	) {
+		const ManagerClass = this.registries.feature.features[feature];
+
+		let guildFeatures = this.features.get(guildId);
+
+		if (!guildFeatures) {
+			guildFeatures = new Map();
+			this.features.set(guildId, guildFeatures);
+		}
+
+		guildFeatures.set(feature, new ManagerClass(guildId, ...this.baseGuildManagerArgs));
+	}
+
+	getWhereFeature<F extends DiscordBotDBType.types.Features>(feature: F) {
 		const result: Array<{
-			guildId: DiscordBotDBType.Prisma.GuildModel['guildId'];
+			guildId: DiscordBotDBType.types.Prisma.GuildModel['guildId'];
 			instance: BaseGuildManager;
 		}> = [];
 
 		for (const [guildId, guildFeatures] of this.features) {
-			const state = guildFeatures[feature];
-			if (state?.status) {
-				result.push({ guildId, instance: state.instance });
+			const state = guildFeatures.get(feature);
+			if (state) {
+				result.push({ guildId, instance: state });
 			}
 		}
 
 		return result;
+	}
+
+	private async resolveGuildRecord(guildId: DiscordBotDBType.types.Prisma.GuildModel['guildId']) {
+		return await this.db.client.$transaction(async (tx) => {
+			let guildRecord = await this.db.guilds.get.orNull.byGuildId(tx, guildId);
+			if (!guildRecord) {
+				guildRecord = await this.db.guilds.create.create(tx, guildId);
+			}
+			return guildRecord;
+		});
 	}
 }

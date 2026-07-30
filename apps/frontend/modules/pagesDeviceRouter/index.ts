@@ -1,6 +1,6 @@
 import { createResolver, defineNuxtModule } from '@nuxt/kit';
 import type { NuxtPage } from '@nuxt/schema';
-import './types/nuxt';
+import './types/nuxt.d';
 
 export default defineNuxtModule({
 	meta: {
@@ -14,7 +14,7 @@ export default defineNuxtModule({
 
 	async setup(options, nuxt) {
 		const resolver = createResolver(import.meta.url);
-		const rendererPath = resolver.resolve('./runtime/DeviceRenderer.vue');
+		const rendererPath = resolver.resolve('./runtime/deviceRenderer.vue');
 
 		nuxt.hook('pages:extend', (pages: NuxtPage[]) => {
 			transformDevicePages(pages, rendererPath);

@@ -2,8 +2,8 @@ import type { DiscordBotDBType } from '../../db.js';
 
 export default class DeleteActivityStatus {
 	async delete(
-		client: DiscordBotDBType.Prisma.TransactionClient,
-		activityStatus: DiscordBotDBType.Prisma.ActivityStatusModel
+		client: DiscordBotDBType.types.TransactionClient,
+		activityStatus: DiscordBotDBType.types.ActivityStatusModel
 	) {
 		await client.activityStatus.delete({
 			where: {

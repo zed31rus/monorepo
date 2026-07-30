@@ -1,40 +1,12 @@
-import type { Features } from '@zed31rus/types';
 import type { DiscordBotDBType } from '../../db.js';
-
-const byIdOrThrow = async (
-	client: DiscordBotDBType.Prisma.TransactionClient,
-	guildId: DiscordBotDBType.Prisma.GuildModel['guildId']
-) => {
-	return client.guild.findUniqueOrThrow({
-		where: {
-			guildId: guildId,
-		},
-	});
-};
-
-byIdOrThrow.whereFeature = async (
-	client: DiscordBotDBType.Prisma.TransactionClient,
-	guildId: DiscordBotDBType.Prisma.GuildModel['guildId'],
-	feature: Features
-) => {
-	return client.guild.findUniqueOrThrow({
-		where: {
-			guildId: guildId,
-			features: {
-				path: [feature],
-				equals: true,
-			},
-		},
-	}) as Promise<DiscordBotDBType.GuildModelWithFeature<typeof feature>>;
-};
 
 export default class GetGuildDbCase {
 	orNull = {
-		async byId(
-			client: DiscordBotDBType.Prisma.TransactionClient,
-			guildId: DiscordBotDBType.Prisma.GuildModel['guildId']
+		async byGuildId(
+			client: DiscordBotDBType.types.Prisma.TransactionClient,
+			guildId: DiscordBotDBType.types.Prisma.GuildModel['guildId']
 		) {
-			return client.guild.findUnique({
+			return await client.guild.findUnique({
 				where: {
 					guildId: guildId,
 				},
@@ -43,17 +15,55 @@ export default class GetGuildDbCase {
 	};
 
 	orThrow = {
-		byId: byIdOrThrow,
+		async byGuildId(
+			client: DiscordBotDBType.types.Prisma.TransactionClient,
+			guildId: DiscordBotDBType.types.Prisma.GuildModel['guildId']
+		) {
+			return await client.guild.findUniqueOrThrow({
+				where: {
+					guildId: guildId,
+				},
+			});
+		},
+
+		async byGuildId_Feature(
+			client: DiscordBotDBType.types.Prisma.TransactionClient,
+			guildId: DiscordBotDBType.types.Prisma.GuildModel['guildId'],
+			feature: DiscordBotDBType.types.Features
+		) {
+			const record = await client.feature.findUniqueOrThrow({
+				where: {
+					guildId_feature: { guildId: guildId, feature: feature },
+				},
+				include: {
+					Guild: true,
+				},
+			});
+
+			const { Guild, ...rest } = record;
+			return { ...Guild, features: { [feature]: { ...rest } } };
+		},
 	};
 
-	async whereFeature(client: DiscordBotDBType.Prisma.TransactionClient, feature: Features) {
-		return client.guild.findMany({
-			where: {
-				features: {
-					path: [feature],
-					equals: true,
+	many = {
+		async whereFeature(
+			client: DiscordBotDBType.types.Prisma.TransactionClient,
+			feature: DiscordBotDBType.types.Features
+		) {
+			const records = await client.feature.findMany({
+				where: {
+					feature: feature,
+					status: true,
 				},
-			},
-		});
-	}
+				include: {
+					Guild: true,
+				},
+			});
+
+			return records.map((record) => {
+				const { Guild, ...rest } = record;
+				return { ...Guild, features: { [feature]: { ...rest } } };
+			});
+		},
+	};
 }

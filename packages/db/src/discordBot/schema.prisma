@@ -15,17 +15,34 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Features {
+  temporaryVoiceChannels
+  serverName
+}
+
 model Guild {
   id Int @id @default(autoincrement())
   guildId String @unique
-  noticeChannelId String
 
-  /// [features]
-  features Json
+  features Feature[]
 }
 
 model ActivityStatus {
   id Int @id @default(autoincrement())
   type Int
   name String
+}
+
+model Feature {
+  id Int @id @default(autoincrement())
+  status Boolean
+  feature Features
+
+  /// [settings]
+  settings Json
+
+  Guild Guild @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  guildId String
+
+  @@unique([guildId, feature])
 }

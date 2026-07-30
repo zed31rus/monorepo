@@ -1,4 +1,5 @@
 import BaseDiscordEvent, { type BaseDiscordEventArgs } from '#core/base/event/discord.js';
+import { DiscordBotDBType } from '@packages/db';
 import { type VoiceState } from 'discord.js';
 
 export default class OnDisconnectGuildVoiceDiscordEvent extends BaseDiscordEvent {
@@ -12,7 +13,11 @@ export default class OnDisconnectGuildVoiceDiscordEvent extends BaseDiscordEvent
 
 		if (!channel) return;
 
-		const guildRecord = await this.db.guilds.get.orThrow.byId(this.db.client, channel.guildId);
+		const guildRecord = await this.db.guilds.get.orThrow.byGuildId_Feature(
+			this.db.client,
+			channel.guildId,
+			DiscordBotDBType.types.Features.temporaryVoiceChannels
+		);
 		if (!guildRecord.features.temporaryVoiceChannels.status) return;
 
 		const hubChannel = await guild.channels.fetch(

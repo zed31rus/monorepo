@@ -1,7 +1,7 @@
 import BaseGuildManager from '#core/base/manager/guild.js';
 import { InternalErrors } from '@shared/errors';
-import { Features } from '@zed31rus/types';
 import cron from 'node-cron';
+import { DiscordBotDBType } from '@packages/db';
 
 export default class ServerNameGuildManager extends BaseGuildManager {
 	cronSchedule?: cron.ScheduledTask;
@@ -12,16 +12,16 @@ export default class ServerNameGuildManager extends BaseGuildManager {
 	}
 
 	async updateRandomGuildName() {
-		const guildRecord = await this.db.guilds.get.orThrow.byId.whereFeature(
+		const guildRecord = await this.db.guilds.get.orThrow.byGuildId_Feature(
 			this.db.client,
 			this.guildId,
-			Features.serverName
+			DiscordBotDBType.types.Features.serverName
 		);
 		const guild =
 			this.client.guilds.cache.get(this.guildId) ??
 			(await this.client.guilds.fetch(this.guildId));
 
-		const guildNames = guildRecord.features.serverName.settings.names;
+		const guildNames = guildRecord.features[0].settings.names;
 		if (!guildNames.length)
 			throw this.errors.internal.businessLogic(
 				InternalErrors.BusinessLogicErrorMessage.NO_AVAILABLE_OPTIONS

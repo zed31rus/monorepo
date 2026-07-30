@@ -1,19 +1,10 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import type { Features } from '@zed31rus/types';
+import type { DiscordBotDBType } from '../src/discordBot/db.js';
 
 declare global {
 	namespace PrismaJson {
-		type features = {
-			[Features.serverName]:
-				| { status: true; settings: { names: string[] } }
-				| { status: false };
-			[Features.temporaryVoiceChannels]:
-				| { status: true; settings: { channelId: string } }
-				| { status: false };
-		};
+		type settings = DiscordBotDBType.FeaturesSettings[keyof DiscordBotDBType.FeaturesSettings];
 	}
 }
-
-export type PrismaJsonFeatures = PrismaJson.features;
 
 export {};

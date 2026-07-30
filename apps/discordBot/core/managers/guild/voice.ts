@@ -6,8 +6,8 @@ import {
 	VoiceConnectionStatus,
 } from '@discordjs/voice';
 import { InternalErrors } from '@shared/errors';
-import { Features } from '@zed31rus/types';
 import BaseGuildManager from '#core/base/manager/guild.js';
+import { DiscordBotDBType } from '@packages/db';
 
 interface VoiceData {
 	connection: VoiceConnection;
@@ -22,10 +22,10 @@ export default class TemporaryVoiceChannelsGuildManager extends BaseGuildManager
 	private readonly RECONNECT_DELAY_MS = 5000;
 
 	async connect() {
-		const guildRecord = await this.db.guilds.get.orThrow.byId.whereFeature(
+		const guildRecord = await this.db.guilds.get.orThrow.byGuildId_Feature(
 			this.db.client,
 			this.guildId,
-			Features.temporaryVoiceChannels
+			DiscordBotDBType.types.Features.temporaryVoiceChannels
 		);
 		const guild = await this.client.guilds.fetch(this.guildId);
 
