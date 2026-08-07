@@ -1,6 +1,6 @@
-import BaseSubcommand from '#core/base/commands/guild/subcommand.js';
+import BaseSlashSubcommand from '#core/base/commands/slash/subcommand.js';
 
-export default class DisableSubcommandVoiceFeatureGuildCommand extends BaseSubcommand {
+export default class DisableSubcommandVoiceFeatureGuildCommand extends BaseSlashSubcommand {
 	command = this.commands.guild.voice;
 	build() {
 		this.command

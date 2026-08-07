@@ -1,7 +1,7 @@
-import BaseSubcommand from '#core/base/commands/guild/subcommand.js';
+import BaseSlashSubcommand from '#core/base/commands/slash/subcommand.js';
 import { ChannelType } from 'discord.js';
 
-export default class EnableSubcommandVoiceFeatureGuildCommand extends BaseSubcommand {
+export default class EnableSubcommandVoiceFeatureGuildCommand extends BaseSlashSubcommand {
 	command = this.commands.guild.voice;
 
 	build() {

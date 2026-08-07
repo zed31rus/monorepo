@@ -1,10 +1,10 @@
-import type BaseGlobalCommand from '#core/base/commands/global.js';
+import type BaseGlobalSlashCommand from '#core/base/commands/slash/guild.js';
 import BaseRegistry from '#core/base/registry.js';
 
 export default class GlobalCommandsRegistry extends BaseRegistry {
-	private map = new Map<string, BaseGlobalCommand>();
+	private map = new Map<string, BaseGlobalSlashCommand>();
 
-	register(command: BaseGlobalCommand) {
+	register(command: BaseGlobalSlashCommand) {
 		this.map.set(command.data.name, command);
 	}
 

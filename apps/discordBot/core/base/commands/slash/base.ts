@@ -3,13 +3,13 @@ import {
 	SlashCommandBuilder,
 	SlashCommandSubcommandBuilder,
 	type ChatInputCommandInteraction,
-	type Interaction,
 } from 'discord.js';
 import BaseCommand, { type BaseCommandArgs } from '../base.js';
 
-export default abstract class BaseListenedCommand extends BaseCommand {
+export default abstract class BaseSlashCommand extends BaseCommand {
 	protected subcommands: SubcommandBuilder[] = [];
 	abstract data: SlashCommandBuilder;
+	abstract action(interaction: ChatInputCommandInteraction): void | Promise<void>;
 
 	constructor(
 		readonly subcommandBuilderArgs: SubcommandBuilderArgs,
@@ -20,7 +20,8 @@ export default abstract class BaseListenedCommand extends BaseCommand {
 		queueMicrotask(() => {
 			this.instances.router.on(
 				`${Events.InteractionCreate}:${this.data.name}`,
-				(interaction: Interaction) => {
+				(interaction) => {
+					if (!interaction.isChatInputCommand()) return;
 					this.handleInteraction(interaction);
 				}
 			);
@@ -38,7 +39,7 @@ export default abstract class BaseListenedCommand extends BaseCommand {
 		return subcommand;
 	}
 
-	protected async handleInteraction(interaction: Interaction) {
+	protected async handleInteraction(interaction: ChatInputCommandInteraction) {
 		if (!interaction.isChatInputCommand()) return;
 
 		const subcommandName = interaction.options.getSubcommand(false);
@@ -56,7 +57,7 @@ export default abstract class BaseListenedCommand extends BaseCommand {
 	}
 }
 
-export type BaseListenedCommandArgs = ConstructorParameters<typeof BaseListenedCommand>;
+export type BaseSlashCommandArgs = ConstructorParameters<typeof BaseSlashCommand>;
 
 class SubcommandBuilder extends BaseCommand {
 	data = new SlashCommandSubcommandBuilder();
