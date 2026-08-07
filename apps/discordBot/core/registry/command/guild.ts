@@ -1,10 +1,10 @@
-import type BaseGuildCommand from '#core/base/commands/slash/guild.js';
+import type BaseGuildSlashCommand from '#core/base/commands/slash/guild.js';
 import BaseRegistry from '#core/base/registry.js';
 
 export default class GuildCommandsRegistry extends BaseRegistry {
-	private map = new Map<string, BaseGuildCommand>();
+	private map = new Map<string, BaseGuildSlashCommand>();
 
-	register(command: BaseGuildCommand) {
+	register(command: BaseGuildSlashCommand) {
 		this.map.set(command.data.name, command);
 	}
 

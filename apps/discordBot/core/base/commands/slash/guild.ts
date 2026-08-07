@@ -1,7 +1,7 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
 import BaseSlashCommand, { type BaseSlashCommandArgs } from './base.js';
 
-export default abstract class BaseGlobalSlashCommand extends BaseSlashCommand {
+export default abstract class BaseGuildSlashCommand extends BaseSlashCommand {
 	constructor(...botBaseArgs: BaseSlashCommandArgs) {
 		super(...botBaseArgs);
 
@@ -11,4 +11,4 @@ export default abstract class BaseGlobalSlashCommand extends BaseSlashCommand {
 	abstract action(interaction: ChatInputCommandInteraction<'cached'>): void | Promise<void>;
 }
 
-export type BaseGlobalSlashCommandArgs = ConstructorParameters<typeof BaseGlobalSlashCommand>;
+export type BaseGuildSlashCommandArgs = ConstructorParameters<typeof BaseGuildSlashCommand>;

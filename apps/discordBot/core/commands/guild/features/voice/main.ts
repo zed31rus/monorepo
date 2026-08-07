@@ -1,7 +1,7 @@
-import BaseGlobalSlashCommand from '#core/base/commands/slash/guild.js';
+import BaseGuildSlashCommand from '#core/base/commands/slash/guild.js';
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 
-export default class VoiceFeatureGuildCommand extends BaseGlobalSlashCommand {
+export default class VoiceFeatureGuildCommand extends BaseGuildSlashCommand {
 	data = new SlashCommandBuilder()
 		.setName('temporary_voice')
 		.setNameLocalization('ru', 'временные_каналы')

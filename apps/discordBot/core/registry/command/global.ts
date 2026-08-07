@@ -1,4 +1,4 @@
-import type BaseGlobalSlashCommand from '#core/base/commands/slash/guild.js';
+import type BaseGlobalSlashCommand from '#core/base/commands/slash/global.js';
 import BaseRegistry from '#core/base/registry.js';
 
 export default class GlobalCommandsRegistry extends BaseRegistry {
