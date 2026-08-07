@@ -19,7 +19,7 @@ class DiscordBotDb extends BaseDb {
 
 	activityStatus = new ActivityStatusDiscordBotDb();
 	guilds = new GuildsDiscordBotDb();
-	featurs = new FeaturesGuildDiscordBotDb();
+	features = new FeaturesGuildDiscordBotDb();
 }
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -36,7 +36,7 @@ export namespace DiscordBotDBType {
 		guildId: string;
 		noticeChannelId: string;
 		features: {
-			[K in F]: Extract<FeaturesSettings[K], { status: true }>;
+			[K in F]: FeaturesSettings[K];
 		} & Omit<FeaturesSettings, F>;
 	};
 }

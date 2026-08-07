@@ -7,6 +7,8 @@ export default abstract class BaseGuildManager extends BaseManager {
 	) {
 		super(...baseManagerArgs);
 	}
+
+	abstract init(): void | Promise<void>;
 }
 
 export type BaseGuildManagerArgs =

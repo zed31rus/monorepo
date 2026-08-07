@@ -94,7 +94,9 @@ monorepo
 │  │  │  │  ├─ commands
 │  │  │  │  │  ├─ base.ts
 │  │  │  │  │  ├─ global.ts
-│  │  │  │  │  └─ guild.ts
+│  │  │  │  │  ├─ guild.ts
+│  │  │  │  │  ├─ listened.ts
+│  │  │  │  │  └─ subcommand.ts
 │  │  │  │  ├─ event
 │  │  │  │  │  ├─ base.ts
 │  │  │  │  │  ├─ discord.ts
@@ -107,9 +109,17 @@ monorepo
 │  │  │  │  ├─ registry.ts
 │  │  │  │  └─ service.ts
 │  │  │  ├─ commands
+│  │  │  │  ├─ global
+│  │  │  │  │  └─ test.ts
 │  │  │  │  └─ guild
-│  │  │  │     └─ test.ts
+│  │  │  │     └─ features
+│  │  │  │        └─ voice
+│  │  │  │           ├─ main.ts
+│  │  │  │           └─ subcommands
+│  │  │  │              ├─ disable.ts
+│  │  │  │              └─ enable.ts
 │  │  │  ├─ containers
+│  │  │  │  ├─ command.ts
 │  │  │  │  ├─ event
 │  │  │  │  │  ├─ discord.ts
 │  │  │  │  │  └─ internal
@@ -184,6 +194,7 @@ monorepo
 │  │  │  │  │  ├─ desktop.vue
 │  │  │  │  │  └─ mobile.vue
 │  │  │  │  ├─ index
+│  │  │  │  │  ├─ desktop.vue
 │  │  │  │  │  └─ mobile.vue
 │  │  │  │  ├─ index.vue
 │  │  │  │  └─ me.vue
@@ -200,7 +211,7 @@ monorepo
 │  │  │  └─ pagesDeviceRouter
 │  │  │     ├─ index.ts
 │  │  │     ├─ runtime
-│  │  │     │  └─ pageRenderer.vue
+│  │  │     │  └─ deviceRenderer.vue
 │  │  │     └─ types
 │  │  │        └─ nuxt.d.ts
 │  │  ├─ nuxt.config.ts
@@ -328,16 +339,16 @@ monorepo
 │  │  │  │  │     └─ get.ts
 │  │  │  │  ├─ config.ts
 │  │  │  │  ├─ db.ts
+│  │  │  │  ├─ features
+│  │  │  │  │  ├─ cases
+│  │  │  │  │  │  ├─ settings.ts
+│  │  │  │  │  │  └─ status.ts
+│  │  │  │  │  └─ features.ts
 │  │  │  │  ├─ guilds
 │  │  │  │  │  ├─ cases
 │  │  │  │  │  │  ├─ create.ts
 │  │  │  │  │  │  ├─ delete.ts
 │  │  │  │  │  │  └─ get.ts
-│  │  │  │  │  ├─ features
-│  │  │  │  │  │  ├─ cases
-│  │  │  │  │  │  │  ├─ create.ts
-│  │  │  │  │  │  │  └─ delete.ts
-│  │  │  │  │  │  └─ features.ts
 │  │  │  │  │  └─ guilds.ts
 │  │  │  │  └─ schema.prisma
 │  │  │  └─ spotify
@@ -351,8 +362,7 @@ monorepo
 │  │  │     └─ schema.prisma
 │  │  ├─ tsconfig.json
 │  │  └─ types
-│  │     ├─ declarations.ts
-│  │     └─ features.ts
+│  │     └─ declarations.ts
 │  ├─ infra
 │  │  ├─ index.ts
 │  │  ├─ package.json

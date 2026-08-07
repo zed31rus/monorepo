@@ -21,6 +21,10 @@ export default class TemporaryVoiceChannelsGuildManager extends BaseGuildManager
 	private readonly MAX_RECONNECT_ATTEMPTS = 5;
 	private readonly RECONNECT_DELAY_MS = 5000;
 
+	async init() {
+		await this.connect();
+	}
+
 	async connect() {
 		const guildRecord = await this.db.guilds.get.orThrow.byGuildId_Feature(
 			this.db.client,
@@ -139,8 +143,22 @@ export default class TemporaryVoiceChannelsGuildManager extends BaseGuildManager
 		});
 	}
 
-	async destroy() {
+	destroy() {
 		this.voice?.connection.destroy();
 		this.voice = null;
+	}
+
+	async configure(channelId: string) {
+		this.db.guilds.features.settings.update.byGuildId(
+			this.db.client,
+			this.guildId,
+			DiscordBotDBType.types.Features.temporaryVoiceChannels,
+			{
+				channelId: channelId,
+			}
+		);
+
+		this.destroy();
+		await this.connect();
 	}
 }

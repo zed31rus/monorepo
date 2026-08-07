@@ -1,12 +1,12 @@
-import BaseCommand, { type BaseCommandArgs } from '#core/base/commands/base.js';
+import BaseGlobalCommand, { type BaseGlobalCommandArgs } from '#core/base/commands/global.js';
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 
-export default class TestCommand extends BaseCommand {
+export default class TestGlobalCommand extends BaseGlobalCommand {
 	data = new SlashCommandBuilder().setName('Test').setDescription('testCommand');
 	async action(interaction: ChatInputCommandInteraction) {
 		interaction.reply('Тест');
 	}
-	constructor(...baseCommandArgs: BaseCommandArgs) {
+	constructor(...baseCommandArgs: BaseGlobalCommandArgs) {
 		super(...baseCommandArgs);
 	}
 }
