@@ -93,15 +93,17 @@ monorepo
 │  │  │  │  ├─ bot.ts
 │  │  │  │  ├─ commands
 │  │  │  │  │  ├─ base.ts
-│  │  │  │  │  ├─ global.ts
-│  │  │  │  │  ├─ guild.ts
-│  │  │  │  │  ├─ listened.ts
-│  │  │  │  │  └─ subcommand.ts
+│  │  │  │  │  └─ slash
+│  │  │  │  │     ├─ base.ts
+│  │  │  │  │     ├─ global.ts
+│  │  │  │  │     ├─ guild.ts
+│  │  │  │  │     └─ subcommand.ts
 │  │  │  │  ├─ event
 │  │  │  │  │  ├─ base.ts
 │  │  │  │  │  ├─ discord.ts
 │  │  │  │  │  └─ internal
 │  │  │  │  │     └─ rabbitMq.ts
+│  │  │  │  ├─ instance.ts
 │  │  │  │  ├─ manager
 │  │  │  │  │  ├─ base.ts
 │  │  │  │  │  ├─ guild.ts
@@ -125,6 +127,7 @@ monorepo
 │  │  │  │  │  └─ internal
 │  │  │  │  │     └─ rabbitMq.ts
 │  │  │  │  ├─ index.ts
+│  │  │  │  ├─ instance.ts
 │  │  │  │  ├─ manager.ts
 │  │  │  │  ├─ registry.ts
 │  │  │  │  └─ service.ts
@@ -140,6 +143,8 @@ monorepo
 │  │  │  │        └─ auth
 │  │  │  │           └─ from
 │  │  │  │              └─ oauthRegisteredNewUser.ts
+│  │  │  ├─ instances
+│  │  │  │  └─ router.ts
 │  │  │  ├─ managers
 │  │  │  │  ├─ activity.ts
 │  │  │  │  └─ guild
