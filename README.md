@@ -91,18 +91,20 @@ monorepo
 │  │  ├─ core
 │  │  │  ├─ base
 │  │  │  │  ├─ bot.ts
-│  │  │  │  ├─ commands
+│  │  │  │  ├─ emitters
 │  │  │  │  │  ├─ base.ts
-│  │  │  │  │  └─ slash
+│  │  │  │  │  ├─ commands
+│  │  │  │  │  │  ├─ base.ts
+│  │  │  │  │  │  └─ slash
+│  │  │  │  │  │     ├─ base.ts
+│  │  │  │  │  │     ├─ global.ts
+│  │  │  │  │  │     ├─ guild.ts
+│  │  │  │  │  │     └─ subcommand.ts
+│  │  │  │  │  └─ event
 │  │  │  │  │     ├─ base.ts
-│  │  │  │  │     ├─ global.ts
-│  │  │  │  │     ├─ guild.ts
-│  │  │  │  │     └─ subcommand.ts
-│  │  │  │  ├─ event
-│  │  │  │  │  ├─ base.ts
-│  │  │  │  │  ├─ discord.ts
-│  │  │  │  │  └─ internal
-│  │  │  │  │     └─ rabbitMq.ts
+│  │  │  │  │     ├─ discord.ts
+│  │  │  │  │     └─ internal
+│  │  │  │  │        └─ rabbitMq.ts
 │  │  │  │  ├─ instance.ts
 │  │  │  │  ├─ manager
 │  │  │  │  │  ├─ base.ts
@@ -110,41 +112,43 @@ monorepo
 │  │  │  │  │  └─ singleton.ts
 │  │  │  │  ├─ registry.ts
 │  │  │  │  └─ service.ts
-│  │  │  ├─ commands
-│  │  │  │  ├─ global
-│  │  │  │  │  └─ test.ts
-│  │  │  │  └─ guild
-│  │  │  │     └─ features
-│  │  │  │        └─ voice
-│  │  │  │           ├─ main.ts
-│  │  │  │           └─ subcommands
-│  │  │  │              ├─ disable.ts
-│  │  │  │              └─ enable.ts
 │  │  │  ├─ containers
-│  │  │  │  ├─ command.ts
-│  │  │  │  ├─ event
-│  │  │  │  │  ├─ discord.ts
-│  │  │  │  │  └─ internal
-│  │  │  │  │     └─ rabbitMq.ts
+│  │  │  │  ├─ emitters
+│  │  │  │  │  ├─ command.ts
+│  │  │  │  │  └─ event
+│  │  │  │  │     ├─ discord.ts
+│  │  │  │  │     └─ internal
+│  │  │  │  │        └─ rabbitMq.ts
 │  │  │  │  ├─ index.ts
 │  │  │  │  ├─ instance.ts
 │  │  │  │  ├─ manager.ts
 │  │  │  │  ├─ registry.ts
 │  │  │  │  └─ service.ts
-│  │  │  ├─ events
-│  │  │  │  ├─ discord
+│  │  │  ├─ emitters
+│  │  │  │  ├─ commands
+│  │  │  │  │  ├─ global
+│  │  │  │  │  │  └─ test.ts
 │  │  │  │  │  └─ guild
-│  │  │  │  │     └─ voice
-│  │  │  │  │        └─ hub
-│  │  │  │  │           ├─ onConnect.ts
-│  │  │  │  │           └─ onDisconnect.ts
-│  │  │  │  └─ internal
-│  │  │  │     └─ rabbitMq
-│  │  │  │        └─ auth
-│  │  │  │           └─ from
-│  │  │  │              └─ oauthRegisteredNewUser.ts
+│  │  │  │  │     └─ features
+│  │  │  │  │        └─ voice
+│  │  │  │  │           ├─ main.ts
+│  │  │  │  │           └─ subcommands
+│  │  │  │  │              ├─ disable.ts
+│  │  │  │  │              └─ enable.ts
+│  │  │  │  └─ events
+│  │  │  │     ├─ discord
+│  │  │  │     │  └─ guild
+│  │  │  │     │     └─ voice
+│  │  │  │     │        └─ hub
+│  │  │  │     │           ├─ onConnect.ts
+│  │  │  │     │           └─ onDisconnect.ts
+│  │  │  │     └─ internal
+│  │  │  │        └─ rabbitMq
+│  │  │  │           └─ auth
+│  │  │  │              └─ from
+│  │  │  │                 └─ oauthRegisteredNewUser.ts
 │  │  │  ├─ instances
-│  │  │  │  └─ router.ts
+│  │  │  │  └─ eventRouter.ts
 │  │  │  ├─ managers
 │  │  │  │  ├─ activity.ts
 │  │  │  │  └─ guild

@@ -1,10 +1,9 @@
 import { Client, GatewayIntentBits, REST } from 'discord.js';
 import DbContainer from '@packages/db';
-import InfraContainer, { type RabbitMessages } from '@packages/infra';
+import InfraContainer from '@packages/infra';
 import ConfigContainer from '@shared/config';
 import Logger from '@shared/logger';
 import ErrorsContainer from '@shared/errors';
-import EventEmitter from 'node:events';
 import GlobalCommandsRegistry from '#core/registry/command/global.js';
 import RegistryContainer from './registry.js';
 import GuildCommandsRegistry from '#core/registry/command/guild.js';
@@ -16,11 +15,16 @@ import GuildService from '#core/services/guild.js';
 import SingletonManagerContainer from './manager.js';
 import ActivitySingletonManager from '#core/managers/activity.js';
 import type { BaseGuildManagerArgs } from '#core/base/manager/guild.js';
-import DiscordEventContainer from './event/discord.js';
-import OnConnectGuildVoiceDiscordEvent from '#core/events/discord/guild/voice/hub/onConnect.js';
-import OnDisconnectGuildVoiceDiscordEvent from '#core/events/discord/guild/voice/hub/onDisconnect.js';
-import RabbitMqInternalEventContainer from './event/internal/rabbitMq.js';
-import OauthRegisteredNewUserRabbitMqEvent from '#core/events/internal/rabbitMq/auth/from/oauthRegisteredNewUser.js';
+import DiscordEventEmitterContainer from './emitters/event/discord.js';
+import OnConnectGuildVoiceDiscordEvent from '#core/emitters/events/discord/guild/voice/hub/onConnect.js';
+import OnDisconnectGuildVoiceDiscordEvent from '#core/emitters/events/discord/guild/voice/hub/onDisconnect.js';
+import RabbitMqInternalEventEmitterContainer from './emitters/event/internal/rabbitMq.js';
+import OauthRegisteredNewUserRabbitMqEvent from '#core/emitters/events/internal/rabbitMq/auth/from/oauthRegisteredNewUser.js';
+import CommandEmitterContainer from './emitters/command.js';
+import VoiceFeatureGuildCommand from '#core/emitters/commands/guild/features/voice/main.js';
+import InstanceContaner from './instance.js';
+import EventRouterInstance from '#core/instances/eventRouter.js';
+import EventEmitter from 'node:events';
 
 const errors = new ErrorsContainer(
 	new ErrorsContainer.deps.ApiErrors(),
@@ -81,15 +85,15 @@ const readyClient = await new Promise<Client<true>>((resolve) => {
 	client.login(configs.env.DISCORD_BOT_TOKEN);
 });
 
-const eventEmitter = new EventEmitter<RabbitMessages>();
-
 const rest = new REST().setToken(configs.env.DISCORD_BOT_TOKEN);
+const eventEmitter = new EventEmitter();
 
-const botDeps = [rest, readyClient, db, libs, infra, eventEmitter, ...packagesDeps] as const;
+const botDeps = [rest, readyClient, db, libs, infra, ...packagesDeps] as const;
 const registriesDeps = [...botDeps] as const;
-const singletonManagerDeps = [...botDeps] as const;
-const guildManagerDeps = [...botDeps];
 
+const instanceDeps = [eventEmitter, ...botDeps] as const;
+
+const instances = new InstanceContaner(new EventRouterInstance(...instanceDeps));
 const registries = new RegistryContainer(
 	{
 		global: new GlobalCommandsRegistry(...registriesDeps),
@@ -97,21 +101,27 @@ const registries = new RegistryContainer(
 	},
 	new FeatureRegistry(...registriesDeps)
 );
+const singletonManagerDeps = [instances, registries, ...botDeps] as const;
+const ManagerDeps = [instances, registries, ...botDeps];
 
 const singletonManagers = new SingletonManagerContainer(
 	await ActivitySingletonManager.create(...singletonManagerDeps)
 );
 
-const servicesDeps = [registries, singletonManagers, ...botDeps] as const;
+const servicesDeps = [instances, registries, singletonManagers, ...botDeps] as const;
 
 const services = new ServiceContainer(
 	await DeployCommandsService.create(...servicesDeps),
-	await GuildService.create(guildManagerDeps as BaseGuildManagerArgs, ...servicesDeps)
+	await GuildService.create(ManagerDeps as BaseGuildManagerArgs, ...servicesDeps)
 );
 
 const emittersDeps = [services, ...servicesDeps] as const;
 
-const discordEventContainer = new DiscordEventContainer({
+const commands = new CommandEmitterContainer({
+	voice: new VoiceFeatureGuildCommand(...emittersDeps),
+});
+
+const discordEventContainer = new DiscordEventEmitterContainer({
 	voice: {
 		hub: {
 			onConnect: new OnConnectGuildVoiceDiscordEvent(...emittersDeps),
@@ -120,7 +130,7 @@ const discordEventContainer = new DiscordEventContainer({
 	},
 });
 
-const rabbitMqInternalEventContainer = new RabbitMqInternalEventContainer({
+const rabbitMqInternalEventContainer = new RabbitMqInternalEventEmitterContainer({
 	from: {
 		oauthRegisteredNewUser: new OauthRegisteredNewUserRabbitMqEvent(...emittersDeps),
 	},
@@ -136,6 +146,7 @@ const coreContainer = {
 	registries,
 	singletonManagers,
 	services,
+	commands,
 	discordEventContainer,
 	rabbitMqInternalEventContainer,
 };

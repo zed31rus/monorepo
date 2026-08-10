@@ -1,5 +1,5 @@
-import type RouterInstance from '#core/instances/router.js';
+import type EventRouterInstance from '#core/instances/eventRouter.js';
 
 export default class InstanceContaner {
-	constructor(readonly router: RouterInstance) {}
+	constructor(readonly eventRouter: EventRouterInstance) {}
 }

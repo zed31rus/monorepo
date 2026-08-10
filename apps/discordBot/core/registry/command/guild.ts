@@ -1,4 +1,4 @@
-import type BaseGuildSlashCommand from '#core/base/commands/slash/guild.js';
+import type BaseGuildSlashCommand from '#core/base/emitters/commands/slash/guild.js';
 import BaseRegistry from '#core/base/registry.js';
 
 export default class GuildCommandsRegistry extends BaseRegistry {
