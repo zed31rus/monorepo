@@ -17,6 +17,7 @@
 		"amqplib": "^1.0.3",
 		"argon2": "^0.45.1",
 		"bcrypt": "^6.0.0",
+		"i18next": "^26.3.6",
 		"jsonwebtoken": "^9.0.3",
 		"nodemailer": "^7.0.12"
 	},

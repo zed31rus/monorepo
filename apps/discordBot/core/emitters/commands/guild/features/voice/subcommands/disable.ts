@@ -1,6 +1,7 @@
-import BaseSlashSubcommand from '#core/base/emitters/commands/slash/subcommand.js';
+import BaseGuildSlashSubcommand from '#core/base/emitters/commands/slash/subcommand/guild.js';
+import { MessageFlags } from 'discord.js';
 
-export default class DisableSubcommandVoiceFeatureGuildCommand extends BaseSlashSubcommand {
+export default class DisableSubcommandVoiceFeatureGuildCommand extends BaseGuildSlashSubcommand {
 	command = this.commands.guild.voice;
 	build() {
 		this.command
@@ -9,10 +10,19 @@ export default class DisableSubcommandVoiceFeatureGuildCommand extends BaseSlash
 					.setName('disable')
 					.setNameLocalization('ru', 'отключить')
 					.setDescription('Disable temporary voice')
-					.setNameLocalization('ru', 'Отключить временные голосовые команды')
+					.setDescriptionLocalization('ru', 'Отключить временные голосовые команды')
 			)
-			.setAction((interaction) => {
-				this.services.guild.disableFeature(interaction.guildId, 'temporaryVoiceChannels');
+			.setAction(async (interaction) => {
+				interaction.deferReply({
+					flags: MessageFlags.Ephemeral,
+				});
+				await this.services.guild.disableFeature(
+					interaction.guildId,
+					'temporaryVoiceChannels'
+				);
+				interaction.editReply({
+					message: this.libs.localisation.t(''),
+				});
 			});
 	}
 }
