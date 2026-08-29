@@ -1,4 +1,5 @@
 <template>
-  <SideBarMobile/>
-  <NotificationsMobile/>
+	<SideBarMobile />
+	<NotificationsMobile />
+	<slot></slot>
 </template>

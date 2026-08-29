@@ -15,6 +15,7 @@ model User {
   uuid String @unique @default(uuid())
   login String @unique
   email String @unique
+  locale String @unique
   nickname String?
   avatar String?
   passwordHash String?
@@ -46,6 +47,7 @@ model OauthAccount {
   provider String
 
   providerUserId String
+  locale String @default("ru")
   accessToken String?
   refreshToken String?
   expiresAt DateTime?

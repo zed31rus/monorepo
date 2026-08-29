@@ -8,9 +8,19 @@ export default class DisableSubcommandVoiceFeatureGuildCommand extends BaseGuild
 			.createSubcommand((subcommand) =>
 				subcommand
 					.setName('disable')
-					.setNameLocalization('ru', 'отключить')
+					.setNameLocalization(
+						'ru',
+						this.libs.localisation.t(
+							'ru:emitters.commands.guild.features.voice.subcommands.disable.name'
+						)
+					)
 					.setDescription('Disable temporary voice')
-					.setDescriptionLocalization('ru', 'Отключить временные голосовые команды')
+					.setDescriptionLocalization(
+						'ru',
+						this.libs.localisation.t(
+							'ru:emitters.commands.guild.features.voice.subcommands.disable.description'
+						)
+					)
 			)
 			.setAction(async (interaction) => {
 				interaction.deferReply({
@@ -21,7 +31,12 @@ export default class DisableSubcommandVoiceFeatureGuildCommand extends BaseGuild
 					'temporaryVoiceChannels'
 				);
 				interaction.editReply({
-					message: this.libs.localisation.t(''),
+					message: this.libs.localisation.t(
+						'emitters.commands.guild.features.voice.subcommands.disable.replies.success',
+						{
+							lng: interaction.locale,
+						}
+					),
 				});
 			});
 	}

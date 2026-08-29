@@ -19,12 +19,12 @@ import DiscordEventEmitterContainer from './emitters/event/discord.js';
 import OnConnectGuildVoiceDiscordEvent from '#core/emitters/events/discord/guild/voice/hub/onConnect.js';
 import OnDisconnectGuildVoiceDiscordEvent from '#core/emitters/events/discord/guild/voice/hub/onDisconnect.js';
 import RabbitMqInternalEventEmitterContainer from './emitters/event/internal/rabbitMq.js';
-import OauthRegisteredNewUserRabbitMqEvent from '#core/emitters/events/internal/rabbitMq/auth/from/oauthRegisteredNewUser.js';
 import CommandEmitterContainer from './emitters/command.js';
 import VoiceFeatureGuildCommand from '#core/emitters/commands/guild/features/voice/main.js';
 import InstanceContaner from './instance.js';
 import EventRouterInstance from '#core/instances/eventRouter.js';
 import EventEmitter from 'node:events';
+import RegisteredNewUserOauthFromAuthRabbitMqEvent from '#core/emitters/events/internal/rabbitMq/auth/from/oauth/registeredNewUser.js';
 
 const errors = new ErrorsContainer(
 	new ErrorsContainer.deps.ApiErrors(),
@@ -60,12 +60,15 @@ const infra = new InfraContainer(
 	}
 );
 
+const locales = {};
+
 const libs = new LibContainer(
 	new LibContainer.deps.Hash(...packagesDeps),
 	new LibContainer.deps.JWT(...packagesDeps),
 	new LibContainer.deps.Mail(...packagesDeps),
 	new LibContainer.deps.RefreshToken(...packagesDeps),
-	new LibContainer.deps.VerificationCode(...packagesDeps)
+	new LibContainer.deps.VerificationCode(...packagesDeps),
+	await LibContainer.deps.localisation.create(locales, ...packagesDeps)
 );
 
 const db = new DbContainer.discordBot(...packagesDeps);
@@ -80,7 +83,7 @@ const client = new Client({
 
 const readyClient = await new Promise<Client<true>>((resolve) => {
 	client.once('ready', (readyClient) => {
-		resolve(readyClient as Client<true>);
+		resolve(readyClient);
 	});
 	client.login(configs.env.DISCORD_BOT_TOKEN);
 });
@@ -132,7 +135,9 @@ const discordEventContainer = new DiscordEventEmitterContainer({
 
 const rabbitMqInternalEventContainer = new RabbitMqInternalEventEmitterContainer({
 	from: {
-		oauthRegisteredNewUser: new OauthRegisteredNewUserRabbitMqEvent(...emittersDeps),
+		oauth: {
+			registeredNewUser: new RegisteredNewUserOauthFromAuthRabbitMqEvent(...emittersDeps),
+		},
 	},
 });
 

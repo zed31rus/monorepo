@@ -5,9 +5,9 @@ import type { UserEnv } from '#web/types/Env.js';
 export type AccountExternalEnv = UserEnv & {};
 
 export default class AccountExternalWebOpenAPI extends BaseWebOpenAPI {
-	emailVerificationSend = createRoute({
+	emailVerificationRequest = createRoute({
 		method: 'post',
-		path: '/emailVerification/Send',
+		path: '/emailVerification/request',
 		middleware: [...this.handlers.auth.withValidUser<AccountExternalEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Send verification email',
@@ -32,7 +32,7 @@ export default class AccountExternalWebOpenAPI extends BaseWebOpenAPI {
 
 	emailVerificationConfirm = createRoute({
 		method: 'patch',
-		path: '/emailVerification/Confirm',
+		path: '/emailVerification/confirm',
 		middleware: [...this.handlers.auth.withValidUser<AccountExternalEnv>()],
 		security: [{ authBearer: [] }],
 		summary: 'Confirm Email',

@@ -1,0 +1,30 @@
+{
+	"emitters": {
+		"commands": {
+			"global": {},
+			"guild": {
+				"features": {
+					"voice": {
+						"subcommands": {
+							"disable": {
+								"name": "отключить",
+								"description": "Отключить временные голосовые команды",
+								"replies": {
+									"success": "Готово ! Временные каналы отключены на сервере"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+
+		"events": {
+			"oauth": {
+				"registeredNewUser": {
+					"hello": "Привет {{nickname}}, огромное спасибо за то, что ты зарегистрировался на сайте [{{siteDomain}}]({{siteUrl}}) используя discord!\n"
+				}
+			}
+		}
+	}
+}

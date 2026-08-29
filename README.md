@@ -87,6 +87,30 @@ monorepo
 │  │        ├─ cors.ts
 │  │        ├─ rateLimiter.ts
 │  │        └─ validator.ts
+│  ├─ Authorization
+│  │  ├─ appsettings.json
+│  │  ├─ Authorization.csproj
+│  │  ├─ Authorization.http
+│  │  ├─ Core
+│  │  │  └─ Services
+│  │  │     └─ Track.cs
+│  │  ├─ Program.cs
+│  │  ├─ Properties
+│  │  │  └─ launchSettings.json
+│  │  └─ Web
+│  │     ├─ Extensions
+│  │     │  └─ Development.cs
+│  │     └─ Servers
+│  │        ├─ Base
+│  │        │  └─ Server.cs
+│  │        ├─ DI
+│  │        │  └─ Servers.cs
+│  │        └─ External
+│  │           ├─ Controllers
+│  │           │  └─ Track.cs
+│  │           ├─ DI
+│  │           │  └─ Services.cs
+│  │           └─ Server.cs
 │  ├─ discordBot
 │  │  ├─ core
 │  │  │  ├─ base
@@ -99,7 +123,9 @@ monorepo
 │  │  │  │  │  │     ├─ base.ts
 │  │  │  │  │  │     ├─ global.ts
 │  │  │  │  │  │     ├─ guild.ts
-│  │  │  │  │  │     └─ subcommand.ts
+│  │  │  │  │  │     └─ subcommand
+│  │  │  │  │  │        ├─ base.ts
+│  │  │  │  │  │        └─ guild.ts
 │  │  │  │  │  └─ event
 │  │  │  │  │     ├─ base.ts
 │  │  │  │  │     ├─ discord.ts
@@ -146,7 +172,8 @@ monorepo
 │  │  │  │        └─ rabbitMq
 │  │  │  │           └─ auth
 │  │  │  │              └─ from
-│  │  │  │                 └─ oauthRegisteredNewUser.ts
+│  │  │  │                 └─ oauth
+│  │  │  │                    └─ registeredNewUser.ts
 │  │  │  ├─ instances
 │  │  │  │  └─ eventRouter.ts
 │  │  │  ├─ managers
@@ -159,12 +186,15 @@ monorepo
 │  │  │  │  │  ├─ global.ts
 │  │  │  │  │  └─ guild.ts
 │  │  │  │  └─ feature.ts
-│  │  │  ├─ services
-│  │  │  │  ├─ deployCommands.ts
-│  │  │  │  └─ guild.ts
-│  │  │  └─ types
+│  │  │  └─ services
+│  │  │     ├─ deployCommands.ts
+│  │  │     └─ guild.ts
+│  │  ├─ localisations
+│  │  │  └─ ru.json
 │  │  ├─ package.json
-│  │  └─ tsconfig.json
+│  │  ├─ tsconfig.json
+│  │  └─ types
+│  │     └─ localisation.d.ts
 │  ├─ frontend
 │  │  ├─ app
 │  │  │  ├─ app.vue
@@ -175,6 +205,10 @@ monorepo
 │  │  │  │  ├─ defaultLayout
 │  │  │  │  │  ├─ desktop.vue
 │  │  │  │  │  └─ mobile.vue
+│  │  │  │  ├─ iframe
+│  │  │  │  │  └─ spotify
+│  │  │  │  │     ├─ desktop.vue
+│  │  │  │  │     └─ mobile.vue
 │  │  │  │  ├─ notifications
 │  │  │  │  │  ├─ area
 │  │  │  │  │  │  ├─ desktop.vue
@@ -202,11 +236,9 @@ monorepo
 │  │  │  │  ├─ auth
 │  │  │  │  │  ├─ desktop.vue
 │  │  │  │  │  └─ mobile.vue
-│  │  │  │  ├─ index
-│  │  │  │  │  ├─ desktop.vue
-│  │  │  │  │  └─ mobile.vue
-│  │  │  │  ├─ index.vue
-│  │  │  │  └─ me.vue
+│  │  │  │  └─ index
+│  │  │  │     ├─ desktop.vue
+│  │  │  │     └─ mobile.vue
 │  │  │  ├─ stores
 │  │  │  │  ├─ notifications.ts
 │  │  │  │  ├─ title.ts
@@ -302,6 +334,7 @@ monorepo
 ├─ compose.yaml
 ├─ eslint.config.ts
 ├─ LICENSE
+├─ monorepo.sln
 ├─ package.json
 ├─ packages
 │  ├─ db
@@ -398,6 +431,8 @@ monorepo
 │  │  │  └─ libs
 │  │  │     ├─ hash
 │  │  │     │  └─ hash.ts
+│  │  │     ├─ i18n
+│  │  │     │  └─ i18n.ts
 │  │  │     ├─ jwt
 │  │  │     │  └─ jwt.ts
 │  │  │     ├─ mail

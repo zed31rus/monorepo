@@ -5,6 +5,7 @@
 	"type": "module",
 	"imports": {
 		"#core/*": "./dist/core/*",
+		"#localisations/**": "./dist/localisations/*",
 		"#web/*": "./dist/web/*",
 		"#root/*": "./dist/*"
 	},
@@ -22,6 +23,7 @@
 		"@zed31rus/base": "workspace:*",
 		"@zed31rus/types": "workspace:*",
 		"discord.js": "^14.26.4",
+		"i18next": "^26.3.6",
 		"node-cron": "^4.2.1"
 	}
 }

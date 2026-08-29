@@ -11,7 +11,7 @@ export default defineNuxtConfig({
 	vite: {
 		plugins: [tailwindcss()],
 		optimizeDeps: {
-			include: ['@iconify/vue'],
+			include: ['@iconify/vue', 'motion-v'],
 		},
 	},
 

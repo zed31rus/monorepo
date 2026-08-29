@@ -5,7 +5,7 @@ import { RabbitEvents, RabbitQueues, type MessageControl } from '@packages/infra
 import { Oauth } from '@zed31rus/types';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
 
-export default class OauthRegisteredNewUserRabbitMqEvent extends BaseRabbitMqInternalEvent {
+export default class RegisteredNewUserOauthFromAuthRabbitMqEvent extends BaseRabbitMqInternalEvent {
 	async action(control: MessageControl, uuid: string) {
 		this.logger.info(`oauthRegisteredNewUser event received`, { uuid: uuid });
 
@@ -40,11 +40,16 @@ export default class OauthRegisteredNewUserRabbitMqEvent extends BaseRabbitMqInt
 			});
 		}
 
-		const testEmbed = new EmbedBuilder()
-			.setTitle('zed31rus.ru')
-			.setDescription(
-				`Привет ${user.nickname}, огромное спасибо за то, что ты зарегистрировался на сайте [zed31rus.ru](https://zed31rus.ru) используя discord!\n`
-			);
+		const localisation = oauthAccount.locale;
+
+		const testEmbed = new EmbedBuilder().setTitle('zed31rus.ru').setDescription(
+			this.libs.localisation.t('oauth.registeredNewUser.hello', {
+				lng: localisation,
+				nickname: user.nickname,
+				siteDomain: '',
+				siteUrl: '',
+			})
+		);
 		const testButton = new ButtonBuilder()
 			.setLabel('zed31rus.ru')
 			.setStyle(ButtonStyle.Link)

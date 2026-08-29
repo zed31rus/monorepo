@@ -1,6 +1,6 @@
 ﻿namespace Authorization.Web.Servers.Base;
 
-public class BaseServer
+public abstract class BaseServer
 {
-    
+    public abstract Task Listen(string[] args);
 }

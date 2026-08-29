@@ -1,24 +1,56 @@
 <script setup lang="ts">
-const route = useRoute();
+import { computed, defineAsyncComponent } from 'vue';
 
-const pages = import.meta.glob('~/pages/**/*.vue', {
-	eager: true,
-	import: 'default',
+import { useDevice, useRoute } from '#imports';
+
+type DeviceComponents = {
+	mobile: string;
+	desktop: string;
+};
+
+const route = useRoute();
+const { isMobile } = useDevice();
+
+const deviceComponents = computed<DeviceComponents>(() => {
+	const value = route.meta.deviceComponents;
+
+	const components = value as Partial<DeviceComponents>;
+
+	if (!components.mobile || !components.desktop) {
+		throw new Error();
+	}
+
+	return {
+		mobile: components.mobile,
+		desktop: components.desktop,
+	};
 });
 
-const path = route.path === '/' ? 'index' : route.path.replace(/^\/|\/$/g, '');
-console.log(path);
-const device = useDevice();
+const modules = import.meta.glob('/pages/**/*.vue');
 
-const variant = device.isMobile ? 'mobile' : device.isDesktopOrTablet ? 'desktop' : 'default';
+const componentLoader = computed(() => {
+	const targetPath = isMobile ? deviceComponents.value.mobile : deviceComponents.value.desktop;
 
-const componentKey = Object.keys(pages).find((key) =>
-	key.includes(`/pages/${path}/${variant}.vue`)
+	const loader = modules[targetPath];
+
+	if (!loader) {
+		const available = Object.keys(modules).sort().join('\n');
+
+		throw new Error(`[deviceRenderer] Component "${targetPath}" not found.`);
+	}
+
+	return loader;
+});
+
+const AsyncComponent = computed(() =>
+	defineAsyncComponent(
+		componentLoader.value as () => Promise<{
+			default: unknown;
+		}>
+	)
 );
-
-const component = computed(() => (componentKey ? pages[componentKey] : null));
 </script>
 
 <template>
-	<component :is="component" v-if="component" />
+	<component :is="AsyncComponent" />
 </template>

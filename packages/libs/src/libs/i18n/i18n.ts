@@ -3,10 +3,12 @@ import { type i18n, type Resource, createInstance } from 'i18next';
 
 export default class I18n extends BaseLib {
 	private instance: i18n;
+	t: i18n['t'];
 
 	private constructor(...baseLibArgs: BaseLibArgs) {
 		super(...baseLibArgs);
 		this.instance = createInstance();
+		this.t = this.instance.t;
 	}
 
 	static async create(locales: Resource, ...baseLibArgs: BaseLibArgs) {
@@ -21,9 +23,5 @@ export default class I18n extends BaseLib {
 			resources: locales,
 			defaultNS: 'translation',
 		});
-	}
-
-	t(...args: Parameters<i18n['t']>) {
-		return this.instance.t(...args);
 	}
 }

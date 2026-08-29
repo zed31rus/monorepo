@@ -5,7 +5,7 @@ export default class AccountExternalModule extends BaseWebModule<AccountExternal
 	init() {
 		this.router.use(this.wrappers.rateLimiter.limit(15 * 60 * 1000, 10));
 
-		this.router.openapi(this.openapi.external.account.emailVerificationSend, async (c) => {
+		this.router.openapi(this.openapi.external.account.emailVerificationRequest, async (c) => {
 			const publicUser = c.get('user');
 			const { user } = await this.core.services.account.emailVerificationSend(publicUser);
 			return c.json({ user });

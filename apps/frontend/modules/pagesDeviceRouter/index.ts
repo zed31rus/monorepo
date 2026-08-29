@@ -1,6 +1,12 @@
 import { createResolver, defineNuxtModule } from '@nuxt/kit';
 import type { NuxtPage } from '@nuxt/schema';
-import './types/nuxt.d';
+
+type Variant = 'mobile' | 'desktop';
+
+type DevicePages = {
+	mobile?: NuxtPage;
+	desktop?: NuxtPage;
+};
 
 export default defineNuxtModule({
 	meta: {
@@ -12,68 +18,142 @@ export default defineNuxtModule({
 		'@nuxtjs/device': {},
 	},
 
-	async setup(options, nuxt) {
+	setup(_options, nuxt) {
 		const resolver = createResolver(import.meta.url);
 		const rendererPath = resolver.resolve('./runtime/deviceRenderer.vue');
 
-		nuxt.hook('pages:extend', (pages: NuxtPage[]) => {
+		nuxt.hook('pages:extend', (pages) => {
 			transformDevicePages(pages, rendererPath);
 		});
 	},
 });
 
-function transformDevicePages(pages: NuxtPage[], rendererPath: string) {
-	const groups = new Map<string, { mobile?: NuxtPage; desktop?: NuxtPage }>();
+function getVariant(page: NuxtPage): Variant | null {
+	if (!page.file) {
+		return null;
+	}
+
+	const fileName = page.file.split('/').pop();
+
+	if (fileName === 'mobile.vue') {
+		return 'mobile';
+	}
+
+	if (fileName === 'desktop.vue') {
+		return 'desktop';
+	}
+
+	return null;
+}
+
+function stripVariantSuffix(
+	value: string | undefined,
+	separator: string,
+	variant: Variant
+): string | undefined {
+	if (!value) {
+		return value;
+	}
+
+	if (value === variant) {
+		return '';
+	}
+
+	const suffix = `${separator}${variant}`;
+
+	if (!value.endsWith(suffix)) {
+		return value;
+	}
+
+	const result = value.slice(0, -suffix.length);
+
+	return result || separator;
+}
+
+function toViteGlobPath(file: string): string {
+	const normalized = file.replace(/\\/g, '/');
+
+	const pagesIndex = normalized.lastIndexOf('/pages/');
+
+	if (pagesIndex !== -1) {
+		return normalized.slice(pagesIndex);
+	}
+
+	if (normalized.startsWith('~/pages/')) {
+		return normalized.slice(1);
+	}
+
+	if (normalized.startsWith('@pages/')) {
+		return `/${normalized.slice('@pages/'.length)}`;
+	}
+
+	throw new Error(`[pagesDeviceRouter] Cannot convert page path to Vite glob path: ${file}`);
+}
+
+function createDevicePage(mobile: NuxtPage, desktop: NuxtPage, rendererPath: string): NuxtPage {
+	return {
+		...desktop,
+
+		file: rendererPath,
+
+		path: stripVariantSuffix(desktop.path, '/', 'desktop') ?? desktop.path,
+
+		name: stripVariantSuffix(desktop.name, '-', 'desktop'),
+
+		meta: {
+			...desktop.meta,
+
+			deviceComponents: {
+				mobile: toViteGlobPath(mobile.file!),
+				desktop: toViteGlobPath(desktop.file!),
+			},
+		},
+	};
+}
+
+function transformDevicePages(pages: NuxtPage[], rendererPath: string): void {
+	const variants = new Map<string, DevicePages>();
 	const result: NuxtPage[] = [];
 
 	for (const page of pages) {
+		// Сначала обрабатываем children
 		if (page.children?.length) {
 			transformDevicePages(page.children, rendererPath);
 		}
 
-		const match = page.file?.match(/^(.*)\/(mobile|desktop)\.vue$/);
+		const variant = getVariant(page);
 
-		if (!match || !match[1]) {
+		// Обычный route оставляем как есть
+		if (!variant) {
 			result.push(page);
 			continue;
 		}
 
-		const [, basePath] = match;
-		const variant = match[2] as 'mobile' | 'desktop';
-
-		if (!groups.has(basePath)) groups.set(basePath, {});
-		groups.get(basePath)![variant] = page;
-	}
-
-	for (const [basePath, variants] of groups) {
-		if (!variants.mobile || !variants.desktop) {
-			const missing = !variants.mobile ? 'mobile' : 'desktop';
-			throw new Error(`[pagesDeviceRouter] page "${basePath}" missing "${missing}.vue"`);
+		if (!page.file) {
+			continue;
 		}
 
-		const base = variants.desktop;
+		const basePath = page.file.replace(/[/\\](mobile|desktop)\.vue$/, '');
 
-		result.push({
-			...base,
-			file: rendererPath,
-			path: base.path.replace(/\/(mobile|desktop)$/, '') || '/',
-			name: base.name?.replace(/-(mobile|desktop)$/, ''),
-			meta: {
-				...base.meta,
-				deviceLayouts: {
-					mobile: {
-						name: variants.mobile.name!,
-						path: variants.mobile.file!,
-					},
-					desktop: {
-						name: variants.desktop.name!,
-						path: variants.desktop.file!,
-					},
-				},
-			},
-		});
+		let group = variants.get(basePath);
+
+		if (!group) {
+			group = {};
+			variants.set(basePath, group);
+		}
+
+		group[variant] = page;
 	}
 
-	pages.length = 0;
-	pages.push(...result);
+	for (const [basePath, group] of variants) {
+		if (!group.mobile || !group.desktop) {
+			const missing = group.mobile ? 'desktop' : 'mobile';
+
+			throw new Error(`[pagesDeviceRouter] Page "${basePath}" is missing "${missing}.vue"`);
+		}
+
+		result.push(createDevicePage(group.mobile, group.desktop, rendererPath));
+	}
+
+	pages.splice(0, pages.length, ...result);
 }

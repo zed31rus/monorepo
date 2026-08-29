@@ -1,10 +1,12 @@
-import type OauthRegisteredNewUser from '#core/emitters/events/internal/rabbitMq/auth/from/oauthRegisteredNewUser.js';
+import type RegisteredNewUserOauthFromAuthRabbitMqEvent from '#core/emitters/events/internal/rabbitMq/auth/from/oauth/registeredNewUser.js';
 
 export default class RabbitMqInternalEventEmitterContainer {
 	constructor(
 		readonly auth: {
 			readonly from: {
-				readonly oauthRegisteredNewUser: OauthRegisteredNewUser;
+				readonly oauth: {
+					readonly registeredNewUser: RegisteredNewUserOauthFromAuthRabbitMqEvent;
+				};
 			};
 		}
 	) {}
