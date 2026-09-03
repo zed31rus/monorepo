@@ -49,6 +49,10 @@ export default class InternalErrors {
 		guild(message: DiscordGuildErrorMessage) {
 			return new InternalError(InternalErrorCode.DISCORD_GUILD_ERROR, message);
 		},
+
+		configure(message: DiscordConfigureErrorMessage) {
+			return new InternalError(InternalErrorCode.DISCORD_CONFIGURE_ERROR, message);
+		},
 	};
 }
 
@@ -64,6 +68,7 @@ export enum InternalErrorCode {
 	DISCORD_API_ERROR = 'DISCORD_API_ERROR',
 	DISCORD_PERMISSION_ERROR = 'DISCORD_PERMISSION_ERROR',
 	DISCORD_GUILD_ERROR = 'DISCORD_GUILD_ERROR',
+	DISCORD_CONFIGURE_ERROR = 'DISCORD_CONFIGURE_ERROR',
 }
 export enum DatabaseErrorMessage {
 	DEFAULT = 'DB_OPERATION_FAILED',
@@ -147,4 +152,8 @@ export enum DiscordVoiceErrorMessage {
 	CHANNEL_NOT_FOUND = 'VOICE_CHANNEL_NOT_FOUND',
 	NOT_CONNECTED = 'VOICE_NOT_CONNECTED',
 	ALREADY_CONNECTED = 'VOICE_ALREADY_CONNECTED',
+}
+
+export enum DiscordConfigureErrorMessage {
+	FEATURE_NOT_CONFIGURED = 'FEATURE_NOT_CONFIGURED',
 }

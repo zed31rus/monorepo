@@ -55,9 +55,12 @@ export default class GuildService extends BaseService {
 
 		const guildRecord = await this.resolveGuildRecord(guildId);
 
-		await this.db.guilds.features.status.enable(this.db.client, guildRecord, feature);
+		const error = await this.createManager(guildId, feature);
 
-		await this.createManager(guildId, feature);
+		await this.db.guilds.features.status.enable(this.db.client, guildRecord, feature);
+		if (error) {
+			return error;
+		}
 	}
 
 	async disableFeature(
@@ -130,8 +133,12 @@ export default class GuildService extends BaseService {
 
 			this.features.set(guildId, guildFeatures);
 		}
-
-		guildFeatures.set(feature, new ManagerClass(guildId, ...this.baseGuildManagerArgs));
+		try {
+			const managerInstance = new ManagerClass(guildId, ...this.baseGuildManagerArgs);
+			guildFeatures.set(feature, managerInstance);
+		} catch (e) {
+			return e;
+		}
 	}
 
 	private async resolveGuildRecord(guildId: DiscordBotDBType.types.Prisma.GuildModel['guildId']) {

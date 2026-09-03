@@ -1,0 +1,46 @@
+{
+	"emitters": {
+		"commands": {
+			"global": {},
+			"guild": {
+				"features": {
+					"voice": {
+						"name": "temporary_voice",
+						"description": "Temporary voice managment",
+						"replies": {
+							"success": "If you're seeing this message, it's either a bug or a feature that's still in development... Sorry!"
+						},
+
+						"subcommands": {
+							"disable": {
+								"name": "disable",
+								"description": "Disable temporary voice channels",
+								"replies": {
+									"success": "Success! Temporary voice channels disabled on this server"
+								}
+							},
+							"enable": {
+								"name": "enable",
+								"description": "Enable temporary voice channels",
+								"replies": {
+									"success": "Success! Temporary voice channels enabled on this server",
+									"errors": {
+										"configure": "Oh, sorry, first please configure voice channels feature using {{featureCommand}}"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+
+		"events": {
+			"oauth": {
+				"registeredNewUser": {
+					"hello": "Hello {{nickname}}, thank you for registration on [{{siteDomain}}]({{siteUrl}}) using discord!\n"
+				}
+			}
+		}
+	}
+}

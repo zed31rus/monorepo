@@ -12,6 +12,25 @@ export default class GetGuildDbCase {
 				},
 			});
 		},
+
+		async byGuildId_Feature(
+			client: DiscordBotDBType.types.Prisma.TransactionClient,
+			guildId: DiscordBotDBType.types.Prisma.GuildModel['guildId'],
+			feature: DiscordBotDBType.types.Features
+		) {
+			const record = await client.feature.findUnique({
+				where: {
+					guildId_feature: { guildId: guildId, feature: feature },
+				},
+				include: {
+					Guild: true,
+				},
+			});
+
+			if (!record) return record;
+			const { Guild, ...rest } = record;
+			return { ...Guild, features: { [feature]: { ...rest } } };
+		},
 	};
 
 	orThrow = {

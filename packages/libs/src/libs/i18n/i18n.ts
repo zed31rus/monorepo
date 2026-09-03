@@ -2,7 +2,7 @@ import BaseLib, { type BaseLibArgs } from '../../base.js';
 import { type i18n, type Resource, createInstance } from 'i18next';
 
 export default class I18n extends BaseLib {
-	private instance: i18n;
+	instance: i18n;
 	t: i18n['t'];
 
 	private constructor(...baseLibArgs: BaseLibArgs) {

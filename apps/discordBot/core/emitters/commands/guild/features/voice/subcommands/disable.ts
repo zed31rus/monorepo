@@ -7,14 +7,22 @@ export default class DisableSubcommandVoiceFeatureGuildCommand extends BaseGuild
 		this.command
 			.createSubcommand((subcommand) =>
 				subcommand
-					.setName('disable')
+					.setName(
+						this.libs.localisation.t(
+							'en-US:emitters.commands.guild.features.voice.subcommands.disable.name'
+						)
+					)
 					.setNameLocalization(
 						'ru',
 						this.libs.localisation.t(
 							'ru:emitters.commands.guild.features.voice.subcommands.disable.name'
 						)
 					)
-					.setDescription('Disable temporary voice')
+					.setDescription(
+						this.libs.localisation.t(
+							'en-US:emitters.commands.guild.features.voice.subcommands.disable.description'
+						)
+					)
 					.setDescriptionLocalization(
 						'ru',
 						this.libs.localisation.t(

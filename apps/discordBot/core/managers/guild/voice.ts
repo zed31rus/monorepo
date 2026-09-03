@@ -26,11 +26,16 @@ export default class TemporaryVoiceChannelsGuildManager extends BaseGuildManager
 	}
 
 	async connect() {
-		const guildRecord = await this.db.guilds.get.orThrow.byGuildId_Feature(
+		const guildRecord = await this.db.guilds.get.orNull.byGuildId_Feature(
 			this.db.client,
 			this.guildId,
 			DiscordBotDBType.types.Features.temporaryVoiceChannels
 		);
+		if (!guildRecord) {
+			throw this.errors.internal.discord.configure(
+				InternalErrors.DiscordConfigureErrorMessage.FEATURE_NOT_CONFIGURED
+			);
+		}
 		const guild = await this.client.guilds.fetch(this.guildId);
 
 		const channel = await guild.channels.fetch(

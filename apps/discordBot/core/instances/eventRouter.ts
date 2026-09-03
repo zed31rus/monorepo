@@ -30,6 +30,10 @@ export default class EventRouterInstance extends BaseInstance {
 		event: E extends Events.InteractionCreate ? never : E,
 		listener: (...args: ClientEvents[E]) => void
 	): EventEmitter;
+	on<E extends keyof ClientEvents>(
+		event: E extends `${Events.InteractionCreate}` ? never : E,
+		listener: (...args: ClientEvents[E]) => void
+	): EventEmitter;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	on(event: any, listener: (...args: any[]) => void): EventEmitter {
 		return this.eventEmitter.on(event, listener);

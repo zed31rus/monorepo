@@ -9,6 +9,7 @@ import {
 } from 'discord.js';
 import BaseCommandEmitter, { type BaseCommandArgs } from '../base.js';
 import { InternalErrors } from '@shared/errors';
+import type { i18n } from 'i18next';
 
 export default abstract class BaseSlashCommand<
 	TypedInteraction extends ChatInputCommandInteraction<CacheType>,
@@ -60,6 +61,18 @@ export default abstract class BaseSlashCommand<
 				InternalErrors.BusinessLogicErrorMessage.NO_AVAILABLE_OPTIONS
 			);
 		return group;
+	}
+
+	localize<E extends Parameters<i18n['t']>['0']>(
+		interaction: SlashCommandBuilder | SubcommandBuilder | SubcommandGroupBuilder,
+		key: E
+	) {
+		//fix
+		interaction.setName(
+			this.libs.localisation.t(key, {
+				lng: 'en',
+			})
+		);
 	}
 
 	protected typeGuard(interaction: Interaction): TypedInteraction {
