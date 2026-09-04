@@ -6,4 +6,4 @@ export default abstract class BaseCommandEmitter extends BaseEmitter {
 	}
 }
 
-export type BaseCommandArgs = ConstructorParameters<typeof BaseCommandEmitter>;
+export type BaseCommandEmitterArgs = ConstructorParameters<typeof BaseCommandEmitter>;
