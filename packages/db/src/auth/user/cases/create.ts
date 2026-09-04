@@ -7,7 +7,8 @@ export default class CreateUsers {
 		login: RawUser['login'],
 		email: RawUser['email'],
 		passwordHash: RawUser['passwordHash'],
-		emailConfirmed: RawUser['emailConfirmed']
+		emailConfirmed: RawUser['emailConfirmed'],
+		locale: RawUser['locale']
 	) {
 		return await client.user.create({
 			data: {
@@ -16,6 +17,7 @@ export default class CreateUsers {
 				nickname,
 				passwordHash,
 				emailConfirmed,
+				locale,
 			},
 			include: {
 				oauthAccounts: true,

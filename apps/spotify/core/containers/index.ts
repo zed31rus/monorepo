@@ -12,6 +12,7 @@ import ManagerContainer from './managers.js';
 import DailyTrackManager from '../managers/dailyTrack.js';
 import EmitterContainer from './emitter.js';
 import DailyTrackSchedullerEmitter from '#core/emitters/schedullers/dailyTrack.js';
+import type { Resource } from 'i18next';
 
 const errors = new ErrorsContainer(
 	new ErrorsContainer.deps.ApiErrors(),
@@ -47,12 +48,15 @@ const infra = new InfraContainer(
 	}
 );
 
+const locales: Resource = {};
+
 const libs = new LibContainer(
 	new LibContainer.deps.Hash(...packagesDeps),
 	new LibContainer.deps.JWT(...packagesDeps),
 	new LibContainer.deps.Mail(...packagesDeps),
 	new LibContainer.deps.RefreshToken(...packagesDeps),
-	new LibContainer.deps.VerificationCode(...packagesDeps)
+	new LibContainer.deps.VerificationCode(...packagesDeps),
+	await LibContainer.deps.localisation.create(locales, ...packagesDeps)
 );
 
 const db = new DbContainer.spotify(...packagesDeps);

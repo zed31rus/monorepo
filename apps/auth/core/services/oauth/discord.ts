@@ -102,7 +102,8 @@ export default class DiscordOauthService extends BaseService {
 			meRes.username,
 			meRes.email,
 			null,
-			true
+			true,
+			'ru'
 		);
 		this.logger.info(`New user created: userId=${newUser.id}`);
 

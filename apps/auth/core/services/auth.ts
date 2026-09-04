@@ -11,7 +11,8 @@ export default class AuthService extends BaseService {
 			login,
 			email,
 			hashedPassword,
-			false
+			false,
+			'ru'
 		);
 		const publicUser = this.db.users.toPublicJSON(rawUser);
 
