@@ -7,9 +7,8 @@ import {
 	type ChatInputCommandInteraction,
 	type Interaction,
 } from 'discord.js';
-import BaseCommandEmitter, { type BaseCommandArgs } from '../base.js';
+import BaseCommandEmitter, { type BaseCommandEmitterArgs } from '../base.js';
 import { InternalErrors } from '@shared/errors';
-import type { i18n } from 'i18next';
 
 export default abstract class BaseSlashCommand<
 	TypedInteraction extends ChatInputCommandInteraction<CacheType>,
@@ -17,19 +16,21 @@ export default abstract class BaseSlashCommand<
 	protected subcommands = new Map<string, SubcommandBuilder<TypedInteraction>>();
 	protected subcommandGroups = new Map<string, SubcommandGroupBuilder<TypedInteraction>>();
 
-	abstract data: SlashCommandBuilder;
+	private data = new SlashCommandBuilder();
 	abstract action(interaction: TypedInteraction): void | Promise<void>;
 
-	constructor(...baseCommandArgs: BaseCommandArgs) {
-		super(...baseCommandArgs);
-		queueMicrotask(() => {
-			this.instances.eventRouter.on(
-				`${Events.InteractionCreate}:${this.data.name}`,
-				(interaction) => {
-					this.handleInteraction(interaction);
-				}
-			);
-		});
+	constructor(...baseCommandEmitterArgs: BaseCommandEmitterArgs) {
+		super(...baseCommandEmitterArgs);
+	}
+
+	setData(dataBuilder: (builder: SlashCommandBuilder) => SlashCommandBuilder) {
+		this.data = dataBuilder(this.data);
+		this.instances.eventRouter.on(
+			`${Events.InteractionCreate}:${this.data.name}`,
+			(interaction) => {
+				this.handleInteraction(interaction);
+			}
+		);
 	}
 
 	createSubcommand(callback: (subcommand: SubcommandBuilder<TypedInteraction>) => void) {
@@ -61,18 +62,6 @@ export default abstract class BaseSlashCommand<
 				InternalErrors.BusinessLogicErrorMessage.NO_AVAILABLE_OPTIONS
 			);
 		return group;
-	}
-
-	localize<E extends Parameters<i18n['t']>['0']>(
-		interaction: SlashCommandBuilder | SubcommandBuilder | SubcommandGroupBuilder,
-		key: E
-	) {
-		//fix
-		interaction.setName(
-			this.libs.localisation.t(key, {
-				lng: 'en',
-			})
-		);
 	}
 
 	protected typeGuard(interaction: Interaction): TypedInteraction {
