@@ -15,8 +15,10 @@ public static class Servers
         var assembly = Assembly.GetExecutingAssembly();
 
         var serverTypes = assembly.GetTypes()
-            .Where(t => t.IsClass && !t.IsAbstract)
-            .Where(t => t.GetCustomAttribute<ServerAttribute>() != null).Where(t => t.IsSubclassOf(typeof(BaseServer)));
+            .Where(type =>
+                type is { IsClass: true, IsAbstract: false } &&
+                typeof(BaseServer).IsAssignableFrom(type) &&
+                type.GetCustomAttribute<ServerAttribute>() is not null);
 
         var tasks = new List<Task>();
 
