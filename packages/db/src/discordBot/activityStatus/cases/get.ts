@@ -1,13 +1,13 @@
 import { DiscordBotDBType } from '../../db.js';
 
 export default class getActivityStatus {
-	async byId(client: DiscordBotDBType.types.TransactionClient, id: number) {
+	async byId(client: DiscordBotDBType.types.Prisma.TransactionClient, id: number) {
 		return await client.activityStatus.findUniqueOrThrow({
 			where: { id: id },
 		});
 	}
 
-	async byName(client: DiscordBotDBType.types.TransactionClient, name: string) {
+	async byName(client: DiscordBotDBType.types.Prisma.TransactionClient, name: string) {
 		return await client.activityStatus.findFirstOrThrow({
 			where: {
 				name: name,
@@ -15,7 +15,7 @@ export default class getActivityStatus {
 		});
 	}
 
-	async random(client: DiscordBotDBType.types.TransactionClient) {
+	async random(client: DiscordBotDBType.types.Prisma.TransactionClient) {
 		const itemsCount = await client.activityStatus.count();
 		const skip = Math.floor(Math.random() * itemsCount);
 		return await client.activityStatus.findFirst({

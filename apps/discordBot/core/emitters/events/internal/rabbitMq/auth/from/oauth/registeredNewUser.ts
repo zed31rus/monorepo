@@ -43,7 +43,7 @@ export default class RegisteredNewUserOauthFromAuthRabbitMqEvent extends BaseRab
 		const localisation = oauthAccount.locale;
 
 		const testEmbed = new EmbedBuilder().setTitle('zed31rus.ru').setDescription(
-			this.libs.localisation.t('oauth.registeredNewUser.hello', {
+			this.libs.localisation.t('emitters.events.oauth.registeredNewUser.hello', {
 				lng: localisation,
 				nickname: user.nickname,
 				siteDomain: '',
