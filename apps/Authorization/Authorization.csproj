@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <AnalysisLevel>latest</AnalysisLevel>
-        <RootNamespace>authorization</RootNamespace>
+        <RootNamespace>Authorization</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,8 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Core\Services\"/>
-        <Folder Include="Web\Servers\External\Controllers\"/>
+        <Folder Include="Clients\" />
     </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using Authorization.Web.Servers.Base;
+using Authorization.Clients.Web.Servers.Base;
 
-namespace authorization.Web.Servers.DI;
+namespace Authorization.Clients.Web.Servers.DI;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class ServerAttribute : Attribute

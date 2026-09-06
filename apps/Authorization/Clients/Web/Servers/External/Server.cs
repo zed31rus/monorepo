@@ -1,9 +1,9 @@
-﻿using Authorization.Web.Extensions;
-using Authorization.Web.Servers.Base;
-using authorization.Web.Servers.DI;
-using Authorization.Web.Servers.External.DI;
+﻿using Authorization.Clients.Web.Extensions;
+using Authorization.Clients.Web.Servers.Base;
+using Authorization.Clients.Web.Servers.DI;
+using Authorization.Clients.Web.Servers.External.DI;
 
-namespace Authorization.Web.Servers.External;
+namespace Authorization.Clients.Web.Servers.External;
 
 [Server]
 public class Server : BaseServer

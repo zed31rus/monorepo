@@ -1,4 +1,4 @@
-﻿namespace Authorization.Web.Servers.External.DI;
+﻿namespace Authorization.Clients.Web.Servers.External.DI;
 
 public static class Services
 {

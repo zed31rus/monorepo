@@ -1,4 +1,4 @@
-﻿namespace Authorization.Web.Servers.Base;
+﻿namespace Authorization.Clients.Web.Servers.Base;
 
 public abstract class BaseServer
 {

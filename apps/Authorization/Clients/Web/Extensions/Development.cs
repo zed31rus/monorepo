@@ -1,6 +1,6 @@
 ﻿using Scalar.AspNetCore;
 
-namespace Authorization.Web.Extensions;
+namespace Authorization.Clients.Web.Extensions;
 
 public static class Development
 {

@@ -1,4 +1,4 @@
-using authorization.Web.Servers.DI;
+using Authorization.Clients.Web.Servers.DI;
 
 namespace Authorization;
 
