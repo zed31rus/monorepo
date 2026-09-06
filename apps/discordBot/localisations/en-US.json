@@ -25,7 +25,7 @@
 								"replies": {
 									"success": "Success! Temporary voice channels enabled on this server",
 									"errors": {
-										"configure": "Oh, sorry, first please configure voice channels feature using {{featureCommand}}"
+										"configure": "Oh, sorry, first please configure voice channels feature"
 									}
 								}
 							}

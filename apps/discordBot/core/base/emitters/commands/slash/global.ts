@@ -7,7 +7,7 @@ export default abstract class BaseGlobalSlashCommand extends BaseSlashCommand<
 	constructor(...botBaseArgs: BaseSlashCommandArgs) {
 		super(...botBaseArgs);
 
-		this.registry.commands.global.register(this);
+		this.registries.commands.global.register(this);
 	}
 }
 

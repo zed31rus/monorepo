@@ -18,9 +18,11 @@ export default abstract class BaseSlashCommand<
 
 	private data = new SlashCommandBuilder();
 	abstract action(interaction: TypedInteraction): void | Promise<void>;
+	abstract init(): SlashCommandBuilder;
 
 	constructor(...baseCommandEmitterArgs: BaseCommandEmitterArgs) {
 		super(...baseCommandEmitterArgs);
+		this.init();
 	}
 
 	setData(dataBuilder: (builder: SlashCommandBuilder) => SlashCommandBuilder) {
@@ -31,6 +33,11 @@ export default abstract class BaseSlashCommand<
 				this.handleInteraction(interaction);
 			}
 		);
+		return this.data;
+	}
+
+	get getData() {
+		return this.data;
 	}
 
 	createSubcommand(callback: (subcommand: SubcommandBuilder<TypedInteraction>) => void) {

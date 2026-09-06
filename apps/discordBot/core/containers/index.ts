@@ -10,7 +10,7 @@ import GuildCommandsRegistry from '#core/registry/command/guild.js';
 import LibContainer from '@packages/libs';
 import FeatureRegistry from '#core/registry/feature.js';
 import ServiceContainer from './service.js';
-import DeployCommandsService from '#core/services/deployCommands.js';
+import CommandDeployer from '#core/deployers/command.js';
 import GuildService from '#core/services/guild.js';
 import SingletonManagerContainer from './manager.js';
 import ActivitySingletonManager from '#core/managers/activity.js';
@@ -19,12 +19,18 @@ import DiscordEventEmitterContainer from './emitters/event/discord.js';
 import OnConnectGuildVoiceDiscordEvent from '#core/emitters/events/discord/guild/voice/hub/onConnect.js';
 import OnDisconnectGuildVoiceDiscordEvent from '#core/emitters/events/discord/guild/voice/hub/onDisconnect.js';
 import RabbitMqInternalEventEmitterContainer from './emitters/event/internal/rabbitMq.js';
-import CommandEmitterContainer from './emitters/command.js';
+import CommandEmitterContainer from './emitters/command/command.js';
 import VoiceFeatureGuildCommand from '#core/emitters/commands/guild/features/voice/main.js';
 import InstanceContaner from './instance.js';
 import EventRouterInstance from '#core/instances/eventRouter.js';
 import EventEmitter from 'node:events';
 import RegisteredNewUserOauthFromAuthRabbitMqEvent from '#core/emitters/events/internal/rabbitMq/auth/from/oauth/registeredNewUser.js';
+import enUs from '#localisations/en-US.json' with { type: 'json' };
+import ru from '#localisations/ru.json' with { type: 'json' };
+import DeployerContainer from './deployer.js';
+import EnableSubcommandVoiceFeatureGuildCommand from '#core/emitters/commands/guild/features/voice/subcommands/enable.js';
+import SubcommandEmitterContainer from './emitters/command/subcommand.js';
+import DisableSubcommandVoiceFeatureGuildCommand from '#core/emitters/commands/guild/features/voice/subcommands/disable.js';
 
 const errors = new ErrorsContainer(
 	new ErrorsContainer.deps.ApiErrors(),
@@ -60,8 +66,10 @@ const infra = new InfraContainer(
 	}
 );
 
-const locales = {};
-
+const locales = {
+	ru: { translation: ru },
+	'en-US': { translation: enUs },
+};
 const libs = new LibContainer(
 	new LibContainer.deps.Hash(...packagesDeps),
 	new LibContainer.deps.JWT(...packagesDeps),
@@ -115,7 +123,6 @@ const singletonManagers = new SingletonManagerContainer(
 const servicesDeps = [instances, registries, singletonManagers, ...botDeps] as const;
 
 const services = new ServiceContainer(
-	await DeployCommandsService.create(...servicesDeps),
 	await GuildService.create(ManagerDeps as BaseGuildManagerArgs, ...servicesDeps)
 );
 
@@ -123,6 +130,13 @@ const emittersDeps = [services, ...servicesDeps] as const;
 
 const commands = new CommandEmitterContainer({
 	voice: new VoiceFeatureGuildCommand(...emittersDeps),
+});
+
+const subcommandsDeps = [commands, ...emittersDeps] as const;
+
+const subcommands = new SubcommandEmitterContainer({
+	enable: new EnableSubcommandVoiceFeatureGuildCommand(...subcommandsDeps),
+	disable: new DisableSubcommandVoiceFeatureGuildCommand(...subcommandsDeps),
 });
 
 const discordEventContainer = new DiscordEventEmitterContainer({
@@ -142,6 +156,10 @@ const rabbitMqInternalEventContainer = new RabbitMqInternalEventEmitterContainer
 	},
 });
 
+const deployerDeps = [...emittersDeps] as const;
+
+const deployers = new DeployerContainer(await CommandDeployer.create(...deployerDeps));
+
 const coreContainer = {
 	errors,
 	configs,
@@ -155,6 +173,8 @@ const coreContainer = {
 	commands,
 	discordEventContainer,
 	rabbitMqInternalEventContainer,
+	deployers,
+	subcommands,
 };
 
 export default coreContainer;

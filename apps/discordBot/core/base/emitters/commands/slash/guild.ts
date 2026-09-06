@@ -8,7 +8,7 @@ export default abstract class BaseGuildSlashCommand extends BaseSlashCommand<
 	constructor(...botBaseArgs: BaseSlashCommandArgs) {
 		super(...botBaseArgs);
 
-		this.registry.commands.guild.register(this);
+		this.registries.commands.guild.register(this);
 	}
 
 	protected typeGuard(interaction: Interaction) {

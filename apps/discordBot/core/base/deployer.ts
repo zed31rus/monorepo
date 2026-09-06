@@ -1,10 +1,10 @@
 import type RegistryContainer from '#core/containers/registry.js';
-import BotBase, { type BotBaseArgs } from '../bot.js';
-import type ServiceContainer from '#core/containers/service.js';
 import type InstanceContaner from '#core/containers/instance.js';
 import type SingletonManagerContainer from '#core/containers/manager.js';
+import BotBase, { type BotBaseArgs } from './bot.js';
+import type ServiceContainer from '#core/containers/service.js';
 
-export default abstract class BaseEmitter extends BotBase {
+export default abstract class BaseDeployer extends BotBase {
 	constructor(
 		readonly services: ServiceContainer,
 		readonly instances: InstanceContaner,
@@ -16,4 +16,4 @@ export default abstract class BaseEmitter extends BotBase {
 	}
 }
 
-export type BaseEmitterArgs = ConstructorParameters<typeof BaseEmitter>;
+export type BaseDeployerArgs = ConstructorParameters<typeof BaseDeployer>;

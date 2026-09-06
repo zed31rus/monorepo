@@ -1,10 +1,7 @@
-import CommandEmitterContainer from '#core/containers/emitters/command.js';
-import type { CacheType, ChatInputCommandInteraction } from 'discord.js';
+import CommandEmitterContainer from '#core/containers/emitters/command/command.js';
 import BaseCommandEmitter, { type BaseCommandEmitterArgs } from '../../base.js';
-import type BaseSlashCommand from '../base.js';
 
-export default abstract class BaseSlashSubcommand<I extends CacheType> extends BaseCommandEmitter {
-	abstract command: BaseSlashCommand<ChatInputCommandInteraction<I>>;
+export default abstract class BaseSlashSubcommand extends BaseCommandEmitter {
 	constructor(
 		readonly commands: CommandEmitterContainer,
 		...baseCommandArgs: BaseCommandEmitterArgs

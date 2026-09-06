@@ -5,7 +5,7 @@ export default class GuildCommandsRegistry extends BaseRegistry {
 	private map = new Map<string, BaseGuildSlashCommand>();
 
 	register(command: BaseGuildSlashCommand) {
-		this.map.set(command.data.name, command);
+		this.map.set(command.getData.name, command);
 	}
 
 	get(name: string) {

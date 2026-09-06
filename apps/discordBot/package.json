@@ -5,7 +5,7 @@
 	"type": "module",
 	"imports": {
 		"#core/*": "./dist/core/*",
-		"#localisations/**": "./dist/localisations/*",
+		"#localisations/*": "./dist/localisations/*",
 		"#web/*": "./dist/web/*",
 		"#root/*": "./dist/*"
 	},

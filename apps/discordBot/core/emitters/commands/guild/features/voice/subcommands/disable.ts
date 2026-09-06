@@ -2,36 +2,47 @@ import BaseGuildSlashSubcommand from '#core/base/emitters/commands/slash/subcomm
 import { MessageFlags } from 'discord.js';
 
 export default class DisableSubcommandVoiceFeatureGuildCommand extends BaseGuildSlashSubcommand {
-	command = this.commands.guild.voice;
 	build() {
-		this.command
+		this.commands.guild.voice
 			.createSubcommand((subcommand) =>
 				subcommand
 					.setName(
 						this.libs.localisation.t(
-							'en-US:emitters.commands.guild.features.voice.subcommands.disable.name'
+							'emitters.commands.guild.features.voice.subcommands.disable.name',
+							{
+								lng: 'en-US',
+							}
 						)
 					)
 					.setNameLocalization(
 						'ru',
 						this.libs.localisation.t(
-							'ru:emitters.commands.guild.features.voice.subcommands.disable.name'
+							'emitters.commands.guild.features.voice.subcommands.disable.name',
+							{
+								lng: 'ru',
+							}
 						)
 					)
 					.setDescription(
 						this.libs.localisation.t(
-							'en-US:emitters.commands.guild.features.voice.subcommands.disable.description'
+							'emitters.commands.guild.features.voice.subcommands.disable.description',
+							{
+								lng: 'en-US',
+							}
 						)
 					)
 					.setDescriptionLocalization(
 						'ru',
 						this.libs.localisation.t(
-							'ru:emitters.commands.guild.features.voice.subcommands.disable.description'
+							'emitters.commands.guild.features.voice.subcommands.disable.description',
+							{
+								lng: 'ru',
+							}
 						)
 					)
 			)
 			.setAction(async (interaction) => {
-				interaction.deferReply({
+				await interaction.deferReply({
 					flags: MessageFlags.Ephemeral,
 				});
 				await this.services.guild.disableFeature(
@@ -39,7 +50,7 @@ export default class DisableSubcommandVoiceFeatureGuildCommand extends BaseGuild
 					'temporaryVoiceChannels'
 				);
 				interaction.editReply({
-					message: this.libs.localisation.t(
+					content: this.libs.localisation.t(
 						'emitters.commands.guild.features.voice.subcommands.disable.replies.success',
 						{
 							lng: interaction.locale,

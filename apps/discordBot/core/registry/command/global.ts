@@ -5,7 +5,7 @@ export default class GlobalCommandsRegistry extends BaseRegistry {
 	private map = new Map<string, BaseGlobalSlashCommand>();
 
 	register(command: BaseGlobalSlashCommand) {
-		this.map.set(command.data.name, command);
+		this.map.set(command.getData.name, command);
 	}
 
 	get(name: string) {

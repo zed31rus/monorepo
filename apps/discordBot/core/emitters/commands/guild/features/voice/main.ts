@@ -1,31 +1,31 @@
-import BaseGuildSlashCommand, {
-	type BaseGuildSlashCommandArgs,
-} from '#core/base/emitters/commands/slash/guild.js';
+import BaseGuildSlashCommand from '#core/base/emitters/commands/slash/guild.js';
 import { ChatInputCommandInteraction, MessageFlags } from 'discord.js';
 
 export default class VoiceFeatureGuildCommand extends BaseGuildSlashCommand {
-	constructor(...baseGuildSlashCommandArgs: BaseGuildSlashCommandArgs) {
-		super(...baseGuildSlashCommandArgs);
-
-		this.setData((builder) => {
+	init() {
+		return this.setData((builder) => {
 			return builder
 				.setName(
-					this.libs.localisation.t('en-US:emitters.commands.guild.features.voice.name')
+					this.libs.localisation.t('emitters.commands.guild.features.voice.name', {
+						lng: 'ru',
+					})
 				)
 				.setNameLocalization(
 					'ru',
-					this.libs.localisation.t('ru:emitters.commands.guild.features.voice.name')
+					this.libs.localisation.t('emitters.commands.guild.features.voice.name', {
+						lng: 'ru',
+					})
 				)
 				.setDescription(
-					this.libs.localisation.t(
-						'en-US:emitters.commands.guild.features.voice.description'
-					)
+					this.libs.localisation.t('emitters.commands.guild.features.voice.description', {
+						lng: 'en-US',
+					})
 				)
 				.setDescriptionLocalization(
 					'ru',
-					this.libs.localisation.t(
-						'ru:emitters.commands.guild.features.voice.description'
-					)
+					this.libs.localisation.t('emitters.commands.guild.features.voice.description', {
+						lng: 'ru',
+					})
 				);
 		});
 	}

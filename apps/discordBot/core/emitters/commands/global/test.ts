@@ -1,14 +1,11 @@
-import BaseGlobalSlashCommand, {
-	type BaseGlobalSlashCommandArgs,
-} from '#core/base/emitters/commands/slash/global.js';
-import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
+import BaseGlobalSlashCommand from '#core/base/emitters/commands/slash/global.js';
+import { ChatInputCommandInteraction } from 'discord.js';
 
 export default class TestGlobalSlashCommand extends BaseGlobalSlashCommand {
-	data = new SlashCommandBuilder().setName('Test').setDescription('testCommand');
+	init() {
+		return this.setData((builder) => builder.setName('Test').setDescription('testCommand'));
+	}
 	async action(interaction: ChatInputCommandInteraction) {
 		interaction.reply('Тест');
-	}
-	constructor(...baseGlobalSlashCommandArgs: BaseGlobalSlashCommandArgs) {
-		super(...baseGlobalSlashCommandArgs);
 	}
 }

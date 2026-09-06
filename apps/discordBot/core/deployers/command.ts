@@ -1,13 +1,13 @@
-import BaseService, { type BaseServiceArgs } from '#core/base/service.js';
+import BaseDeployer, { type BaseDeployerArgs } from '#core/base/deployer.js';
 import { Guild, Routes, type RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord.js';
 
-export default class DeployCommandsService extends BaseService {
-	private constructor(...baseServiceArgs: BaseServiceArgs) {
-		super(...baseServiceArgs);
+export default class CommandDeployer extends BaseDeployer {
+	private constructor(...baseDeployerArgs: BaseDeployerArgs) {
+		super(...baseDeployerArgs);
 	}
 
-	static async create(...baseServiceArgs: BaseServiceArgs) {
-		const service = new DeployCommandsService(...baseServiceArgs);
+	static async create(...baseDeployerArgs: BaseDeployerArgs) {
+		const service = new CommandDeployer(...baseDeployerArgs);
 		await service.init();
 		return service;
 	}
@@ -17,13 +17,13 @@ export default class DeployCommandsService extends BaseService {
 
 		const applicationGuildCommandsBody = this.registries.commands.guild
 			.getAll()
-			.map((command) => command.data.toJSON());
+			.map((command) => command.getData.toJSON());
 
 		await this.deployToAllGuild(applicationGuildCommandsBody);
 
 		const applicationGlobalCommandsBody = this.registries.commands.global
 			.getAll()
-			.map((command) => command.data.toJSON());
+			.map((command) => command.getData.toJSON());
 
 		await this.deployGlobal(applicationGlobalCommandsBody);
 	}
