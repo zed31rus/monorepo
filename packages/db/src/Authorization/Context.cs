@@ -1,18 +1,21 @@
+using Db.Authorization.Models;
+
 namespace Db.Authorization;
 
 using Microsoft.EntityFrameworkCore;
 
-public class AuthorizationDbContext : DbContext
+public class Context : DbContext
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
     public DbSet<OauthAccount> OauthAccounts => Set<OauthAccount>();
     public DbSet<VerificationCode> VerificationCodes => Set<VerificationCode>();
 
-    public AuthorizationDbContext(DbContextOptions<AuthorizationDbContext> options) : base(options) { }
+    public Context(DbContextOptions<Context> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema("Authorization");
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<User>(entity =>
