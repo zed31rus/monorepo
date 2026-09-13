@@ -22,4 +22,3 @@
 npm-debug.log*
 pnpm-debug.log*
 Thumbs.db
-**/appsettings.Development.json

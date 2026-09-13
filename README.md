@@ -1,3 +1,4 @@
+
 ```structure
 monorepo
 ├─ .dockerignore
@@ -91,30 +92,32 @@ monorepo
 │  │  ├─ appsettings.json
 │  │  ├─ Authorization.csproj
 │  │  ├─ Authorization.http
+│  │  ├─ Clients
+│  │  │  └─ Web
+│  │  │     ├─ Extensions
+│  │  │     │  └─ Development.cs
+│  │  │     └─ Servers
+│  │  │        ├─ Base
+│  │  │        │  └─ Server.cs
+│  │  │        ├─ DI
+│  │  │        │  └─ Servers.cs
+│  │  │        └─ External
+│  │  │           ├─ DI
+│  │  │           │  └─ Services.cs
+│  │  │           └─ Server.cs
 │  │  ├─ Core
-│  │  │  └─ Services
-│  │  │     └─ Track.cs
+│  │  │  ├─ Services
+│  │  │  │  └─ Auth.cs
+│  │  │  └─ Util
+│  │  │     └─ Development.cs
 │  │  ├─ Program.cs
-│  │  ├─ Properties
-│  │  │  └─ launchSettings.json
-│  │  └─ Web
-│  │     ├─ Extensions
-│  │     │  └─ Development.cs
-│  │     └─ Servers
-│  │        ├─ Base
-│  │        │  └─ Server.cs
-│  │        ├─ DI
-│  │        │  └─ Servers.cs
-│  │        └─ External
-│  │           ├─ Controllers
-│  │           │  └─ Track.cs
-│  │           ├─ DI
-│  │           │  └─ Services.cs
-│  │           └─ Server.cs
+│  │  └─ Properties
+│  │     └─ launchSettings.json
 │  ├─ discordBot
 │  │  ├─ core
 │  │  │  ├─ base
 │  │  │  │  ├─ bot.ts
+│  │  │  │  ├─ deployer.ts
 │  │  │  │  ├─ emitters
 │  │  │  │  │  ├─ base.ts
 │  │  │  │  │  ├─ commands
@@ -139,8 +142,12 @@ monorepo
 │  │  │  │  ├─ registry.ts
 │  │  │  │  └─ service.ts
 │  │  │  ├─ containers
+│  │  │  │  ├─ deployer.ts
 │  │  │  │  ├─ emitters
-│  │  │  │  │  ├─ command.ts
+│  │  │  │  │  ├─ command
+│  │  │  │  │  │  ├─ command.ts
+│  │  │  │  │  │  ├─ subcommand.ts
+│  │  │  │  │  │  └─ subcommandGroup.ts
 │  │  │  │  │  └─ event
 │  │  │  │  │     ├─ discord.ts
 │  │  │  │  │     └─ internal
@@ -150,12 +157,18 @@ monorepo
 │  │  │  │  ├─ manager.ts
 │  │  │  │  ├─ registry.ts
 │  │  │  │  └─ service.ts
+│  │  │  ├─ deployers
+│  │  │  │  └─ command.ts
 │  │  │  ├─ emitters
 │  │  │  │  ├─ commands
 │  │  │  │  │  ├─ global
 │  │  │  │  │  │  └─ test.ts
 │  │  │  │  │  └─ guild
 │  │  │  │  │     └─ features
+│  │  │  │  │        ├─ name
+│  │  │  │  │        │  ├─ main.ts
+│  │  │  │  │        │  └─ subcommands
+│  │  │  │  │        │     └─ disable.ts
 │  │  │  │  │        └─ voice
 │  │  │  │  │           ├─ main.ts
 │  │  │  │  │           └─ subcommands
@@ -187,9 +200,9 @@ monorepo
 │  │  │  │  │  └─ guild.ts
 │  │  │  │  └─ feature.ts
 │  │  │  └─ services
-│  │  │     ├─ deployCommands.ts
 │  │  │     └─ guild.ts
 │  │  ├─ localisations
+│  │  │  ├─ en-US.json
 │  │  │  └─ ru.json
 │  │  ├─ package.json
 │  │  ├─ tsconfig.json
@@ -218,8 +231,6 @@ monorepo
 │  │  │  │  │  │  ├─ desktop.vue
 │  │  │  │  │  │  └─ mobile.vue
 │  │  │  │  │  └─ mobile.vue
-│  │  │  │  ├─ pages
-│  │  │  │  │  └─ home
 │  │  │  │  └─ sideBar
 │  │  │  │     ├─ desktop.vue
 │  │  │  │     ├─ item.vue
@@ -263,8 +274,6 @@ monorepo
 │  │  │  │  └─ background.png
 │  │  │  └─ robots.txt
 │  │  ├─ README.md
-│  │  ├─ server
-│  │  │  └─ middleware
 │  │  └─ tsconfig.json
 │  ├─ mail
 │  │  ├─ package.json
@@ -338,6 +347,7 @@ monorepo
 ├─ package.json
 ├─ packages
 │  ├─ db
+│  │  ├─ Db.csproj
 │  │  ├─ index.ts
 │  │  ├─ package.json
 │  │  ├─ src
@@ -370,6 +380,18 @@ monorepo
 │  │  │  │     │  ├─ get.ts
 │  │  │  │     │  └─ upsert.ts
 │  │  │  │     └─ verificationCode.ts
+│  │  │  ├─ Authorization
+│  │  │  │  ├─ Context.cs
+│  │  │  │  ├─ ContextFactory.cs
+│  │  │  │  ├─ Migrations
+│  │  │  │  │  ├─ 20260911180223_Initial.cs
+│  │  │  │  │  ├─ 20260911180223_Initial.Designer.cs
+│  │  │  │  │  └─ ContextModelSnapshot.cs
+│  │  │  │  └─ Models
+│  │  │  │     ├─ OauthAccount.cs
+│  │  │  │     ├─ RefreshToken.cs
+│  │  │  │     ├─ User.cs
+│  │  │  │     └─ VerificationCode.cs
 │  │  │  ├─ db.base.ts
 │  │  │  ├─ db.container.ts
 │  │  │  ├─ discordBot
@@ -424,6 +446,7 @@ monorepo
 │  │  └─ tsconfig.json
 │  ├─ libs
 │  │  ├─ index.ts
+│  │  ├─ Libs.csproj
 │  │  ├─ package.json
 │  │  ├─ src
 │  │  │  ├─ base.ts
@@ -448,12 +471,14 @@ monorepo
 ├─ README.md
 ├─ shared
 │  ├─ config
+│  │  ├─ Config.csproj
 │  │  ├─ index.ts
 │  │  ├─ package.json
 │  │  ├─ src
 │  │  │  ├─ base.ts
 │  │  │  ├─ configs
 │  │  │  │  ├─ env.ts
+│  │  │  │  ├─ Path.cs
 │  │  │  │  └─ path.ts
 │  │  │  └─ container.ts
 │  │  └─ tsconfig.json

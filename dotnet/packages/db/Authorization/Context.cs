@@ -33,7 +33,7 @@ public class Context : DbContext
             entity.Property(user => user.Email).HasMaxLength(255);
             entity.Property(user => user.Locale).HasMaxLength(10);
             entity.Property(user => user.Nickname).HasMaxLength(50);
-            entity.Property(user => user.Avatar).HasMaxLength(255);
+            entity.Property(user => user.Avatar).HasMaxLength(1024);
             entity.Property(user => user.PasswordHash).HasMaxLength(256);
         });
 
