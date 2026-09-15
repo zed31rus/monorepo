@@ -10,7 +10,7 @@
 		"#root/*": "./dist/*"
 	},
 	"scripts": {
-		"test": "node ./dist/core/containers/index.js"
+		"start": "node ./dist/start.js"
 	},
 	"dependencies": {
 		"@discordjs/voice": "^0.19.2",

@@ -5,10 +5,10 @@
 			"guild": {
 				"features": {
 					"voice": {
-						"name": "temporary_voice",
-						"description": "Temporary voice managment",
+						"name": "temporary_channels",
+						"description": "Manage temporary voice channels",
 						"replies": {
-							"success": "If you're seeing this message, it's either a bug or a feature that's still in development... Sorry!"
+							"success": "If you see this message, it's either a bug or the feature is still in development... Sorry!"
 						},
 
 						"subcommands": {
@@ -16,17 +16,25 @@
 								"name": "disable",
 								"description": "Disable temporary voice channels",
 								"replies": {
-									"success": "Success! Temporary voice channels disabled on this server"
+									"success": "Done! Temporary voice channels have been disabled on this server"
 								}
 							},
 							"enable": {
 								"name": "enable",
 								"description": "Enable temporary voice channels",
 								"replies": {
-									"success": "Success! Temporary voice channels enabled on this server",
+									"success": "Done! Temporary voice channels have been enabled on this server",
 									"errors": {
-										"configure": "Oh, sorry, first please configure voice channels feature"
+										"configure": "Oops, sorry, please configure the voice channel feature first"
 									}
+								}
+							},
+
+							"configure": {
+								"name": "configure",
+								"description": "Configure the temporary voice channels feature, currently only channel selection :)",
+								"replies": {
+									"success": "Done! Voice channels have been configured!"
 								}
 							}
 						}
@@ -38,7 +46,7 @@
 		"events": {
 			"oauth": {
 				"registeredNewUser": {
-					"hello": "Hello {{nickname}}, thank you for registration on [{{siteDomain}}]({{siteUrl}}) using discord!\n"
+					"hello": "Hi {{nickname}}, thanks for registering on [{{siteDomain}}]({{siteUrl}}) via Discord!\n"
 				}
 			}
 		}

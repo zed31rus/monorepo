@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import type { DiscordBotDBType } from '../src/discordBot/db.js';
+import type { DiscordBotDBType } from '../discordBot/db.js';
 
 declare global {
 	namespace PrismaJson {
