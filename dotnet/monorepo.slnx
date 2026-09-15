@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Apps/" />
+  <Folder Name="/Apps/Authorization/" />
+  <Folder Name="/Apps/Authorization/Clients/" />
+  <Folder Name="/Apps/Authorization/Clients/Web/">
+    <Project Path="Apps/Authorization/Clients/Web/External/External.csproj" />
+  </Folder>
+  <Folder Name="/Apps/Authorization/Core/" />
+</Solution>
