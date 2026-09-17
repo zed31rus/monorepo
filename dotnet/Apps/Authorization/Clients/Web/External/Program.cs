@@ -1,8 +1,8 @@
-namespace zed31rus.Apps.Authorization.Clients.External
+namespace zed31rus.Apps.Authorization.Clients.Web.External
 {
-    class Program
+    public static class Program
     {
-        public static void Main(string[] args)
+         static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 

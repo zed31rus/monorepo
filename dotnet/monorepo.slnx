@@ -5,5 +5,7 @@
   <Folder Name="/Apps/Authorization/Clients/Web/">
     <Project Path="Apps/Authorization/Clients/Web/External/External.csproj" />
   </Folder>
-  <Folder Name="/Apps/Authorization/Core/" />
+  <Folder Name="/Apps/Authorization/Core/">
+    <Project Path="Apps/Authorization/Core/Core.csproj" />
+  </Folder>
 </Solution>
