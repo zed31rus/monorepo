@@ -8,4 +8,8 @@
   <Folder Name="/Apps/Authorization/Core/">
     <Project Path="Apps/Authorization/Core/Core.csproj" />
   </Folder>
+  <Folder Name="/Packages/" />
+  <Folder Name="/Packages/Db/">
+    <Project Path="Packages/Db/Auth/Auth.csproj" />
+  </Folder>
 </Solution>
