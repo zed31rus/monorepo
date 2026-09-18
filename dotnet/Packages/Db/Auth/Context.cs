@@ -4,7 +4,7 @@ namespace zed31rus.Packages.Db.Auth;
 
 using Microsoft.EntityFrameworkCore;
 
-public interface IContext
+public interface IAuthDbContext
 {
     DbSet<User> Users { get; }
     DbSet<RefreshToken> RefreshTokens { get; }
@@ -15,14 +15,14 @@ public interface IContext
     int SaveChanges();
 }
 
-internal class Context : DbContext, IContext
+internal class AuthDbContext : DbContext, IAuthDbContext
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
     public DbSet<OauthAccount> OauthAccounts => Set<OauthAccount>();
     public DbSet<VerificationCode> VerificationCodes => Set<VerificationCode>();
 
-    public Context(DbContextOptions<Context> options) : base(options) { }
+    public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

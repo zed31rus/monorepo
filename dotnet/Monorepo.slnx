@@ -9,7 +9,8 @@
     <Project Path="Apps/Authorization/Core/Core.csproj" />
   </Folder>
   <Folder Name="/Packages/" />
-  <Folder Name="/Packages/Db/">
-    <Project Path="Packages/Db/Auth/Auth.csproj" />
+  <Folder Name="/Packages/Db/" />
+  <Folder Name="/Packages/Db/Auth/">
+    <Project Path="Packages/Db/Auth/AuthDb.csproj" />
   </Folder>
 </Solution>
