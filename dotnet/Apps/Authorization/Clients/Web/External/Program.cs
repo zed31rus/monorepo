@@ -1,3 +1,5 @@
+using dotenv.net;
+
 namespace zed31rus.Apps.Authorization.Clients.Web.External
 {
     public static class Program
@@ -12,6 +14,7 @@ namespace zed31rus.Apps.Authorization.Clients.Web.External
 
             if (app.Environment.IsDevelopment())
             {
+                DotEnv.Load();
                 app.MapOpenApi();
             }
             
