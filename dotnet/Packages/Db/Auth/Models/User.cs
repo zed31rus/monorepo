@@ -1,37 +1,6 @@
 namespace zed31rus.Packages.Db.Auth.Models;
 
-public interface IPublicUser
-{
-    Guid Uuid { get; }
-    string Nickname { get; }
-    string? Avatar { get; }
-    DateTime CreatedAt { get; }
-}
-
-public interface IPersonalUser : IPublicUser
-{
-    string Login { get; }
-    string Email { get; }
-    string Locale { get; }
-    bool AllowLoginFind { get; }
-    bool AllowEmailFind { get; }
-    bool EmailConfirmed { get; }
-}
-
-public interface IInternalUser : IPersonalUser
-{
-    DateTime UpdatedAt { get; }
-}
-
-public interface IUser : IInternalUser
-{
-    string? PasswordHash { get; }
-    ICollection<RefreshToken> Tokens { get; }
-    ICollection<OauthAccount> OauthAccounts { get; }
-    ICollection<VerificationCode> VerificationCodes { get; }
-}
-
-public record PublicUser : IPublicUser
+public record PublicUser
 {
     public Guid Uuid { get; init; }
     public required string Nickname { get; init; }
@@ -39,7 +8,7 @@ public record PublicUser : IPublicUser
     public DateTime CreatedAt { get; init; }
 }
 
-public record PersonalUser : IPersonalUser
+public record PersonalUser
 {
     public Guid Uuid { get; init; }
     public required string Nickname { get; init; }
@@ -53,7 +22,7 @@ public record PersonalUser : IPersonalUser
     public bool EmailConfirmed { get; init; }
 }
 
-public record InternalUser : IInternalUser
+public record InternalUser
 {
     public Guid Uuid { get; init; }
     public required string Nickname { get; init; }
@@ -68,7 +37,7 @@ public record InternalUser : IInternalUser
     public DateTime UpdatedAt { get; init; }
 }
 
-public class User : IUser
+public class User
 {
     public Guid Uuid { get; init; } = Guid.NewGuid();
     public required string Nickname { get; set; }

@@ -20,21 +20,41 @@ monorepo
 │  │        ├─ DI
 │  │        │  ├─ Attribute.cs
 │  │        │  └─ ServiceExtensions.cs
+│  │        ├─ Errors
+│  │        │  └─ Business.cs
+│  │        ├─ Managers
+│  │        │  └─ Session.cs
 │  │        └─ Services
 │  │           └─ Auth.cs
 │  ├─ Directory.Build.props
 │  ├─ Monorepo.slnx
 │  └─ Packages
-│     └─ Db
-│        └─ Auth
-│           ├─ Auth.csproj
-│           ├─ Context.cs
-│           ├─ Models
-│           │  ├─ OauthAccount.cs
-│           │  ├─ RefreshToken.cs
-│           │  ├─ User.cs
-│           │  └─ VerificationCode.cs
-│           └─ ServiceExtensions.cs
+│     ├─ Db
+│     │  └─ Auth
+│     │     ├─ AuthDb.csproj
+│     │     ├─ Context.cs
+│     │     ├─ ContextFactory.cs
+│     │     ├─ Dto
+│     │     │  └─ User
+│     │     │     └─ MappingExtensions.cs
+│     │     ├─ Migrations
+│     │     │  ├─ 20260919210105_Initial.cs
+│     │     │  ├─ 20260919210105_Initial.Designer.cs
+│     │     │  └─ AuthDbContextModelSnapshot.cs
+│     │     ├─ Models
+│     │     │  ├─ OauthAccount.cs
+│     │     │  ├─ RefreshToken.cs
+│     │     │  ├─ User.cs
+│     │     │  └─ VerificationCode.cs
+│     │     └─ ServiceExtensions.cs
+│     └─ Libs
+│        ├─ Hash
+│        │  ├─ Argon2.cs
+│        │  └─ Sha256.cs
+│        ├─ Libs.csproj
+│        └─ Tokens
+│           ├─ Hex.cs
+│           └─ Jwt.cs
 ├─ eslint.config.ts
 ├─ README.md
 └─ ts

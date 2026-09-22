@@ -4,7 +4,7 @@ namespace zed31rus.Packages.Db.Auth.Dto.User;
 
 public static class MappingExtensions
 {
-    public static PublicUser ToPublicUser(this IPublicUser user)
+    public static PublicUser ToPublicUser(this Models.User user)
     {
         return new PublicUser
         {
@@ -15,7 +15,7 @@ public static class MappingExtensions
         };
     }
 
-    public static PersonalUser ToPersonalUser(this IPersonalUser user)
+    public static PersonalUser ToPersonalUser(this Models.User user)
     {
         return new PersonalUser
         {
@@ -32,7 +32,7 @@ public static class MappingExtensions
         };
     }
 
-    public static InternalUser ToInternalUser(this IInternalUser user)
+    public static InternalUser ToInternalUser(this Models.User user)
     {
         return new InternalUser
         {
@@ -47,6 +47,33 @@ public static class MappingExtensions
             AllowEmailFind = user.AllowEmailFind,
             EmailConfirmed = user.EmailConfirmed,
             UpdatedAt = user.UpdatedAt
+        };
+    }
+
+    public static PublicUser ToPublicUser(this PersonalUser u)
+    {
+        return new PublicUser
+        {
+            Uuid = u.Uuid, Nickname = u.Nickname, Avatar = u.Avatar, CreatedAt = u.CreatedAt
+        };
+    }
+
+    public static PublicUser ToPublicUser(this InternalUser u)
+    {
+        return new PublicUser
+        {
+            Uuid = u.Uuid, Nickname = u.Nickname, Avatar = u.Avatar, CreatedAt = u.CreatedAt
+        };
+    }
+
+    public static PersonalUser ToPersonalUser(this InternalUser u)
+    {
+        return new PersonalUser
+        {
+            Uuid = u.Uuid, Nickname = u.Nickname, Avatar = u.Avatar, CreatedAt = u.CreatedAt,
+            Login = u.Login, Email = u.Email, Locale = u.Locale,
+            AllowLoginFind = u.AllowLoginFind, AllowEmailFind = u.AllowEmailFind,
+            EmailConfirmed = u.EmailConfirmed
         };
     }
 }
