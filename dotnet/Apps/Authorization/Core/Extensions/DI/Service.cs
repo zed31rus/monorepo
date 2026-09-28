@@ -1,18 +1,18 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace zed31rus.Apps.Authorization.Core.DI;
+namespace zed31rus.Apps.Authorization.Core.Extensions.DI;
 
-public static class ServicesExtensions
+internal static class Service
 {
-    public static IServiceCollection AddCoreServices(this IServiceCollection container)
+    public static IServiceCollection AddServices(this IServiceCollection container)
     {
         var assembly = Assembly.GetExecutingAssembly();
 
         var serviceTypes = assembly.GetTypes()
             .Where(type =>
                 type is { IsClass: true, IsAbstract: false } &&
-                type.GetCustomAttribute<ServiceAttribute>() is not null);
+                type.GetCustomAttribute<Attributes.Service>() is not null);
 
         foreach (var type in serviceTypes)
         {
@@ -21,18 +21,18 @@ public static class ServicesExtensions
             if (interfaces.Length == 1)
             {
                 var interfaceType = interfaces[0];
-                var attr = type.GetCustomAttribute<ServiceAttribute>()!;
+                var attr = type.GetCustomAttribute<Attributes.Service>()!;
                 container.Add(new ServiceDescriptor(interfaceType, type, attr.Lifetime));
             }
             else if (interfaces.Length == 0)
             {
-                var attr = type.GetCustomAttribute<ServiceAttribute>()!;
+                var attr = type.GetCustomAttribute<Attributes.Service>()!;
                 container.Add(new ServiceDescriptor(type, type, attr.Lifetime));
             }
             else
             {
                 throw new InvalidOperationException(
-                    $"Класс {type.Name} [Service] realized more then one interface");
+                    $"{type.Name} [Service] realized more then one interface");
             }
         }
 

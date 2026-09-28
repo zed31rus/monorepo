@@ -40,17 +40,21 @@ public record InternalUser
 public class User
 {
     public Guid Uuid { get; init; } = Guid.NewGuid();
-    public required string Nickname { get; set; }
-    public string? Avatar { get; set; }
-    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+
     public required string Login { get; init; }
+    public required string Nickname { get; set; }
     public required string Email { get; set; }
     public required string Locale { get; set; }
+
+    public string? Avatar { get; set; }
+    public string? PasswordHash { get; set; }
+
     public bool AllowLoginFind { get; set; } = true;
     public bool AllowEmailFind { get; set; } = true;
-    public bool EmailConfirmed { get; set; } = false;
+    public bool EmailConfirmed { get; set; }
+
+    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    public string? PasswordHash { get; set; }
 
     public ICollection<RefreshToken> Tokens { get; set; } = new List<RefreshToken>();
     public ICollection<OauthAccount> OauthAccounts { get; set; } = new List<OauthAccount>();

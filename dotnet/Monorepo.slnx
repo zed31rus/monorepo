@@ -15,4 +15,5 @@
   <Folder Name="/Packages/Db/Auth/">
     <Project Path="Packages/Db/Auth/AuthDb.csproj" />
   </Folder>
+  <Project Path="Shared/Shared.csproj" />
 </Solution>

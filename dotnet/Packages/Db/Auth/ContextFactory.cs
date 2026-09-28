@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace zed31rus.Packages.Db.Auth;
 
-public class ContextFactory : IDesignTimeDbContextFactory<Context>
+internal class ContextFactory : IDesignTimeDbContextFactory<Context>
 {
     public Context CreateDbContext(string[] args)
     {

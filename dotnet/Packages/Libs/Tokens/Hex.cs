@@ -2,13 +2,12 @@ using System.Security.Cryptography;
 
 namespace zed31rus.Packages.Libs.Tokens;
 
-public record RefreshTokenExpires(TimeSpan Time, DateTime AtTime);
+public record HexExpires(TimeSpan Time, DateTime AtTime);
 
 public interface IHex
 {
-    RefreshTokenExpires GetExpires();
+    HexExpires GetExpires();
     string Create();
-    bool CheckExpired(DateTime expiresAt);
 }
 
 internal class Hex : IHex
@@ -23,21 +22,16 @@ internal class Hex : IHex
         return DateTime.UtcNow.Add(expiresTime);
     }
 
-    public RefreshTokenExpires GetExpires()
+    public HexExpires GetExpires()
     {
         var time = GetExpiresTime();
         var atTime = GetExpiresAtTime(time);
-        return new RefreshTokenExpires(time, atTime);
+        return new HexExpires(time, atTime);
     }
 
     public string Create()
     {
         var bytes = RandomNumberGenerator.GetBytes(64);
         return Convert.ToHexStringLower(bytes);
-    }
-
-    public bool CheckExpired(DateTime expiresAt)
-    {
-        return DateTime.UtcNow > expiresAt;
     }
 }

@@ -1,5 +1,5 @@
 
-```structure
+```
 monorepo
 ├─ .dockerignore
 ├─ .prettierrc
@@ -16,45 +16,66 @@ monorepo
 │  │     │        └─ Properties
 │  │     │           └─ launchSettings.json
 │  │     └─ Core
+│  │        ├─ Attributes
+│  │        │  └─ Service.cs
 │  │        ├─ Core.csproj
-│  │        ├─ DI
-│  │        │  ├─ Attribute.cs
-│  │        │  └─ ServiceExtensions.cs
 │  │        ├─ Errors
 │  │        │  └─ Business.cs
+│  │        ├─ Extensions
+│  │        │  ├─ DI
+│  │        │  │  └─ Service.cs
+│  │        │  └─ User.cs
 │  │        ├─ Managers
 │  │        │  └─ Session.cs
-│  │        └─ Services
-│  │           └─ Auth.cs
+│  │        ├─ Options
+│  │        │  └─ Jwt.cs
+│  │        ├─ Services
+│  │        │  └─ Auth.cs
+│  │        └─ Validators
+│  │           └─ Jwt.cs
 │  ├─ Directory.Build.props
 │  ├─ Monorepo.slnx
-│  └─ Packages
-│     ├─ Db
-│     │  └─ Auth
-│     │     ├─ AuthDb.csproj
-│     │     ├─ Context.cs
-│     │     ├─ ContextFactory.cs
-│     │     ├─ Dto
-│     │     │  └─ User
-│     │     │     └─ MappingExtensions.cs
-│     │     ├─ Migrations
-│     │     │  ├─ 20260919210105_Initial.cs
-│     │     │  ├─ 20260919210105_Initial.Designer.cs
-│     │     │  └─ AuthDbContextModelSnapshot.cs
-│     │     ├─ Models
-│     │     │  ├─ OauthAccount.cs
-│     │     │  ├─ RefreshToken.cs
-│     │     │  ├─ User.cs
-│     │     │  └─ VerificationCode.cs
-│     │     └─ ServiceExtensions.cs
-│     └─ Libs
-│        ├─ Hash
-│        │  ├─ Argon2.cs
-│        │  └─ Sha256.cs
-│        ├─ Libs.csproj
-│        └─ Tokens
-│           ├─ Hex.cs
-│           └─ Jwt.cs
+│  ├─ Packages
+│  │  ├─ Db
+│  │  │  └─ Auth
+│  │  │     ├─ AuthDb.csproj
+│  │  │     ├─ Configurations
+│  │  │     │  ├─ OauthAccount.cs
+│  │  │     │  ├─ RefreshToken.cs
+│  │  │     │  ├─ User.cs
+│  │  │     │  └─ VerificationCode.cs
+│  │  │     ├─ Context.cs
+│  │  │     ├─ ContextFactory.cs
+│  │  │     ├─ Dto
+│  │  │     │  └─ User
+│  │  │     │     └─ MappingExtensions.cs
+│  │  │     ├─ Migrations
+│  │  │     │  ├─ 20260925020948_Initial.cs
+│  │  │     │  ├─ 20260925020948_Initial.Designer.cs
+│  │  │     │  └─ AuthDbContextModelSnapshot.cs
+│  │  │     ├─ Models
+│  │  │     │  ├─ OauthAccount.cs
+│  │  │     │  ├─ RefreshToken.cs
+│  │  │     │  ├─ User.cs
+│  │  │     │  └─ VerificationCode.cs
+│  │  │     └─ ServiceExtensions.cs
+│  │  └─ Libs
+│  │     ├─ DI
+│  │     │  └─ Extensions
+│  │     │     ├─ FluentValidationOptions.cs
+│  │     │     └─ Hash.cs
+│  │     ├─ Hash
+│  │     │  ├─ Argon2.cs
+│  │     │  └─ Sha256.cs
+│  │     ├─ Libs.csproj
+│  │     ├─ Options
+│  │     │  └─ Adapters
+│  │     │     └─ FluentValidationOptions.cs
+│  │     └─ Tokens
+│  │        ├─ Hex.cs
+│  │        └─ Jwt.cs
+│  └─ Shared
+│     └─ Shared.csproj
 ├─ eslint.config.ts
 ├─ README.md
 └─ ts
