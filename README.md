@@ -1,5 +1,5 @@
 
-```
+```structure
 monorepo
 ├─ .dockerignore
 ├─ .prettierrc
@@ -23,6 +23,7 @@ monorepo
 │  │        │  └─ Business.cs
 │  │        ├─ Extensions
 │  │        │  ├─ DI
+│  │        │  │  ├─ Jwt.cs
 │  │        │  │  └─ Service.cs
 │  │        │  └─ User.cs
 │  │        ├─ Managers
