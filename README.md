@@ -6,34 +6,49 @@ monorepo
 ├─ compose.yaml
 ├─ dotnet
 │  ├─ Apps
-│  │  └─ Authorization
-│  │     ├─ Clients
-│  │     │  └─ Web
-│  │     │     └─ External
-│  │     │        ├─ appsettings.json
-│  │     │        ├─ External.csproj
-│  │     │        ├─ Program.cs
-│  │     │        └─ Properties
-│  │     │           └─ launchSettings.json
-│  │     └─ Core
-│  │        ├─ Attributes
-│  │        │  └─ Service.cs
-│  │        ├─ Core.csproj
-│  │        ├─ Errors
-│  │        │  └─ Business.cs
-│  │        ├─ Extensions
-│  │        │  ├─ DI
-│  │        │  │  ├─ Jwt.cs
-│  │        │  │  └─ Service.cs
-│  │        │  └─ User.cs
-│  │        ├─ Managers
-│  │        │  └─ Session.cs
-│  │        ├─ Options
-│  │        │  └─ Jwt.cs
-│  │        ├─ Services
-│  │        │  └─ Auth.cs
-│  │        └─ Validators
-│  │           └─ Jwt.cs
+│  │  ├─ Authorization
+│  │  │  ├─ Clients
+│  │  │  │  └─ Web
+│  │  │  │     └─ External
+│  │  │  │        ├─ appsettings.json
+│  │  │  │        ├─ External.csproj
+│  │  │  │        ├─ Program.cs
+│  │  │  │        └─ Properties
+│  │  │  │           └─ launchSettings.json
+│  │  │  └─ Core
+│  │  │     ├─ Attributes
+│  │  │     │  ├─ Manager.cs
+│  │  │     │  └─ Service.cs
+│  │  │     ├─ Core.csproj
+│  │  │     ├─ Errors
+│  │  │     │  └─ Business.cs
+│  │  │     ├─ Extensions
+│  │  │     │  ├─ DI
+│  │  │     │  │  ├─ ExternalUse.cs
+│  │  │     │  │  ├─ Manager.cs
+│  │  │     │  │  ├─ Options
+│  │  │     │  │  │  ├─ Auth.cs
+│  │  │     │  │  │  ├─ Connection.cs
+│  │  │     │  │  │  └─ Jwt.cs
+│  │  │     │  │  └─ Service.cs
+│  │  │     │  └─ Mappers
+│  │  │     │     └─ User.cs
+│  │  │     ├─ Managers
+│  │  │     │  └─ Session.cs
+│  │  │     ├─ Options
+│  │  │     │  ├─ Auth.cs
+│  │  │     │  ├─ Connection.cs
+│  │  │     │  └─ Jwt.cs
+│  │  │     ├─ Services
+│  │  │     │  └─ Auth.cs
+│  │  │     └─ Validators
+│  │  │        └─ Options
+│  │  │           ├─ Auth.cs
+│  │  │           ├─ Connection.cs
+│  │  │           └─ Jwt.cs
+│  │  └─ Util
+│  │     ├─ Program.cs
+│  │     └─ Util.csproj
 │  ├─ Directory.Build.props
 │  ├─ Monorepo.slnx
 │  ├─ Packages
@@ -64,7 +79,8 @@ monorepo
 │  │     ├─ DI
 │  │     │  └─ Extensions
 │  │     │     ├─ FluentValidationOptions.cs
-│  │     │     └─ Hash.cs
+│  │     │     ├─ Hash.cs
+│  │     │     └─ Tokens.cs
 │  │     ├─ Hash
 │  │     │  ├─ Argon2.cs
 │  │     │  └─ Sha256.cs
