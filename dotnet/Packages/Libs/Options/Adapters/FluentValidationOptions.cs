@@ -8,7 +8,7 @@ public interface IFluentValidationOptions<TOptions> : IValidateOptions<TOptions>
 {
 }
 
-internal class FluentValidationOptions<TOptions>(IValidator<TOptions> validator) : IFluentValidationOptions<TOptions>
+public class FluentValidationOptions<TOptions>(IValidator<TOptions> validator) : IFluentValidationOptions<TOptions>
     where TOptions : class
 {
     public ValidateOptionsResult Validate(string? name, TOptions options)

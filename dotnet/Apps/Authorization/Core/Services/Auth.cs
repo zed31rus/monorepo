@@ -1,10 +1,11 @@
+using System.Security.Authentication;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using zed31rus.Apps.Authorization.Core.Attributes;
 using zed31rus.Packages.Db.Auth;
 using zed31rus.Packages.Db.Auth.Dto.User;
 using zed31rus.Packages.Db.Auth.Models;
 using zed31rus.Packages.Libs.Hash;
-using zed31rus.Packages.Libs.Tokens;
 
 namespace zed31rus.Apps.Authorization.Core.Services;
 
@@ -33,7 +34,12 @@ public record LoginReturn(PersonalUser user, Managers.SessionReturn session);
 public record RefreshReturn(PersonalUser user, Managers.SessionReturn session);
 
 [Service]
-internal class Auth(Managers.ISession sessionManager, IArgon2 argon, ISha256 sha256, IAuthDbContext db)
+internal class Auth(
+    Managers.ISession sessionManager,
+    IArgon2 argon,
+    ISha256 sha256,
+    IAuthDbContext db,
+    IOptions<Options.Auth> authOptions)
     : IAuth
 {
     public async Task<PublicUser> Register(string login, string nickname, string password, string email,
@@ -51,10 +57,11 @@ internal class Auth(Managers.ISession sessionManager, IArgon2 argon, ISha256 sha
     public async Task<LoginReturn> Login(string login, string password, CancellationToken ct = default)
     {
         var rawUser = await db.Users.FirstOrDefaultAsync(user => user.Login == login, ct);
-        if (rawUser is null) throw new Errors.InvalidCredentialsException();
 
-        var isPasswordCorrect = await argon.CompareAsync(password, rawUser.PasswordHash!);
-        if (!isPasswordCorrect) throw new Errors.InvalidCredentialsException();
+        var passwordHash = rawUser?.PasswordHash ?? authOptions.Value.DummyPasswordHash;
+        var isPasswordCorrect = await argon.CompareAsync(password, passwordHash);
+
+        if (rawUser is null || !isPasswordCorrect) throw new Errors.InvalidCredentialsException();
 
         var session = await sessionManager.CreateSession(rawUser);
         await db.SaveChangesAsync(ct);
@@ -81,5 +88,14 @@ internal class Auth(Managers.ISession sessionManager, IArgon2 argon, ISha256 sha
         await db.SaveChangesAsync(ct);
 
         return new RefreshReturn(rawUser.ToPersonalUser(), session);
+    }
+
+    public async Task Logout(string incomingRefreshToken, CancellationToken ct = default)
+    {
+        var hashedIncomingToken = await sha256.CreateAsync(incomingRefreshToken);
+        var incomingRefreshTokenRecord = await db.RefreshTokens.Include(token => token.User)
+            .FirstOrDefaultAsync(token => token.HashedToken == hashedIncomingToken, ct);
+        if (incomingRefreshTokenRecord is null) throw new InvalidCredentialException();
+        db.RefreshTokens.Remove(incomingRefreshTokenRecord);
     }
 }

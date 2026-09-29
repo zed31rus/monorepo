@@ -8,13 +8,13 @@ public interface ISha256
     Task<string> CreateAsync(string password);
 }
 
-internal class Sha256: ISha256
+public class Sha256 : ISha256
 {
     public Task<string> CreateAsync(string password)
     {
-        byte[] inputBytes = Encoding.UTF8.GetBytes(password);
-        byte[] hashBytes = SHA256.HashData(inputBytes);
-            
+        var inputBytes = Encoding.UTF8.GetBytes(password);
+        var hashBytes = SHA256.HashData(inputBytes);
+
         return Task.FromResult(Convert.ToHexString(hashBytes).ToLowerInvariant());
     }
 }

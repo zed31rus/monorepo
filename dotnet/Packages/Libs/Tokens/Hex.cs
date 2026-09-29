@@ -10,7 +10,7 @@ public interface IHex
     string Create();
 }
 
-internal class Hex : IHex
+public class Hex : IHex
 {
     private TimeSpan GetExpiresTime()
     {

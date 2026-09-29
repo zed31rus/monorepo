@@ -14,7 +14,7 @@ public interface IJwt
     ClaimsPrincipal Verify(string token, string jwtSecret);
 }
 
-internal class Jwt : IJwt
+public class Jwt : IJwt
 {
     private readonly JwtSecurityTokenHandler _tokenHandler = new();
 

@@ -1,9 +1,10 @@
 using Microsoft.Extensions.Options;
+using zed31rus.Apps.Authorization.Core.Attributes;
 using zed31rus.Apps.Authorization.Core.Extensions;
+using zed31rus.Apps.Authorization.Core.Extensions.Mappers;
 using zed31rus.Packages.Db.Auth;
 using zed31rus.Packages.Db.Auth.Dto.User;
 using zed31rus.Packages.Db.Auth.Models;
-using zed31rus.Packages.Libs;
 using zed31rus.Packages.Libs.Hash;
 using zed31rus.Packages.Libs.Tokens;
 
@@ -26,21 +27,22 @@ public record SessionReturn(
 public interface ISession
 {
     Task<SessionReturn> CreateSession(User user);
-    Task<JwtTokenInfo> CreateJwt(User user);
+    JwtTokenInfo CreateJwt(User user);
     Task<RefreshTokenInfo> CreateRefresh(User user);
 }
 
+[Manager]
 internal class Session(IJwt jwt, IHex hex, ISha256 hash, IAuthDbContext db, IOptions<Options.Jwt> jwtOptions) : ISession
 {
     public async Task<SessionReturn> CreateSession(User user)
     {
         var refreshTokenInfo = await CreateRefresh(user);
-        var jwtTokenInfo = await CreateJwt(user);
+        var jwtTokenInfo = CreateJwt(user);
 
         return new SessionReturn(refreshTokenInfo, jwtTokenInfo);
     }
 
-    public async Task<JwtTokenInfo> CreateJwt(User user)
+    public JwtTokenInfo CreateJwt(User user)
     {
         var jwtTokenExpires = jwt.GetExpires();
         var publicUser = user.ToPublicUser();

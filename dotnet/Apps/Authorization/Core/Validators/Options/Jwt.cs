@@ -1,8 +1,8 @@
-namespace zed31rus.Apps.Authorization.Core.Validators;
-
 using FluentValidation;
 
-internal class Jwt : AbstractValidator<Options.Jwt>
+namespace zed31rus.Apps.Authorization.Core.Validators.Options;
+
+internal class Jwt : AbstractValidator<Core.Options.Jwt>
 {
     public Jwt()
     {

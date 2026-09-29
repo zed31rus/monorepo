@@ -1,5 +1,7 @@
 <Solution>
-  <Folder Name="/Apps/" />
+  <Folder Name="/Apps/">
+    <Project Path="Apps/Util/Util.csproj" />
+  </Folder>
   <Folder Name="/Apps/Authorization/" />
   <Folder Name="/Apps/Authorization/Clients/" />
   <Folder Name="/Apps/Authorization/Clients/Web/">

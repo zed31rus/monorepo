@@ -5,10 +5,17 @@ namespace zed31rus.Packages.Libs.DI.Extensions;
 
 public static class Hash
 {
-    public static IServiceCollection AddArgon2(this IServiceCollection services)
+    public static IServiceCollection AddArgon2(this IServiceCollection container)
     {
-        services.AddSingleton<IArgon2, Argon2>();
+        container.AddSingleton<IArgon2, Argon2>();
 
-        return services;
+        return container;
+    }
+
+    public static IServiceCollection AddSha256(this IServiceCollection container)
+    {
+        container.AddSingleton<ISha256, Sha256>();
+
+        return container;
     }
 }

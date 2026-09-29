@@ -2,7 +2,7 @@ using System.Security.Claims;
 using System.Text.Json;
 using zed31rus.Packages.Db.Auth.Models;
 
-namespace zed31rus.Apps.Authorization.Core.Extensions;
+namespace zed31rus.Apps.Authorization.Core.Extensions.Mappers;
 
 internal static class UserExtensions
 {
