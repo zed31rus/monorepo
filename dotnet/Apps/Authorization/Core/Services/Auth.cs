@@ -1,4 +1,3 @@
-using System.Security.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using zed31rus.Apps.Authorization.Core.Attributes;
@@ -25,6 +24,10 @@ public interface IAuth
         CancellationToken ct = default);
 
     Task<RefreshReturn> Refresh(
+        string incomingRefreshToken,
+        CancellationToken ct = default);
+
+    Task Logout(
         string incomingRefreshToken,
         CancellationToken ct = default);
 }
@@ -93,9 +96,10 @@ internal class Auth(
     public async Task Logout(string incomingRefreshToken, CancellationToken ct = default)
     {
         var hashedIncomingToken = await sha256.CreateAsync(incomingRefreshToken);
-        var incomingRefreshTokenRecord = await db.RefreshTokens.Include(token => token.User)
-            .FirstOrDefaultAsync(token => token.HashedToken == hashedIncomingToken, ct);
-        if (incomingRefreshTokenRecord is null) throw new InvalidCredentialException();
+        var incomingRefreshTokenRecord =
+            await db.RefreshTokens.FirstOrDefaultAsync(token => token.HashedToken == hashedIncomingToken, ct);
+        if (incomingRefreshTokenRecord is null) throw new Errors.InvalidCredentialsException();
         db.RefreshTokens.Remove(incomingRefreshTokenRecord);
+        await db.SaveChangesAsync(ct);
     }
 }

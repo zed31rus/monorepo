@@ -11,6 +11,6 @@ internal class Jwt : AbstractValidator<Core.Options.Jwt>
             .MinimumLength(32).WithMessage("JwtSecret должен быть минимум 32 символа для HMAC-SHA256");
 
         RuleFor(x => x.ExpiresInMinutes)
-            .InclusiveBetween(1, 1440).WithMessage("Срок жизни токена должен быть от 1 мин до 24 часов");
+            .InclusiveBetween(1, 1440).WithMessage("ExpiresInMinutes токена должен быть от 1 мин до 24 часов");
     }
 }
