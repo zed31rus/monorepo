@@ -33,6 +33,12 @@ public class Auth(IAuth authService) : ControllerBase
     [HttpPost("refresh")]
     public async Task<ActionResult<PersonalUser>> Refresh(CancellationToken ct)
     {
-        if (!Request.Cookies.TryGetValue("refresh", out var refreshToken) ||
-            string.IsNullOrEmpty(refreshToken)) return Unauthorized();
+        if (!Request.Cookies.TryGetValue("refresh", out var incomingRefreshToken) ||
+            string.IsNullOrEmpty(incomingRefreshToken)) return Unauthorized();
+
+        var refreshReturn = await authService.Refresh(incomingRefreshToken, ct);
+        var user = refreshReturn.user;
+        var session = refreshReturn.session;
+        var accessToken = session.Access;
+        var refreshToken = session.Refresh;
     }
