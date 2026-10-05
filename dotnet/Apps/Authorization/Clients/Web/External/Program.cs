@@ -1,6 +1,7 @@
 using dotenv.net;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Scalar.AspNetCore;
+using zed31rus.Apps.Authorization.Clients.Web.External.Extensions.DI;
 using zed31rus.Apps.Authorization.Clients.Web.External.Transformers;
 using zed31rus.Apps.Authorization.Core.Extensions.DI;
 
@@ -16,6 +17,7 @@ public static class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddCore(builder.Configuration);
+        builder.Services.AddManagers();
         builder.Services.AddControllers(o =>
             o.Conventions.Add(new RouteTokenTransformerConvention(new LowercaseParameterTransformer())));
         builder.Services.AddOpenApi();

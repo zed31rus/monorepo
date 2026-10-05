@@ -1,7 +1,6 @@
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace zed31rus.Apps.Authorization.Core.Extensions.DI;
+namespace zed31rus.Apps.Authorization.Clients.Web.External.Extensions.DI;
 
 internal static class Manager
 {

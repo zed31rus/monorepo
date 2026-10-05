@@ -22,8 +22,8 @@ public static class ExternalUse
         var connection = configuration.GetSection("Connection").Get<Core.Options.Connection>();
         container.AddAuthDb(connection?.Database!);
 
-        Service.AddServices(container);
-        Manager.AddServices(container);
+        container.AddServices();
+        container.AddManagers();
 
         return container;
     }
