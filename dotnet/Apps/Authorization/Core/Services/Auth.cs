@@ -65,7 +65,7 @@ internal class Auth(
         var isPasswordCorrect = await argon.CompareAsync(password, passwordHash);
 
         if (rawUser is null || !isPasswordCorrect) throw new Errors.InvalidCredentialsException();
-
+        
         var session = await sessionManager.CreateSession(rawUser);
         await db.SaveChangesAsync(ct);
 

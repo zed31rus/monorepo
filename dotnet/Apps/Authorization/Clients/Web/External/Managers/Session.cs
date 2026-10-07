@@ -11,9 +11,9 @@ public interface ISession
 
 public interface ISend
 {
-    void SendSession(HttpResponse response, Core.Managers.SessionReturn session);
-    void SendAccess(HttpResponse response, Core.Managers.JwtTokenInfo jwtInfo);
-    void SendRefresh(HttpResponse response, Core.Managers.RefreshTokenInfo refreshInfo);
+    void Session(HttpResponse response, Core.Managers.SessionReturn session);
+    void Access(HttpResponse response, Core.Managers.JwtTokenInfo jwtInfo);
+    void Refresh(HttpResponse response, Core.Managers.RefreshTokenInfo refreshInfo);
 }
 
 public interface IDelete
@@ -32,19 +32,19 @@ public class Session(IOptions<Options.Session> sessionsOptions) : ISession
 
 public class Send(IOptions<Options.Session> sessionsOptions) : ISend
 {
-    public void SendSession(HttpResponse response, Core.Managers.SessionReturn session)
+    public void Session(HttpResponse response, Core.Managers.SessionReturn session)
     {
-        SendRefresh(response, session.Refresh);
-        SendAccess(response, session.Access);
+        Refresh(response, session.Refresh);
+        Access(response, session.Access);
     }
 
-    public void SendAccess(HttpResponse response, Core.Managers.JwtTokenInfo jwtInfo)
+    public void Access(HttpResponse response, Core.Managers.JwtTokenInfo jwtInfo)
     {
         response.Cookies.Append(sessionsOptions.Value.cookies.access.name, jwtInfo.Token,
             sessionsOptions.Value.cookies.access.options);
     }
 
-    public void SendRefresh(HttpResponse response, Core.Managers.RefreshTokenInfo refreshInfo)
+    public void Refresh(HttpResponse response, Core.Managers.RefreshTokenInfo refreshInfo)
     {
         response.Cookies.Append(sessionsOptions.Value.cookies.refresh.name, refreshInfo.Token,
             sessionsOptions.Value.cookies.refresh.options);

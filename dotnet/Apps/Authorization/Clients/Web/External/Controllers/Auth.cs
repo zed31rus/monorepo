@@ -26,7 +26,7 @@ public class Auth(IAuth authService, ISession sessionManager) : ControllerBase
         var loginReturn = await authService.Login(req.Login, req.Password, ct);
         var user = loginReturn.user;
         var session = loginReturn.session;
-        sessionManager.Send.SendSession(Response, session);
+        sessionManager.Send.Session(Response, session);
         return StatusCode(StatusCodes.Status200OK, user);
     }
 
@@ -39,7 +39,7 @@ public class Auth(IAuth authService, ISession sessionManager) : ControllerBase
         var refreshReturn = await authService.Refresh(incomingRefreshToken, ct);
         var user = refreshReturn.user;
         var session = refreshReturn.session;
-        sessionManager.Send.SendSession(Response, session);
+        sessionManager.Send.Session(Response, session);
         return StatusCode(StatusCodes.Status200OK, user);
     }
 

@@ -1,3 +1,4 @@
 namespace zed31rus.Apps.Authorization.Core.Errors;
 
-internal class InvalidCredentialsException(string message = "Неверный логин или пароль") : Exception(message);
+internal class InvalidCredentialsException() : Exception("INVALID_CREDENTIALS");
+internal class NotFoundException() : Exception("NOT_FOUND");

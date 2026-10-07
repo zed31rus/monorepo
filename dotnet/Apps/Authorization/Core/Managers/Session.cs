@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Options;
 using zed31rus.Apps.Authorization.Core.Attributes;
-using zed31rus.Apps.Authorization.Core.Extensions;
 using zed31rus.Apps.Authorization.Core.Extensions.Mappers;
 using zed31rus.Packages.Db.Auth;
 using zed31rus.Packages.Db.Auth.Dto.User;
