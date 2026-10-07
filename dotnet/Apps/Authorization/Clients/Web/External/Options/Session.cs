@@ -1,28 +1,22 @@
-﻿namespace zed31rus.Apps.Authorization.Clients.Web.External.Options;
+﻿using Microsoft.AspNetCore.Http;
 
-public class Session
+namespace zed31rus.Apps.Authorization.Clients.Web.External.Options;
+
+internal class SessionOptions
 {
-    public Cookies cookies = new();
+    public const string SectionName = "Session";
 
-    public class Cookies
-    {
-        public Refresh refresh { get; set; } = new();
-    
-        public Access access { get; set; } = new();
-
-        public class Refresh
-        {
-            public CookieOptions options = new();
-
-            public string name { get; set; } = string.Empty;
-        }
-
-        public class Access
-        {
-            public CookieOptions options = new();
-
-            public string name { get; set; } = string.Empty;
-        }
-    }
+    public SessionCookies Cookies { get; set; } = new();
 }
 
+internal class SessionCookies
+{
+    public SessionCookie Refresh { get; set; } = new();
+    public SessionCookie Access { get; set; } = new();
+}
+
+internal class SessionCookie
+{
+    public string Name { get; set; } = string.Empty;
+    public CookieOptions Options { get; set; } = new();
+}

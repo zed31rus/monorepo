@@ -1,5 +1,9 @@
 global using IContext = zed31rus.Packages.Db.Auth.IAuthDbContext;
 global using Context = zed31rus.Packages.Db.Auth.AuthDbContext;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using zed31rus.Packages.Db.Auth.Models;
 
