@@ -2,16 +2,22 @@
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
 
         <!-- namespaces -->
         <_CompanyPrefix>zed31rus</_CompanyPrefix>
-
         <_RelativeProjectPath>$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(MSBuildProjectDirectory)))</_RelativeProjectPath>
-
         <_SanitizedPath>$(_RelativeProjectPath.Replace('/', '.').Replace('\', '.'))</_SanitizedPath>
-
         <RootNamespace>$(_CompanyPrefix).$(_SanitizedPath)</RootNamespace>
 
-
+        
+        
+        <_IsAnalyzerProject Condition="$(_RelativeProjectPath.StartsWith('Analyzers'))">true</_IsAnalyzerProject>
     </PropertyGroup>
+
+    <ItemGroup Condition="'$(_IsAnalyzerProject)' != 'true'">
+        <ProjectReference Include="$(MSBuildThisFileDirectory)Analyzers/Using/Using.csproj"
+                          ReferenceOutputAssembly="false"
+                          OutputItemType="Analyzer" />
+    </ItemGroup>
 </Project>

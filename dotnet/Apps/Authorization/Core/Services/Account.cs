@@ -8,6 +8,6 @@ internal class Account
 {
     public async Task<PersonalUser> emailVerificationSend(Guid uuid, CancellationToken ct)
     {
-        
+        throw new InvalidOperationException();
     }
 }

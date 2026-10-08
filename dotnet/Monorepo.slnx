@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Analyzers/">
+    <Project Path="Analyzers/Using/Using.csproj" />
+  </Folder>
   <Folder Name="/Apps/">
     <Project Path="Apps/Util/Util.csproj" />
   </Folder>

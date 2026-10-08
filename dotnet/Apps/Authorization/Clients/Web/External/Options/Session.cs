@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace zed31rus.Apps.Authorization.Clients.Web.External.Options;
+﻿namespace zed31rus.Apps.Authorization.Clients.Web.External.Options;
 
 internal class SessionOptions
 {

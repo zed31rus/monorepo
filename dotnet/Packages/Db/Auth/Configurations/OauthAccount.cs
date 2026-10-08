@@ -1,12 +1,13 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using zed31rus.Packages.Db.Auth.Models;
+using static Microsoft.EntityFrameworkCore.RelationalPropertyBuilderExtensions;
+using EFCore =  Microsoft.EntityFrameworkCore;
+using Builders = Microsoft.EntityFrameworkCore.Metadata.Builders;
+using AuthModels = zed31rus.Packages.Db.Auth.Models;
 
 namespace zed31rus.Packages.Db.Auth.Configurations;
 
-internal class OauthAccountConfiguration : IEntityTypeConfiguration<OauthAccount>
+internal class OauthAccountConfiguration : EFCore.IEntityTypeConfiguration<AuthModels.OauthAccount>
 {
-    public void Configure(EntityTypeBuilder<OauthAccount> builder)
+    public void Configure(Builders.EntityTypeBuilder<AuthModels.OauthAccount> builder)
     {
         builder.HasKey(oauthAccount => oauthAccount.Uuid);
 
@@ -18,6 +19,6 @@ internal class OauthAccountConfiguration : IEntityTypeConfiguration<OauthAccount
         builder.HasOne(oauthAccount => oauthAccount.User)
             .WithMany(user => user.OauthAccounts)
             .HasForeignKey(oauthAccount => oauthAccount.UserUuid)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(EFCore.DeleteBehavior.Cascade);
     }
 }
