@@ -24,9 +24,7 @@ internal sealed class SmtpMailer(IOptions<Options.SmtpOption> options, ILogger<S
         await client.ConnectAsync(_smtpOptions.Host, _smtpOptions.Port, _smtpOptions.Security, ct);
         await client.AuthenticateAsync(_smtpOptions.User, _smtpOptions.Password, ct);
         await client.SendAsync(message, ct);
+        logger.LogInformation("Mail sended to: {To}, subject: '{Subject}'", email.To, email.Subject);
         await client.DisconnectAsync(quit: true, ct);
-
-        logger.LogInformation("Письмо отправлено: {To}, тема '{Subject}'", email.To, email.Subject);
-        
     }
 }

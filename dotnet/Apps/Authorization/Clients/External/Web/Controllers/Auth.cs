@@ -24,7 +24,7 @@ public class Auth(IAuthService authServiceService, ISession sessionManager) : Co
     public async Task<ActionResult<PersonalUser>> Login(LoginRequest req, CancellationToken ct)
     {
         var loginReturn = await authServiceService.Login(req.Login, req.Password, ct);
-        var user = loginReturn.user;
+        var user = loginReturn.User;
         var session = loginReturn.CoreSessionManagerSession;
         sessionManager.Send.Session(Response, session);
         return StatusCode(StatusCodes.Status200OK, user);
@@ -37,7 +37,7 @@ public class Auth(IAuthService authServiceService, ISession sessionManager) : Co
             string.IsNullOrEmpty(incomingRefreshToken)) return Unauthorized();
 
         var refreshReturn = await authServiceService.Refresh(incomingRefreshToken, ct);
-        var user = refreshReturn.user;
+        var user = refreshReturn.User;
         var session = refreshReturn.CoreSessionManagerSession;
         sessionManager.Send.Session(Response, session);
         return StatusCode(StatusCodes.Status200OK, user);
