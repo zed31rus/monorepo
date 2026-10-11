@@ -4,7 +4,7 @@ using zed31rus.Packages.Db.Auth.Models;
 
 namespace zed31rus.Apps.Authorization.Core.Extensions.Mappers;
 
-internal static class UserExtensions
+internal static class UserMapperExtension
 {
     public static IEnumerable<Claim> ToClaims(this PublicUser user)
     {

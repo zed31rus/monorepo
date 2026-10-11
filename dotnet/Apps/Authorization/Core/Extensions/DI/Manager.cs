@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace zed31rus.Apps.Authorization.Core.Extensions.DI;
 
-internal static class Manager
+internal static class ManagerDiExtension
 {
     public static IServiceCollection AddManagers(this IServiceCollection container)
     {
@@ -12,7 +12,7 @@ internal static class Manager
         var managerTypes = assembly.GetTypes()
             .Where(type =>
                 type is { IsClass: true, IsAbstract: false } &&
-                type.GetCustomAttribute<Attributes.Manager>() is not null);
+                type.GetCustomAttribute<Attributes.ManagerAttribute>() is not null);
 
         foreach (var type in managerTypes)
         {
@@ -21,12 +21,12 @@ internal static class Manager
             if (interfaces.Length == 1)
             {
                 var interfaceType = interfaces[0];
-                var attr = type.GetCustomAttribute<Attributes.Manager>()!;
+                var attr = type.GetCustomAttribute<Attributes.ManagerAttribute>()!;
                 container.Add(new ServiceDescriptor(interfaceType, type, attr.Lifetime));
             }
             else if (interfaces.Length == 0)
             {
-                var attr = type.GetCustomAttribute<Attributes.Manager>()!;
+                var attr = type.GetCustomAttribute<Attributes.ManagerAttribute>()!;
                 container.Add(new ServiceDescriptor(type, type, attr.Lifetime));
             }
             else

@@ -1,0 +1,68 @@
+@model TestEmailViewModel
+
+<mjml>
+    <mj-head>
+        <mj-title>Тестовое письмо</mj-title>
+        <mj-attributes>
+            <mj-all font-family="Arial, sans-serif" />
+        </mj-attributes>
+        <mj-style>
+            .link-reset { color: #007bff; text-decoration: none; }
+        </mj-style>
+    </mj-head>
+
+    <mj-body background-color="#f2f5f8">
+
+        <mj-section padding="20px 0">
+            <mj-column>
+                <mj-text align="center" font-size="12px" color="#999999">
+                    Это тестовое письмо сгенерировано через C# + Razor + MJML
+                </mj-text>
+            </mj-column>
+        </mj-section>
+
+        <mj-section background-color="#ffffff" border-radius="8px" padding="30px">
+            <mj-column>
+
+                <mj-text font-size="22px" font-weight="bold" color="#333333" padding-bottom="15px">
+                    Привет, @Model.Name! 👋
+                </mj-text>
+
+                <mj-text font-size="16px" color="#555555" line-height="24px">
+                    Мы успешно настроили связку Razor и MJML в твоем .NET проекте. Теперь верстка писем не будет вызывать боль и страдание.
+                </mj-text>
+
+                @if (Model.IsVipUser)
+                {
+                <mj-spacer height="10px" />
+                <mj-text font-size="15px" color="#28a745" font-weight="bold">
+                    ⭐ У тебя активирован VIP-статус!
+                </mj-text>
+                }
+
+                <mj-spacer height="20px" />
+
+                <mj-button background-color="#007bff" color="white" href="@Model.ActionUrl" font-size="16px" border-radius="6px" padding="10px 25px">
+                    Перейти в личный кабинет
+                </mj-button>
+
+                <mj-divider border-color="#eaeaea" border-width="1px" padding="30px 0 20px 0" />
+
+                <mj-text font-size="13px" color="#888888" line-height="18px">
+                    Если кнопка не работает, скопируй эту ссылку в браузер:<br />
+                    <span class="link-reset">@Model.ActionUrl</span>
+                </mj-text>
+
+            </mj-column>
+        </mj-section>
+
+        <mj-section padding="20px 0">
+            <mj-column>
+                <mj-text align="center" font-size="12px" color="#aaaaaa">
+                    © 2026 Твой Проект. Все права защищены.
+                </mj-text>
+            </mj-column>
+        </mj-section>
+
+    </mj-body>
+</mjml>

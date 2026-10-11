@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace zed31rus.Apps.Authorization.Core.Extensions.DI;
 
-internal static class Service
+internal static class ServiceDiExtension
 {
     public static IServiceCollection AddServices(this IServiceCollection container)
     {
@@ -12,7 +12,7 @@ internal static class Service
         var serviceTypes = assembly.GetTypes()
             .Where(type =>
                 type is { IsClass: true, IsAbstract: false } &&
-                type.GetCustomAttribute<Attributes.Service>() is not null);
+                type.GetCustomAttribute<Attributes.ServiceAttribute>() is not null);
 
         foreach (var type in serviceTypes)
         {
@@ -21,12 +21,12 @@ internal static class Service
             if (interfaces.Length == 1)
             {
                 var interfaceType = interfaces[0];
-                var attr = type.GetCustomAttribute<Attributes.Service>()!;
+                var attr = type.GetCustomAttribute<Attributes.ServiceAttribute>()!;
                 container.Add(new ServiceDescriptor(interfaceType, type, attr.Lifetime));
             }
             else if (interfaces.Length == 0)
             {
-                var attr = type.GetCustomAttribute<Attributes.Service>()!;
+                var attr = type.GetCustomAttribute<Attributes.ServiceAttribute>()!;
                 container.Add(new ServiceDescriptor(type, type, attr.Lifetime));
             }
             else

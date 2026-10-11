@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using zed31rus.Apps.Authorization.Core.Attributes;
+using zed31rus.Apps.Authorization.Core.Errors;
+using zed31rus.Apps.Authorization.Core.Managers;
 using zed31rus.Packages.Db.Auth;
 using zed31rus.Packages.Db.Auth.Dto.User;
 using zed31rus.Packages.Db.Auth.Models;
@@ -8,7 +10,7 @@ using zed31rus.Packages.Libs.Hash;
 
 namespace zed31rus.Apps.Authorization.Core.Services;
 
-public interface IAuth
+public interface IAuthService
 {
     Task<PublicUser> Register(
         string login,
@@ -18,12 +20,12 @@ public interface IAuth
         string locale,
         CancellationToken ct = default);
 
-    Task<LoginReturn> Login(
+    Task<AuthServiceLoginReturn> Login(
         string login,
         string password,
         CancellationToken ct = default);
 
-    Task<RefreshReturn> Refresh(
+    Task<AuthServiceRefreshReturn> Refresh(
         string incomingRefreshToken,
         CancellationToken ct = default);
 
@@ -32,18 +34,18 @@ public interface IAuth
         CancellationToken ct = default);
 }
 
-public record LoginReturn(PersonalUser user, Managers.SessionReturn session);
+public record AuthServiceLoginReturn(PersonalUser user, CoreSessionManagerSessionReturn CoreSessionManagerSession);
 
-public record RefreshReturn(PersonalUser user, Managers.SessionReturn session);
+public record AuthServiceRefreshReturn(PersonalUser user, CoreSessionManagerSessionReturn CoreSessionManagerSession);
 
 [Service]
-internal class Auth(
-    Managers.ISession sessionManager,
+internal class AuthService(
+    ICoreSessionManager sessionManagerManager,
     IArgon2 argon,
     ISha256 sha256,
     IAuthDbContext db,
-    IOptions<Options.Auth> authOptions)
-    : IAuth
+    IOptions<Options.AuthOption> authOptions)
+    : IAuthService
 {
     public async Task<PublicUser> Register(string login, string nickname, string password, string email,
         string locale,
@@ -57,40 +59,40 @@ internal class Auth(
         return rawUser.ToPublicUser();
     }
 
-    public async Task<LoginReturn> Login(string login, string password, CancellationToken ct = default)
+    public async Task<AuthServiceLoginReturn> Login(string login, string password, CancellationToken ct = default)
     {
         var rawUser = await db.Users.FirstOrDefaultAsync(user => user.Login == login, ct);
 
         var passwordHash = rawUser?.PasswordHash ?? authOptions.Value.DummyPasswordHash;
         var isPasswordCorrect = await argon.CompareAsync(password, passwordHash);
 
-        if (rawUser is null || !isPasswordCorrect) throw new Errors.InvalidCredentialsException();
+        if (rawUser is null || !isPasswordCorrect) throw new CoreBusinessErrors.InvalidCredentialsException();
         
-        var session = await sessionManager.CreateSession(rawUser);
+        var session = await sessionManagerManager.CreateSession(rawUser);
         await db.SaveChangesAsync(ct);
 
-        return new LoginReturn(rawUser.ToPersonalUser(), session);
+        return new AuthServiceLoginReturn(rawUser.ToPersonalUser(), session);
     }
 
-    public async Task<RefreshReturn> Refresh(string incomingRefreshToken, CancellationToken ct = default)
+    public async Task<AuthServiceRefreshReturn> Refresh(string incomingRefreshToken, CancellationToken ct = default)
     {
         var hashedIncomingToken = await sha256.CreateAsync(incomingRefreshToken);
         var incomingRefreshTokenRecord = await db.RefreshTokens.Include(token => token.User)
             .FirstOrDefaultAsync(token => token.HashedToken == hashedIncomingToken, ct);
-        if (incomingRefreshTokenRecord is null) throw new Errors.InvalidCredentialsException();
+        if (incomingRefreshTokenRecord is null) throw new CoreBusinessErrors.InvalidCredentialsException();
 
         var expired = DateTime.UtcNow > incomingRefreshTokenRecord.ExpiresAt;
 
-        if (expired) throw new Errors.InvalidCredentialsException();
+        if (expired) throw new CoreBusinessErrors.InvalidCredentialsException();
 
         db.RefreshTokens.Remove(incomingRefreshTokenRecord);
 
         var rawUser = incomingRefreshTokenRecord.User;
-        var session = await sessionManager.CreateSession(rawUser);
+        var session = await sessionManagerManager.CreateSession(rawUser);
 
         await db.SaveChangesAsync(ct);
 
-        return new RefreshReturn(rawUser.ToPersonalUser(), session);
+        return new AuthServiceRefreshReturn(rawUser.ToPersonalUser(), session);
     }
 
     public async Task Logout(string incomingRefreshToken, CancellationToken ct = default)
@@ -98,7 +100,7 @@ internal class Auth(
         var hashedIncomingToken = await sha256.CreateAsync(incomingRefreshToken);
         var incomingRefreshTokenRecord =
             await db.RefreshTokens.FirstOrDefaultAsync(token => token.HashedToken == hashedIncomingToken, ct);
-        if (incomingRefreshTokenRecord is null) throw new Errors.InvalidCredentialsException();
+        if (incomingRefreshTokenRecord is null) throw new CoreBusinessErrors.InvalidCredentialsException();
         db.RefreshTokens.Remove(incomingRefreshTokenRecord);
         await db.SaveChangesAsync(ct);
     }

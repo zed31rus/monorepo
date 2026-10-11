@@ -1,6 +1,6 @@
 namespace zed31rus.Apps.Authorization.Core.Options;
 
-public class Auth
+internal class AuthOption
 {
     public string DummyPasswordHash { get; set; } = string.Empty;
 }

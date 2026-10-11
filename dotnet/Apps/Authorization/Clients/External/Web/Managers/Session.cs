@@ -12,9 +12,9 @@ public interface ISession
 
 public interface ISend
 {
-    void Session(HttpResponse response, Core.Managers.SessionReturn session);
-    void Access(HttpResponse response, Core.Managers.JwtTokenInfo jwtInfo);
-    void Refresh(HttpResponse response, Core.Managers.RefreshTokenInfo refreshInfo);
+    void Session(HttpResponse response, Core.Managers.CoreSessionManagerSessionReturn coreSessionManagerSession);
+    void Access(HttpResponse response, Core.Managers.CoreSessionManagerJwtTokenInfo coreSessionManagerJwtInfo);
+    void Refresh(HttpResponse response, Core.Managers.CoreSessionManagerRefreshTokenInfo coreSessionManagerRefreshInfo);
 }
 
 public interface IDelete
@@ -33,21 +33,21 @@ internal class Session(IOptions<Options.SessionOptions> sessionsOptions) : ISess
 
 internal class Send(IOptions<Options.SessionOptions> sessionsOptions) : ISend
 {
-    public void Session(HttpResponse response, Core.Managers.SessionReturn session)
+    public void Session(HttpResponse response, Core.Managers.CoreSessionManagerSessionReturn coreSessionManagerSession)
     {
-        Refresh(response, session.Refresh);
-        Access(response, session.Access);
+        Refresh(response, coreSessionManagerSession.CoreSessionManagerRefresh);
+        Access(response, coreSessionManagerSession.Access);
     }
 
-    public void Access(HttpResponse response, Core.Managers.JwtTokenInfo jwtInfo)
+    public void Access(HttpResponse response, Core.Managers.CoreSessionManagerJwtTokenInfo coreSessionManagerJwtInfo)
     {
-        response.Cookies.Append(sessionsOptions.Value.Cookies.Access.Name, jwtInfo.Token,
+        response.Cookies.Append(sessionsOptions.Value.Cookies.Access.Name, coreSessionManagerJwtInfo.Token,
             sessionsOptions.Value.Cookies.Access.Options);
     }
 
-    public void Refresh(HttpResponse response, Core.Managers.RefreshTokenInfo refreshInfo)
+    public void Refresh(HttpResponse response, Core.Managers.CoreSessionManagerRefreshTokenInfo coreSessionManagerRefreshInfo)
     {
-        response.Cookies.Append(sessionsOptions.Value.Cookies.Refresh.Name, refreshInfo.Token,
+        response.Cookies.Append(sessionsOptions.Value.Cookies.Refresh.Name, coreSessionManagerRefreshInfo.Token,
             sessionsOptions.Value.Cookies.Refresh.Options);
     }
 }

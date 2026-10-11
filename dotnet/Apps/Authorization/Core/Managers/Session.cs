@@ -9,39 +9,39 @@ using zed31rus.Packages.Libs.Tokens;
 
 namespace zed31rus.Apps.Authorization.Core.Managers;
 
-public record RefreshTokenInfo(
+public record CoreSessionManagerRefreshTokenInfo(
     string Token,
     HexExpires Expires
 );
 
-public record JwtTokenInfo(
+public record CoreSessionManagerJwtTokenInfo(
     string Token,
     JwtExpires Expires);
 
-public record SessionReturn(
-    RefreshTokenInfo Refresh,
-    JwtTokenInfo Access
+public record CoreSessionManagerSessionReturn(
+    CoreSessionManagerRefreshTokenInfo CoreSessionManagerRefresh,
+    CoreSessionManagerJwtTokenInfo Access
 );
 
-public interface ISession
+public interface ICoreSessionManager
 {
-    Task<SessionReturn> CreateSession(User user);
-    JwtTokenInfo CreateJwt(User user);
-    Task<RefreshTokenInfo> CreateRefresh(User user);
+    Task<CoreSessionManagerSessionReturn> CreateSession(User user);
+    CoreSessionManagerJwtTokenInfo CreateJwt(User user);
+    Task<CoreSessionManagerRefreshTokenInfo> CreateRefresh(User user);
 }
 
 [Manager]
-internal class Session(IJwt jwt, IHex hex, ISha256 hash, IAuthDbContext db, IOptions<Options.Jwt> jwtOptions) : ISession
+internal class SessionManager(IJwt jwt, IHex hex, ISha256 hash, IAuthDbContext db, IOptions<Options.JwtOption> jwtOptions) : ICoreSessionManager
 {
-    public async Task<SessionReturn> CreateSession(User user)
+    public async Task<CoreSessionManagerSessionReturn> CreateSession(User user)
     {
         var refreshTokenInfo = await CreateRefresh(user);
         var jwtTokenInfo = CreateJwt(user);
 
-        return new SessionReturn(refreshTokenInfo, jwtTokenInfo);
+        return new CoreSessionManagerSessionReturn(refreshTokenInfo, jwtTokenInfo);
     }
 
-    public JwtTokenInfo CreateJwt(User user)
+    public CoreSessionManagerJwtTokenInfo CreateJwt(User user)
     {
         var jwtTokenExpires = jwt.GetExpires();
         var publicUser = user.ToPublicUser();
@@ -49,10 +49,10 @@ internal class Session(IJwt jwt, IHex hex, ISha256 hash, IAuthDbContext db, IOpt
         var jwtToken = jwt.Create(publicUserClaims, jwtTokenExpires.Time,
             jwtOptions.Value.Secret);
 
-        return new JwtTokenInfo(jwtToken, jwtTokenExpires);
+        return new CoreSessionManagerJwtTokenInfo(jwtToken, jwtTokenExpires);
     }
 
-    public async Task<RefreshTokenInfo> CreateRefresh(User user)
+    public async Task<CoreSessionManagerRefreshTokenInfo> CreateRefresh(User user)
     {
         var refreshTokenExpires = hex.GetExpires();
         var refreshToken = hex.Create();
@@ -63,6 +63,6 @@ internal class Session(IJwt jwt, IHex hex, ISha256 hash, IAuthDbContext db, IOpt
 
         db.RefreshTokens.Add(refreshTokenRecord);
 
-        return new RefreshTokenInfo(refreshToken, refreshTokenExpires);
+        return new CoreSessionManagerRefreshTokenInfo(refreshToken, refreshTokenExpires);
     }
 }

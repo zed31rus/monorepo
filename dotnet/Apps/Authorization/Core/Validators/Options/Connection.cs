@@ -3,9 +3,9 @@ using Npgsql;
 
 namespace zed31rus.Apps.Authorization.Core.Validators.Options;
 
-public class Connection : AbstractValidator<Core.Options.Connection>
+internal class ConnectionOptionValidator : AbstractValidator<Core.Options.ConnectionOption>
 {
-    public Connection()
+    public ConnectionOptionValidator()
     {
         RuleFor(x => x.Database)
             .NotEmpty().WithMessage("Connection__Database обязателен.")

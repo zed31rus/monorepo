@@ -6,7 +6,7 @@ using zed31rus.Packages.Db.Auth.Models;
 
 namespace zed31rus.Apps.Authorization.Core.Services;
 
-public interface IMe
+public interface IMeService
 {
     public Task<PersonalUser> Get(Guid uuid, CancellationToken ct);
     public Task<PersonalUser> UpdateNickname(string newNickName, Guid uuid, CancellationToken ct);
@@ -15,7 +15,7 @@ public interface IMe
 }
 
 [Service]
-internal class Me(IAuthDbContext db): IMe
+internal class MeService(IAuthDbContext db): IMeService
 {
     public async Task<PersonalUser> Get(Guid uuid, CancellationToken ct)
     {

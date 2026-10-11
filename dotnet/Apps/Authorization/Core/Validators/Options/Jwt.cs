@@ -2,9 +2,9 @@ using FluentValidation;
 
 namespace zed31rus.Apps.Authorization.Core.Validators.Options;
 
-internal class Jwt : AbstractValidator<Core.Options.Jwt>
+internal class JwtOptionsValidator : AbstractValidator<Core.Options.JwtOption>
 {
-    public Jwt()
+    public JwtOptionsValidator()
     {
         RuleFor(x => x.Secret)
             .NotEmpty().WithMessage("ENV: JWT__Secret обязателен.")

@@ -4,7 +4,7 @@ using zed31rus.Packages.Db.Auth.Models;
 namespace zed31rus.Apps.Authorization.Core.Services;
 
 [Service]
-internal class Account
+internal class AccountService
 {
     public async Task<PersonalUser> emailVerificationSend(Guid uuid, CancellationToken ct)
     {

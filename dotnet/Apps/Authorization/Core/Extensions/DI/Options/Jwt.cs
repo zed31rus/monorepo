@@ -5,13 +5,13 @@ using zed31rus.Packages.Libs.DI.Extensions;
 
 namespace zed31rus.Apps.Authorization.Core.Extensions.DI.Options;
 
-public static class Jwt
+internal static class JwtOptionDiExtension
 {
     public static IServiceCollection AddJwtOptions(this IServiceCollection container, IConfiguration configuration)
     {
-        container.AddSingleton<IValidator<Core.Options.Jwt>, Validators.Options.Jwt>();
+        container.AddSingleton<IValidator<Core.Options.JwtOption>, Validators.Options.JwtOptionsValidator>();
 
-        container.AddOptions<Core.Options.Jwt>()
+        container.AddOptions<Core.Options.JwtOption>()
             .Bind(configuration.GetSection("Jwt"))
             .ValidateWithFluent()
             .ValidateOnStart();

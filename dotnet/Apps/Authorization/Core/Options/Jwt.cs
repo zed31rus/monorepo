@@ -1,6 +1,6 @@
 namespace zed31rus.Apps.Authorization.Core.Options;
 
-internal class Jwt
+internal class JwtOption
 {
     public string Secret { get; set; } = string.Empty;
     public int ExpiresInMinutes { get; set; }

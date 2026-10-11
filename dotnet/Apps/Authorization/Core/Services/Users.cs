@@ -7,7 +7,7 @@ using zed31rus.Packages.Db.Auth.Models;
 
 namespace zed31rus.Apps.Authorization.Core.Services;
 
-public interface IUsers
+public interface IUsersService
 {
     public Task<PublicUser> GetByUuid(Guid uuid, CancellationToken ct);
     public Task<PublicUser> GetByEmail(string email, CancellationToken ct);
@@ -16,7 +16,7 @@ public interface IUsers
 }
 
 [Service]
-internal class Users(IAuthDbContext db): IUsers
+internal class UsersService(IAuthDbContext db): IUsersService
 {
     public async Task<PublicUser> GetByUuid(Guid uuid, CancellationToken ct)
     {
@@ -29,7 +29,7 @@ internal class Users(IAuthDbContext db): IUsers
         var rawUser = await db.Users.FirstAsync(user => user.Email == email, ct);
         if (!rawUser.AllowEmailFind)
         {
-            throw new NotFoundException();
+            throw new CoreBusinessErrors.NotFoundException();
         }
         return rawUser.ToPublicUser();
     }
@@ -39,7 +39,7 @@ internal class Users(IAuthDbContext db): IUsers
         var rawUser = await db.Users.FirstAsync(user => user.Login == login, ct);
         if (!rawUser.AllowLoginFind)
         {
-            throw new NotFoundException();
+            throw new CoreBusinessErrors.NotFoundException();
         }
         return rawUser.ToPublicUser();
     }

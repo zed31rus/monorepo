@@ -1,24 +1,31 @@
 <Solution>
-  <Folder Name="/Analyzers/">
-    <Project Path="Analyzers/Using/Using.csproj" />
-  </Folder>
   <Folder Name="/Apps/">
     <Project Path="Apps/Util/Util.csproj" />
   </Folder>
   <Folder Name="/Apps/Authorization/" />
   <Folder Name="/Apps/Authorization/Clients/" />
-  <Folder Name="/Apps/Authorization/Clients/Web/">
-    <Project Path="Apps/Authorization/Clients/Web/External/External.csproj" />
+  <Folder Name="/Apps/Authorization/Clients/External/">
+    <Project Path="Apps/Authorization/Clients/External/Web/WebExternalClient.csproj" />
   </Folder>
   <Folder Name="/Apps/Authorization/Core/">
     <Project Path="Apps/Authorization/Core/Core.csproj" />
   </Folder>
+  <Folder Name="/Apps/Mail/">
+    <Project Path="Apps/Mail/Core/Core.csproj" />
+  </Folder>
+  <Folder Name="/Apps/Mail/Clients/" />
+  <Folder Name="/Apps/Mail/Clients/Internal/" />
+  <Folder Name="/Apps/Mail/Clients/Internal/Grpc/" />
   <Folder Name="/Packages/">
+    <Project Path="Packages/Infra/Infra.csproj" />
     <Project Path="Packages/Libs/Libs.csproj" />
   </Folder>
   <Folder Name="/Packages/Db/" />
   <Folder Name="/Packages/Db/Auth/">
     <Project Path="Packages/Db/Auth/AuthDb.csproj" />
+  </Folder>
+  <Folder Name="/Util/">
+    <Project Path="Util/HttpClientGenerator/HttpClientGenerator.csproj" />
   </Folder>
   <Project Path="Shared/Shared.csproj" />
 </Solution>

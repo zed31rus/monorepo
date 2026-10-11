@@ -6,7 +6,7 @@ using zed31rus.Packages.Libs.DI.Extensions;
 
 namespace zed31rus.Apps.Authorization.Core.Extensions.DI;
 
-public static class ExternalUse
+public static class CoreExternalUseDiExtension
 {
     public static IServiceCollection AddCore(this IServiceCollection container, IConfiguration configuration)
     {
@@ -19,7 +19,7 @@ public static class ExternalUse
         container.AddHex();
         container.AddJwt();
 
-        var connection = configuration.GetSection("Connection").Get<Core.Options.Connection>();
+        var connection = configuration.GetSection("Connection").Get<Core.Options.ConnectionOption>();
         container.AddAuthDb(connection?.Database!);
 
         container.AddServices();

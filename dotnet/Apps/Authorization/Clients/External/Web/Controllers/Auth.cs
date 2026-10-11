@@ -11,21 +11,21 @@ public record LoginRequest(string Login, string Password);
 
 [ApiController]
 [Route("[controller]")]
-public class Auth(IAuth authService, ISession sessionManager) : ControllerBase
+public class Auth(IAuthService authServiceService, ISession sessionManager) : ControllerBase
 {
     [HttpPost("register")]
     public async Task<ActionResult<PublicUser>> Register(RegisterRequest req, CancellationToken ct)
     {
-        var user = await authService.Register(req.Login, req.Nickname, req.Password, req.Email, req.Locale, ct);
+        var user = await authServiceService.Register(req.Login, req.Nickname, req.Password, req.Email, req.Locale, ct);
         return StatusCode(StatusCodes.Status201Created, user);
     }
 
     [HttpPost("login")]
     public async Task<ActionResult<PersonalUser>> Login(LoginRequest req, CancellationToken ct)
     {
-        var loginReturn = await authService.Login(req.Login, req.Password, ct);
+        var loginReturn = await authServiceService.Login(req.Login, req.Password, ct);
         var user = loginReturn.user;
-        var session = loginReturn.session;
+        var session = loginReturn.CoreSessionManagerSession;
         sessionManager.Send.Session(Response, session);
         return StatusCode(StatusCodes.Status200OK, user);
     }
@@ -36,9 +36,9 @@ public class Auth(IAuth authService, ISession sessionManager) : ControllerBase
         if (!Request.Cookies.TryGetValue("refresh", out var incomingRefreshToken) ||
             string.IsNullOrEmpty(incomingRefreshToken)) return Unauthorized();
 
-        var refreshReturn = await authService.Refresh(incomingRefreshToken, ct);
+        var refreshReturn = await authServiceService.Refresh(incomingRefreshToken, ct);
         var user = refreshReturn.user;
-        var session = refreshReturn.session;
+        var session = refreshReturn.CoreSessionManagerSession;
         sessionManager.Send.Session(Response, session);
         return StatusCode(StatusCodes.Status200OK, user);
     }
@@ -49,7 +49,7 @@ public class Auth(IAuth authService, ISession sessionManager) : ControllerBase
         if (!Request.Cookies.TryGetValue("refresh", out var incomingRefreshToken) ||
             string.IsNullOrEmpty(incomingRefreshToken)) return Unauthorized();
 
-        await authService.Logout(incomingRefreshToken, ct);
+        await authServiceService.Logout(incomingRefreshToken, ct);
         sessionManager.Delete.Session(Response);
         return StatusCode(StatusCodes.Status200OK);
     }

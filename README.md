@@ -8,13 +8,30 @@ monorepo
 │  ├─ Apps
 │  │  ├─ Authorization
 │  │  │  ├─ Clients
-│  │  │  │  └─ Web
-│  │  │  │     └─ External
+│  │  │  │  └─ External
+│  │  │  │     └─ Web
 │  │  │  │        ├─ appsettings.json
-│  │  │  │        ├─ External.csproj
-│  │  │  │        ├─ Program.cs
-│  │  │  │        └─ Properties
-│  │  │  │           └─ launchSettings.json
+│  │  │  │        ├─ Attributes
+│  │  │  │        │  └─ Manager.cs
+│  │  │  │        ├─ Controllers
+│  │  │  │        │  └─ Auth.cs
+│  │  │  │        ├─ Extensions
+│  │  │  │        │  └─ DI
+│  │  │  │        │     ├─ Manager.cs
+│  │  │  │        │     └─ Options
+│  │  │  │        │        └─ Session.cs
+│  │  │  │        ├─ Managers
+│  │  │  │        │  └─ Session.cs
+│  │  │  │        ├─ Options
+│  │  │  │        │  └─ Session.cs
+│  │  │  │        ├─ Properties
+│  │  │  │        │  └─ launchSettings.json
+│  │  │  │        ├─ Transformers
+│  │  │  │        │  └─ LowercaseParameter.cs
+│  │  │  │        ├─ Validators
+│  │  │  │        │  └─ Session.cs
+│  │  │  │        ├─ WebExternalClient.cs
+│  │  │  │        └─ WebExternalClient.csproj
 │  │  │  └─ Core
 │  │  │     ├─ Attributes
 │  │  │     │  ├─ Manager.cs
@@ -40,12 +57,30 @@ monorepo
 │  │  │     │  ├─ Connection.cs
 │  │  │     │  └─ Jwt.cs
 │  │  │     ├─ Services
-│  │  │     │  └─ Auth.cs
+│  │  │     │  ├─ Account.cs
+│  │  │     │  ├─ Auth.cs
+│  │  │     │  ├─ Me.cs
+│  │  │     │  └─ Users.cs
 │  │  │     └─ Validators
 │  │  │        └─ Options
 │  │  │           ├─ Auth.cs
 │  │  │           ├─ Connection.cs
 │  │  │           └─ Jwt.cs
+│  │  ├─ Mail
+│  │  │  ├─ Clients
+│  │  │  │  └─ Internal
+│  │  │  │     └─ Grpc
+│  │  │  │        ├─ appsettings.json
+│  │  │  │        ├─ GrpcInternalClient.csproj
+│  │  │  │        ├─ Program.cs
+│  │  │  │        ├─ Properties
+│  │  │  │        │  └─ launchSettings.json
+│  │  │  │        ├─ Protos
+│  │  │  │        │  └─ greet.proto
+│  │  │  │        └─ Services
+│  │  │  │           └─ GreeterService.cs
+│  │  │  └─ Core
+│  │  │     └─ Core.csproj
 │  │  └─ Util
 │  │     ├─ Program.cs
 │  │     └─ Util.csproj
@@ -65,16 +100,17 @@ monorepo
 │  │  │     ├─ Dto
 │  │  │     │  └─ User
 │  │  │     │     └─ MappingExtensions.cs
-│  │  │     ├─ Migrations
-│  │  │     │  ├─ 20260925020948_Initial.cs
-│  │  │     │  ├─ 20260925020948_Initial.Designer.cs
-│  │  │     │  └─ AuthDbContextModelSnapshot.cs
 │  │  │     ├─ Models
 │  │  │     │  ├─ OauthAccount.cs
 │  │  │     │  ├─ RefreshToken.cs
 │  │  │     │  ├─ User.cs
 │  │  │     │  └─ VerificationCode.cs
 │  │  │     └─ ServiceExtensions.cs
+│  │  ├─ Infra
+│  │  │  ├─ Clients
+│  │  │  │  └─ Generated
+│  │  │  │     └─ Auth.g.cs
+│  │  │  └─ Infra.csproj
 │  │  └─ Libs
 │  │     ├─ DI
 │  │     │  └─ Extensions
@@ -91,8 +127,13 @@ monorepo
 │  │     └─ Tokens
 │  │        ├─ Hex.cs
 │  │        └─ Jwt.cs
-│  └─ Shared
-│     └─ Shared.csproj
+│  ├─ Shared
+│  │  ├─ Path.cs
+│  │  └─ Shared.csproj
+│  └─ Util
+│     └─ HttpClientGenerator
+│        ├─ Auth.cs
+│        └─ HttpClientGenerator.csproj
 ├─ eslint.config.ts
 ├─ README.md
 └─ ts
