@@ -69,18 +69,19 @@ monorepo
 │  │  ├─ Mail
 │  │  │  ├─ Clients
 │  │  │  │  └─ Internal
-│  │  │  │     └─ Grpc
-│  │  │  │        ├─ appsettings.json
-│  │  │  │        ├─ GrpcInternalClient.csproj
-│  │  │  │        ├─ Program.cs
-│  │  │  │        ├─ Properties
-│  │  │  │        │  └─ launchSettings.json
-│  │  │  │        ├─ Protos
-│  │  │  │        │  └─ greet.proto
-│  │  │  │        └─ Services
-│  │  │  │           └─ GreeterService.cs
 │  │  │  └─ Core
-│  │  │     └─ Core.csproj
+│  │  │     ├─ Core.csproj
+│  │  │     ├─ Mailer
+│  │  │     │  └─ Mailer.cs
+│  │  │     ├─ Options
+│  │  │     │  └─ Smtp.cs
+│  │  │     ├─ Render
+│  │  │     │  ├─ Csmjml
+│  │  │     │  │  └─ Test.csmjml
+│  │  │     │  └─ Renderer.cs
+│  │  │     └─ Validators
+│  │  │        └─ Options
+│  │  │           └─ Smtp.cs
 │  │  └─ Util
 │  │     ├─ Program.cs
 │  │     └─ Util.csproj
