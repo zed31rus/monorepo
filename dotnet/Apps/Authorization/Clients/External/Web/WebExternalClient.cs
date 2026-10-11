@@ -1,6 +1,8 @@
 using dotenv.net;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Scalar.AspNetCore;
+using zed31rus.Apps.Authorization.Clients.External.Web.Extensions.DI;
+using zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
 using zed31rus.Apps.Authorization.Clients.Web.External.Extensions.DI;
 using zed31rus.Apps.Authorization.Core.Extensions.DI;
 
@@ -38,7 +40,7 @@ public static class WebExternalClient
         builder.Services.AddOpenApi();
 
         var mvc = builder.Services.AddControllers(o =>
-            o.Conventions.Add(new RouteTokenTransformerConvention(new Clients.Web.External.Transformers.LowercaseParameterTransformer())));
+            o.Conventions.Add(new RouteTokenTransformerConvention(new LowercaseParameterTransformer())));
 
         configureMvc?.Invoke(mvc);
     }

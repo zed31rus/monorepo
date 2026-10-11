@@ -1,6 +1,6 @@
-﻿namespace zed31rus.Apps.Authorization.Clients.Web.External.Options;
+﻿namespace zed31rus.Apps.Authorization.Clients.External.Web.Options;
 
-internal class SessionOptions
+internal class SessionOption
 {
     public const string SectionName = "Session";
 

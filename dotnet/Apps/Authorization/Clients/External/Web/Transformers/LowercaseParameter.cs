@@ -1,4 +1,4 @@
-namespace zed31rus.Apps.Authorization.Clients.Web.External.Transformers;
+namespace zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
 
 public class LowercaseParameterTransformer : IOutboundParameterTransformer
 {

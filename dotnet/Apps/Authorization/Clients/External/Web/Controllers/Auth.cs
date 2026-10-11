@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using zed31rus.Apps.Authorization.Clients.External.Web.Managers;
 using zed31rus.Apps.Authorization.Core.Services;
 using zed31rus.Packages.Db.Auth.Models;
-using ISession = zed31rus.Apps.Authorization.Clients.Web.External.Managers.ISession;
 
-namespace zed31rus.Apps.Authorization.Clients.Web.External.Controllers;
+namespace zed31rus.Apps.Authorization.Clients.External.Web.Controllers;
 
 public record RegisterRequest(string Login, string Nickname, string Password, string Email, string Locale);
 
@@ -11,7 +11,7 @@ public record LoginRequest(string Login, string Password);
 
 [ApiController]
 [Route("[controller]")]
-public class Auth(IAuthService authServiceService, ISession sessionManager) : ControllerBase
+public class AuthController(IAuthService authServiceService, ISessionManager sessionManagerManager) : ControllerBase
 {
     [HttpPost("register")]
     public async Task<ActionResult<PublicUser>> Register(RegisterRequest req, CancellationToken ct)
@@ -26,7 +26,7 @@ public class Auth(IAuthService authServiceService, ISession sessionManager) : Co
         var loginReturn = await authServiceService.Login(req.Login, req.Password, ct);
         var user = loginReturn.User;
         var session = loginReturn.CoreSessionManagerSession;
-        sessionManager.Send.Session(Response, session);
+        sessionManagerManager.Send.Session(Response, session);
         return StatusCode(StatusCodes.Status200OK, user);
     }
 
@@ -39,7 +39,7 @@ public class Auth(IAuthService authServiceService, ISession sessionManager) : Co
         var refreshReturn = await authServiceService.Refresh(incomingRefreshToken, ct);
         var user = refreshReturn.User;
         var session = refreshReturn.CoreSessionManagerSession;
-        sessionManager.Send.Session(Response, session);
+        sessionManagerManager.Send.Session(Response, session);
         return StatusCode(StatusCodes.Status200OK, user);
     }
 
@@ -50,7 +50,7 @@ public class Auth(IAuthService authServiceService, ISession sessionManager) : Co
             string.IsNullOrEmpty(incomingRefreshToken)) return Unauthorized();
 
         await authServiceService.Logout(incomingRefreshToken, ct);
-        sessionManager.Delete.Session(Response);
+        sessionManagerManager.Delete.Session(Response);
         return StatusCode(StatusCodes.Status200OK);
     }
 }

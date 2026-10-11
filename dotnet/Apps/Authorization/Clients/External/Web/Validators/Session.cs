@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
+using zed31rus.Apps.Authorization.Clients.External.Web.Options;
 
-namespace zed31rus.Apps.Authorization.Clients.Web.External.Validators;
+namespace zed31rus.Apps.Authorization.Clients.External.Web.Validators;
 
 internal class CookieOptionsValidator : AbstractValidator<CookieOptions>
 {
@@ -21,7 +22,7 @@ internal class CookieOptionsValidator : AbstractValidator<CookieOptions>
     }
 }
 
-internal class SessionCookieValidator : AbstractValidator<Options.SessionCookie>
+internal class SessionCookieValidator : AbstractValidator<SessionCookie>
 {
     public SessionCookieValidator(IValidator<CookieOptions> optionsValidator)
     {
@@ -36,9 +37,9 @@ internal class SessionCookieValidator : AbstractValidator<Options.SessionCookie>
     }
 }
 
-internal class SessionOptionsValidator : AbstractValidator<Options.SessionOptions>
+internal class SessionOptionsValidator : AbstractValidator<SessionOption>
 {
-    public SessionOptionsValidator(IValidator<Options.SessionCookie> cookieValidator)
+    public SessionOptionsValidator(IValidator<SessionCookie> cookieValidator)
     {
         RuleFor(x => x.Cookies).NotNull();
 
