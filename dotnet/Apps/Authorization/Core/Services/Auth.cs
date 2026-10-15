@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using zed31rus.Apps.Authorization.Core.Attributes;
 using zed31rus.Apps.Authorization.Core.Errors;
@@ -44,7 +45,8 @@ internal class AuthService(
     IArgon2 argon,
     ISha256 sha256,
     IAuthDbContext db,
-    IOptions<Options.AuthOption> authOptions)
+    IOptions<Options.AuthOption> authOptions,
+    ILogger<AuthService> logger)
     : IAuthService
 {
     public async Task<PublicUser> Register(string login, string nickname, string password, string email,
@@ -52,10 +54,14 @@ internal class AuthService(
         CancellationToken ct = default)
     {
         var passwordHash = await argon.CreateAsync(password);
+        logger.LogInformation("Password for ({Login}) was hashed", login);
         var rawUser = new User
             { Login = login, Nickname = nickname, Email = email, PasswordHash = passwordHash, Locale = locale };
+        logger.LogInformation("User ({Uuid}: {Login}) was created", rawUser.Uuid, rawUser.Login);
         db.Users.Add(rawUser);
+        logger.LogInformation("User ({Uuid}: {Login}) was added to DataBase", rawUser.Uuid, rawUser.Login);
         await db.SaveChangesAsync(ct);
+        logger.LogInformation("DataBase Changes was saved");
         return rawUser.ToPublicUser();
     }
 

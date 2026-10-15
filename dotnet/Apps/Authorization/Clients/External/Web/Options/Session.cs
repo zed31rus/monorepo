@@ -1,9 +1,7 @@
 ﻿namespace zed31rus.Apps.Authorization.Clients.External.Web.Options;
 
-internal class SessionOption
+internal class Session
 {
-    public const string SectionName = "Session";
-
     public SessionCookies Cookies { get; set; } = new();
 }
 

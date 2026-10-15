@@ -2,8 +2,8 @@ using dotenv.net;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Scalar.AspNetCore;
 using zed31rus.Apps.Authorization.Clients.External.Web.Extensions.DI;
+using zed31rus.Apps.Authorization.Clients.External.Web.Handlers;
 using zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
-using zed31rus.Apps.Authorization.Clients.Web.External.Extensions.DI;
 using zed31rus.Apps.Authorization.Core.Extensions.DI;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web;
@@ -18,6 +18,8 @@ public static class WebExternalClient
         }
 
         var app = CreateApp(args);
+        
+        app.Run();
     }
 
     public static WebApplication CreateApp(string[] args, Action<IMvcBuilder>? configureMvc = null)
@@ -38,6 +40,8 @@ public static class WebExternalClient
         builder.Services.AddCore(builder.Configuration);
         builder.Services.AddManagers();
         builder.Services.AddOpenApi();
+        builder.Services.AddExceptionHandler<ErrorHandler>();
+        builder.Services.AddProblemDetails();
 
         var mvc = builder.Services.AddControllers(o =>
             o.Conventions.Add(new RouteTokenTransformerConvention(new LowercaseParameterTransformer())));
@@ -54,6 +58,9 @@ public static class WebExternalClient
             app.MapOpenApi();
             app.MapScalarApiReference();
         }
+
+        app.UseExceptionHandler();
+
     }
 
     private static bool IsDevelopment()

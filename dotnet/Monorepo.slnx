@@ -14,7 +14,9 @@
     <Project Path="Apps/Mail/Core/Core.csproj" />
   </Folder>
   <Folder Name="/Apps/Mail/Clients/" />
-  <Folder Name="/Apps/Mail/Clients/Internal/" />
+  <Folder Name="/Apps/Mail/Clients/Internal/">
+    <Project Path="Apps/Mail/Clients/Internal/Rabbit/Rabbit.csproj" />
+  </Folder>
   <Folder Name="/Apps/Mail/Clients/Internal/Grpc/" />
   <Folder Name="/Packages/">
     <Project Path="Packages/Infra/Infra.csproj" />
