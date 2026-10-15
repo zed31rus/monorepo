@@ -37,7 +37,7 @@ internal class SessionCookieValidator : AbstractValidator<SessionCookie>
     }
 }
 
-internal class SessionOptionsValidator : AbstractValidator<SessionOption>
+internal class SessionOptionsValidator : AbstractValidator<Session>
 {
     public SessionOptionsValidator(IValidator<SessionCookie> cookieValidator)
     {

@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Options;
 using zed31rus.Apps.Authorization.Clients.Web.External.Attributes;
-using Options = zed31rus.Apps.Authorization.Clients.Web.External.Options;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Managers;
 
@@ -25,13 +24,13 @@ public interface IDelete
 }
 
 [Manager]
-internal class SessionManagerManager(IOptions<Options.SessionOption> sessionsOptions) : ISessionManager
+internal class SessionManagerManager(IOptions<Options.Session> sessionsOptions) : ISessionManager
 {
     public ISend Send { get; } = new Send(sessionsOptions);
     public IDelete Delete { get; } = new Delete(sessionsOptions);
 }
 
-internal class Send(IOptions<Options.SessionOption> sessionsOptions) : ISend
+internal class Send(IOptions<Options.Session> sessionsOptions) : ISend
 {
     public void Session(HttpResponse response, Core.Managers.CoreSessionManagerSessionReturn coreSessionManagerSession)
     {
@@ -52,7 +51,7 @@ internal class Send(IOptions<Options.SessionOption> sessionsOptions) : ISend
     }
 }
 
-internal class Delete(IOptions<Options.SessionOption> sessionsOptions) : IDelete
+internal class Delete(IOptions<Options.Session> sessionsOptions) : IDelete
 {
     public void Session(HttpResponse response)
     {
