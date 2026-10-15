@@ -3,7 +3,7 @@ using zed31rus.Apps.Authorization.Clients.External.Web.Options;
 using zed31rus.Apps.Authorization.Clients.External.Web.Validators;
 using zed31rus.Packages.Libs.DI.Extensions;
 
-namespace zed31rus.Apps.Authorization.Clients.Web.External.Extensions.DI.Options;
+namespace zed31rus.Apps.Authorization.Clients.External.Web.Extensions.DI.Options;
 
 public static class Session
 {
