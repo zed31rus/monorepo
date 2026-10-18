@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Options;
-using zed31rus.Apps.Authorization.Clients.Web.External.Attributes;
+using zed31rus.Apps.Authorization.Clients.External.Web.Attributes;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Managers;
 
