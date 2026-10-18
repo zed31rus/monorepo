@@ -7,8 +7,4 @@
         <ProjectReference Include="$(RepoRoot)Apps/Authorization/Core/Core.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Middlewares\" />
-    </ItemGroup>
-
 </Project>

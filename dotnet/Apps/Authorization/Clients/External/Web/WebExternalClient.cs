@@ -40,6 +40,7 @@ public static class WebExternalClient
         builder.Services.AddCore(builder.Configuration);
         builder.Services.AddManagers();
         builder.Services.AddOpenApi();
+        builder.Services.AddRateLimiter(settings => )
         builder.Services.AddExceptionHandler<ErrorHandler>();
         builder.Services.AddProblemDetails();
 
