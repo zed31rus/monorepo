@@ -24,6 +24,7 @@
     <PackageVersion Include="NSwag.Generation.AspNetCore" Version="14.7.1" />
     <PackageVersion Include="RazorLight" Version="2.3.1" />
     <PackageVersion Include="Scalar.AspNetCore" Version="2.17.10" />
+    <PackageVersion Include="Scrutor" Version="7.0.0" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.23.0" />
   </ItemGroup>
 </Project>

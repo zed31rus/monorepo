@@ -22,8 +22,9 @@ public static class CoreExternalUseDiExtension
         var connection = configuration.GetSection("Connection").Get<Core.Options.ConnectionOption>();
         container.AddAuthDb(connection?.Database!);
 
-        container.AddServices();
+        container.AddHandlers();
         container.AddManagers();
+        container.AddServices();
 
         return container;
     }

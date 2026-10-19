@@ -24,15 +24,10 @@ internal static class ManagerDiExtension
                 var attr = type.GetCustomAttribute<Attributes.ManagerAttribute>()!;
                 container.Add(new ServiceDescriptor(interfaceType, type, attr.Lifetime));
             }
-            else if (interfaces.Length == 0)
-            {
-                var attr = type.GetCustomAttribute<Attributes.ManagerAttribute>()!;
-                container.Add(new ServiceDescriptor(type, type, attr.Lifetime));
-            }
             else
             {
                 throw new InvalidOperationException(
-                    $"{type.Name} [Manager] realized more then one interface");
+                    $"{type.Name} [Manager] realized not only one interface");
             }
         }
 
