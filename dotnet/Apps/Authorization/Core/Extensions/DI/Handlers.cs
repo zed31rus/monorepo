@@ -16,7 +16,9 @@ internal static class HandlerDiExtension
 
         foreach (var type in handlerTypes)
         {
-            var interfaces = type.GetInterfaces();
+            var allInterfaces = type.GetInterfaces();
+            var interfaces = allInterfaces
+                .Where(i => !allInterfaces.Any(other => other != i && i.IsAssignableFrom(other))).ToArray();
 
             if (interfaces.Length == 1)
             {

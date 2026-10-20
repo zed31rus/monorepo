@@ -59,7 +59,6 @@ internal class AuthService(
             { Login = login, Nickname = nickname, Email = email, PasswordHash = passwordHash, Locale = locale };
         logger.LogInformation("User ({Uuid}: {Login}) was created", rawUser.Uuid, rawUser.Login);
         db.Users.Add(rawUser);
-        throw new CoreBusinessErrors.TestException();
         logger.LogInformation("User ({Uuid}: {Login}) was added to DataBase", rawUser.Uuid, rawUser.Login);
         await db.SaveChangesAsync(ct);
         logger.LogInformation("DataBase Changes was saved");

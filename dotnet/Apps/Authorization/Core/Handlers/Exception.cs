@@ -1,16 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using zed31rus.Apps.Authorization.Core.Attributes;
 using zed31rus.Apps.Authorization.Core.Exceptions;
+using zed31rus.Shared.Base;
 
 namespace zed31rus.Apps.Authorization.Core.Handlers;
 
-interface IErrorHandler
-{
-    public Exception Translate(Exception exception);
-}
+public interface IExceptionHandler : IExceptionHandlerBase;
 
 [Handler]
-internal sealed class ErrorHandler(ILogger<ErrorHandler> logger) : IErrorHandler
+internal sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExceptionHandler
 {
     public Exception Translate(Exception exception)
     {

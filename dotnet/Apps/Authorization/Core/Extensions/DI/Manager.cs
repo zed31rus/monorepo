@@ -16,8 +16,10 @@ internal static class ManagerDiExtension
 
         foreach (var type in managerTypes)
         {
-            var interfaces = type.GetInterfaces();
-
+            var allInterfaces = type.GetInterfaces();
+            var interfaces = allInterfaces
+                .Where(i => !allInterfaces.Any(other => other != i && i.IsAssignableFrom(other))).ToArray();
+            
             if (interfaces.Length == 1)
             {
                 var interfaceType = interfaces[0];
