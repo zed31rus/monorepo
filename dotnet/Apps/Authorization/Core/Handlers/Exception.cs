@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using zed31rus.Apps.Authorization.Core.Attributes;
-using zed31rus.Apps.Authorization.Core.Errors;
+using zed31rus.Apps.Authorization.Core.Exceptions;
 
 namespace zed31rus.Apps.Authorization.Core.Handlers;
 
@@ -19,12 +19,8 @@ internal sealed class ErrorHandler(ILogger<ErrorHandler> logger) : IErrorHandler
             case CoreException:
             case OperationCanceledException:
                 return exception;
-
-            case InvalidOperationException:
-                return new CoreBusinessErrors.NotFoundException();
-
             default:
-                logger.LogError(exception, "Unhandled error in Core");
+                logger.LogError("Unhandled exception: {exception} in Core", exception);
                 return new CoreBusinessErrors.InternalException();
         }
     }

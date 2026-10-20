@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using zed31rus.Apps.Authorization.Core.Attributes;
-using zed31rus.Apps.Authorization.Core.Errors;
+using zed31rus.Apps.Authorization.Core.Exceptions;
 using zed31rus.Packages.Db.Auth;
 using zed31rus.Packages.Db.Auth.Dto.User;
 using zed31rus.Packages.Db.Auth.Models;

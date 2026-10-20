@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using zed31rus.Apps.Authorization.Core.Attributes;
-using zed31rus.Apps.Authorization.Core.Errors;
+using zed31rus.Apps.Authorization.Core.Exceptions;
 using zed31rus.Apps.Authorization.Core.Managers;
 using zed31rus.Packages.Db.Auth;
 using zed31rus.Packages.Db.Auth.Dto.User;
@@ -59,6 +59,7 @@ internal class AuthService(
             { Login = login, Nickname = nickname, Email = email, PasswordHash = passwordHash, Locale = locale };
         logger.LogInformation("User ({Uuid}: {Login}) was created", rawUser.Uuid, rawUser.Login);
         db.Users.Add(rawUser);
+        throw new CoreBusinessErrors.TestException();
         logger.LogInformation("User ({Uuid}: {Login}) was added to DataBase", rawUser.Uuid, rawUser.Login);
         await db.SaveChangesAsync(ct);
         logger.LogInformation("DataBase Changes was saved");

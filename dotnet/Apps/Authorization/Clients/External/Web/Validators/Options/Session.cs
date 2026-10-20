@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using zed31rus.Apps.Authorization.Clients.External.Web.Options;
 
-namespace zed31rus.Apps.Authorization.Clients.External.Web.Validators;
+namespace zed31rus.Apps.Authorization.Clients.External.Web.Validators.Options;
 
 internal class CookieOptionsValidator : AbstractValidator<CookieOptions>
 {

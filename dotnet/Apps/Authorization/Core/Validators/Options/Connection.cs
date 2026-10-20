@@ -19,6 +19,7 @@ internal class ConnectionOptionValidator : AbstractValidator<Core.Options.Connec
         try
         {
             _ = new NpgsqlConnectionStringBuilder(value);
+            
             return true;
         }
         catch (ArgumentException)

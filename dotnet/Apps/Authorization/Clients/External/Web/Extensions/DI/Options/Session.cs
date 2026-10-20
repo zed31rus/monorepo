@@ -1,5 +1,6 @@
 using FluentValidation;
 using zed31rus.Apps.Authorization.Clients.External.Web.Validators;
+using zed31rus.Apps.Authorization.Clients.External.Web.Validators.Options;
 using zed31rus.Packages.Libs.DI.Extensions;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Extensions.DI.Options;

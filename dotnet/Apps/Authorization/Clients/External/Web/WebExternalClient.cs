@@ -12,7 +12,7 @@ public static class WebExternalClient
 {
     public static void Main(string[] args)
     {
-        if (IsDevelopment())
+        if (!IsProduction())
         {
             DotEnv.Load(new DotEnvOptions(overwriteExistingVars: false, probeForEnv: true, probeLevelsToSearch: 9));
         }
@@ -25,7 +25,12 @@ public static class WebExternalClient
     public static WebApplication CreateApp(string[] args, Action<IMvcBuilder>? configureMvc = null)
     {
         var builder = WebApplication.CreateBuilder(args);
-
+        builder.Host.UseDefaultServiceProvider((context, options) =>
+        {
+            options.ValidateOnBuild = true;
+            options.ValidateScopes = true;
+        });
+        
         ConfigureServices(builder, configureMvc);
 
         var app = builder.Build();
@@ -54,7 +59,7 @@ public static class WebExternalClient
     {
         app.MapControllers();
 
-        if (app.Environment.IsDevelopment())
+        if (!IsProduction())
         {
             app.MapOpenApi();
             app.MapScalarApiReference();
@@ -69,5 +74,17 @@ public static class WebExternalClient
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
         return string.Equals(environment, Environments.Development, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsStaged()
+    {
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            return string.Equals(environment, Environments.Staging, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsProduction()
+    {
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        return string.Equals(environment, Environments.Production, StringComparison.OrdinalIgnoreCase);
     }
 }
