@@ -4,5 +4,6 @@
         <PackageReference Include="Konscious.Security.Cryptography.Argon2"/>
         <PackageReference Include="Microsoft.Extensions.Options"/>
         <PackageReference Include="System.IdentityModel.Tokens.Jwt"/>
+        <ProjectReference Include="$(RepoRoot)Shared/Shared.csproj"/>
     </ItemGroup>
 </Project>

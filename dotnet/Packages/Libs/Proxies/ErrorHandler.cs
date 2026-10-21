@@ -1,13 +1,14 @@
 using System.Reflection;
+using zed31rus.Shared.Base;
 
 namespace zed31rus.Packages.Libs.Proxies;
 
 public class ErrorHandlerProxy<T> : DispatchProxy where T : class
 {
     private T _inner = null!;
-    private Func<Exception, Exception> _handle = null!;
+    private IExceptionHandlerBase _handle = null!;
 
-    public static T Create(T inner, Func<Exception, Exception> handler)
+    public static T Create(T inner, IExceptionHandlerBase handler)
     {
         var proxy = Create<T, ErrorHandlerProxy<T>>();
         var typed = (ErrorHandlerProxy<T>)(object)proxy;
@@ -41,7 +42,7 @@ public class ErrorHandlerProxy<T> : DispatchProxy where T : class
         }
         catch (TargetInvocationException ex)
         {
-            throw _handle(ex.InnerException ?? ex);
+            throw _handle.Translate(ex.InnerException ?? ex);
         }
     }
 
@@ -56,24 +57,24 @@ public class ErrorHandlerProxy<T> : DispatchProxy where T : class
     private async Task HandleTask(Task task)
     {
         try { await task; }
-        catch (Exception ex) { throw _handle(ex); }
+        catch (Exception ex) { throw _handle.Translate(ex); }
     }
 
     private async Task<TResult> HandleTaskOfT<TResult>(Task<TResult> task)
     {
         try { return await task; }
-        catch (Exception ex) { throw _handle(ex); }
+        catch (Exception ex) { throw _handle.Translate(ex); }
     }
 
     private async ValueTask HandleValueTask(ValueTask task)
     {
         try { await task; }
-        catch (Exception ex) { throw _handle(ex); }
+        catch (Exception ex) { throw _handle.Translate(ex); }
     }
 
     private async ValueTask<TResult> HandleValueTaskOfT<TResult>(ValueTask<TResult> task)
     {
         try { return await task; }
-        catch (Exception ex) { throw _handle(ex); }
+        catch (Exception ex) { throw _handle.Translate(ex); }
     }
 }
