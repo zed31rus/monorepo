@@ -24,7 +24,7 @@ public interface IDelete
 }
 
 [Manager]
-internal class SessionManagerManager(IOptions<Options.Session> sessionsOptions) : ISessionManager
+internal class SessionManager(IOptions<Options.Session> sessionsOptions) : ISessionManager
 {
     public ISend Send { get; } = new Send(sessionsOptions);
     public IDelete Delete { get; } = new Delete(sessionsOptions);

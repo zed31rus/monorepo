@@ -45,8 +45,7 @@ internal class AuthService(
     IArgon2 argon,
     ISha256 sha256,
     IAuthDbContext db,
-    IOptions<Options.AuthOption> authOptions,
-    ILogger<AuthService> logger)
+    IOptions<Options.AuthOption> authOptions)
     : IAuthService
 {
     public async Task<PublicUser> Register(string login, string nickname, string password, string email,
@@ -54,15 +53,9 @@ internal class AuthService(
         CancellationToken ct = default)
     {
         var passwordHash = await argon.CreateAsync(password);
-        logger.LogInformation("Password for ({Login}) was hashed", login);
-        var rawUser = new User
-            { Login = login, Nickname = nickname, Email = email, PasswordHash = passwordHash, Locale = locale };
-        logger.LogInformation("User ({Uuid}: {Login}) was created", rawUser.Uuid, rawUser.Login);
+        var rawUser = new User { Login = login, Nickname = nickname, Email = email, PasswordHash = passwordHash, Locale = locale };
         db.Users.Add(rawUser);
-        throw new CoreBusinessErrors.TestException();
-        logger.LogInformation("User ({Uuid}: {Login}) was added to DataBase", rawUser.Uuid, rawUser.Login);
         await db.SaveChangesAsync(ct);
-        logger.LogInformation("DataBase Changes was saved");
         return rawUser.ToPublicUser();
     }
 

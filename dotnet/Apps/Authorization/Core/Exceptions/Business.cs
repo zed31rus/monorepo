@@ -1,6 +1,6 @@
 namespace zed31rus.Apps.Authorization.Core.Exceptions;
 
-public class CoreException(string message) : Exception();
+public class CoreException(string message) : Exception(message);
 
 public class CoreBusinessErrors
 {
@@ -9,8 +9,4 @@ public class CoreBusinessErrors
     public class NotFoundException() : CoreException("NOT_FOUND");
 
     public class InternalException() : CoreException("INTERNAL");
-
-    public class TestException() : CoreException("TEST");
-
-    public class TestUnhandledException() : Exception("TEST");
 }

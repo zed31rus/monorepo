@@ -11,7 +11,8 @@ public class ErrorHandler(ILogger<ErrorHandler> logger): IExceptionHandler
         var (title, statusCode) = exception switch
         {
             CoreBusinessErrors.InvalidCredentialsException => ("UNAUTHORIZED", StatusCodes.Status401Unauthorized),
-            CoreBusinessErrors.NotFoundException => ("NOT_FOUND",StatusCodes.Status404NotFound)
+            CoreBusinessErrors.NotFoundException => ("NOT_FOUND",StatusCodes.Status404NotFound),
+            CoreBusinessErrors.InternalException => ("INTERNAL", StatusCodes.Status500InternalServerError)
         };
 
         var problem = new ProblemDetails
@@ -19,7 +20,7 @@ public class ErrorHandler(ILogger<ErrorHandler> logger): IExceptionHandler
             Title = title,
         };
         
-        logger.LogInformation("Exception {exception} translated as {statusCore}: {title}", exception, statusCode, title);
+        logger.LogInformation(exception, "Exception translated as {statusCore}: {title}", statusCode, title);
 
         httpContext.Response.StatusCode = statusCode;
         await httpContext.Response.WriteAsJsonAsync(problem, ct);

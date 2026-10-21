@@ -1,23 +1,41 @@
 ﻿using System.Threading.RateLimiting;
+using zed31rus.Packages.Db.Auth.Models;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
 
 internal static class RateLimiterMiddleware
 {
-    public static IServiceCollection UseLimiter(this IServiceCollection container)
+    public static IServiceCollection AddRateLimiter(this IServiceCollection container)
     {
-        return container.AddRateLimiter(options =>
+        
+        
+        container.AddRateLimiter(options =>
         {
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-            options.AddPolicy("per-ip", context => RateLimitPartition.GetFixedWindowLimiter(
+            options.AddPolicy("per-ip", context => RateLimitPartition.GetSlidingWindowLimiter(
                 ResolveRealIp(context),
-                factory => new FixedWindowRateLimiterOptions
+                factory => new SlidingWindowRateLimiterOptions
                 {
                     PermitLimit = 100,
                     Window = TimeSpan.FromMinutes(15)
                 }
             ));
         });
+
+        container.AddRateLimiter(options =>
+        {
+            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+            options.AddPolicy("per-user", context => RateLimitPartition.GetSlidingWindowLimiter(
+                ResolveUser(context),
+                factory => new SlidingWindowRateLimiterOptions
+                {
+                    PermitLimit = 200,
+                    Window = TimeSpan.FromMinutes(5)
+                }
+            ));
+        });
+
+        return container;
     }
 
     private static string ResolveRealIp(HttpContext context)
@@ -29,5 +47,10 @@ internal static class RateLimiterMiddleware
 
         var ip = cfIp ?? realIp ?? xForwardedIp ?? remoteIpAddress ?? "";
         return ip;
+    }
+
+    private static User ResolveUser(HttpContext context)
+    {
+        throw new NotImplementedException();
     }
 }
