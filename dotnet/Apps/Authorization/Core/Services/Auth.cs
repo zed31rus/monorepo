@@ -54,20 +54,15 @@ internal class AuthService(
         CancellationToken ct = default)
     {
         var passwordHash = await argon.CreateAsync(password);
-        logger.LogInformation("Password for ({Login}) was hashed", login);
-        var rawUser = new User
-            { Login = login, Nickname = nickname, Email = email, PasswordHash = passwordHash, Locale = locale };
-        logger.LogInformation("User ({Uuid}: {Login}) was created", rawUser.Uuid, rawUser.Login);
+        var rawUser = new User { Login = login, Nickname = nickname, Email = email, PasswordHash = passwordHash, Locale = locale };
         db.Users.Add(rawUser);
-        logger.LogInformation("User ({Uuid}: {Login}) was added to DataBase", rawUser.Uuid, rawUser.Login);
         await db.SaveChangesAsync(ct);
-        logger.LogInformation("DataBase Changes was saved");
         return rawUser.ToPublicUser();
     }
 
     public async Task<AuthServiceLoginReturn> Login(string login, string password, CancellationToken ct = default)
     {
-        var rawUser = await db.Users.FirstOrDefaultAsync(user => user.Login == login, ct);
+        var rawUser = await db.Users.SingleAsync(user => user.Login == login, ct);
 
         var passwordHash = rawUser?.PasswordHash ?? authOptions.Value.DummyPasswordHash;
         var isPasswordCorrect = await argon.CompareAsync(password, passwordHash);
