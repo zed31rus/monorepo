@@ -2,9 +2,9 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace zed31rus.Packages.Libs.DI.Extensions;
+namespace zed31rus.Packages.Libs.DI.Extensions.Generic;
 
-public static class FluentValidationOptions
+public static class FluentValidationOptionsExtension
 {
     public static OptionsBuilder<TOptions> ValidateWithFluent<TOptions>(
         this OptionsBuilder<TOptions> builder)
