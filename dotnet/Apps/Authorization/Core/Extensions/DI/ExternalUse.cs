@@ -1,6 +1,5 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using zed31rus.Apps.Authorization.Core.Extensions.DI.Options;
+using zed31rus.Options.Options;
 using zed31rus.Packages.Db.Auth;
 using zed31rus.Packages.Libs.DI.Extensions;
 
@@ -8,19 +7,14 @@ namespace zed31rus.Apps.Authorization.Core.Extensions.DI;
 
 public static class CoreExternalUseDiExtension
 {
-    public static IServiceCollection AddCore(this IServiceCollection container, IConfiguration configuration)
+    public static IServiceCollection AddAuthCore(this IServiceCollection container)
     {
-        container.AddAuthOptions(configuration);
-        container.AddConnectionOptions(configuration);
-        container.AddJwtOptions(configuration);
-
         container.AddArgon2();
         container.AddSha256();
         container.AddHex();
         container.AddJwt();
 
-        var connection = configuration.GetSection("Connection").Get<Core.Options.ConnectionOption>();
-        container.AddAuthDb(connection?.Database!);
+        container.AddAuthDb(sp => sp.GetRequiredService<IConnectionOption>().Database);
 
         container.AddHandlers();
         container.AddManagers();

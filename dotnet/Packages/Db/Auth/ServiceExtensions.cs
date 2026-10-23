@@ -8,14 +8,14 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddAuthDb(
         this IServiceCollection services,
-        string connectionString,
+        Func<IServiceProvider, string> connectionString,
         Action<NpgsqlDbContextOptionsBuilder>? npgsqlOptions = null)
     {
-        services.AddDbContext<Context>(options =>
-            options.UseNpgsql(connectionString, builder =>
+        services.AddDbContext<Context>((serviceProvider, options) =>
+            options.UseNpgsql(connectionString(serviceProvider), builder =>
             {
                 builder.MigrationsAssembly(typeof(Context).Assembly.FullName);
-                
+
                 npgsqlOptions?.Invoke(builder);
             }));
 

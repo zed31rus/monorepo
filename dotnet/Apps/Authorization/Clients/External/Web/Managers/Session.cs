@@ -1,5 +1,5 @@
-using Microsoft.Extensions.Options;
 using zed31rus.Apps.Authorization.Clients.External.Web.Attributes;
+using zed31rus.Options.Options;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Managers;
 
@@ -24,13 +24,13 @@ public interface IDelete
 }
 
 [Manager]
-internal class SessionManager(IOptions<Options.Session> sessionsOptions) : ISessionManager
+internal class SessionManager(ISessionOption sessionsOptions) : ISessionManager
 {
     public ISend Send { get; } = new Send(sessionsOptions);
     public IDelete Delete { get; } = new Delete(sessionsOptions);
 }
 
-internal class Send(IOptions<Options.Session> sessionsOptions) : ISend
+internal class Send(ISessionOption sessionsOptions) : ISend
 {
     public void Session(HttpResponse response, Core.Managers.CoreSessionManagerSessionReturn coreSessionManagerSession)
     {
@@ -40,18 +40,18 @@ internal class Send(IOptions<Options.Session> sessionsOptions) : ISend
 
     public void Access(HttpResponse response, Core.Managers.CoreSessionManagerJwtTokenInfo coreSessionManagerJwtInfo)
     {
-        response.Cookies.Append(sessionsOptions.Value.Cookies.Access.Name, coreSessionManagerJwtInfo.Token,
-            sessionsOptions.Value.Cookies.Access.Options);
+        response.Cookies.Append(sessionsOptions.Cookies.Access.Name, coreSessionManagerJwtInfo.Token,
+            sessionsOptions.Cookies.Access.Options);
     }
 
     public void Refresh(HttpResponse response, Core.Managers.CoreSessionManagerRefreshTokenInfo coreSessionManagerRefreshInfo)
     {
-        response.Cookies.Append(sessionsOptions.Value.Cookies.Refresh.Name, coreSessionManagerRefreshInfo.Token,
-            sessionsOptions.Value.Cookies.Refresh.Options);
+        response.Cookies.Append(sessionsOptions.Cookies.Refresh.Name, coreSessionManagerRefreshInfo.Token,
+            sessionsOptions.Cookies.Refresh.Options);
     }
 }
 
-internal class Delete(IOptions<Options.Session> sessionsOptions) : IDelete
+internal class Delete(ISessionOption sessionsOptions) : IDelete
 {
     public void Session(HttpResponse response)
     {
@@ -61,13 +61,13 @@ internal class Delete(IOptions<Options.Session> sessionsOptions) : IDelete
 
     public void Access(HttpResponse response)
     {
-        response.Cookies.Delete(sessionsOptions.Value.Cookies.Access.Name,
-            sessionsOptions.Value.Cookies.Access.Options);
+        response.Cookies.Delete(sessionsOptions.Cookies.Access.Name,
+            sessionsOptions.Cookies.Access.Options);
     }
 
     public void Refresh(HttpResponse response)
     {
-        response.Cookies.Delete(sessionsOptions.Value.Cookies.Refresh.Name,
-            sessionsOptions.Value.Cookies.Refresh.Options);
+        response.Cookies.Delete(sessionsOptions.Cookies.Refresh.Name,
+            sessionsOptions.Cookies.Refresh.Options);
     }
 }

@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using zed31rus.Apps.Authorization.Core.Attributes;
 using zed31rus.Apps.Authorization.Core.Exceptions;
 using zed31rus.Apps.Authorization.Core.Managers;
+using zed31rus.Options.Options;
 using zed31rus.Packages.Db.Auth;
 using zed31rus.Packages.Db.Auth.Dto.User;
 using zed31rus.Packages.Db.Auth.Models;
@@ -45,7 +44,7 @@ internal class AuthService(
     IArgon2 argon,
     ISha256 sha256,
     IAuthDbContext db,
-    IOptions<Options.AuthOption> authOptions)
+    IAuthOption authOptions)
     : IAuthService
 {
     public async Task<PublicUser> Register(string login, string nickname, string password, string email,
@@ -63,7 +62,7 @@ internal class AuthService(
     {
         var rawUser = await db.Users.SingleAsync(user => user.Login == login, ct);
 
-        var passwordHash = rawUser?.PasswordHash ?? authOptions.Value.DummyPasswordHash;
+        var passwordHash = rawUser?.PasswordHash ?? authOptions.DummyPasswordHash;
         var isPasswordCorrect = await argon.CompareAsync(password, passwordHash);
 
         if (rawUser is null || !isPasswordCorrect) throw new CoreBusinessErrors.InvalidCredentialsException();

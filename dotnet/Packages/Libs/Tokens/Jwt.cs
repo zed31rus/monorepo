@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using zed31rus.Options.Options;
 
 namespace zed31rus.Packages.Libs.Tokens;
 
@@ -10,18 +10,13 @@ public record JwtExpires(TimeSpan Time, DateTime AtTime);
 public interface IJwt
 {
     JwtExpires GetExpires();
-    string Create(IEnumerable<Claim> claims, TimeSpan expiresIn, string jwtSecret);
-    ClaimsPrincipal Verify(string token, string jwtSecret);
+    string Create(IEnumerable<Claim> claims, TimeSpan expiresIn);
+    ClaimsPrincipal Verify(string token);
 }
 
-public class Jwt : IJwt
+public class Jwt(IJwtOption jwtOption) : IJwt
 {
     private readonly JwtSecurityTokenHandler _tokenHandler = new();
-
-    private TimeSpan GetExpiresTime()
-    {
-        return TimeSpan.FromMinutes(15);
-    }
 
     private DateTime GetExpiresAtTime(TimeSpan expiresTime)
     {
@@ -30,21 +25,23 @@ public class Jwt : IJwt
 
     public JwtExpires GetExpires()
     {
-        var time = GetExpiresTime();
+        var time = jwtOption.ExpiresIn;
         var atTime = GetExpiresAtTime(time);
         return new JwtExpires(time, atTime);
     }
 
-    public string Create(IEnumerable<Claim> claims, TimeSpan expiresIn, string jwtSecret)
+    public string Create(IEnumerable<Claim> claims, TimeSpan expiresIn)
     {
-        var key = Encoding.UTF8.GetBytes(jwtSecret);
+        var validation = jwtOption.TokenValidationOption;
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.Add(expiresIn),
+            Issuer = validation.ValidIssuer,
+            Audience = validation.ValidAudience,
             SigningCredentials = new SigningCredentials(
-                new SymmetricSecurityKey(key),
+                validation.IssuerSigningKey,
                 SecurityAlgorithms.HmacSha256Signature
             )
         };
@@ -53,21 +50,9 @@ public class Jwt : IJwt
         return _tokenHandler.WriteToken(token);
     }
 
-    public ClaimsPrincipal Verify(string token, string jwtSecret)
+    public ClaimsPrincipal Verify(string token)
     {
-        var key = Encoding.UTF8.GetBytes(jwtSecret);
-
-        var validationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero
-        };
-
-        var principal = _tokenHandler.ValidateToken(token, validationParameters, out _);
+        var principal = _tokenHandler.ValidateToken(token, jwtOption.TokenValidationOption, out _);
         return principal;
     }
 }

@@ -1,10 +1,10 @@
-using dotenv.net;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Scalar.AspNetCore;
 using zed31rus.Apps.Authorization.Clients.External.Web.Extensions.DI;
 using zed31rus.Apps.Authorization.Clients.External.Web.Handlers;
 using zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
 using zed31rus.Apps.Authorization.Core.Extensions.DI;
+using zed31rus.Options.Extensions.DI;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web;
 
@@ -12,13 +12,8 @@ public static class WebExternalClient
 {
     public static void Main(string[] args)
     {
-        if (!IsProduction())
-        {
-            DotEnv.Load(new DotEnvOptions(overwriteExistingVars: false, probeForEnv: true, probeLevelsToSearch: 9));
-        }
-
         var app = CreateApp(args);
-        
+
         app.Run();
     }
 
@@ -30,7 +25,7 @@ public static class WebExternalClient
             options.ValidateOnBuild = true;
             options.ValidateScopes = true;
         });
-        
+
         ConfigureServices(builder, configureMvc);
 
         var app = builder.Build();
@@ -42,7 +37,8 @@ public static class WebExternalClient
 
     private static void ConfigureServices(WebApplicationBuilder builder, Action<IMvcBuilder>? configureMvc)
     {
-        builder.Services.AddCore(builder.Configuration);
+        builder.Services.AddAppOptions();
+        builder.Services.AddAuthCore();
         builder.Services.AddManagers();
         builder.Services.AddOpenApi();
         //builder.Services.AddRateLimiter(settings => )
@@ -64,9 +60,9 @@ public static class WebExternalClient
             app.MapOpenApi();
             app.MapScalarApiReference();
         }
-
         app.UseExceptionHandler();
-
+        app.UseAuthentication();
+        app.UseAuthorization();
     }
 
     private static bool IsDevelopment()
@@ -79,7 +75,7 @@ public static class WebExternalClient
     private static bool IsStaged()
     {
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            return string.Equals(environment, Environments.Staging, StringComparison.OrdinalIgnoreCase);
+        return string.Equals(environment, Environments.Staging, StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool IsProduction()

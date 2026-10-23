@@ -8,7 +8,6 @@ internal static class RateLimiterMiddleware
     public static IServiceCollection AddRateLimiter(this IServiceCollection container)
     {
         
-        
         container.AddRateLimiter(options =>
         {
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;

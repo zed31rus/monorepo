@@ -29,5 +29,6 @@
   <Folder Name="/Util/">
     <Project Path="Util/HttpClientGenerator/HttpClientGenerator.csproj" />
   </Folder>
+  <Project Path="Options/Options.csproj" />
   <Project Path="Shared/Shared.csproj" />
 </Solution>
