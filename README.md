@@ -14,61 +14,74 @@ monorepo
 │  │  │  │        ├─ Attributes
 │  │  │  │        │  └─ Manager.cs
 │  │  │  │        ├─ Controllers
-│  │  │  │        │  └─ Auth.cs
+│  │  │  │        │  ├─ Auth.cs
+│  │  │  │        │  └─ Users.cs
 │  │  │  │        ├─ Extensions
 │  │  │  │        │  └─ DI
-│  │  │  │        │     ├─ Manager.cs
-│  │  │  │        │     └─ Options
-│  │  │  │        │        └─ Session.cs
+│  │  │  │        │     └─ Manager.cs
+│  │  │  │        ├─ Handlers
+│  │  │  │        │  └─ Error.cs
 │  │  │  │        ├─ Managers
 │  │  │  │        │  └─ Session.cs
-│  │  │  │        ├─ Options
-│  │  │  │        │  └─ Session.cs
+│  │  │  │        ├─ Middlewares
+│  │  │  │        │  ├─ Authentication.cs
+│  │  │  │        │  ├─ Authorization.cs
+│  │  │  │        │  └─ RateLimiter.cs
 │  │  │  │        ├─ Properties
 │  │  │  │        │  └─ launchSettings.json
 │  │  │  │        ├─ Transformers
 │  │  │  │        │  └─ LowercaseParameter.cs
-│  │  │  │        ├─ Validators
-│  │  │  │        │  └─ Session.cs
 │  │  │  │        ├─ WebExternalClient.cs
 │  │  │  │        └─ WebExternalClient.csproj
 │  │  │  └─ Core
 │  │  │     ├─ Attributes
+│  │  │     │  ├─ Handler.cs
 │  │  │     │  ├─ Manager.cs
+│  │  │     │  ├─ Permission.cs
+│  │  │     │  ├─ Role.cs
 │  │  │     │  └─ Service.cs
+│  │  │     ├─ Base
+│  │  │     │  ├─ Permission.cs
+│  │  │     │  └─ Role.cs
 │  │  │     ├─ Core.csproj
-│  │  │     ├─ Errors
+│  │  │     ├─ Exceptions
 │  │  │     │  └─ Business.cs
 │  │  │     ├─ Extensions
 │  │  │     │  ├─ DI
 │  │  │     │  │  ├─ ExternalUse.cs
-│  │  │     │  │  ├─ Manager.cs
-│  │  │     │  │  ├─ Options
-│  │  │     │  │  │  ├─ Auth.cs
-│  │  │     │  │  │  ├─ Connection.cs
-│  │  │     │  │  │  └─ Jwt.cs
-│  │  │     │  │  └─ Service.cs
+│  │  │     │  │  ├─ Handlers.cs
+│  │  │     │  │  ├─ Managers.cs
+│  │  │     │  │  ├─ Permissions.cs
+│  │  │     │  │  ├─ Roles.cs
+│  │  │     │  │  └─ Services.cs
 │  │  │     │  └─ Mappers
 │  │  │     │     └─ User.cs
+│  │  │     ├─ Handlers
+│  │  │     │  └─ Exception.cs
 │  │  │     ├─ Managers
+│  │  │     │  ├─ Role.cs
 │  │  │     │  └─ Session.cs
-│  │  │     ├─ Options
-│  │  │     │  ├─ Auth.cs
-│  │  │     │  ├─ Connection.cs
-│  │  │     │  └─ Jwt.cs
-│  │  │     ├─ Services
-│  │  │     │  ├─ Account.cs
-│  │  │     │  ├─ Auth.cs
+│  │  │     ├─ Permissions
+│  │  │     │  ├─ Confirmation.cs
 │  │  │     │  ├─ Me.cs
 │  │  │     │  └─ Users.cs
-│  │  │     └─ Validators
-│  │  │        └─ Options
-│  │  │           ├─ Auth.cs
-│  │  │           ├─ Connection.cs
-│  │  │           └─ Jwt.cs
+│  │  │     ├─ Roles
+│  │  │     │  ├─ Admin.cs
+│  │  │     │  ├─ Default.cs
+│  │  │     │  ├─ Owner.cs
+│  │  │     │  └─ Unconfirmed.cs
+│  │  │     └─ Services
+│  │  │        ├─ Account.cs
+│  │  │        ├─ Auth.cs
+│  │  │        ├─ Me.cs
+│  │  │        ├─ Oauth
+│  │  │        │  └─ Discord.cs
+│  │  │        └─ Users.cs
 │  │  ├─ Mail
 │  │  │  ├─ Clients
 │  │  │  │  └─ Internal
+│  │  │  │     └─ Rabbit
+│  │  │  │        └─ Rabbit.csproj
 │  │  │  └─ Core
 │  │  │     ├─ Core.csproj
 │  │  │     ├─ Mailer
@@ -86,7 +99,18 @@ monorepo
 │  │     ├─ Program.cs
 │  │     └─ Util.csproj
 │  ├─ Directory.Build.props
+│  ├─ Directory.Packages.props
 │  ├─ Monorepo.slnx
+│  ├─ Options
+│  │  ├─ Extensions
+│  │  │  └─ DI
+│  │  │     └─ Use.cs
+│  │  ├─ Options
+│  │  │  ├─ Auth.cs
+│  │  │  ├─ Connection.cs
+│  │  │  ├─ Jwt.cs
+│  │  │  └─ Session.cs
+│  │  └─ Options.csproj
 │  ├─ Packages
 │  │  ├─ Db
 │  │  │  └─ Auth
@@ -100,7 +124,12 @@ monorepo
 │  │  │     ├─ ContextFactory.cs
 │  │  │     ├─ Dto
 │  │  │     │  └─ User
-│  │  │     │     └─ MappingExtensions.cs
+│  │  │     │     ├─ MappingExtensions.cs
+│  │  │     │     └─ Models.cs
+│  │  │     ├─ Migrations
+│  │  │     │  ├─ 20261023200502_Initial.cs
+│  │  │     │  ├─ 20261023200502_Initial.Designer.cs
+│  │  │     │  └─ AuthDbContextModelSnapshot.cs
 │  │  │     ├─ Models
 │  │  │     │  ├─ OauthAccount.cs
 │  │  │     │  ├─ RefreshToken.cs
@@ -115,20 +144,23 @@ monorepo
 │  │  └─ Libs
 │  │     ├─ DI
 │  │     │  └─ Extensions
-│  │     │     ├─ FluentValidationOptions.cs
 │  │     │     ├─ Hash.cs
 │  │     │     └─ Tokens.cs
 │  │     ├─ Hash
 │  │     │  ├─ Argon2.cs
 │  │     │  └─ Sha256.cs
 │  │     ├─ Libs.csproj
-│  │     ├─ Options
-│  │     │  └─ Adapters
-│  │     │     └─ FluentValidationOptions.cs
+│  │     ├─ Proxies
+│  │     │  └─ ErrorHandler.cs
+│  │     ├─ Reflection
+│  │     │  ├─ Attributes.cs
+│  │     │  └─ Interface.cs
 │  │     └─ Tokens
 │  │        ├─ Hex.cs
 │  │        └─ Jwt.cs
 │  ├─ Shared
+│  │  ├─ Base
+│  │  │  └─ ExceptionHandler.cs
 │  │  ├─ Path.cs
 │  │  └─ Shared.csproj
 │  └─ Util
@@ -136,6 +168,7 @@ monorepo
 │        ├─ Auth.cs
 │        └─ HttpClientGenerator.csproj
 ├─ eslint.config.ts
+├─ LICENSE
 ├─ README.md
 └─ ts
    ├─ apps
@@ -452,7 +485,6 @@ monorepo
    │  ├─ src
    │  │  └─ base.ts
    │  └─ tsconfig.json
-   ├─ LICENSE
    ├─ package.json
    ├─ packages
    │  ├─ db
