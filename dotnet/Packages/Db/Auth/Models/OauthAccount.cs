@@ -6,7 +6,7 @@ public class OauthAccount
 
     public required string Provider { get; init; }
     public required string ProviderUserId { get; set; }
-    public string Locale { get; set; } = "ru";
+    public string Locale { get; set; }
 
     public string? AccessToken { get; set; }
     public string? RefreshToken { get; set; }

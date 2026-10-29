@@ -3,7 +3,7 @@ import BaseService, { type BaseServiceArgs } from '#core/base/service.js';
 import { DiscordBotDBType } from '@packages/db';
 import { InternalErrors } from '@shared/errors';
 
-type FeatureRegistry = GuildService['registries']['feature']['features'];
+type FeatureRegistry = GuildsService['registries']['feature']['features'];
 
 type FeatureManagerClass = FeatureRegistry[keyof FeatureRegistry];
 
@@ -11,7 +11,7 @@ type AnyFeatureManager = InstanceType<FeatureManagerClass>;
 
 type FeatureManager<F extends keyof FeatureRegistry> = InstanceType<FeatureRegistry[F]>;
 
-export default class GuildService extends BaseService {
+export default class GuildsService extends BaseService {
 	private constructor(
 		readonly baseGuildManagerArgs: BaseGuildManagerArgs,
 		...baseServiceArgs: BaseServiceArgs
@@ -23,7 +23,7 @@ export default class GuildService extends BaseService {
 		baseGuildManagerArgs: BaseGuildManagerArgs,
 		...baseServiceArgs: BaseServiceArgs
 	) {
-		const service = new GuildService(baseGuildManagerArgs, ...baseServiceArgs);
+		const service = new GuildsService(baseGuildManagerArgs, ...baseServiceArgs);
 		await service.init();
 		return service;
 	}
@@ -136,8 +136,24 @@ export default class GuildService extends BaseService {
 		guildFeatures.set(feature, managerInstance);
 		return managerInstance;
 	}
+}
 
-	private async resolveGuildRecord(guildId: DiscordBotDBType.types.Prisma.GuildModel['guildId']) {
+class GuilldService extends BaseService {
+	features = new Map<DiscordBotDBType.types.Features, AnyFeatureManager>();
+
+	private constructor(
+		readonly guildId: string,
+		readonly baseGuildManagerArgs: BaseGuildManagerArgs,
+		...baseServiceArgs: BaseServiceArgs
+	) {
+		super(...baseServiceArgs);
+	}
+
+	async init() {
+		await this.resolveRecord(this.guildId);
+	}
+
+	private async resolveRecord(guildId: DiscordBotDBType.types.Prisma.GuildModel['guildId']) {
 		return await this.db.client.$transaction(async (tx) => {
 			let guildRecord = await this.db.guilds.get.orNull.byGuildId(tx, guildId);
 

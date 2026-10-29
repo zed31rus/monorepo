@@ -1,5 +1,5 @@
-import type GuildService from '#core/services/guild.js';
+import type GuildsService from '#core/services/guild.js';
 
 export default class ServiceContainer {
-	constructor(readonly guild: GuildService) {}
+	constructor(readonly guild: GuildsService) {}
 }

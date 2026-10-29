@@ -4,6 +4,11 @@ internal static class AuthorizationMiddleware
 {
     public static IServiceCollection AddAuthorizationMiddleware(this IServiceCollection container)
     {
+        container.AddAuthorization(options =>
+        {
+            throw new NotImplementedException();
+        });
+        
         throw new NotImplementedException();
     }
 }

@@ -11,6 +11,7 @@ public static class MappingExtensions
             Uuid = user.Uuid,
             Nickname = user.Nickname,
             Avatar = user.Avatar,
+            Role = user.Role,
             CreatedAt = user.CreatedAt
         };
     }
@@ -20,15 +21,16 @@ public static class MappingExtensions
         return new PersonalUser
         {
             Uuid = user.Uuid,
-            Nickname = user.Nickname,
-            Avatar = user.Avatar,
-            CreatedAt = user.CreatedAt,
             Login = user.Login,
             Email = user.Email,
+            Nickname = user.Nickname,
+            Avatar = user.Avatar,
             Locale = user.Locale,
-            AllowLoginFind = user.AllowLoginFind,
+            Role = user.Role,
+            EmailConfirmed = user.EmailConfirmed,
             AllowEmailFind = user.AllowEmailFind,
-            EmailConfirmed = user.EmailConfirmed
+            AllowLoginFind = user.AllowLoginFind,
+            CreatedAt = user.CreatedAt
         };
     }
 
@@ -37,15 +39,17 @@ public static class MappingExtensions
         return new InternalUser
         {
             Uuid = user.Uuid,
-            Nickname = user.Nickname,
-            Avatar = user.Avatar,
-            CreatedAt = user.CreatedAt,
             Login = user.Login,
             Email = user.Email,
+            Nickname = user.Nickname,
+            Avatar = user.Avatar,
             Locale = user.Locale,
-            AllowLoginFind = user.AllowLoginFind,
-            AllowEmailFind = user.AllowEmailFind,
+            Role = user.Role,
             EmailConfirmed = user.EmailConfirmed,
+            Confirmed = user.Confirmed,
+            AllowEmailFind = user.AllowEmailFind,
+            AllowLoginFind = user.AllowLoginFind,
+            CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt
         };
     }
@@ -54,7 +58,11 @@ public static class MappingExtensions
     {
         return new PublicUser
         {
-            Uuid = user.Uuid, Nickname = user.Nickname, Avatar = user.Avatar, CreatedAt = user.CreatedAt
+            Uuid = user.Uuid,
+            Nickname = user.Nickname,
+            Avatar = user.Avatar,
+            Role = user.Role,
+            CreatedAt = user.CreatedAt
         };
     }
 
@@ -62,7 +70,11 @@ public static class MappingExtensions
     {
         return new PublicUser
         {
-            Uuid = user.Uuid, Nickname = user.Nickname, Avatar = user.Avatar, CreatedAt = user.CreatedAt
+            Uuid = user.Uuid,
+            Nickname = user.Nickname,
+            Avatar = user.Avatar,
+            Role = user.Role,
+            CreatedAt = user.CreatedAt
         };
     }
 
@@ -70,10 +82,17 @@ public static class MappingExtensions
     {
         return new PersonalUser
         {
-            Uuid = user.Uuid, Nickname = user.Nickname, Avatar = user.Avatar, CreatedAt = user.CreatedAt,
-            Login = user.Login, Email = user.Email, Locale = user.Locale,
-            AllowLoginFind = user.AllowLoginFind, AllowEmailFind = user.AllowEmailFind,
-            EmailConfirmed = user.EmailConfirmed
+            Uuid = user.Uuid,
+            Login = user.Login,
+            Email = user.Email,
+            Nickname = user.Nickname,
+            Avatar = user.Avatar,
+            Locale = user.Locale,
+            Role = user.Role,
+            EmailConfirmed = user.EmailConfirmed,
+            AllowEmailFind = user.AllowEmailFind,
+            AllowLoginFind = user.AllowLoginFind,
+            CreatedAt = user.CreatedAt
         };
     }
 }

@@ -9,4 +9,6 @@ public static class CoreBusinessErrors
     public class NotFoundException() : CoreException("NOT_FOUND");
 
     public class InternalException() : CoreException("INTERNAL");
+
+    public class InvalidRole() : CoreException("INVALID_ROLE");
 }

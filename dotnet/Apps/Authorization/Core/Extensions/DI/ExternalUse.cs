@@ -16,6 +16,8 @@ public static class CoreExternalUseDiExtension
 
         container.AddAuthDb(sp => sp.GetRequiredService<IConnectionOption>().Database);
 
+        container.AddPermissions();
+        container.AddRoles();
         container.AddHandlers();
         container.AddManagers();
         container.AddServices();

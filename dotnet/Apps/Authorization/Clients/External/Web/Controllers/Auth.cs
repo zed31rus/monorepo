@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using zed31rus.Apps.Authorization.Clients.External.Web.Managers;
 using zed31rus.Apps.Authorization.Core.Services;
-using zed31rus.Packages.Db.Auth.Models;
+using zed31rus.Packages.Db.Auth.Dto.User;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Controllers;
 

@@ -19,10 +19,7 @@ internal static class RateLimiterMiddleware
                     Window = TimeSpan.FromMinutes(15)
                 }
             ));
-        });
 
-        container.AddRateLimiter(options =>
-        {
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
             options.AddPolicy("per-user", context => RateLimitPartition.GetSlidingWindowLimiter(
                 ResolveUser(context),

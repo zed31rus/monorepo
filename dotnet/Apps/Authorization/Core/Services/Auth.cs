@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using zed31rus.Apps.Authorization.Core.Attributes;
 using zed31rus.Apps.Authorization.Core.Exceptions;
 using zed31rus.Apps.Authorization.Core.Managers;
+using zed31rus.Apps.Authorization.Core.Roles;
 using zed31rus.Options.Options;
 using zed31rus.Packages.Db.Auth;
 using zed31rus.Packages.Db.Auth.Dto.User;
@@ -40,11 +41,13 @@ public record AuthServiceRefreshReturn(PersonalUser User, CoreSessionManagerSess
 
 [Service]
 internal class AuthService(
-    ICoreSessionManager sessionManagerManager,
+    ICoreSessionManager sessionManager,
     IArgon2 argon,
     ISha256 sha256,
     IAuthDbContext db,
-    IAuthOption authOptions)
+    IAuthOption authOptions,
+    UnconfirmedRole unconfirmedRole
+    )
     : IAuthService
 {
     public async Task<PublicUser> Register(string login, string nickname, string password, string email,
@@ -52,7 +55,7 @@ internal class AuthService(
         CancellationToken ct = default)
     {
         var passwordHash = await argon.CreateAsync(password);
-        var rawUser = new User { Login = login, Nickname = nickname, Email = email, PasswordHash = passwordHash, Locale = locale };
+        var rawUser = new User { Login = login, Nickname = nickname, Email = email, Role = unconfirmedRole.Name, PasswordHash = passwordHash, Locale = locale };
         db.Users.Add(rawUser);
         await db.SaveChangesAsync(ct);
         return rawUser.ToPublicUser();
@@ -67,7 +70,7 @@ internal class AuthService(
 
         if (rawUser is null || !isPasswordCorrect) throw new CoreBusinessErrors.InvalidCredentialsException();
         
-        var session = await sessionManagerManager.CreateSession(rawUser);
+        var session = await sessionManager.CreateSession(rawUser);
         await db.SaveChangesAsync(ct);
 
         return new AuthServiceLoginReturn(rawUser.ToPersonalUser(), session);
@@ -87,7 +90,7 @@ internal class AuthService(
         db.RefreshTokens.Remove(incomingRefreshTokenRecord);
 
         var rawUser = incomingRefreshTokenRecord.User;
-        var session = await sessionManagerManager.CreateSession(rawUser);
+        var session = await sessionManager.CreateSession(rawUser);
 
         await db.SaveChangesAsync(ct);
 

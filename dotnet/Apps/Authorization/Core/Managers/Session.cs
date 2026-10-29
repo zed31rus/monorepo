@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using zed31rus.Apps.Authorization.Core.Attributes;
 using zed31rus.Apps.Authorization.Core.Extensions.Mappers;
 using zed31rus.Options.Options;
@@ -45,8 +46,10 @@ internal class SessionManager(IJwt jwt, IHex hex, ISha256 hash, IAuthDbContext d
     {
         var jwtTokenExpires = jwt.GetExpires();
         var publicUser = user.ToPublicUser();
-        var publicUserClaims = publicUser.ToClaims();
-        var jwtToken = jwt.Create(publicUserClaims, jwtTokenExpires.Time);
+        Claim[] claims = [
+            publicUser.ToClaim()
+        ];
+        var jwtToken = jwt.Create(claims, jwtTokenExpires.Time);
 
         return new CoreSessionManagerJwtTokenInfo(jwtToken, jwtTokenExpires);
     }

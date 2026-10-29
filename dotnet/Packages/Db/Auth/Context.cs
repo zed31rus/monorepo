@@ -1,9 +1,5 @@
 global using IContext = zed31rus.Packages.Db.Auth.IAuthDbContext;
 global using Context = zed31rus.Packages.Db.Auth.AuthDbContext;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using zed31rus.Packages.Db.Auth.Models;
 
@@ -11,11 +7,10 @@ namespace zed31rus.Packages.Db.Auth;
 
 public interface IAuthDbContext
 {
-    DbSet<User> Users { get; }
-    DbSet<RefreshToken> RefreshTokens { get; }
-    DbSet<OauthAccount> OauthAccounts { get; }
-    DbSet<VerificationCode> VerificationCodes { get; }
-
+    public DbSet<User> Users { get; }
+    public DbSet<RefreshToken> RefreshTokens { get; }
+    public DbSet<OauthAccount> OauthAccounts { get; }
+    public DbSet<VerificationCode> VerificationCodes { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
 
@@ -25,6 +20,7 @@ internal class AuthDbContext(DbContextOptions<Context> options) : DbContext(opti
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
     public DbSet<OauthAccount> OauthAccounts => Set<OauthAccount>();
     public DbSet<VerificationCode> VerificationCodes => Set<VerificationCode>();
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

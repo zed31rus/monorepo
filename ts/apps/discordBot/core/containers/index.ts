@@ -11,7 +11,7 @@ import LibContainer from '@packages/libs';
 import FeatureRegistry from '#core/registry/feature.js';
 import ServiceContainer from './service.js';
 import CommandDeployer from '#core/deployers/command.js';
-import GuildService from '#core/services/guild.js';
+import GuildsService from '#core/services/guild.js';
 import SingletonManagerContainer from './manager.js';
 import ActivitySingletonManager from '#core/managers/activity.js';
 import type { BaseGuildManagerArgs } from '#core/base/manager/guild.js';
@@ -123,7 +123,7 @@ const singletonManagers = new SingletonManagerContainer(
 const servicesDeps = [instances, registries, singletonManagers, ...botDeps] as const;
 
 const services = new ServiceContainer(
-	await GuildService.create(ManagerDeps as BaseGuildManagerArgs, ...servicesDeps)
+	await GuildsService.create(ManagerDeps as BaseGuildManagerArgs, ...servicesDeps)
 );
 
 const emittersDeps = [services, ...servicesDeps] as const;
