@@ -32,7 +32,7 @@ public interface ICoreSessionManager
 }
 
 [Manager]
-internal class SessionManager(IJwt jwt, IHex hex, ISha256 hash, IAuthDbContext db, IJwtOption jwtOptions) : ICoreSessionManager
+internal class SessionManager(IJwt jwt, IHex hex, ISha256 hash, IAuthDbContext db) : ICoreSessionManager
 {
     public async Task<CoreSessionManagerSessionReturn> CreateSession(User user)
     {
