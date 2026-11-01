@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using zed31rus.Apps.Authorization.Clients.External.Web.Managers;
 using zed31rus.Apps.Authorization.Core.Services;
+using zed31rus.Options.Options;
 using zed31rus.Packages.Db.Auth.Dto.User;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Controllers;
@@ -14,7 +15,7 @@ public record RefreshResponse(PersonalUser User, string AccessToken);
 
 [ApiController]
 [Route("[controller]")]
-public class AuthController(IAuthService authService, ISessionManager sessionManager) : ControllerBase
+public class AuthController(IAuthService authService, ISessionManager sessionManager, ISessionOption sessionsOptions) : ControllerBase
 {
     [HttpPost("register")]
     public async Task<ActionResult<PublicUser>> Register(RegisterRequest req, CancellationToken ct)
@@ -24,7 +25,7 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<PersonalUser>> Login(LoginRequest req, CancellationToken ct)
+    public async Task<ActionResult<LoginResponse>> Login(LoginRequest req, CancellationToken ct)
     {
         var loginReturn = await authService.Login(req.Login, req.Password, ct);
         var user = loginReturn.User;
@@ -34,9 +35,9 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
     }
 
     [HttpPost("refresh")]
-    public async Task<ActionResult<PersonalUser>> Refresh(CancellationToken ct)
+    public async Task<ActionResult<RefreshResponse>> Refresh(CancellationToken ct)
     {
-        if (!Request.Cookies.TryGetValue("refresh", out var incomingRefreshToken) ||
+        if (!Request.Cookies.TryGetValue(sessionsOptions.Cookies.Refresh.Name, out var incomingRefreshToken) ||
             string.IsNullOrEmpty(incomingRefreshToken)) return Unauthorized();
 
         var refreshReturn = await authService.Refresh(incomingRefreshToken, ct);
@@ -49,8 +50,7 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
     [HttpPost("logout")]
     public async Task<ActionResult> Logout(CancellationToken ct)
     {
-        if (!Request.Cookies.TryGetValue("refresh", out var incomingRefreshToken) ||
-            string.IsNullOrEmpty(incomingRefreshToken)) return Unauthorized();
+        var incomingRefreshToken = sessionManager.Get.Refresh(Request);
 
         await authService.Logout(incomingRefreshToken, ct);
         sessionManager.Delete.Session(Response);

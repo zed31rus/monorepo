@@ -56,7 +56,7 @@ public static class WebExternalClient
 
     private static void ConfigurePipeline(WebApplication app)
     {
-        app.MapControllers();
+        app.MapControllers().RequireRateLimiting("default");
 
         if (!IsProduction())
         {

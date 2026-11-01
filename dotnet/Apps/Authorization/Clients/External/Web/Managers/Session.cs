@@ -1,12 +1,19 @@
 using zed31rus.Apps.Authorization.Clients.External.Web.Attributes;
+using zed31rus.Apps.Authorization.Clients.External.Web.Exceptions;
 using zed31rus.Options.Options;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Managers;
 
 public interface ISessionManager
 {
+    IGet Get { get; }
     ISend Send { get; }
     IDelete Delete { get; }
+}
+
+public interface IGet
+{
+    string Refresh(HttpRequest request);
 }
 
 public interface ISend
@@ -26,6 +33,7 @@ public interface IDelete
 [Manager]
 internal class SessionManager(ISessionOption sessionsOptions) : ISessionManager
 {
+    public IGet Get { get; } = new Get(sessionsOptions);
     public ISend Send { get; } = new Send(sessionsOptions);
     public IDelete Delete { get; } = new Delete(sessionsOptions);
 }
@@ -69,5 +77,15 @@ internal class Delete(ISessionOption sessionsOptions) : IDelete
     {
         response.Cookies.Delete(sessionsOptions.Cookies.Refresh.Name,
             sessionsOptions.Cookies.Refresh.Options);
+    }
+}
+
+internal class Get(ISessionOption sessionsOptions) : IGet
+{
+    public string Refresh(HttpRequest request)
+    {
+        request.Cookies.TryGetValue(sessionsOptions.Cookies.Refresh.Name, out var token);
+        if (token is null) throw new WebExternalClientExceptions.RefreshTokenMissingExternalClientException();
+        return token;
     }
 }

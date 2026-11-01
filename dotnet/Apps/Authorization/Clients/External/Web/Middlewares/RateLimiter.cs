@@ -1,7 +1,6 @@
 ﻿using System.Threading.RateLimiting;
 using zed31rus.Apps.Authorization.Core.Extensions.Getters;
 using zed31rus.Packages.Db.Auth.Dto.User;
-using zed31rus.Packages.Db.Auth.Models;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
 
@@ -21,7 +20,7 @@ internal static class RateLimiterMiddleware
         return container;
     }
 
-    public static RateLimitPartition<string> PerUserRateLimitPartition(HttpContext context)
+    private static RateLimitPartition<string> PerUserRateLimitPartition(HttpContext context)
     {
         return RateLimitPartition.GetSlidingWindowLimiter(
             ResolveUser(context).Uuid.ToString(),
@@ -33,8 +32,8 @@ internal static class RateLimiterMiddleware
             }
         );
     }
-    
-    public static RateLimitPartition<string> PerIpRateLimitPartition(HttpContext context)
+
+    private static RateLimitPartition<string> PerIpRateLimitPartition(HttpContext context)
     {
         return RateLimitPartition.GetSlidingWindowLimiter(
             ResolveRealIp(context),
@@ -60,7 +59,7 @@ internal static class RateLimiterMiddleware
     private static string ResolveRealIp(HttpContext context)
     {
         var cfIp = context.Request.Headers["cf-connecting-ip"].FirstOrDefault();
-        var xForwardedIp = context.Request.Headers["x-forwarded-for"].FirstOrDefault()?.Split(",")[0];
+        var xForwardedIp = context.Request.Headers["x-forwarded-for"].FirstOrDefault()?.Split(", ")[0];
         var realIp = context.Request.Headers["x-real-ip"].FirstOrDefault();
         var remoteIpAddress = context.Connection.RemoteIpAddress?.ToString();
 

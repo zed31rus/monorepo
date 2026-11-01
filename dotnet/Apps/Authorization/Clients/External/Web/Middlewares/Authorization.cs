@@ -18,7 +18,8 @@ internal static class AuthorizationMiddleware
                 foreach (var permission in permissions)
                 {
                     string requiredPermissionName = permission.Name;
-                    
+
+                    options.InvokeHandlersAfterFailure = false;
                     options.AddPolicy(requiredPermissionName, policy =>
                     {
                         policy.RequireAuthenticatedUser()
