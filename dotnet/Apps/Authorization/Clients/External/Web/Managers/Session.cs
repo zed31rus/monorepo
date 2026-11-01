@@ -1,6 +1,6 @@
 using zed31rus.Apps.Authorization.Clients.External.Web.Attributes;
 using zed31rus.Apps.Authorization.Clients.External.Web.Exceptions;
-using zed31rus.Options.Options;
+using zed31rus.Options.Auth.Options;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Managers;
 

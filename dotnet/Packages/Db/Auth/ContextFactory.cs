@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using zed31rus.Options.Values;
+using zed31rus.Options.Auth.Values;
 
 namespace zed31rus.Packages.Db.Auth;
 

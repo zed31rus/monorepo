@@ -12,9 +12,10 @@
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
         <PackageReference Include="Scrutor" />
-        <ProjectReference Include="../../../Packages/Db/Auth/AuthDb.csproj" />
-        <ProjectReference Include="../../../Packages/Libs/Libs.csproj" />
+        <ProjectReference Include="$(RepoRoot)Packages/Db/Auth/AuthDb.csproj" />
+        <ProjectReference Include="$(RepoRoot)Packages/Libs/Libs.csproj" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
         <ProjectReference Include="$(RepoRoot)Shared/Shared.csproj"/>
+        <ProjectReference Include="$(RepoRoot)Options/Auth/Auth.csproj"/>
     </ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using zed31rus.Options.Options;
+using zed31rus.Options.Auth.Options;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
 

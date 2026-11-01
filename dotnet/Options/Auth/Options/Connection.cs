@@ -1,4 +1,4 @@
-namespace zed31rus.Options.Options;
+namespace zed31rus.Options.Auth.Options;
 
 public interface IConnectionOption
 {

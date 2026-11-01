@@ -29,6 +29,10 @@
   <Folder Name="/Util/">
     <Project Path="Util/HttpClientGenerator/HttpClientGenerator.csproj" />
   </Folder>
-  <Project Path="Options/Options.csproj" />
+  <Folder Name="/Options/">
+    <Project Path="Options/Auth/Auth.csproj" />
+    <Project Path="Options/Mail/Mail.csproj" />
+  </Folder>
+
   <Project Path="Shared/Shared.csproj" />
 </Solution>

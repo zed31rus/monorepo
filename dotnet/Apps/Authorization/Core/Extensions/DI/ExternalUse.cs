@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using zed31rus.Options.Options;
+using zed31rus.Options.Auth.Options;
 using zed31rus.Packages.Db.Auth;
 using zed31rus.Packages.Libs.DI.Extensions;
 

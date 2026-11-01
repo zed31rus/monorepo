@@ -6,6 +6,7 @@
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
         <PackageReference Include="Scalar.AspNetCore" />
         <ProjectReference Include="$(RepoRoot)Apps/Authorization/Core/Core.csproj" />
+        <ProjectReference Include="$(RepoRoot)Options/Auth/Auth.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -5,10 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation"/>
     <PackageReference Include="MailKit"/>
     <PackageReference Include="Mjml.Net"/>
     <PackageReference Include="RazorLight"/>
+    <ProjectReference Include="$(RepoRoot)Options/Mail/Mail.csproj"/>
   </ItemGroup>
 
 </Project>

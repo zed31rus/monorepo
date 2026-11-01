@@ -3,7 +3,7 @@ using zed31rus.Apps.Authorization.Core.Attributes;
 using zed31rus.Apps.Authorization.Core.Exceptions;
 using zed31rus.Apps.Authorization.Core.Managers;
 using zed31rus.Apps.Authorization.Core.Roles;
-using zed31rus.Options.Options;
+using zed31rus.Options.Auth.Options;
 using zed31rus.Packages.Db.Auth;
 using zed31rus.Packages.Db.Auth.Dto.User;
 using zed31rus.Packages.Db.Auth.Models;

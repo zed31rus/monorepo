@@ -6,7 +6,7 @@ using zed31rus.Apps.Authorization.Clients.External.Web.Handlers;
 using zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
 using zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
 using zed31rus.Apps.Authorization.Core.Extensions.DI;
-using zed31rus.Options.Extensions.DI;
+using zed31rus.Options.Auth.Extensions.DI;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web;
 
