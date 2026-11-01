@@ -10,10 +10,10 @@ public interface IConfirmedRole: IBaseRole
 }
 
 [Role]
-internal class ConfirmedRole(GetUsersPermission getUsersPermission): BaseRole, IConfirmedRole
+internal class ConfirmedRole(DefaultUserRole defaultUserRole, GetUsersPermission getUsersPermission): BaseRole, IConfirmedRole
 {
     public override string Name => "confirmed";
-    public override BaseRole? ParentRole => null;
+    public override BaseRole? ParentRole => defaultUserRole;
 
     public override BasePermission[] Permissions =>
     [

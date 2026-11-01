@@ -10,13 +10,14 @@ public interface IUnconfirmedRole: IBaseRole
 }
 
 [Role]
-internal class UnconfirmedRole(ConfirmationPermission confirmationPermission): BaseRole, IUnconfirmedRole
+internal class UnconfirmedRole(ConfirmationPermission confirmationPermission, MePermission mePermission): BaseRole, IUnconfirmedRole
 {
     public override string Name => "unconfirmed";
     public override BaseRole? ParentRole => null;
 
     public override BasePermission[] Permissions =>
     [
-        confirmationPermission
+        confirmationPermission,
+        mePermission
     ];
 }
