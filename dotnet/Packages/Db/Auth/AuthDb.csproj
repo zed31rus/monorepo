@@ -7,6 +7,7 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
+        <ProjectReference Include="$(RepoRoot)Options/Options.csproj"/>
     </ItemGroup>
 
 </Project>

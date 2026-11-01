@@ -5,7 +5,7 @@ public interface IAuthOption
     string DummyPasswordHash { get; }
 }
 
-internal class AuthOption : IAuthOption
+public class AuthOption : IAuthOption
 {
     public required string DummyPasswordHash { get; init; }
 }

@@ -8,7 +8,7 @@ public interface IJwtOption
     TimeSpan ExpiresIn { get; }
 }
 
-internal class JwtOption : IJwtOption
+public class JwtOption : IJwtOption
 {
     public required TokenValidationParameters TokenValidationOption { get; init; }
     public required TimeSpan ExpiresIn { get; init; }

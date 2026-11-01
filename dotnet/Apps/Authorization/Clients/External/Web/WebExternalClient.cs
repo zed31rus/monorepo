@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Scalar.AspNetCore;
 using zed31rus.Apps.Authorization.Clients.External.Web.Extensions.DI;
@@ -53,7 +54,7 @@ public static class WebExternalClient
 
         var mvc = builder.Services.AddControllers(o =>
             o.Conventions.Add(new RouteTokenTransformerConvention(new LowercaseParameterTransformer())));
-
+        builder.Services.AddHttpLogging(o => { o.LoggingFields = HttpLoggingFields.RequestPropertiesAndHeaders | HttpLoggingFields.ResponsePropertiesAndHeaders; });
         configureMvc?.Invoke(mvc);
     }
 
@@ -70,6 +71,7 @@ public static class WebExternalClient
         app.UseAuthentication();
         app.UseRateLimiter();
         app.UseAuthorization();
+        app.UseHttpLogging();
     }
 
     private static bool IsDevelopment()

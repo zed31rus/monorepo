@@ -19,13 +19,13 @@ public interface ISessionCookie
     CookieOptions Options { get; }
 }
 
-internal class SessionOption : ISessionOption
+public class SessionOption : ISessionOption
 {
     public required SessionCookies Cookies { get; init; }
     ISessionCookies ISessionOption.Cookies => Cookies;
 }
 
-internal class SessionCookies : ISessionCookies
+public class SessionCookies : ISessionCookies
 {
     public required SessionCookie Refresh { get; init; }
     public required SessionCookie Access { get; init; }
@@ -33,7 +33,7 @@ internal class SessionCookies : ISessionCookies
     ISessionCookie ISessionCookies.Access => Access;
 }
 
-internal class SessionCookie : ISessionCookie
+public class SessionCookie : ISessionCookie
 {
     public required string Name { get; init; }
     public required CookieOptions Options { get; init; }
