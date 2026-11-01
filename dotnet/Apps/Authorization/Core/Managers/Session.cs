@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using zed31rus.Apps.Authorization.Core.Attributes;
 using zed31rus.Apps.Authorization.Core.Extensions.Mappers;
-using zed31rus.Options.Options;
 using zed31rus.Packages.Db.Auth;
 using zed31rus.Packages.Db.Auth.Dto.User;
 using zed31rus.Packages.Db.Auth.Models;

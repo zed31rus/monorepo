@@ -54,8 +54,10 @@ internal class Send(ISessionOption sessionsOptions) : ISend
 
     public void Refresh(HttpResponse response, Core.Managers.CoreSessionManagerRefreshTokenInfo coreSessionManagerRefreshInfo)
     {
-        response.Cookies.Append(sessionsOptions.Cookies.Refresh.Name, coreSessionManagerRefreshInfo.Token,
-            sessionsOptions.Cookies.Refresh.Options);
+        var cookie = sessionsOptions.Cookies.Refresh;
+        var options = new CookieOptions(cookie.Options) { Expires = coreSessionManagerRefreshInfo.Expires.AtTime };
+
+        response.Cookies.Append(cookie.Name, coreSessionManagerRefreshInfo.Token, options);
     }
 }
 

@@ -9,8 +9,8 @@ public record RegisterRequest(string Login, string Nickname, string Password, st
 
 public record LoginRequest(string Login, string Password);
 
-public record LoginResponse(PersonalUser User, string AccessToken);
-public record RefreshResponse(PersonalUser User, string AccessToken);
+public record LoginResponse(PersonalUser User, string AccessToken, DateTime AccessTokenExpiresAt);
+public record RefreshResponse(PersonalUser User, string AccessToken, DateTime AccessTokenExpiresAt);
 
 [ApiController]
 [Route("[controller]")]
@@ -31,7 +31,7 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
         var user = loginReturn.User;
         var session = loginReturn.Session;
         sessionManager.Send.Refresh(Response, session.Refresh);
-        return StatusCode(StatusCodes.Status200OK, new LoginResponse(user, session.Access.Token));
+        return StatusCode(StatusCodes.Status200OK, new LoginResponse(user, session.Access.Token, session.Access.Expires.AtTime));
     }
 
     [HttpPost("refresh")]
@@ -44,7 +44,7 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
         var user = refreshReturn.User;
         var session = refreshReturn.Session;
         sessionManager.Send.Refresh(Response, session.Refresh);
-        return StatusCode(StatusCodes.Status200OK, new RefreshResponse(user, session.Access.Token));
+        return StatusCode(StatusCodes.Status200OK, new RefreshResponse(user, session.Access.Token, session.Access.Expires.AtTime));
     }
 
     [HttpPost("logout")]
