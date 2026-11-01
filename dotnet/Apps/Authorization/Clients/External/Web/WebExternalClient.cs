@@ -44,6 +44,7 @@ public static class WebExternalClient
         builder.Services.AddManagers();
         builder.Services.AddOpenApi(options =>
         {
+            options.AddDocumentTransformer<BearerSecurityTransformer>();
             options.AddOperationTransformer<ErrorResponsesTransformer>();
         });
         builder.Services.AddExceptionHandler<ExceptionHandler>();

@@ -15,7 +15,8 @@ internal sealed class ErrorResponsesTransformer : IOpenApiOperationTransformer
         operation.Responses ??= new OpenApiResponses();
 
         Add(operation, StatusCodes.Status500InternalServerError.ToString(), "INTERNAL", schema);
-
+        Add(operation, StatusCodes.Status429TooManyRequests.ToString(), "TOO_MANY_REQUESTS", schema);
+        
         var requiresAuth = context.Description.ActionDescriptor.EndpointMetadata
             .OfType<IAuthorizeData>()
             .Any();
@@ -24,6 +25,13 @@ internal sealed class ErrorResponsesTransformer : IOpenApiOperationTransformer
         {
             Add(operation, StatusCodes.Status401Unauthorized.ToString(), "UNAUTHORIZED", schema);
             Add(operation, StatusCodes.Status403Forbidden.ToString(), "FORBIDDEN", schema);
+            operation.Security =
+            [
+                new OpenApiSecurityRequirement
+                {
+                    [new OpenApiSecuritySchemeReference("Bearer", context.Document)] = []
+                }
+            ];
         }
     }
 

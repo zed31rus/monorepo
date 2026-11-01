@@ -7,13 +7,14 @@ using zed31rus.Packages.Db.Auth.Dto.User;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Controllers;
 
-public record UpdateNicknameRequest(string newNickName);
-public record UpdateEmailFindRequest(bool allowEmailFind);
-public record UpdateLoginFindRequest(bool allowLoginFind);
+public record UpdateNicknameRequest(string Nickname);
+public record UpdateEmailFindRequest(bool AllowEmailFind);
+public record UpdateLoginFindRequest(bool AllowLoginFind);
 
 
 [ApiController]
 [Route("[controller]")]
+[Produces("application/json")]
 public class MeController(IMeService service) : ControllerBase
 {
     [HttpGet("get")]
@@ -30,7 +31,7 @@ public class MeController(IMeService service) : ControllerBase
     public async Task<ActionResult<PersonalUser>> UpdateNickname(UpdateNicknameRequest req, CancellationToken ct)
     {
         var publicUser = User.GetPublicUser();
-        var user = await service.UpdateNickname(req.newNickName, publicUser.Uuid, ct);
+        var user = await service.UpdateNickname(req.Nickname, publicUser.Uuid, ct);
         return user;
     }
     
@@ -39,7 +40,7 @@ public class MeController(IMeService service) : ControllerBase
     public async Task<ActionResult<PersonalUser>> UpdateEmailFind(UpdateEmailFindRequest req, CancellationToken ct)
     {
         var publicUser = User.GetPublicUser();
-        var user = await service.UpdateEmailFind(req.allowEmailFind, publicUser.Uuid, ct);
+        var user = await service.UpdateEmailFind(req.AllowEmailFind, publicUser.Uuid, ct);
         return user;
     }
     
@@ -48,7 +49,7 @@ public class MeController(IMeService service) : ControllerBase
     public async Task<ActionResult<PersonalUser>> UpdateLoginFind(UpdateLoginFindRequest req, CancellationToken ct)
     {
         var publicUser = User.GetPublicUser();
-        var user = await service.UpdateLoginFind(req.allowLoginFind, publicUser.Uuid, ct);
+        var user = await service.UpdateLoginFind(req.AllowLoginFind, publicUser.Uuid, ct);
         return user;
     }
 }

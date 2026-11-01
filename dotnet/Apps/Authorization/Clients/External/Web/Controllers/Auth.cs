@@ -14,9 +14,11 @@ public record RefreshResponse(PersonalUser User, string AccessToken, DateTime Ac
 
 [ApiController]
 [Route("[controller]")]
+[Produces("application/json")]
 public class AuthController(IAuthService authService, ISessionManager sessionManager) : ControllerBase
 {
     [HttpPost("register")]
+    [ProducesResponseType<PublicUser>(StatusCodes.Status201Created)]
     public async Task<ActionResult<PublicUser>> Register(RegisterRequest req, CancellationToken ct)
     {
         var user = await authService.Register(req.Login, req.Nickname, req.Password, req.Email, req.Locale, ct);
@@ -24,6 +26,7 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
     }
 
     [HttpPost("login")]
+    [ProducesResponseType<LoginResponse>(StatusCodes.Status200OK)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<LoginResponse>> Login(LoginRequest req, CancellationToken ct)
     {
@@ -35,7 +38,9 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
     }
 
     [HttpPost("refresh")]
+    [ProducesResponseType<RefreshResponse>(StatusCodes.Status200OK)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
+
     public async Task<ActionResult<RefreshResponse>> Refresh(CancellationToken ct)
     {
         var incomingRefreshToken = sessionManager.Get.Refresh(Request);
@@ -48,6 +53,8 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
     }
 
     [HttpPost("logout")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> Logout(CancellationToken ct)
     {
         var incomingRefreshToken = sessionManager.Get.Refresh(Request);

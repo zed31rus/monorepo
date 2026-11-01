@@ -9,6 +9,9 @@ namespace zed31rus.Apps.Authorization.Clients.External.Web.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Produces("application/json")]
+[ProducesResponseType<PublicUser>(StatusCodes.Status200OK)]
+[ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
 public class UsersController(IUsersService usersService) : ControllerBase
 {
     [HttpGet("get/uuid")]
