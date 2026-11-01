@@ -24,6 +24,7 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
     }
 
     [HttpPost("login")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<LoginResponse>> Login(LoginRequest req, CancellationToken ct)
     {
         var loginReturn = await authService.Login(req.Login, req.Password, ct);
@@ -34,6 +35,7 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
     }
 
     [HttpPost("refresh")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<RefreshResponse>> Refresh(CancellationToken ct)
     {
         var incomingRefreshToken = sessionManager.Get.Refresh(Request);

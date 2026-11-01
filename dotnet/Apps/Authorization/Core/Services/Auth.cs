@@ -68,7 +68,7 @@ internal class AuthService(
         var passwordHash = rawUser?.PasswordHash ?? authOptions.DummyPasswordHash;
         var isPasswordCorrect = await argon.CompareAsync(password, passwordHash);
 
-        if (rawUser is null || !isPasswordCorrect) throw new CoreBusinessErrors.InvalidCredentialsException();
+        if (rawUser is null || !isPasswordCorrect) throw new CoreBusinessExceptions.InvalidCredentialsException();
         
         var session = await sessionManager.CreateSession(rawUser);
         await db.SaveChangesAsync(ct);
@@ -81,11 +81,11 @@ internal class AuthService(
         var hashedIncomingToken = await sha256.CreateAsync(incomingRefreshToken);
         var incomingRefreshTokenRecord = await db.RefreshTokens.Include(token => token.User)
             .FirstOrDefaultAsync(token => token.HashedToken == hashedIncomingToken, ct);
-        if (incomingRefreshTokenRecord is null) throw new CoreBusinessErrors.InvalidCredentialsException();
+        if (incomingRefreshTokenRecord is null) throw new CoreBusinessExceptions.InvalidCredentialsException();
 
         var expired = DateTime.UtcNow > incomingRefreshTokenRecord.ExpiresAt;
 
-        if (expired) throw new CoreBusinessErrors.InvalidCredentialsException();
+        if (expired) throw new CoreBusinessExceptions.InvalidCredentialsException();
 
         db.RefreshTokens.Remove(incomingRefreshTokenRecord);
 
@@ -102,7 +102,7 @@ internal class AuthService(
         var hashedIncomingToken = await sha256.CreateAsync(incomingRefreshToken);
         var incomingRefreshTokenRecord =
             await db.RefreshTokens.FirstOrDefaultAsync(token => token.HashedToken == hashedIncomingToken, ct);
-        if (incomingRefreshTokenRecord is null) throw new CoreBusinessErrors.InvalidCredentialsException();
+        if (incomingRefreshTokenRecord is null) throw new CoreBusinessExceptions.InvalidCredentialsException();
         db.RefreshTokens.Remove(incomingRefreshTokenRecord);
         await db.SaveChangesAsync(ct);
     }

@@ -30,7 +30,7 @@ internal class RoleManager : IRoleManager
     public ImmutableArray<string> GetRoleChain(string roleName)
     {
         var chain = _chainsByRoleName.GetValueOrDefault(roleName);
-        if (chain.IsDefault) throw new CoreBusinessErrors.InvalidRole();
+        if (chain.IsDefault) throw new CoreBusinessExceptions.InvalidRole();
 
         return chain;
     }
@@ -38,7 +38,7 @@ internal class RoleManager : IRoleManager
     public BaseRole GetRole(string roleName)
     {
         var role = _rolesByName.GetValueOrDefault(roleName);
-        if (role is null) throw new CoreBusinessErrors.InvalidRole();
+        if (role is null) throw new CoreBusinessExceptions.InvalidRole();
 
         return role;
     }

@@ -29,7 +29,7 @@ internal class UsersService(IAuthDbContext db): IUsersService
         var rawUser = await db.Users.FirstAsync(user => user.Email == email, ct);
         if (!rawUser.AllowEmailFind)
         {
-            throw new CoreBusinessErrors.NotFoundException();
+            throw new CoreBusinessExceptions.NotFoundException();
         }
         return rawUser.ToPublicUser();
     }
@@ -39,7 +39,7 @@ internal class UsersService(IAuthDbContext db): IUsersService
         var rawUser = await db.Users.FirstAsync(user => user.Login == login, ct);
         if (!rawUser.AllowLoginFind)
         {
-            throw new CoreBusinessErrors.NotFoundException();
+            throw new CoreBusinessExceptions.NotFoundException();
         }
         return rawUser.ToPublicUser();
     }

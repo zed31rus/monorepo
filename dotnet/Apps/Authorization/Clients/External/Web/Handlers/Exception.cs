@@ -5,23 +5,21 @@ using zed31rus.Apps.Authorization.Core.Exceptions;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Handlers;
 
-public class ErrorHandler(ILogger<ErrorHandler> logger): IExceptionHandler
+public class ExceptionHandler(ILogger<ExceptionHandler> logger): IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken ct)
     {
         var (title, statusCode) = exception switch
         {
-            CoreBusinessErrors.InvalidCredentialsException => ("UNAUTHORIZED", StatusCodes.Status401Unauthorized),
-            CoreBusinessErrors.UserNotFoundException => ("UNAUTHORIZED", StatusCodes.Status401Unauthorized),
-            CoreBusinessErrors.NotFoundException => ("NOT_FOUND", StatusCodes.Status404NotFound),
-            CoreBusinessErrors.InvalidRole => ("INTERNAL", StatusCodes.Status500InternalServerError),
-            CoreBusinessErrors.InternalException => ("INTERNAL", StatusCodes.Status500InternalServerError),
+            CoreBusinessExceptions.InvalidCredentialsException => ("UNAUTHORIZED", StatusCodes.Status401Unauthorized),
+            CoreBusinessExceptions.UserNotFoundException => ("UNAUTHORIZED", StatusCodes.Status401Unauthorized),
+            CoreBusinessExceptions.NotFoundException => ("NOT_FOUND", StatusCodes.Status404NotFound),
+            CoreBusinessExceptions.InvalidRole => ("INTERNAL", StatusCodes.Status500InternalServerError),
+            CoreBusinessExceptions.InternalException => ("INTERNAL", StatusCodes.Status500InternalServerError),
             
             WebExternalClientExceptions.RefreshTokenMissingExternalClientException => ("UNAUTHORIZED", StatusCodes.Status401Unauthorized),
 
             _ => ("INTERNAL", StatusCodes.Status500InternalServerError)
-            
-            
         };
 
         if (statusCode >= StatusCodes.Status500InternalServerError)

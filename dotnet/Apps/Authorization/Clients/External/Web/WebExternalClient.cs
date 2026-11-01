@@ -42,7 +42,7 @@ public static class WebExternalClient
         builder.Services.AddAuthCore();
         builder.Services.AddManagers();
         builder.Services.AddOpenApi();
-        builder.Services.AddExceptionHandler<ErrorHandler>();
+        builder.Services.AddExceptionHandler<ExceptionHandler>();
         builder.Services.AddProblemDetails();
         builder.Services.AddAuthenticationMiddleware();
         builder.Services.AddRateLimiters();

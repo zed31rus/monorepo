@@ -2,7 +2,7 @@ namespace zed31rus.Apps.Authorization.Core.Exceptions;
 
 public class CoreException(string message) : Exception(message);
 
-public static class CoreBusinessErrors
+public static class CoreBusinessExceptions
 {
     public class InvalidCredentialsException() : CoreException("INVALID_CREDENTIALS");
 

@@ -10,9 +10,9 @@ public static class ClaimsPrincipalGetterExtension
     public static PublicUser GetPublicUser(this ClaimsPrincipal principal)
     {
         string? json = principal.FindFirstValue("user");
-        if (json is null) throw new CoreBusinessErrors.UserNotFoundException();
+        if (json is null) throw new CoreBusinessExceptions.UserNotFoundException();
         var user = JsonSerializer.Deserialize<PublicUser>(json, Options);
-        if (user is null) throw new CoreBusinessErrors.UserNotFoundException();
+        if (user is null) throw new CoreBusinessExceptions.UserNotFoundException();
 
         return user;
     }

@@ -19,7 +19,7 @@ internal sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExce
                 return exception;
             default:
                 logger.LogError("Unhandled exception: {exception} in Core", exception);
-                return new CoreBusinessErrors.InternalException();
+                return new CoreBusinessExceptions.InternalException();
         }
     }
 }
