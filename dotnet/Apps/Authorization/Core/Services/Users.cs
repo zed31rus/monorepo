@@ -9,22 +9,22 @@ namespace zed31rus.Apps.Authorization.Core.Services;
 
 public interface IUsersService
 {
-    public Task<PublicUser> GetByUuid(Guid uuid, CancellationToken ct);
-    public Task<PublicUser> GetByEmail(string email, CancellationToken ct);
-    public Task<PublicUser> GetByLogin(string login, CancellationToken ct);
-    public Task<PublicUser> GetByNickname(string nickName, CancellationToken ct);
+    public Task<PublicUser> GetByUuid(Guid uuid, CancellationToken ct = default);
+    public Task<PublicUser> GetByEmail(string email, CancellationToken ct = default);
+    public Task<PublicUser> GetByLogin(string login, CancellationToken ct = default);
+    public Task<PublicUser> GetByNickname(string nickName, CancellationToken ct = default);
 }
 
 [Service]
 internal class UsersService(IAuthDbContext db): IUsersService
 {
-    public async Task<PublicUser> GetByUuid(Guid uuid, CancellationToken ct)
+    public async Task<PublicUser> GetByUuid(Guid uuid, CancellationToken ct = default)
     {
         var rawUser = await db.Users.FirstAsync(user => user.Uuid == uuid, ct);
         return rawUser.ToPublicUser();
     }
 
-    public async Task<PublicUser> GetByEmail(string email, CancellationToken ct)
+    public async Task<PublicUser> GetByEmail(string email, CancellationToken ct = default)
     {
         var rawUser = await db.Users.FirstAsync(user => user.Email == email, ct);
         if (!rawUser.AllowEmailFind)
@@ -34,7 +34,7 @@ internal class UsersService(IAuthDbContext db): IUsersService
         return rawUser.ToPublicUser();
     }
 
-    public async Task<PublicUser> GetByLogin(string login, CancellationToken ct)
+    public async Task<PublicUser> GetByLogin(string login, CancellationToken ct = default)
     {
         var rawUser = await db.Users.FirstAsync(user => user.Login == login, ct);
         if (!rawUser.AllowLoginFind)
@@ -44,7 +44,7 @@ internal class UsersService(IAuthDbContext db): IUsersService
         return rawUser.ToPublicUser();
     }
 
-    public async Task<PublicUser> GetByNickname(string nickName, CancellationToken ct)
+    public async Task<PublicUser> GetByNickname(string nickName, CancellationToken ct = default)
     {
         var rawUser = await db.Users.FirstAsync(user => user.Nickname == nickName, ct);
         return rawUser.ToPublicUser();

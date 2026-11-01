@@ -13,17 +13,23 @@ internal static class AuthorizationMiddleware
 
         container
             .AddOptions<AuthorizationOptions>()
-            .Configure<IRoleManager, IEnumerable<BaseRole>>((options, roleManager, roles) =>
+            .Configure<IRoleManager, IEnumerable<BasePermission>>((options, roleManager, permissions) =>
             {
-                foreach (var role in roles)
+                foreach (var permission in permissions)
                 {
-                    string requiredRoleName = role.Name;
+                    string requiredPermissionName = permission.Name;
                     
-                    options.AddPolicy(requiredRoleName, policy =>
+                    options.AddPolicy(requiredPermissionName, policy =>
                     {
                         policy.RequireAuthenticatedUser()
-                            .RequireAssertion(context => context.User.GetPublicUser() is { } user &&
-                                roleManager.ExpandRole(user.Role).Contains(requiredRoleName));
+                            .RequireAssertion(context =>
+                            {
+                                var user = context.User.GetPublicUser();
+                                var userChain = roleManager.GetRoleChain(user.Role);
+                                var rolePermissions = roleManager.GetPermissions(userChain);
+
+                                return rolePermissions.Contains(requiredPermissionName);
+                            });
                     });
                 }
             });

@@ -3,12 +3,9 @@ using zed31rus.Apps.Authorization.Core.Base;
 
 namespace zed31rus.Apps.Authorization.Core.Roles;
 
-public interface IOwner
+public interface IOwner: IBaseRole
 {
-    public string Name => "owner";
-    public BaseRole ParentRole { get; }
-
-    public BasePermission[] Permissions { get; }
+    public new string Name => "owner";
 }
 
 [Role]

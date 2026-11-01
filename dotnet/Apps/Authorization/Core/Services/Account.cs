@@ -6,13 +6,13 @@ namespace zed31rus.Apps.Authorization.Core.Services;
 
 interface IAccountService
 {
-    public Task<PersonalUser> EmailVerificationSend(Guid uuid, CancellationToken ct);
+    public Task<PersonalUser> EmailVerificationSend(Guid uuid, CancellationToken ct = default);
 }
 
 [Service]
 internal class AccountService: IAccountService
 {
-    public async Task<PersonalUser> EmailVerificationSend(Guid uuid, CancellationToken ct)
+    public async Task<PersonalUser> EmailVerificationSend(Guid uuid, CancellationToken ct = default)
     {
         throw new NotImplementedException();
     }

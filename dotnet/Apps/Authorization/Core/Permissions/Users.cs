@@ -5,11 +5,11 @@ namespace zed31rus.Apps.Authorization.Core.Permissions;
 
 public interface IGetUsersPermission
 {
-    public string Name => "getUsers";
+    public string Name => "get-users";
 }
 
 [Permission]
 internal class GetUsersPermission: BasePermission, IMePermission
 {
-    public override string Name => "getUsers";
+    public override string Name => "get-users";
 }

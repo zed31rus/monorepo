@@ -8,22 +8,22 @@ namespace zed31rus.Apps.Authorization.Core.Services;
 
 public interface IMeService
 {
-    public Task<PersonalUser> Get(Guid uuid, CancellationToken ct);
-    public Task<PersonalUser> UpdateNickname(string newNickName, Guid uuid, CancellationToken ct);
-    public Task<PersonalUser> UpdateEmailFind(bool allowEmailFind, Guid uuid, CancellationToken ct);
-    public Task<PersonalUser> UpdateLoginFind(bool allowLoginFind, Guid uuid, CancellationToken ct);
+    public Task<PersonalUser> Get(Guid uuid, CancellationToken ct = default);
+    public Task<PersonalUser> UpdateNickname(string newNickName, Guid uuid, CancellationToken ct = default);
+    public Task<PersonalUser> UpdateEmailFind(bool allowEmailFind, Guid uuid, CancellationToken ct = default);
+    public Task<PersonalUser> UpdateLoginFind(bool allowLoginFind, Guid uuid, CancellationToken ct = default);
 }
 
 [Service]
 internal class MeService(IAuthDbContext db): IMeService
 {
-    public async Task<PersonalUser> Get(Guid uuid, CancellationToken ct)
+    public async Task<PersonalUser> Get(Guid uuid, CancellationToken ct = default)
     {
         var rawUser = await db.Users.FirstAsync(user => user.Uuid == uuid, ct);
         return rawUser.ToPersonalUser();
     }
 
-    public async Task<PersonalUser> UpdateNickname(string newNickName, Guid uuid, CancellationToken ct)
+    public async Task<PersonalUser> UpdateNickname(string newNickName, Guid uuid, CancellationToken ct = default)
     {
         var rawUser = await db.Users.FirstAsync(user => user.Uuid == uuid, ct);
         rawUser.Nickname = newNickName;
@@ -32,7 +32,7 @@ internal class MeService(IAuthDbContext db): IMeService
         return rawUser.ToPersonalUser();
     }
 
-    public async Task<PersonalUser> UpdateEmailFind(bool allowEmailFind, Guid uuid, CancellationToken ct)
+    public async Task<PersonalUser> UpdateEmailFind(bool allowEmailFind, Guid uuid, CancellationToken ct = default)
     {
         var rawUser = await db.Users.FirstAsync(user => user.Uuid == uuid, ct);
         rawUser.AllowEmailFind = allowEmailFind;
@@ -41,7 +41,7 @@ internal class MeService(IAuthDbContext db): IMeService
         return rawUser.ToPersonalUser();
     }
 
-    public async Task<PersonalUser> UpdateLoginFind(bool allowLoginFind, Guid uuid, CancellationToken ct)
+    public async Task<PersonalUser> UpdateLoginFind(bool allowLoginFind, Guid uuid, CancellationToken ct = default)
     {
         var rawUser = await db.Users.FirstAsync(user => user.Uuid == uuid, ct);
         rawUser.AllowLoginFind = allowLoginFind;

@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Microsoft.Extensions.DependencyInjection;
 using zed31rus.Apps.Authorization.Core.Attributes;
 using zed31rus.Apps.Authorization.Core.Base;
@@ -7,68 +8,94 @@ namespace zed31rus.Apps.Authorization.Core.Managers;
 
 public interface IRoleManager
 {
-    public string[] ExpandRole(string roleName);
-    public BaseRole GetObj(string roleName);
+    ImmutableArray<string> GetRoleChain(string roleName);
+    BaseRole GetRole(string roleName);
+    ImmutableArray<string> GetPermissions(string roleName);
+    ImmutableArray<string> GetPermissions(IEnumerable<string> roleNames);
 }
 
 [Manager(ServiceLifetime.Singleton)]
 internal class RoleManager : IRoleManager
-{   
-    private readonly Dictionary<string, string[]> _roleChains;
-    private readonly Dictionary<string, BaseRole> _roleObjs;
+{
+    private readonly Dictionary<string, ImmutableArray<string>> _chainsByRoleName;
+    private readonly Dictionary<string, BaseRole> _rolesByName;
 
     public RoleManager(IEnumerable<BaseRole> roles)
     {
         var rolesArray = roles.ToArray();
-        _roleChains = ResolveRoleChains(rolesArray);
-        _roleObjs = ResolveRoleObjs(rolesArray);
+        _chainsByRoleName = BuildChainsByRoleName(rolesArray);
+        _rolesByName = BuildRolesByName(rolesArray);
     }
 
-    public string[] ExpandRole(string roleName)
+    public ImmutableArray<string> GetRoleChain(string roleName)
     {
-        var roleChain = _roleChains.GetValueOrDefault(roleName);
-        if (roleChain is null) throw new CoreBusinessErrors.InvalidRole();
-        return roleChain;
+        var chain = _chainsByRoleName.GetValueOrDefault(roleName);
+        if (chain.IsDefault) throw new CoreBusinessErrors.InvalidRole();
+
+        return chain;
     }
 
-    public BaseRole GetObj(string roleName)
+    public BaseRole GetRole(string roleName)
     {
-        var roleObj = _roleObjs.GetValueOrDefault(roleName);
-        if (roleObj is null) throw new CoreBusinessErrors.InvalidRole();
-        return roleObj;
+        var role = _rolesByName.GetValueOrDefault(roleName);
+        if (role is null) throw new CoreBusinessErrors.InvalidRole();
+
+        return role;
     }
 
-    private Dictionary<string, string[]> ResolveRoleChains(IEnumerable<BaseRole> roles)
+    public ImmutableArray<string> GetPermissions(string roleName)
     {
-        Dictionary<string, string[]> roleChains = new();
-        foreach (var role in roles)
+        var role = GetRole(roleName);
+
+        return role.Permissions
+            .Select(permission => permission.Name)
+            .ToImmutableArray();
+    }
+
+    public ImmutableArray<string> GetPermissions(IEnumerable<string> roleNames)
+    {
+        HashSet<string> permissions = new();
+
+        foreach (var roleName in roleNames)
         {
-            var roleChain = ResolveRoleChain(role);
-            roleChains.Add(role.Name, roleChain);
+            foreach (var permission in GetPermissions(roleName))
+            {
+                permissions.Add(permission);
+            }
         }
 
-        return roleChains;
+        return permissions.ToImmutableArray();
     }
 
-    private Dictionary<string, BaseRole> ResolveRoleObjs(IEnumerable<BaseRole> roles)
+    private Dictionary<string, ImmutableArray<string>> BuildChainsByRoleName(IEnumerable<BaseRole> roles)
     {
-        Dictionary<string, BaseRole> roleObjs = new();
+        Dictionary<string, ImmutableArray<string>> chainsByRoleName = new();
         foreach (var role in roles)
         {
-            var roleName = role.Name;
-            roleObjs.Add(roleName, role);
+            chainsByRoleName.Add(role.Name, BuildChain(role));
         }
 
-        return roleObjs;
+        return chainsByRoleName;
     }
-    
-    private string[] ResolveRoleChain(BaseRole startRole)
+
+    private Dictionary<string, BaseRole> BuildRolesByName(IEnumerable<BaseRole> roles)
     {
-        List<string> rolesChainList = [];
+        Dictionary<string, BaseRole> rolesByName = new();
+        foreach (var role in roles)
+        {
+            rolesByName.Add(role.Name, role);
+        }
+
+        return rolesByName;
+    }
+
+    private ImmutableArray<string> BuildChain(BaseRole startRole)
+    {
+        List<string> chain = [];
 
         for (var current = startRole; ;)
         {
-            rolesChainList.Insert(0,current.Name);
+            chain.Insert(0, current.Name);
             var parentRole = current.ParentRole;
             if (parentRole is null)
             {
@@ -78,6 +105,6 @@ internal class RoleManager : IRoleManager
             current = parentRole;
         }
 
-        return [.. rolesChainList];
+        return chain.ToImmutableArray();
     }
 }

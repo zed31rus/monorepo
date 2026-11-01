@@ -3,19 +3,16 @@ using zed31rus.Apps.Authorization.Core.Base;
 
 namespace zed31rus.Apps.Authorization.Core.Roles;
 
-public interface IDefaultUserRole
+public interface IDefaultUserRole: IBaseRole
 {
-    public string Name => "user";
-    public BaseRole? ParentRole => null;
-
-    public BasePermission[] Permissions { get; }
+    public new string Name => "user";
 }
 
 [Role]
-internal class DefaultUserRole(): BaseRole, IDefaultUserRole
+internal class DefaultUserRole(ConfirmedRole confirmedRole): BaseRole, IDefaultUserRole
 {
     public override string Name => "user";
-    public override BaseRole? ParentRole => null;
+    public override BaseRole ParentRole => confirmedRole;
 
     public override BasePermission[] Permissions { get; } =
     [

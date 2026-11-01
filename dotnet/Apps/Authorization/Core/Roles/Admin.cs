@@ -3,12 +3,9 @@ using zed31rus.Apps.Authorization.Core.Base;
 
 namespace zed31rus.Apps.Authorization.Core.Roles;
 
-interface IAdminRole
+interface IAdminRole: IBaseRole
 {
-    public string Name => "admin";
-    public BaseRole ParentRole { get; }
-
-    public BasePermission[] Permissions { get; }
+    public new string Name => "admin";
 }
 
 [Role]
