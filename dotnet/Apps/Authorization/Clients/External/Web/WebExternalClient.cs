@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Scalar.AspNetCore;
 using zed31rus.Apps.Authorization.Clients.External.Web.Extensions.DI;
 using zed31rus.Apps.Authorization.Clients.External.Web.Handlers;
+using zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
 using zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
 using zed31rus.Apps.Authorization.Core.Extensions.DI;
 using zed31rus.Options.Extensions.DI;
@@ -41,9 +42,11 @@ public static class WebExternalClient
         builder.Services.AddAuthCore();
         builder.Services.AddManagers();
         builder.Services.AddOpenApi();
-        //builder.Services.AddRateLimiter(settings => )
         builder.Services.AddExceptionHandler<ErrorHandler>();
         builder.Services.AddProblemDetails();
+        builder.Services.AddAuthenticationMiddleware();
+        builder.Services.AddRateLimiters();
+        builder.Services.AddAuthorizationMiddleware();
 
         var mvc = builder.Services.AddControllers(o =>
             o.Conventions.Add(new RouteTokenTransformerConvention(new LowercaseParameterTransformer())));
@@ -62,6 +65,7 @@ public static class WebExternalClient
         }
         app.UseExceptionHandler();
         app.UseAuthentication();
+        app.UseRateLimiter();
         app.UseAuthorization();
     }
 

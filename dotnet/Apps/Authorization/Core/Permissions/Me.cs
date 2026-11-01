@@ -3,9 +3,9 @@ using zed31rus.Apps.Authorization.Core.Base;
 
 namespace zed31rus.Apps.Authorization.Core.Permissions;
 
-public interface IMePermission
+public interface IMePermission: IBasePermission
 {
-    public string Name => "me";
+    public new string Name => "me";
 }
 
 [Permission]

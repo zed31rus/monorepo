@@ -34,7 +34,7 @@ internal class Send(ISessionOption sessionsOptions) : ISend
 {
     public void Session(HttpResponse response, Core.Managers.CoreSessionManagerSessionReturn coreSessionManagerSession)
     {
-        Refresh(response, coreSessionManagerSession.CoreSessionManagerRefresh);
+        Refresh(response, coreSessionManagerSession.Refresh);
         Access(response, coreSessionManagerSession.Access);
     }
 

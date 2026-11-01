@@ -3,9 +3,9 @@ using zed31rus.Apps.Authorization.Core.Base;
 
 namespace zed31rus.Apps.Authorization.Core.Permissions;
 
-public interface IConfirmationPermission
+public interface IConfirmationPermission: IBasePermission
 {
-    public string Name => "confirmation";
+    public new string Name => "confirmation";
 }
 
 [Permission]
