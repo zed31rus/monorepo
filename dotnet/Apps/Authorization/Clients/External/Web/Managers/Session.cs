@@ -85,7 +85,7 @@ internal class Get(ISessionOption sessionsOptions) : IGet
     public string Refresh(HttpRequest request)
     {
         request.Cookies.TryGetValue(sessionsOptions.Cookies.Refresh.Name, out var token);
-        if (token is null) throw new WebExternalClientExceptions.RefreshTokenMissingExternalClientException();
+        if (string.IsNullOrEmpty(token)) throw new WebExternalClientExceptions.RefreshTokenMissingExternalClientException();
         return token;
     }
 }

@@ -16,7 +16,7 @@ public class ErrorHandler(ILogger<ErrorHandler> logger): IExceptionHandler
             // ReSharper disable once RedundantSwitchExpressionArms
             CoreBusinessErrors.InternalException => ("INTERNAL", StatusCodes.Status500InternalServerError),
             
-            WebExternalClientExceptions.RefreshTokenMissingExternalClientException => ("UNAUTHORIZED", StatusCodes.Status401Unauthorized)
+            WebExternalClientExceptions.RefreshTokenMissingExternalClientException => ("UNAUTHORIZED", StatusCodes.Status401Unauthorized),
             
             _ => ("INTERNAL", StatusCodes.Status500InternalServerError),
             

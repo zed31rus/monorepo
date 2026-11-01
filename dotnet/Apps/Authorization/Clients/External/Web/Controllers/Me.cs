@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using zed31rus.Apps.Authorization.Core.Extensions.Getters;
 using zed31rus.Apps.Authorization.Core.Services;
 using zed31rus.Packages.Db.Auth;
@@ -16,6 +17,7 @@ public record UpdateLoginFindRequest(bool allowLoginFind);
 public class MeController(IMeService service) : ControllerBase
 {
     [HttpGet("get")]
+    [Authorize(Policy = "me")]
     public async Task<ActionResult<PersonalUser>> Get(CancellationToken ct)
     {
         var publicUser = User.GetPublicUser();
@@ -24,6 +26,7 @@ public class MeController(IMeService service) : ControllerBase
     }
     
     [HttpPatch ("update/nickname")]
+    [Authorize(Policy = "me")]
     public async Task<ActionResult<PersonalUser>> UpdateNickname(UpdateNicknameRequest req, CancellationToken ct)
     {
         var publicUser = User.GetPublicUser();
@@ -32,6 +35,7 @@ public class MeController(IMeService service) : ControllerBase
     }
     
     [HttpPatch ("update/email-find")]
+    [Authorize(Policy = "me")]
     public async Task<ActionResult<PersonalUser>> UpdateEmailFind(UpdateEmailFindRequest req, CancellationToken ct)
     {
         var publicUser = User.GetPublicUser();
@@ -40,6 +44,7 @@ public class MeController(IMeService service) : ControllerBase
     }
     
     [HttpPatch ("update/login-find")]
+    [Authorize(Policy = "me")]
     public async Task<ActionResult<PersonalUser>> UpdateLoginFind(UpdateLoginFindRequest req, CancellationToken ct)
     {
         var publicUser = User.GetPublicUser();

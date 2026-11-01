@@ -15,11 +15,11 @@ internal static class AuthorizationMiddleware
             .AddOptions<AuthorizationOptions>()
             .Configure<IRoleManager, IEnumerable<BasePermission>>((options, roleManager, permissions) =>
             {
+                options.InvokeHandlersAfterFailure = false;
                 foreach (var permission in permissions)
                 {
                     string requiredPermissionName = permission.Name;
-
-                    options.InvokeHandlersAfterFailure = false;
+                    
                     options.AddPolicy(requiredPermissionName, policy =>
                     {
                         policy.RequireAuthenticatedUser()

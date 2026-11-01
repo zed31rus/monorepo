@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using zed31rus.Apps.Authorization.Clients.External.Web.Managers;
 using zed31rus.Apps.Authorization.Core.Services;
-using zed31rus.Options.Options;
 using zed31rus.Packages.Db.Auth.Dto.User;
 
 namespace zed31rus.Apps.Authorization.Clients.External.Web.Controllers;
@@ -15,7 +14,7 @@ public record RefreshResponse(PersonalUser User, string AccessToken);
 
 [ApiController]
 [Route("[controller]")]
-public class AuthController(IAuthService authService, ISessionManager sessionManager, ISessionOption sessionsOptions) : ControllerBase
+public class AuthController(IAuthService authService, ISessionManager sessionManager) : ControllerBase
 {
     [HttpPost("register")]
     public async Task<ActionResult<PublicUser>> Register(RegisterRequest req, CancellationToken ct)
@@ -37,8 +36,7 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
     [HttpPost("refresh")]
     public async Task<ActionResult<RefreshResponse>> Refresh(CancellationToken ct)
     {
-        if (!Request.Cookies.TryGetValue(sessionsOptions.Cookies.Refresh.Name, out var incomingRefreshToken) ||
-            string.IsNullOrEmpty(incomingRefreshToken)) return Unauthorized();
+        var incomingRefreshToken = sessionManager.Get.Refresh(Request);
 
         var refreshReturn = await authService.Refresh(incomingRefreshToken, ct);
         var user = refreshReturn.User;

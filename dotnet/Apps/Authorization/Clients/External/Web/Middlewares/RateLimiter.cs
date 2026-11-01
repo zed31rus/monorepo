@@ -59,7 +59,7 @@ internal static class RateLimiterMiddleware
     private static string ResolveRealIp(HttpContext context)
     {
         var cfIp = context.Request.Headers["cf-connecting-ip"].FirstOrDefault();
-        var xForwardedIp = context.Request.Headers["x-forwarded-for"].FirstOrDefault()?.Split(", ")[0];
+        var xForwardedIp = context.Request.Headers["x-forwarded-for"].FirstOrDefault()?.Split(',')[0].Trim();
         var realIp = context.Request.Headers["x-real-ip"].FirstOrDefault();
         var remoteIpAddress = context.Connection.RemoteIpAddress?.ToString();
 
