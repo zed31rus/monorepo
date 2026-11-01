@@ -35,9 +35,9 @@ public interface IAuthService
         CancellationToken ct = default);
 }
 
-public record AuthServiceLoginReturn(PersonalUser User, CoreSessionManagerSessionReturn CoreSessionManagerSession);
+public record AuthServiceLoginReturn(PersonalUser User, CoreSessionManagerSessionReturn Session);
 
-public record AuthServiceRefreshReturn(PersonalUser User, CoreSessionManagerSessionReturn CoreSessionManagerSession);
+public record AuthServiceRefreshReturn(PersonalUser User, CoreSessionManagerSessionReturn Session);
 
 [Service]
 internal class AuthService(

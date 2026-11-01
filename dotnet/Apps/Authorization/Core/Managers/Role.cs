@@ -7,8 +7,8 @@ namespace zed31rus.Apps.Authorization.Core.Managers;
 
 public interface IRoleManager
 {
-    string[] ExpandRole(string roleName);
-    BaseRole GetObj(string roleName);
+    public string[] ExpandRole(string roleName);
+    public BaseRole GetObj(string roleName);
 }
 
 [Manager(ServiceLifetime.Singleton)]

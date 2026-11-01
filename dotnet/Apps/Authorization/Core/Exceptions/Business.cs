@@ -11,4 +11,6 @@ public static class CoreBusinessErrors
     public class InternalException() : CoreException("INTERNAL");
 
     public class InvalidRole() : CoreException("INVALID_ROLE");
+    
+    public class UserNotFoundException() : CoreException("USER_NOT_FOUND");
 }

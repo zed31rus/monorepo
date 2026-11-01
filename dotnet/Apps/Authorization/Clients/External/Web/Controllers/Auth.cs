@@ -9,6 +9,9 @@ public record RegisterRequest(string Login, string Nickname, string Password, st
 
 public record LoginRequest(string Login, string Password);
 
+public record LoginResponse(PersonalUser User, string AccessToken);
+public record RefreshResponse(PersonalUser User, string AccessToken);
+
 [ApiController]
 [Route("[controller]")]
 public class AuthController(IAuthService authService, ISessionManager sessionManager) : ControllerBase
@@ -25,9 +28,9 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
     {
         var loginReturn = await authService.Login(req.Login, req.Password, ct);
         var user = loginReturn.User;
-        var session = loginReturn.CoreSessionManagerSession;
-        sessionManager.Send.Session(Response, session);
-        return StatusCode(StatusCodes.Status200OK, user);
+        var session = loginReturn.Session;
+        sessionManager.Send.Refresh(Response, session.Refresh);
+        return StatusCode(StatusCodes.Status200OK, new LoginResponse(user, session.Access.Token));
     }
 
     [HttpPost("refresh")]
@@ -38,9 +41,9 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
 
         var refreshReturn = await authService.Refresh(incomingRefreshToken, ct);
         var user = refreshReturn.User;
-        var session = refreshReturn.CoreSessionManagerSession;
-        sessionManager.Send.Session(Response, session);
-        return StatusCode(StatusCodes.Status200OK, user);
+        var session = refreshReturn.Session;
+        sessionManager.Send.Refresh(Response, session.Refresh);
+        return StatusCode(StatusCodes.Status200OK, new RefreshResponse(user, session.Access.Token));
     }
 
     [HttpPost("logout")]

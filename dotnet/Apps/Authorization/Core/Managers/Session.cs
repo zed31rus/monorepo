@@ -20,7 +20,7 @@ public record CoreSessionManagerJwtTokenInfo(
     JwtExpires Expires);
 
 public record CoreSessionManagerSessionReturn(
-    CoreSessionManagerRefreshTokenInfo CoreSessionManagerRefresh,
+    CoreSessionManagerRefreshTokenInfo Refresh,
     CoreSessionManagerJwtTokenInfo Access
 );
 
