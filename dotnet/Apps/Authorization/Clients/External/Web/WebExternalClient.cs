@@ -41,7 +41,10 @@ public static class WebExternalClient
         builder.Services.AddAppOptions();
         builder.Services.AddAuthCore();
         builder.Services.AddManagers();
-        builder.Services.AddOpenApi();
+        builder.Services.AddOpenApi(options =>
+        {
+            options.AddOperationTransformer<ErrorResponsesTransformer>();
+        });
         builder.Services.AddExceptionHandler<ExceptionHandler>();
         builder.Services.AddProblemDetails();
         builder.Services.AddAuthenticationMiddleware();
