@@ -9,10 +9,10 @@ interface IAdminRole: IBaseRole
 }
 
 [Role]
-internal class AdminRole(DefaultUserRole defaultUserRole): BaseRole, IAdminRole
+internal class AdminRole(ConfirmedRole confirmedRole): BaseRole, IAdminRole
 {
     public override string Name => "admin";
-    public override BaseRole ParentRole => defaultUserRole;
+    public override BaseRole ParentRole => confirmedRole;
 
     public override BasePermission[] Permissions { get; } = 
     [
