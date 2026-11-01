@@ -12,13 +12,14 @@ public class ErrorHandler(ILogger<ErrorHandler> logger): IExceptionHandler
         var (title, statusCode) = exception switch
         {
             CoreBusinessErrors.InvalidCredentialsException => ("UNAUTHORIZED", StatusCodes.Status401Unauthorized),
-            CoreBusinessErrors.NotFoundException => ("NOT_FOUND",StatusCodes.Status404NotFound),
-            // ReSharper disable once RedundantSwitchExpressionArms
+            CoreBusinessErrors.UserNotFoundException => ("UNAUTHORIZED", StatusCodes.Status401Unauthorized),
+            CoreBusinessErrors.NotFoundException => ("NOT_FOUND", StatusCodes.Status404NotFound),
+            CoreBusinessErrors.InvalidRole => ("INTERNAL", StatusCodes.Status500InternalServerError),
             CoreBusinessErrors.InternalException => ("INTERNAL", StatusCodes.Status500InternalServerError),
             
             WebExternalClientExceptions.RefreshTokenMissingExternalClientException => ("UNAUTHORIZED", StatusCodes.Status401Unauthorized),
-            
-            _ => ("INTERNAL", StatusCodes.Status500InternalServerError),
+
+            _ => ("INTERNAL", StatusCodes.Status500InternalServerError)
             
             
         };
