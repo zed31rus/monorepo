@@ -2,7 +2,7 @@
     <PropertyGroup>
         <!-- namespaces -->
         <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
-        <_CompanyPrefix>zed31rus</_CompanyPrefix>
+        <_CompanyPrefix>Zed31rus</_CompanyPrefix>
         <_RelativeProjectPath>$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(MSBuildProjectDirectory)))</_RelativeProjectPath>
         <_SanitizedPath>$(_RelativeProjectPath.Replace('/', '.').Replace('\', '.'))</_SanitizedPath>
         <RootNamespace>$(_CompanyPrefix).$(_SanitizedPath)</RootNamespace>
