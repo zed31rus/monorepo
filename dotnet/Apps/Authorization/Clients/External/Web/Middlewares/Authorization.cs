@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
-using zed31rus.Apps.Authorization.Core.Base;
-using zed31rus.Apps.Authorization.Core.Extensions.Getters;
-using zed31rus.Apps.Authorization.Core.Managers;
+using Zed31rus.Apps.Authorization.Core.Base;
+using Zed31rus.Apps.Authorization.Core.Extensions.Getters;
+using Zed31rus.Apps.Authorization.Core.Managers;
 
-namespace zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
+namespace Zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
 
 internal static class AuthorizationMiddleware
 {

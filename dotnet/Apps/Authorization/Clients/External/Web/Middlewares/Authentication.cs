@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using zed31rus.Options.Auth.Options;
+using Zed31rus.Options.Auth.Options;
 
-namespace zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
+namespace Zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
 
 internal static class AuthenticationMiddleware
 {

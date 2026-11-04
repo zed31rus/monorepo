@@ -1,6 +1,6 @@
-﻿using zed31rus.Packages.Libs.Hash;
+﻿using Zed31rus.Packages.Libs.Hash;
 
-namespace zed31rus.Apps.Util;
+namespace Zed31rus.Apps.Util;
 
 public static class Program
 {

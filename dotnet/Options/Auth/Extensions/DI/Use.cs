@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using zed31rus.Options.Auth.Options;
-using zed31rus.Options.Auth.Values;
+using Zed31rus.Options.Auth.Options;
+using Zed31rus.Options.Auth.Values;
 
-namespace zed31rus.Options.Auth.Extensions.DI;
+namespace Zed31rus.Options.Auth.Extensions.DI;
 
 public static class UseDiExtension
 {

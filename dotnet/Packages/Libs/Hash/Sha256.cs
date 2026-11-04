@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace zed31rus.Packages.Libs.Hash;
+namespace Zed31rus.Packages.Libs.Hash;
 
 public interface ISha256
 {

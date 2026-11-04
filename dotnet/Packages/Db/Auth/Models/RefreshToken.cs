@@ -1,4 +1,4 @@
-namespace zed31rus.Packages.Db.Auth.Models;
+namespace Zed31rus.Packages.Db.Auth.Models;
 
 public class RefreshToken
 {

@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace zed31rus.Packages.Libs.Reflection;
+namespace Zed31rus.Packages.Libs.Reflection;
 
 public static class AttributeReflection
 {

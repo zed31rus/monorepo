@@ -1,4 +1,4 @@
-namespace zed31rus.Shared;
+namespace Zed31rus.Shared;
 
 public class Path
 {

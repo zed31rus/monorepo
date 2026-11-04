@@ -1,8 +1,8 @@
 using System.Reflection;
-using zed31rus.Apps.Authorization.Clients.External.Web.Attributes;
-using zed31rus.Packages.Libs.Reflection;
+using Zed31rus.Apps.Authorization.Clients.External.Web.Attributes;
+using Zed31rus.Packages.Libs.Reflection;
 
-namespace zed31rus.Apps.Authorization.Clients.External.Web.Extensions.DI;
+namespace Zed31rus.Apps.Authorization.Clients.External.Web.Extensions.DI;
 
 internal static class ManagerOptionDiExtension
 {

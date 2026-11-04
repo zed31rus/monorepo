@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi;
 
-namespace zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
+namespace Zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
 
 internal sealed class BearerSecurityTransformer : IOpenApiDocumentTransformer
 {

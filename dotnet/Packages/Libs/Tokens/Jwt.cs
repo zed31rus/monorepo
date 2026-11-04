@@ -1,9 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-using zed31rus.Options.Auth.Options;
+using Zed31rus.Options.Auth.Options;
 
-namespace zed31rus.Packages.Libs.Tokens;
+namespace Zed31rus.Packages.Libs.Tokens;
 
 public record JwtExpires(TimeSpan Time, DateTime AtTime);
 

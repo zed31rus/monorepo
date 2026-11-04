@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace zed31rus.Packages.Libs.Reflection;
+namespace Zed31rus.Packages.Libs.Reflection;
 
 public class InterfaceReflection
 {

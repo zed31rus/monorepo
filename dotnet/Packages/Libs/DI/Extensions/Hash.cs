@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
-using zed31rus.Packages.Libs.Hash;
+using Zed31rus.Packages.Libs.Hash;
 
-namespace zed31rus.Packages.Libs.DI.Extensions;
+namespace Zed31rus.Packages.Libs.DI.Extensions;
 
 public static class Hash
 {

@@ -1,9 +1,9 @@
-global using IContext = zed31rus.Packages.Db.Auth.IAuthDbContext;
-global using Context = zed31rus.Packages.Db.Auth.AuthDbContext;
+global using IContext = Zed31rus.Packages.Db.Auth.IAuthDbContext;
+global using Context = Zed31rus.Packages.Db.Auth.AuthDbContext;
 using Microsoft.EntityFrameworkCore;
-using zed31rus.Packages.Db.Auth.Models;
+using Zed31rus.Packages.Db.Auth.Models;
 
-namespace zed31rus.Packages.Db.Auth;
+namespace Zed31rus.Packages.Db.Auth;
 
 public interface IAuthDbContext
 {
@@ -14,7 +14,7 @@ public interface IAuthDbContext
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
 
-internal class AuthDbContext(DbContextOptions<Context> options) : DbContext(options), IContext
+internal class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContext(options), IAuthDbContext
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
@@ -26,7 +26,7 @@ internal class AuthDbContext(DbContextOptions<Context> options) : DbContext(opti
     {
         modelBuilder.HasDefaultSchema("Authorization");
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Context).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthDbContext).Assembly);
 
         base.OnModelCreating(modelBuilder);
     }

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using zed31rus.Packages.Db.Auth.Models;
+using Zed31rus.Packages.Db.Auth.Models;
 
-namespace zed31rus.Packages.Db.Auth.Configurations;
+namespace Zed31rus.Packages.Db.Auth.Configurations;
 
 internal class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
 {

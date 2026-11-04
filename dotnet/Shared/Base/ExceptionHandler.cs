@@ -1,4 +1,4 @@
-namespace zed31rus.Shared.Base;
+namespace Zed31rus.Shared.Base;
 
 public interface IExceptionHandlerBase
 {

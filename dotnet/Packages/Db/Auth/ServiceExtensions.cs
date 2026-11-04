@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 
-namespace zed31rus.Packages.Db.Auth;
+namespace Zed31rus.Packages.Db.Auth;
 
 public static class ServiceExtensions
 {
@@ -11,15 +11,15 @@ public static class ServiceExtensions
         Func<IServiceProvider, string> connectionString,
         Action<NpgsqlDbContextOptionsBuilder>? npgsqlOptions = null)
     {
-        services.AddDbContext<Context>((serviceProvider, options) =>
+        services.AddDbContext<AuthDbContext>((serviceProvider, options) =>
             options.UseNpgsql(connectionString(serviceProvider), builder =>
             {
-                builder.MigrationsAssembly(typeof(Context).Assembly.FullName);
+                builder.MigrationsAssembly(typeof(AuthDbContext).Assembly.FullName);
 
                 npgsqlOptions?.Invoke(builder);
             }));
 
-        services.AddScoped<IContext>(serviceProvider => serviceProvider.GetRequiredService<Context>());
+        services.AddScoped<IAuthDbContext>(serviceProvider => serviceProvider.GetRequiredService<AuthDbContext>());
 
         return services;
     }

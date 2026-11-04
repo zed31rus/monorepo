@@ -1,7 +1,7 @@
 using System.Reflection;
-using zed31rus.Shared.Base;
+using Zed31rus.Shared.Base;
 
-namespace zed31rus.Packages.Libs.Proxies;
+namespace Zed31rus.Packages.Libs.Proxies;
 
 public class ErrorHandlerProxy<T> : DispatchProxy where T : class
 {

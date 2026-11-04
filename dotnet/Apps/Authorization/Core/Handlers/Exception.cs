@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-using zed31rus.Apps.Authorization.Core.Attributes;
-using zed31rus.Apps.Authorization.Core.Exceptions;
-using zed31rus.Shared.Base;
+using Zed31rus.Apps.Authorization.Core.Attributes;
+using Zed31rus.Apps.Authorization.Core.Exceptions;
+using Zed31rus.Shared.Base;
 
-namespace zed31rus.Apps.Authorization.Core.Handlers;
+namespace Zed31rus.Apps.Authorization.Core.Handlers;
 
 public interface IExceptionHandler : IExceptionHandlerBase;
 

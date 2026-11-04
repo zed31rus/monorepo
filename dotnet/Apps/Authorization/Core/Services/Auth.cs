@@ -1,15 +1,15 @@
 using Microsoft.EntityFrameworkCore;
-using zed31rus.Apps.Authorization.Core.Attributes;
-using zed31rus.Apps.Authorization.Core.Exceptions;
-using zed31rus.Apps.Authorization.Core.Managers;
-using zed31rus.Apps.Authorization.Core.Roles;
-using zed31rus.Options.Auth.Options;
-using zed31rus.Packages.Db.Auth;
-using zed31rus.Packages.Db.Auth.Dto.User;
-using zed31rus.Packages.Db.Auth.Models;
-using zed31rus.Packages.Libs.Hash;
+using Zed31rus.Apps.Authorization.Core.Attributes;
+using Zed31rus.Apps.Authorization.Core.Exceptions;
+using Zed31rus.Apps.Authorization.Core.Managers;
+using Zed31rus.Apps.Authorization.Core.Roles;
+using Zed31rus.Options.Auth.Options;
+using Zed31rus.Packages.Db.Auth;
+using Zed31rus.Packages.Db.Auth.Dto.User;
+using Zed31rus.Packages.Db.Auth.Models;
+using Zed31rus.Packages.Libs.Hash;
 
-namespace zed31rus.Apps.Authorization.Core.Services;
+namespace Zed31rus.Apps.Authorization.Core.Services;
 
 public interface IAuthService
 {

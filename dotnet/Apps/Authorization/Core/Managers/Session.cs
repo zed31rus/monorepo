@@ -1,13 +1,13 @@
 using System.Security.Claims;
-using zed31rus.Apps.Authorization.Core.Attributes;
-using zed31rus.Apps.Authorization.Core.Extensions.Mappers;
-using zed31rus.Packages.Db.Auth;
-using zed31rus.Packages.Db.Auth.Dto.User;
-using zed31rus.Packages.Db.Auth.Models;
-using zed31rus.Packages.Libs.Hash;
-using zed31rus.Packages.Libs.Tokens;
+using Zed31rus.Apps.Authorization.Core.Attributes;
+using Zed31rus.Apps.Authorization.Core.Extensions.Mappers;
+using Zed31rus.Packages.Db.Auth;
+using Zed31rus.Packages.Db.Auth.Dto.User;
+using Zed31rus.Packages.Db.Auth.Models;
+using Zed31rus.Packages.Libs.Hash;
+using Zed31rus.Packages.Libs.Tokens;
 
-namespace zed31rus.Apps.Authorization.Core.Managers;
+namespace Zed31rus.Apps.Authorization.Core.Managers;
 
 public record CoreSessionManagerRefreshTokenInfo(
     string Token,

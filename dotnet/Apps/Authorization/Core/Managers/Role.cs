@@ -1,10 +1,10 @@
 using System.Collections.Immutable;
 using Microsoft.Extensions.DependencyInjection;
-using zed31rus.Apps.Authorization.Core.Attributes;
-using zed31rus.Apps.Authorization.Core.Base;
-using zed31rus.Apps.Authorization.Core.Exceptions;
+using Zed31rus.Apps.Authorization.Core.Attributes;
+using Zed31rus.Apps.Authorization.Core.Base;
+using Zed31rus.Apps.Authorization.Core.Exceptions;
 
-namespace zed31rus.Apps.Authorization.Core.Managers;
+namespace Zed31rus.Apps.Authorization.Core.Managers;
 
 public interface IRoleManager
 {

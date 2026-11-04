@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 
-namespace zed31rus.Packages.Libs.Tokens;
+namespace Zed31rus.Packages.Libs.Tokens;
 
 public record HexExpires(TimeSpan Time, DateTime AtTime);
 

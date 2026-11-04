@@ -1,4 +1,4 @@
-namespace zed31rus.Apps.Authorization.Clients.External.Web.Exceptions;
+namespace Zed31rus.Apps.Authorization.Clients.External.Web.Exceptions;
 
 public class WebExternalClientException(string message) : Exception(message);
 

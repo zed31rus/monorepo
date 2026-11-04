@@ -15,21 +15,28 @@ monorepo
 │  │  │  │        │  └─ Manager.cs
 │  │  │  │        ├─ Controllers
 │  │  │  │        │  ├─ Auth.cs
+│  │  │  │        │  ├─ Me.cs
 │  │  │  │        │  └─ Users.cs
+│  │  │  │        ├─ Exceptions
+│  │  │  │        │  └─ Business.cs
 │  │  │  │        ├─ Extensions
 │  │  │  │        │  └─ DI
 │  │  │  │        │     └─ Manager.cs
 │  │  │  │        ├─ Handlers
-│  │  │  │        │  └─ Error.cs
+│  │  │  │        │  └─ Exception.cs
 │  │  │  │        ├─ Managers
 │  │  │  │        │  └─ Session.cs
 │  │  │  │        ├─ Middlewares
 │  │  │  │        │  ├─ Authentication.cs
 │  │  │  │        │  ├─ Authorization.cs
 │  │  │  │        │  └─ RateLimiter.cs
+│  │  │  │        ├─ Openapi
+│  │  │  │        │  └─ v1.json
 │  │  │  │        ├─ Properties
 │  │  │  │        │  └─ launchSettings.json
 │  │  │  │        ├─ Transformers
+│  │  │  │        │  ├─ BearerSecurity.cs
+│  │  │  │        │  ├─ ErrorResponses.cs
 │  │  │  │        │  └─ LowercaseParameter.cs
 │  │  │  │        ├─ WebExternalClient.cs
 │  │  │  │        └─ WebExternalClient.csproj
@@ -54,6 +61,8 @@ monorepo
 │  │  │     │  │  ├─ Permissions.cs
 │  │  │     │  │  ├─ Roles.cs
 │  │  │     │  │  └─ Services.cs
+│  │  │     │  ├─ Getters
+│  │  │     │  │  └─ ClaimsPrincipal.cs
 │  │  │     │  └─ Mappers
 │  │  │     │     └─ User.cs
 │  │  │     ├─ Handlers
@@ -67,6 +76,7 @@ monorepo
 │  │  │     │  └─ Users.cs
 │  │  │     ├─ Roles
 │  │  │     │  ├─ Admin.cs
+│  │  │     │  ├─ Confirmed.cs
 │  │  │     │  ├─ Default.cs
 │  │  │     │  ├─ Owner.cs
 │  │  │     │  └─ Unconfirmed.cs
@@ -77,40 +87,121 @@ monorepo
 │  │  │        ├─ Oauth
 │  │  │        │  └─ Discord.cs
 │  │  │        └─ Users.cs
-│  │  ├─ Mail
-│  │  │  ├─ Clients
-│  │  │  │  └─ Internal
-│  │  │  │     └─ Rabbit
-│  │  │  │        └─ Rabbit.csproj
-│  │  │  └─ Core
-│  │  │     ├─ Core.csproj
-│  │  │     ├─ Mailer
-│  │  │     │  └─ Mailer.cs
-│  │  │     ├─ Options
-│  │  │     │  └─ Smtp.cs
-│  │  │     ├─ Render
-│  │  │     │  ├─ Csmjml
-│  │  │     │  │  └─ Test.csmjml
-│  │  │     │  └─ Renderer.cs
-│  │  │     └─ Validators
-│  │  │        └─ Options
-│  │  │           └─ Smtp.cs
 │  │  └─ Util
 │  │     ├─ Program.cs
 │  │     └─ Util.csproj
 │  ├─ Directory.Build.props
 │  ├─ Directory.Packages.props
+│  ├─ Infra
+│  │  └─ Clients
+│  │     └─ Generated
+│  │        ├─ kiota-lock.json
+│  │        └─ Zed31rus
+│  │           └─ Infra
+│  │              └─ Clients
+│  │                 └─ Auth
+│  │                    ├─ Auth
+│  │                    │  ├─ AuthRequestBuilder.cs
+│  │                    │  ├─ Login
+│  │                    │  │  ├─ LoginRequestBuilder.cs
+│  │                    │  │  ├─ LoginResponse429Error.cs
+│  │                    │  │  └─ LoginResponse500Error.cs
+│  │                    │  ├─ Logout
+│  │                    │  │  ├─ Logout429Error.cs
+│  │                    │  │  ├─ Logout500Error.cs
+│  │                    │  │  └─ LogoutRequestBuilder.cs
+│  │                    │  ├─ Refresh
+│  │                    │  │  ├─ RefreshRequestBuilder.cs
+│  │                    │  │  ├─ RefreshResponse429Error.cs
+│  │                    │  │  └─ RefreshResponse500Error.cs
+│  │                    │  └─ Register
+│  │                    │     ├─ PublicUser429Error.cs
+│  │                    │     ├─ PublicUser500Error.cs
+│  │                    │     └─ RegisterRequestBuilder.cs
+│  │                    ├─ AuthHttpClient.cs
+│  │                    ├─ Me
+│  │                    │  ├─ Get
+│  │                    │  │  ├─ GetRequestBuilder.cs
+│  │                    │  │  ├─ PersonalUser401Error.cs
+│  │                    │  │  ├─ PersonalUser403Error.cs
+│  │                    │  │  ├─ PersonalUser429Error.cs
+│  │                    │  │  └─ PersonalUser500Error.cs
+│  │                    │  ├─ MeRequestBuilder.cs
+│  │                    │  └─ Update
+│  │                    │     ├─ EmailFind
+│  │                    │     │  ├─ EmailFindRequestBuilder.cs
+│  │                    │     │  ├─ PersonalUser401Error.cs
+│  │                    │     │  ├─ PersonalUser403Error.cs
+│  │                    │     │  ├─ PersonalUser429Error.cs
+│  │                    │     │  └─ PersonalUser500Error.cs
+│  │                    │     ├─ LoginFind
+│  │                    │     │  ├─ LoginFindRequestBuilder.cs
+│  │                    │     │  ├─ PersonalUser401Error.cs
+│  │                    │     │  ├─ PersonalUser403Error.cs
+│  │                    │     │  ├─ PersonalUser429Error.cs
+│  │                    │     │  └─ PersonalUser500Error.cs
+│  │                    │     ├─ Nickname
+│  │                    │     │  ├─ NicknameRequestBuilder.cs
+│  │                    │     │  ├─ PersonalUser401Error.cs
+│  │                    │     │  ├─ PersonalUser403Error.cs
+│  │                    │     │  ├─ PersonalUser429Error.cs
+│  │                    │     │  └─ PersonalUser500Error.cs
+│  │                    │     └─ UpdateRequestBuilder.cs
+│  │                    ├─ Models
+│  │                    │  ├─ LoginRequest.cs
+│  │                    │  ├─ LoginResponse.cs
+│  │                    │  ├─ PersonalUser.cs
+│  │                    │  ├─ ProblemDetails.cs
+│  │                    │  ├─ PublicUser.cs
+│  │                    │  ├─ RefreshResponse.cs
+│  │                    │  ├─ RegisterRequest.cs
+│  │                    │  ├─ UpdateEmailFindRequest.cs
+│  │                    │  ├─ UpdateLoginFindRequest.cs
+│  │                    │  └─ UpdateNicknameRequest.cs
+│  │                    └─ Users
+│  │                       ├─ Get
+│  │                       │  ├─ Email
+│  │                       │  │  ├─ EmailRequestBuilder.cs
+│  │                       │  │  ├─ PublicUser401Error.cs
+│  │                       │  │  ├─ PublicUser403Error.cs
+│  │                       │  │  ├─ PublicUser429Error.cs
+│  │                       │  │  └─ PublicUser500Error.cs
+│  │                       │  ├─ GetRequestBuilder.cs
+│  │                       │  ├─ Login
+│  │                       │  │  ├─ LoginRequestBuilder.cs
+│  │                       │  │  ├─ PublicUser401Error.cs
+│  │                       │  │  ├─ PublicUser403Error.cs
+│  │                       │  │  ├─ PublicUser429Error.cs
+│  │                       │  │  └─ PublicUser500Error.cs
+│  │                       │  ├─ Nickname
+│  │                       │  │  ├─ NicknameRequestBuilder.cs
+│  │                       │  │  ├─ PublicUser401Error.cs
+│  │                       │  │  ├─ PublicUser403Error.cs
+│  │                       │  │  ├─ PublicUser429Error.cs
+│  │                       │  │  └─ PublicUser500Error.cs
+│  │                       │  └─ Uuid
+│  │                       │     ├─ PublicUser401Error.cs
+│  │                       │     ├─ PublicUser403Error.cs
+│  │                       │     ├─ PublicUser429Error.cs
+│  │                       │     ├─ PublicUser500Error.cs
+│  │                       │     └─ UuidRequestBuilder.cs
+│  │                       └─ UsersRequestBuilder.cs
 │  ├─ Monorepo.slnx
 │  ├─ Options
-│  │  ├─ Extensions
-│  │  │  └─ DI
-│  │  │     └─ Use.cs
-│  │  ├─ Options
-│  │  │  ├─ Auth.cs
-│  │  │  ├─ Connection.cs
-│  │  │  ├─ Jwt.cs
-│  │  │  └─ Session.cs
-│  │  └─ Options.csproj
+│  │  ├─ Auth
+│  │  │  ├─ Auth.csproj
+│  │  │  ├─ Extensions
+│  │  │  │  └─ DI
+│  │  │  │     └─ Use.cs
+│  │  │  └─ Options
+│  │  │     ├─ Auth.cs
+│  │  │     ├─ Connection.cs
+│  │  │     ├─ Jwt.cs
+│  │  │     └─ Session.cs
+│  │  └─ Mail
+│  │     ├─ Mail.csproj
+│  │     └─ Options
+│  │        └─ Smtp.cs
 │  ├─ Packages
 │  │  ├─ Db
 │  │  │  └─ Auth
@@ -127,8 +218,8 @@ monorepo
 │  │  │     │     ├─ MappingExtensions.cs
 │  │  │     │     └─ Models.cs
 │  │  │     ├─ Migrations
-│  │  │     │  ├─ 20261023200502_Initial.cs
-│  │  │     │  ├─ 20261023200502_Initial.Designer.cs
+│  │  │     │  ├─ 20261101071750_Initial.cs
+│  │  │     │  ├─ 20261101071750_Initial.Designer.cs
 │  │  │     │  └─ AuthDbContextModelSnapshot.cs
 │  │  │     ├─ Models
 │  │  │     │  ├─ OauthAccount.cs
@@ -138,8 +229,6 @@ monorepo
 │  │  │     └─ ServiceExtensions.cs
 │  │  ├─ Infra
 │  │  │  ├─ Clients
-│  │  │  │  └─ Generated
-│  │  │  │     └─ Auth.g.cs
 │  │  │  └─ Infra.csproj
 │  │  └─ Libs
 │  │     ├─ DI
@@ -158,15 +247,11 @@ monorepo
 │  │     └─ Tokens
 │  │        ├─ Hex.cs
 │  │        └─ Jwt.cs
-│  ├─ Shared
-│  │  ├─ Base
-│  │  │  └─ ExceptionHandler.cs
-│  │  ├─ Path.cs
-│  │  └─ Shared.csproj
-│  └─ Util
-│     └─ HttpClientGenerator
-│        ├─ Auth.cs
-│        └─ HttpClientGenerator.csproj
+│  └─ Shared
+│     ├─ Base
+│     │  └─ ExceptionHandler.cs
+│     ├─ Path.cs
+│     └─ Shared.csproj
 ├─ eslint.config.ts
 ├─ LICENSE
 ├─ README.md
@@ -415,8 +500,6 @@ monorepo
    │  │  ├─ package.json
    │  │  ├─ public
    │  │  │  ├─ favicon.ico
-   │  │  │  ├─ resources
-   │  │  │  │  └─ background.png
    │  │  │  └─ robots.txt
    │  │  ├─ README.md
    │  │  └─ tsconfig.json

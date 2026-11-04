@@ -1,8 +1,8 @@
 ﻿using System.Threading.RateLimiting;
-using zed31rus.Apps.Authorization.Core.Extensions.Getters;
-using zed31rus.Packages.Db.Auth.Dto.User;
+using Zed31rus.Apps.Authorization.Core.Extensions.Getters;
+using Zed31rus.Packages.Db.Auth.Dto.User;
 
-namespace zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
+namespace Zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
 
 internal static class RateLimiterMiddleware
 {

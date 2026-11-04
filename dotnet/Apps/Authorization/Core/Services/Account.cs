@@ -1,8 +1,8 @@
-﻿using zed31rus.Apps.Authorization.Core.Attributes;
-using zed31rus.Packages.Db.Auth.Dto.User;
-using zed31rus.Packages.Db.Auth.Models;
+﻿using Zed31rus.Apps.Authorization.Core.Attributes;
+using Zed31rus.Packages.Db.Auth.Dto.User;
+using Zed31rus.Packages.Db.Auth.Models;
 
-namespace zed31rus.Apps.Authorization.Core.Services;
+namespace Zed31rus.Apps.Authorization.Core.Services;
 
 interface IAccountService
 {

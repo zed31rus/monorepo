@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Scalar.AspNetCore;
-using zed31rus.Apps.Authorization.Clients.External.Web.Extensions.DI;
-using zed31rus.Apps.Authorization.Clients.External.Web.Handlers;
-using zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
-using zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
-using zed31rus.Apps.Authorization.Core.Extensions.DI;
-using zed31rus.Options.Auth.Extensions.DI;
+using Zed31rus.Apps.Authorization.Clients.External.Web.Extensions.DI;
+using Zed31rus.Apps.Authorization.Clients.External.Web.Handlers;
+using Zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
+using Zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
+using Zed31rus.Apps.Authorization.Core.Extensions.DI;
+using Zed31rus.Options.Auth.Extensions.DI;
 
-namespace zed31rus.Apps.Authorization.Clients.External.Web;
+namespace Zed31rus.Apps.Authorization.Clients.External.Web;
 
 public static class WebExternalClient
 {

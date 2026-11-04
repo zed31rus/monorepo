@@ -1,8 +1,8 @@
-using zed31rus.Apps.Authorization.Clients.External.Web.Attributes;
-using zed31rus.Apps.Authorization.Clients.External.Web.Exceptions;
-using zed31rus.Options.Auth.Options;
+using Zed31rus.Apps.Authorization.Clients.External.Web.Attributes;
+using Zed31rus.Apps.Authorization.Clients.External.Web.Exceptions;
+using Zed31rus.Options.Auth.Options;
 
-namespace zed31rus.Apps.Authorization.Clients.External.Web.Managers;
+namespace Zed31rus.Apps.Authorization.Clients.External.Web.Managers;
 
 public interface ISessionManager
 {

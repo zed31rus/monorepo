@@ -1,9 +1,9 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using zed31rus.Apps.Authorization.Core.Base;
-using zed31rus.Packages.Libs.Reflection;
+using Zed31rus.Apps.Authorization.Core.Base;
+using Zed31rus.Packages.Libs.Reflection;
 
-namespace zed31rus.Apps.Authorization.Core.Extensions.DI;
+namespace Zed31rus.Apps.Authorization.Core.Extensions.DI;
 
 internal static class PermissionsDiExtension
 {

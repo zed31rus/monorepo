@@ -1,9 +1,9 @@
 using System.Security.Claims;
 using System.Text.Json;
-using zed31rus.Apps.Authorization.Core.Exceptions;
-using zed31rus.Packages.Db.Auth.Dto.User;
+using Zed31rus.Apps.Authorization.Core.Exceptions;
+using Zed31rus.Packages.Db.Auth.Dto.User;
 
-namespace zed31rus.Apps.Authorization.Core.Extensions.Getters;
+namespace Zed31rus.Apps.Authorization.Core.Extensions.Getters;
 
 public static class ClaimsPrincipalGetterExtension
 {

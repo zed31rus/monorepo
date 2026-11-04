@@ -1,18 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using zed31rus.Options.Auth.Values;
+using Zed31rus.Options.Auth.Values;
 
-namespace zed31rus.Packages.Db.Auth;
+namespace Zed31rus.Packages.Db.Auth;
 
-internal class ContextFactory : IDesignTimeDbContextFactory<Context>
+internal class ContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
 {
-    public Context CreateDbContext(string[] args)
+    public AuthDbContext CreateDbContext(string[] args)
     {
         var connectionString = OptionValues.Connection.Database;
 
-        var optionsBuilder = new DbContextOptionsBuilder<Context>();
+        var optionsBuilder = new DbContextOptionsBuilder<AuthDbContext>();
         optionsBuilder.UseNpgsql(connectionString);
 
-        return new Context(optionsBuilder.Options);
+        return new AuthDbContext(optionsBuilder.Options);
     }
 }

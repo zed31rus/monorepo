@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using zed31rus.Apps.Authorization.Clients.External.Web.Managers;
-using zed31rus.Apps.Authorization.Core.Services;
-using zed31rus.Packages.Db.Auth.Dto.User;
+using Zed31rus.Apps.Authorization.Clients.External.Web.Managers;
+using Zed31rus.Apps.Authorization.Core.Services;
+using Zed31rus.Packages.Db.Auth.Dto.User;
 
-namespace zed31rus.Apps.Authorization.Clients.External.Web.Controllers;
+namespace Zed31rus.Apps.Authorization.Clients.External.Web.Controllers;
 
 public record RegisterRequest(string Login, string Nickname, string Password, string Email, string Locale);
 

@@ -1,6 +1,6 @@
-using zed31rus.Packages.Db.Auth.Models;
+using Zed31rus.Packages.Db.Auth.Models;
 
-namespace zed31rus.Packages.Db.Auth.Dto.User;
+namespace Zed31rus.Packages.Db.Auth.Dto.User;
 
 public static class MappingExtensions
 {

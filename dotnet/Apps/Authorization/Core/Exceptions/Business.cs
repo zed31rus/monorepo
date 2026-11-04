@@ -1,4 +1,4 @@
-namespace zed31rus.Apps.Authorization.Core.Exceptions;
+namespace Zed31rus.Apps.Authorization.Core.Exceptions;
 
 public class CoreException(string message) : Exception(message);
 

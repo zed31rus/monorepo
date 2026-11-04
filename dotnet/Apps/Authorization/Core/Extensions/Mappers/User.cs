@@ -1,9 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json;
-using zed31rus.Packages.Db.Auth.Dto.User;
+using Zed31rus.Packages.Db.Auth.Dto.User;
 
-namespace zed31rus.Apps.Authorization.Core.Extensions.Mappers;
+namespace Zed31rus.Apps.Authorization.Core.Extensions.Mappers;
 
 public static class UserMapperExtension
 {

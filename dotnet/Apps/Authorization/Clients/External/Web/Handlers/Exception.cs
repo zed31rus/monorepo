@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using zed31rus.Apps.Authorization.Clients.External.Web.Exceptions;
-using zed31rus.Apps.Authorization.Core.Exceptions;
+using Zed31rus.Apps.Authorization.Clients.External.Web.Exceptions;
+using Zed31rus.Apps.Authorization.Core.Exceptions;
 
-namespace zed31rus.Apps.Authorization.Clients.External.Web.Handlers;
+namespace Zed31rus.Apps.Authorization.Clients.External.Web.Handlers;
 
 public class ExceptionHandler(ILogger<ExceptionHandler> logger): IExceptionHandler
 {

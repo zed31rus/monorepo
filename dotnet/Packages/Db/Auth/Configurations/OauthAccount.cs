@@ -1,13 +1,14 @@
 using static Microsoft.EntityFrameworkCore.RelationalPropertyBuilderExtensions;
 using EFCore =  Microsoft.EntityFrameworkCore;
 using Builders = Microsoft.EntityFrameworkCore.Metadata.Builders;
-using AuthModels = zed31rus.Packages.Db.Auth.Models;
+using AuthModels = Zed31rus.Packages.Db.Auth.Models;
+using OauthAccount = Zed31rus.Packages.Db.Auth.Models.OauthAccount;
 
-namespace zed31rus.Packages.Db.Auth.Configurations;
+namespace Zed31rus.Packages.Db.Auth.Configurations;
 
-internal class OauthAccountConfiguration : EFCore.IEntityTypeConfiguration<AuthModels.OauthAccount>
+internal class OauthAccountConfiguration : EFCore.IEntityTypeConfiguration<OauthAccount>
 {
-    public void Configure(Builders.EntityTypeBuilder<AuthModels.OauthAccount> builder)
+    public void Configure(Builders.EntityTypeBuilder<OauthAccount> builder)
     {
         builder.HasKey(oauthAccount => oauthAccount.Uuid);
 

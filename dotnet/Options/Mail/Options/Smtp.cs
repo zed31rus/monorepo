@@ -1,6 +1,6 @@
 using MailKit.Security;
 
-namespace zed31rus.Options.Mail.Options;
+namespace Zed31rus.Options.Mail.Options;
 
 public class SmtpOption
 {

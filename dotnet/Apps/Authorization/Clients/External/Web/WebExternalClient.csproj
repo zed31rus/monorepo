@@ -1,12 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
+    <PropertyGroup>
+        <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
+        <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)\Openapi</OpenApiDocumentsDirectory>
+        <OpenApiGenerateDocumentsOptions>--file-name v1</OpenApiGenerateDocumentsOptions>
+    </PropertyGroup>
+    
     <ItemGroup>
         <PackageReference Include="dotenv.net" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
         <PackageReference Include="Scalar.AspNetCore" />
         <ProjectReference Include="$(RepoRoot)Apps/Authorization/Core/Core.csproj" />
         <ProjectReference Include="$(RepoRoot)Options/Auth/Auth.csproj"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
+        <PackageReference Include="Microsoft.Extensions.ApiDescription.Server"/>
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="Openapi\" />
     </ItemGroup>
 
+    <Target Name="GenerateKiotaClient" AfterTargets="GenerateOpenApiDocuments">
+        <PropertyGroup>
+            <OpenApiJsonPath>$(OpenApiDocumentsDirectory)\v1.json</OpenApiJsonPath>
+            <ClientOutputDir>$(RepoRoot)Infra\Clients\Generated</ClientOutputDir>
+        </PropertyGroup>
+
+        <Exec Command="kiota generate -l CSharp -d &quot;$(OpenApiJsonPath)&quot; -o &quot;$(ClientOutputDir)&quot; --namespace-name zed31rus.Infra.Clients.Auth --class-name AuthHttpClient --clean-output" />
+    </Target>
 </Project>

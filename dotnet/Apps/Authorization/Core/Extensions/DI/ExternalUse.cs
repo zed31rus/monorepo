@@ -1,9 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
-using zed31rus.Options.Auth.Options;
-using zed31rus.Packages.Db.Auth;
-using zed31rus.Packages.Libs.DI.Extensions;
+using Zed31rus.Options.Auth.Options;
+using Zed31rus.Packages.Db.Auth;
+using Zed31rus.Packages.Libs.DI.Extensions;
 
-namespace zed31rus.Apps.Authorization.Core.Extensions.DI;
+namespace Zed31rus.Apps.Authorization.Core.Extensions.DI;
 
 public static class CoreExternalUseDiExtension
 {

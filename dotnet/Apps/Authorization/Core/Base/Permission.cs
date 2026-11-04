@@ -1,4 +1,4 @@
-namespace zed31rus.Apps.Authorization.Core.Base;
+namespace Zed31rus.Apps.Authorization.Core.Base;
 
 public interface IBasePermission
 {

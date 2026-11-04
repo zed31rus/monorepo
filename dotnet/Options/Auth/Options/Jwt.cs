@@ -1,6 +1,6 @@
 using Microsoft.IdentityModel.Tokens;
 
-namespace zed31rus.Options.Auth.Options;
+namespace Zed31rus.Options.Auth.Options;
 
 public interface IJwtOption
 {
