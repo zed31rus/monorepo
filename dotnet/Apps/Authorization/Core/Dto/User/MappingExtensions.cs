@@ -1,10 +1,8 @@
-using Zed31rus.Packages.Db.Auth.Models;
-
-namespace Zed31rus.Packages.Db.Auth.Dto.User;
+namespace Zed31rus.Apps.Authorization.Core.Dto.User;
 
 public static class MappingExtensions
 {
-    public static PublicUser ToPublicUser(this Models.User user)
+    public static PublicUser ToPublicUser(this Packages.Db.Auth.Models.User user)
     {
         return new PublicUser
         {
@@ -16,7 +14,7 @@ public static class MappingExtensions
         };
     }
 
-    public static PersonalUser ToPersonalUser(this Models.User user)
+    public static PersonalUser ToPersonalUser(this Packages.Db.Auth.Models.User user)
     {
         return new PersonalUser
         {
@@ -34,7 +32,7 @@ public static class MappingExtensions
         };
     }
 
-    public static InternalUser ToInternalUser(this Models.User user)
+    public static InternalUser ToInternalUser(this Packages.Db.Auth.Models.User user)
     {
         return new InternalUser
         {

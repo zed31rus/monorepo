@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json;
-using Zed31rus.Packages.Db.Auth.Dto.User;
+using Zed31rus.Apps.Authorization.Core.Dto.User;
 
 namespace Zed31rus.Apps.Authorization.Core.Extensions.Mappers;
 

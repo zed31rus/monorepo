@@ -1,4 +1,4 @@
-namespace Zed31rus.Packages.Db.Auth.Dto.User;
+namespace Zed31rus.Apps.Authorization.Core.Dto.User;
 
 public record PublicUser
 {
