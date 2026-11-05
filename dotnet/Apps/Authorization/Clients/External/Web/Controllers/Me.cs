@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Zed31rus.Apps.Authorization.Core.Dto.User;
 using Zed31rus.Apps.Authorization.Core.Extensions.Getters;
 using Zed31rus.Apps.Authorization.Core.Services;
 using Zed31rus.Packages.Db.Auth;
-using Zed31rus.Packages.Db.Auth.Dto.User;
 
 namespace Zed31rus.Apps.Authorization.Clients.External.Web.Controllers;
 
@@ -35,7 +35,7 @@ public class MeController(IMeService service) : ControllerBase
         return user;
     }
     
-    [HttpPatch ("update/email-find")]
+    [HttpPatch ("update/find/email")]
     [Authorize(Policy = "me")]
     public async Task<ActionResult<PersonalUser>> UpdateEmailFind(UpdateEmailFindRequest req, CancellationToken ct)
     {
@@ -44,7 +44,7 @@ public class MeController(IMeService service) : ControllerBase
         return user;
     }
     
-    [HttpPatch ("update/login-find")]
+    [HttpPatch ("update/find/login")]
     [Authorize(Policy = "me")]
     public async Task<ActionResult<PersonalUser>> UpdateLoginFind(UpdateLoginFindRequest req, CancellationToken ct)
     {

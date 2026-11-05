@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using System.Text.Json;
+using Zed31rus.Apps.Authorization.Core.Dto.User;
 using Zed31rus.Apps.Authorization.Core.Exceptions;
-using Zed31rus.Packages.Db.Auth.Dto.User;
 
 namespace Zed31rus.Apps.Authorization.Core.Extensions.Getters;
 
