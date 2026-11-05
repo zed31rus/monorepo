@@ -14,6 +14,11 @@ internal class OauthAccountConfiguration : EFCore.IEntityTypeConfiguration<Oauth
 
         builder.HasIndex(oauthAccount => new { oauthAccount.Provider, oauthAccount.ProviderUserId }).IsUnique();
         builder.HasIndex(oauthAccount => new { oauthAccount.UserUuid, oauthAccount.Provider }).IsUnique();
+        builder.Property(oauthAccount => oauthAccount.AccessToken).HasMaxLength(256);
+        builder.Property(oauthAccount => oauthAccount.Scope).HasMaxLength(128);
+        builder.Property(oauthAccount => oauthAccount.Provider).HasMaxLength(128);
+        builder.Property(oauthAccount => oauthAccount.ProviderUserId).HasMaxLength(256);
+        builder.Property(oauthAccount => oauthAccount.RefreshToken).HasMaxLength(256);
 
         builder.Property(oauthAccount => oauthAccount.RawProfile).HasColumnType("jsonb");
 
