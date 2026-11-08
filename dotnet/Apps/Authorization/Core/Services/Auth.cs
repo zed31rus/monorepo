@@ -41,12 +41,12 @@ public record AuthServiceRefreshReturn(PersonalUser User, CoreSessionManagerSess
 
 [Service]
 internal class AuthService(
-    ICoreSessionManager sessionManager,
+    ISessionManager sessionManager,
     IArgon2 argon,
     ISha256 sha256,
     IAuthDbContext db,
     IAuthOption authOptions,
-    UnconfirmedRole unconfirmedRole
+    IUnconfirmedRole unconfirmedRole
     )
     : IAuthService
 {
@@ -54,8 +54,10 @@ internal class AuthService(
         string locale,
         CancellationToken ct = default)
     {
+        
+        var normalizedEmail = email.ToLowerInvariant();
         var passwordHash = await argon.CreateAsync(password);
-        var rawUser = new User { Login = login, Nickname = nickname, Email = email, Role = unconfirmedRole.Name, PasswordHash = passwordHash, Locale = locale };
+        var rawUser = new User { Login = login, Nickname = nickname, Email = normalizedEmail, Role = unconfirmedRole.Name, PasswordHash = passwordHash, Locale = locale };
         db.Users.Add(rawUser);
         await db.SaveChangesAsync(ct);
         return rawUser.ToPublicUser();

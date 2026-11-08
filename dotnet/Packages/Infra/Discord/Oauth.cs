@@ -1,5 +1,4 @@
 ﻿using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Zed31rus.Options.Infra.Options;
@@ -7,89 +6,85 @@ using Zed31rus.Packages.Infra.Exceptions;
 
 namespace Zed31rus.Packages.Infra.Discord;
 
-public class DiscordOauthTokenReply
+public interface IDiscordOauth
+{
+    Task<DiscordOauthTokenResponse> ExchangeCodeAsync(string code, CancellationToken cancellationToken = default);
+    Task<DiscordOauthTokenResponse> TokenAsync(string refreshToken, CancellationToken cancellationToken = default);
+}
+
+public class DiscordOauthTokenResponse
 {
     [JsonPropertyName("access_token")]
     public string AccessToken { get; set; } = string.Empty;
+
     [JsonPropertyName("token_type")]
     public string TokenType { get; set; } = string.Empty;
+
     [JsonPropertyName("expires_in")]
     public int ExpiresIn { get; set; }
+
     [JsonPropertyName("refresh_token")]
     public string RefreshToken { get; set; } = string.Empty;
+
     [JsonPropertyName("scope")]
     public string Scope { get; set; } = string.Empty;
 }
 
-public class DiscordOauthCodeExchangeReply
+public class DiscordOauth(IDiscordOption discordOption, HttpClient httpClient): IDiscordOauth
 {
-    [JsonPropertyName("access_token")]
-    public string AccessToken { get; set; } = string.Empty;
-    [JsonPropertyName("token_type")]
-    public string TokenType { get; set; } = string.Empty;
-    [JsonPropertyName("expires_in")]
-    public int ExpiresIn { get; set; }
-    [JsonPropertyName("refresh_token")]
-    public string RefreshToken { get; set; } = string.Empty;
-    [JsonPropertyName("scope")]
-    public string Scope { get; set; } = string.Empty;
-}
 
-public class DiscordOauth(IDiscordOption discordOption)
-{
-        private HttpClient _httpClient = new();
-
-        public async Task<DiscordOauthCodeExchangeReply> ExchangeCodeAsync(
-            string code,
-            CancellationToken cancellationToken = default)
+    public async Task<DiscordOauthTokenResponse> ExchangeCodeAsync(
+        string code,
+        CancellationToken cancellationToken = default)
+    {
+        var content = new FormUrlEncodedContent(new Dictionary<string, string>
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, $"{discordOption.ApiEndpoint}/oauth2/token");
+            ["grant_type"] = "authorization_code",
+            ["code"] = code
+        });
 
-            var credentials = Convert.ToBase64String(
-                Encoding.UTF8.GetBytes($"{discordOption.ClientId}:{discordOption.ClientSecret}"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+        return await SendTokenRequestAsync(content, cancellationToken);
+    }
+        
+    public async Task<DiscordOauthTokenResponse> TokenAsync(
+        string refreshToken,
+        CancellationToken cancellationToken = default)
+    {
+        var content = new FormUrlEncodedContent(new Dictionary<string, string>
+        {
+            ["grant_type"] = "refresh_token",
+            ["refresh_token"] = refreshToken
+        });
 
-            request.Content = new FormUrlEncodedContent(new Dictionary<string, string>
-            {
-                ["grant_type"] = "authorization_code",
-                ["code"] = code
-            });
-            
-            var response = await _httpClient.SendAsync(request, cancellationToken);
-            
-            var json = await response.Content.ReadAsStringAsync(cancellationToken);
+        return await SendTokenRequestAsync(content, cancellationToken);
+    }
 
-            var result = JsonSerializer.Deserialize<DiscordOauthCodeExchangeReply>(json);
-            
-            if (result is null) throw new DiscordInfraExceptions.RequestException();
+    private async Task<DiscordOauthTokenResponse> SendTokenRequestAsync(
+        HttpContent content, 
+        CancellationToken cancellationToken)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, $"{discordOption.ApiEndpoint}/oauth2/token");
 
-            return result;
+        var credentials = Convert.ToBase64String(
+            System.Text.Encoding.UTF8.GetBytes($"{discordOption.ClientId}:{discordOption.ClientSecret}"));
+        
+        request.Headers.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+        request.Content = content;
+        
+        var response = await httpClient.SendAsync(request, cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new DiscordInfraExceptions.RequestException();
         }
         
-        public async Task<DiscordOauthTokenReply> TokenAsync(
-            string refreshToken,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Post, $"{discordOption.ApiEndpoint}/oauth2/token");
+        var json = await response.Content.ReadAsStringAsync(cancellationToken);
 
-            var credentials = Convert.ToBase64String(
-                Encoding.UTF8.GetBytes($"{discordOption.ClientId}:{discordOption.ClientSecret}"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", credentials);
-            request.Content = new FormUrlEncodedContent(new Dictionary<string, string>
-            {
-                ["grant_type"] = "refresh_token",
-                ["refresh_token"] = refreshToken
-            });
-            
-            var response = await _httpClient.SendAsync(request, cancellationToken);
-            
-            var json = await response.Content.ReadAsStringAsync(cancellationToken);
+        var result = JsonSerializer.Deserialize<DiscordOauthTokenResponse>(json);
+        
+        if (result is null) 
+            throw new DiscordInfraExceptions.RequestException();
 
-            var result = JsonSerializer.Deserialize<DiscordOauthTokenReply>(json);
-            
-            if (result is null) throw new DiscordInfraExceptions.RequestException();
-
-            return result;
-        }
-    
+        return result;
+    }
 }

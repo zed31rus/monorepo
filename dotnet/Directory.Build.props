@@ -6,6 +6,7 @@
         <_RelativeProjectPath>$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(MSBuildProjectDirectory)))</_RelativeProjectPath>
         <_SanitizedPath>$(_RelativeProjectPath.Replace('/', '.').Replace('\', '.'))</_SanitizedPath>
         <RootNamespace>$(_CompanyPrefix).$(_SanitizedPath)</RootNamespace>
+        <AssemblyName>$(_CompanyPrefix).$(_SanitizedPath)</AssemblyName>
     </PropertyGroup>
 
     <PropertyGroup>

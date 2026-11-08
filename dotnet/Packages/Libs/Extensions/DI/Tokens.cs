@@ -1,9 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Zed31rus.Packages.Libs.Tokens;
 
-namespace Zed31rus.Packages.Libs.DI.Extensions;
+namespace Zed31rus.Packages.Libs.Extensions.DI;
 
-public static class Tokens
+public static class TokensDIExtension
 {
     public static IServiceCollection AddHex(this IServiceCollection container)
     {

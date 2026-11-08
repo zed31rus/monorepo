@@ -13,6 +13,7 @@ public static class UseDiExtension
         container.AddSingleton<ISessionOption>(DevValues.Session);
         container.AddSingleton<IAuthOption>(DevValues.Auth);
         container.AddSingleton<IConnectionOption>(DevValues.Connection);
+        container.AddSingleton<IEncryptionOption>(DevValues.Encryption);
 
         return container;
     }

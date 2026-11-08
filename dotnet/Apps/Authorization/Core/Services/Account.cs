@@ -1,6 +1,5 @@
 ﻿using Zed31rus.Apps.Authorization.Core.Attributes;
 using Zed31rus.Apps.Authorization.Core.Dto.User;
-using Zed31rus.Packages.Db.Auth.Models;
 
 namespace Zed31rus.Apps.Authorization.Core.Services;
 

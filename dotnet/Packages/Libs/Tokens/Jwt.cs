@@ -11,7 +11,7 @@ public interface IJwt
     ClaimsPrincipal Verify(string token, TokenValidationParameters validationParameters);
 }
 
-public class Jwt : IJwt
+public class Jwt() : IJwt
 {
     private readonly JwtSecurityTokenHandler _tokenHandler = new();
 

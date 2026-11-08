@@ -7,6 +7,8 @@ using Zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
 using Zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
 using Zed31rus.Apps.Authorization.Core.Extensions.DI;
 using Zed31rus.Options.Auth.Extensions.DI;
+using Zed31rus.Options.Global.Extensions.DI;
+using Zed31rus.Packages.Infra.Extensions.DI;
 
 namespace Zed31rus.Apps.Authorization.Clients.External.Web;
 
@@ -39,7 +41,9 @@ public static class WebExternalClient
 
     private static void ConfigureServices(WebApplicationBuilder builder, Action<IMvcBuilder>? configureMvc)
     {
+        builder.Services.AddGlobalOptions();
         builder.Services.AddAppOptions();
+        builder.Services.AddInfra();
         builder.Services.AddAuthCore();
         builder.Services.AddManagers();
         builder.Services.AddOpenApi(options =>

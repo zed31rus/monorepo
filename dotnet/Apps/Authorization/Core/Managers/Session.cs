@@ -34,7 +34,7 @@ public record CoreSessionManagerSessionReturn(
     CoreSessionManagerJwtTokenInfo Access
 );
 
-public interface ICoreSessionManager
+public interface ISessionManager
 {
     Task<CoreSessionManagerSessionReturn> CreateSession(User user);
     CoreSessionManagerJwtTokenInfo CreateJwt(User user);
@@ -42,7 +42,7 @@ public interface ICoreSessionManager
 }
 
 [Manager]
-internal class SessionManager(IJwt jwt, IHex hex, ISha256 hash, IAuthDbContext db, IJwtOption jwtOption, IRefreshTokenOption refreshTokenOption) : ICoreSessionManager
+internal class SessionManager(IJwt jwt, IHex hex, ISha256 hash, IAuthDbContext db, IJwtOption jwtOption, IRefreshTokenOption refreshTokenOption) : ISessionManager
 {
     public async Task<CoreSessionManagerSessionReturn> CreateSession(User user)
     {

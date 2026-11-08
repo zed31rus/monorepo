@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Zed31rus.Options.Auth.Options;
 using Zed31rus.Packages.Db.Auth;
-using Zed31rus.Packages.Libs.DI.Extensions;
+using Zed31rus.Packages.Libs.Extensions.DI;
 
 namespace Zed31rus.Apps.Authorization.Core.Extensions.DI;
 

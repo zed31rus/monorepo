@@ -1,6 +1,7 @@
 global using IContext = Zed31rus.Packages.Db.Auth.IAuthDbContext;
 global using Context = Zed31rus.Packages.Db.Auth.AuthDbContext;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Zed31rus.Packages.Db.Auth.Models;
 
 namespace Zed31rus.Packages.Db.Auth;
@@ -12,6 +13,8 @@ public interface IAuthDbContext
     public DbSet<OauthAccount> OauthAccounts { get; }
     public DbSet<VerificationCode> VerificationCodes { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    
+    DatabaseFacade Database { get; }
 }
 
 internal class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContext(options), IAuthDbContext

@@ -1,9 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Zed31rus.Packages.Libs.Hash;
 
-namespace Zed31rus.Packages.Libs.DI.Extensions;
+namespace Zed31rus.Packages.Libs.Extensions.DI;
 
-public static class Hash
+public static class HashDIExtension
 {
     public static IServiceCollection AddArgon2(this IServiceCollection container)
     {

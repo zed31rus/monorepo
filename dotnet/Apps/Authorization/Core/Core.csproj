@@ -7,6 +7,7 @@
     </PropertyGroup>
     
     <ItemGroup>
+        <PackageReference Include="FlexLabs.EntityFrameworkCore.Upsert" />
         <PackageReference Include="FluentValidation" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,5 +21,6 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
         <ProjectReference Include="$(RepoRoot)Shared/Shared.csproj" />
         <ProjectReference Include="$(RepoRoot)Options/Auth/Auth.csproj" />
+        <ProjectReference Include="..\..\..\Packages\Infra\Infra.csproj" />
     </ItemGroup>
 </Project>

@@ -10,11 +10,12 @@
         <PackageReference Include="dotenv.net" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
         <PackageReference Include="Scalar.AspNetCore" />
-        <ProjectReference Include="$(RepoRoot)Apps/Authorization/Core/Core.csproj" />
-        <ProjectReference Include="$(RepoRoot)Options/Auth/Auth.csproj"/>
+        <ProjectReference Include="$(RepoRoot)Apps\Authorization\Core\Core.csproj" />
+        <ProjectReference Include="$(RepoRoot)Options\Auth\Auth.csproj"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
         <PackageReference Include="Microsoft.Extensions.ApiDescription.Server"/>
-        <ProjectReference Include="..\..\..\..\..\Options\Global\Global.csproj" />
+        <ProjectReference Include="$(RepoRoot)Options\Global\Global.csproj" />
+        <ProjectReference Include="$(RepoRoot)Packages\Infra\Infra.csproj"/>
     </ItemGroup>
     
     <ItemGroup>
