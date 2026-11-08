@@ -23,7 +23,7 @@
     <Target Name="GenerateKiotaClient" AfterTargets="GenerateOpenApiDocuments">
         <PropertyGroup>
             <OpenApiJsonPath>$(OpenApiDocumentsDirectory)\v1.json</OpenApiJsonPath>
-            <ClientOutputDir>$(RepoRoot)Infra\Clients\Generated</ClientOutputDir>
+            <ClientOutputDir>$(RepoRoot)Packages\Infra\Clients\Generated</ClientOutputDir>
         </PropertyGroup>
 
         <Exec Command="kiota generate -l CSharp -d &quot;$(OpenApiJsonPath)&quot; -o &quot;$(ClientOutputDir)&quot; --namespace-name zed31rus.Infra.Clients.Auth --class-name AuthHttpClient --clean-output" />

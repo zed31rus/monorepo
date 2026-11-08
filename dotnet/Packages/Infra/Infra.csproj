@@ -4,5 +4,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" />
+    <ProjectReference Include="$(RepoRoot)Option/Infra/Infra.csproj"/>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Options\Infra\Infra.csproj" />
   </ItemGroup>
 </Project>

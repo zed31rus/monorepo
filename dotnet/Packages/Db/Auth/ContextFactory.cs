@@ -8,7 +8,7 @@ internal class ContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
 {
     public AuthDbContext CreateDbContext(string[] args)
     {
-        var connectionString = OptionValues.Connection.Database;
+        var connectionString = DevValues.Connection.Database;
 
         var optionsBuilder = new DbContextOptionsBuilder<AuthDbContext>();
         optionsBuilder.UseNpgsql(connectionString);

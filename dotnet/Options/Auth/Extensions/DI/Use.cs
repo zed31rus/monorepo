@@ -8,10 +8,10 @@ public static class UseDiExtension
 {
     public static IServiceCollection AddAppOptions(this IServiceCollection services)
     {
-        services.AddSingleton<IJwtOption>(OptionValues.Jwt);
-        services.AddSingleton<ISessionOption>(OptionValues.Session);
-        services.AddSingleton<IAuthOption>(OptionValues.Auth);
-        services.AddSingleton<IConnectionOption>(OptionValues.Connection);
+        services.AddSingleton<IJwtOption>(DevValues.Jwt);
+        services.AddSingleton<ISessionOption>(DevValues.Session);
+        services.AddSingleton<IAuthOption>(DevValues.Auth);
+        services.AddSingleton<IConnectionOption>(DevValues.Connection);
 
         return services;
     }

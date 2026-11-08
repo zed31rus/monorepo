@@ -28,6 +28,7 @@
   <Folder Name="/Options/">
     <Project Path="Options/Auth/Auth.csproj" />
     <Project Path="Options/Mail/Mail.csproj" />
+    <Project Path="Options/Infra/Infra.csproj"/>
   </Folder>
 
   <Project Path="Shared/Shared.csproj" />
