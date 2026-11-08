@@ -6,13 +6,14 @@ namespace Zed31rus.Options.Auth.Extensions.DI;
 
 public static class UseDiExtension
 {
-    public static IServiceCollection AddAppOptions(this IServiceCollection services)
+    public static IServiceCollection AddAppOptions(this IServiceCollection container)
     {
-        services.AddSingleton<IJwtOption>(OptionValues.Jwt);
-        services.AddSingleton<ISessionOption>(OptionValues.Session);
-        services.AddSingleton<IAuthOption>(OptionValues.Auth);
-        services.AddSingleton<IConnectionOption>(OptionValues.Connection);
+        container.AddSingleton<IJwtOption>(DevValues.Jwt);
+        container.AddSingleton<IRefreshTokenOption>(DevValues.RefreshToken);
+        container.AddSingleton<ISessionOption>(DevValues.Session);
+        container.AddSingleton<IAuthOption>(DevValues.Auth);
+        container.AddSingleton<IConnectionOption>(DevValues.Connection);
 
-        return services;
+        return container;
     }
 }

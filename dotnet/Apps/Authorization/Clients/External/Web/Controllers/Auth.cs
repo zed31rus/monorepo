@@ -34,7 +34,7 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
         var user = loginReturn.User;
         var session = loginReturn.Session;
         sessionManager.Send.Refresh(Response, session.Refresh);
-        return StatusCode(StatusCodes.Status200OK, new LoginResponse(user, session.Access.Token, session.Access.Expires.AtTime));
+        return StatusCode(StatusCodes.Status200OK, new LoginResponse(user, session.Access.Token, session.Access.Expires.At));
     }
 
     [HttpPost("refresh")]
@@ -49,7 +49,7 @@ public class AuthController(IAuthService authService, ISessionManager sessionMan
         var user = refreshReturn.User;
         var session = refreshReturn.Session;
         sessionManager.Send.Refresh(Response, session.Refresh);
-        return StatusCode(StatusCodes.Status200OK, new RefreshResponse(user, session.Access.Token, session.Access.Expires.AtTime));
+        return StatusCode(StatusCodes.Status200OK, new RefreshResponse(user, session.Access.Token, session.Access.Expires.At));
     }
 
     [HttpPost("logout")]

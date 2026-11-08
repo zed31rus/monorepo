@@ -4,17 +4,24 @@ using Zed31rus.Apps.Authorization.Core.Extensions.Getters;
 
 namespace Zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
 
-internal static class RateLimiterMiddleware
+internal static class RateLimiterAppMiddleware
 {
+    public class PolicyNames
+    {
+        public const string Default = "default";
+        public const string PerIp = "per-ip";
+        public const string PerUser = "per-user";
+    }
+    
     public static IServiceCollection AddRateLimiters(this IServiceCollection container)
     {
         
         container.AddRateLimiter(options =>
         {
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-            options.AddPolicy("per-ip", PerIpRateLimitPartition);
-            options.AddPolicy("per-user", PerUserRateLimitPartition);
-            options.AddPolicy("default", DefaultRateLimitPartition);
+            options.AddPolicy(PolicyNames.PerIp, PerIpRateLimitPartition);
+            options.AddPolicy(PolicyNames.PerUser, PerUserRateLimitPartition);
+            options.AddPolicy(PolicyNames.Default, DefaultRateLimitPartition);
         });
 
         return container;

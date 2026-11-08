@@ -5,7 +5,7 @@ using Zed31rus.Apps.Authorization.Core.Exceptions;
 
 namespace Zed31rus.Apps.Authorization.Clients.External.Web.Handlers;
 
-public class ExceptionHandler(ILogger<ExceptionHandler> logger): IExceptionHandler
+public class AppExceptionHandler(ILogger<AppExceptionHandler> logger): IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken ct)
     {

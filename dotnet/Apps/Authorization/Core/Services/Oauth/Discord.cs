@@ -10,6 +10,6 @@ internal class DiscordOauthService
 {
     async Task<OauthServiceCallbackReturn> Callback(string code, PublicUser? user)
     {
-        var exchangeReply = await 
+        throw new NotImplementedException();
     }
 }

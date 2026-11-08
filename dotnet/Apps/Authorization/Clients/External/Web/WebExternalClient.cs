@@ -47,7 +47,16 @@ public static class WebExternalClient
             options.AddDocumentTransformer<BearerSecurityTransformer>();
             options.AddOperationTransformer<ErrorResponsesTransformer>();
         });
-        builder.Services.AddExceptionHandler<ExceptionHandler>();
+        builder.Services.AddExceptionHandler<AppExceptionHandler>();
+        if (!builder.Environment.IsProduction())
+        {
+            builder.Services.AddDevCorsPolicy();
+        }
+        else
+        {
+            builder.Services.AddMainCorsPolicy();
+        }
+
         builder.Services.AddProblemDetails();
         builder.Services.AddAuthenticationMiddleware();
         builder.Services.AddRateLimiters();
@@ -61,36 +70,28 @@ public static class WebExternalClient
 
     private static void ConfigurePipeline(WebApplication app)
     {
-        app.MapControllers().RequireRateLimiting("default");
+        app.UseExceptionHandler();
+        app.UseHttpLogging();
 
-        if (!IsProduction())
+        if (!app.Environment.IsProduction())
+        {
+            app.UseCors(CorsAppMiddleware.PolicyNames.Dev);
+        }
+        else
+        {
+            app.UseCors(CorsAppMiddleware.PolicyNames.Main);
+        }
+
+        app.UseAuthentication();
+        app.UseRateLimiter();
+        app.UseAuthorization();
+
+        app.MapControllers().RequireRateLimiting(RateLimiterAppMiddleware.PolicyNames.Default);
+
+        if (!app.Environment.IsProduction())
         {
             app.MapOpenApi();
             app.MapScalarApiReference();
         }
-        app.UseExceptionHandler();
-        app.UseAuthentication();
-        app.UseRateLimiter();
-        app.UseAuthorization();
-        app.UseHttpLogging();
-    }
-
-    private static bool IsDevelopment()
-    {
-        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-        return string.Equals(environment, Environments.Development, StringComparison.OrdinalIgnoreCase);
-    }
-
-    private static bool IsStaged()
-    {
-        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        return string.Equals(environment, Environments.Staging, StringComparison.OrdinalIgnoreCase);
-    }
-
-    private static bool IsProduction()
-    {
-        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        return string.Equals(environment, Environments.Production, StringComparison.OrdinalIgnoreCase);
     }
 }

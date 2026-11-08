@@ -935,7 +935,7 @@
         ]
       }
     },
-    "/me/update/email-find": {
+    "/me/update/find/email": {
       "patch": {
         "tags": [
           "Me"
@@ -1159,7 +1159,7 @@
         ]
       }
     },
-    "/me/update/login-find": {
+    "/me/update/find/login": {
       "patch": {
         "tags": [
           "Me"
