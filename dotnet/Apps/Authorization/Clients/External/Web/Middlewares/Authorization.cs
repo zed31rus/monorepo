@@ -5,7 +5,7 @@ using Zed31rus.Apps.Authorization.Core.Managers;
 
 namespace Zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
 
-internal static class AuthorizationMiddleware
+internal static class AuthorizationAppMiddleware
 {
     public static IServiceCollection AddAuthorizationMiddleware(this IServiceCollection container)
     {

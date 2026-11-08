@@ -14,6 +14,7 @@
         <ProjectReference Include="$(RepoRoot)Options/Auth/Auth.csproj"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
         <PackageReference Include="Microsoft.Extensions.ApiDescription.Server"/>
+        <ProjectReference Include="..\..\..\..\..\Options\Global\Global.csproj" />
     </ItemGroup>
     
     <ItemGroup>

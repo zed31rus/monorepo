@@ -10,12 +10,6 @@
   <Folder Name="/Apps/Authorization/Core/">
     <Project Path="Apps/Authorization/Core/Core.csproj" />
   </Folder>
-  <Folder Name="/Apps/Mail/" />
-  <Folder Name="/Apps/Mail/Clients/" />
-  <Folder Name="/Apps/Mail/Clients/Internal/">
-    <Project Path="Apps/Mail/Clients/Internal/Rabbit/Rabbit.csproj" />
-  </Folder>
-  <Folder Name="/Apps/Mail/Clients/Internal/Grpc/" />
   <Folder Name="/Packages/">
     <Project Path="Packages/Infra/Infra.csproj" />
     <Project Path="Packages/Libs/Libs.csproj" />
@@ -24,12 +18,11 @@
   <Folder Name="/Packages/Db/Auth/">
     <Project Path="Packages/Db/Auth/AuthDb.csproj" />
   </Folder>
-  <Folder Name="/Util/" />
   <Folder Name="/Options/">
     <Project Path="Options/Auth/Auth.csproj" />
     <Project Path="Options/Mail/Mail.csproj" />
     <Project Path="Options/Infra/Infra.csproj"/>
+    <Project Path="Options/Global/Global.csproj"/>
   </Folder>
-
   <Project Path="Shared/Shared.csproj" />
 </Solution>

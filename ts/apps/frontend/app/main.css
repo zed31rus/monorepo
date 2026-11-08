@@ -1,3 +1,5 @@
+@import 'tailwindcss';
+
 :root {
 	--color-back-main: 67, 67, 67;
 	--font-bebas: 'Bebas Neue', sans-serif;

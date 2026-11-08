@@ -4,12 +4,14 @@ namespace Zed31rus.Options.Auth.Options;
 
 public interface IJwtOption
 {
-    TokenValidationParameters TokenValidationOption { get; }
+    TokenValidationParameters TokenValidationParameters { get; }
     TimeSpan ExpiresIn { get; }
+    DateTime ExpiresAt { get; }
 }
 
 public class JwtOption : IJwtOption
 {
-    public required TokenValidationParameters TokenValidationOption { get; init; }
+    public required TokenValidationParameters TokenValidationParameters { get; init; }
     public required TimeSpan ExpiresIn { get; init; }
+    public required DateTime ExpiresAt { get; init; }
 }

@@ -3,7 +3,7 @@ using Zed31rus.Options.Auth.Options;
 
 namespace Zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
 
-internal static class AuthenticationMiddleware
+internal static class AuthenticationAppMiddleware
 {
     public static IServiceCollection AddAuthenticationMiddleware(this IServiceCollection container)
     {
@@ -12,7 +12,7 @@ internal static class AuthenticationMiddleware
         
         container.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme).Configure<IJwtOption>((options, jwtOption) =>
         {
-            options.TokenValidationParameters = jwtOption.TokenValidationOption;
+            options.TokenValidationParameters = jwtOption.TokenValidationParameters;
         });
 
         return container;
