@@ -19,6 +19,7 @@ public interface IDiscordOauthService
     public Task<OauthServiceCallbackReturn> Callback(string code, PublicUser? publicUser,
         CancellationToken ct = default);
 }
+
 [Service]
 internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionManager, IDiscordOauth discordOauth, IDiscordUsers discordUsers, IAes256Gcm encryptor, IConfirmedRole confirmedRole): IDiscordOauthService
 {
@@ -26,34 +27,34 @@ internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionMan
     {
         
     var exchangeReply = await discordOauth.ExchangeCodeAsync(code, ct);
-    var meReply = await discordUsers.MeAsync(exchangeReply.AccessToken, ct);
+    var discordUser = await discordUsers.MeAsync(exchangeReply.AccessToken, ct);
 
-    var (user, resolveStatus) = await ResolveUser(publicUser, meReply, ct);
+    var (user, resolveStatus) = await ResolveUser(publicUser, discordUser, ct);
 
     if (resolveStatus != ResolveUserStatus.New)
     {
-        var accountByDiscordId = await db.OauthAccounts.SingleOrDefaultAsync(oauthAccount =>
-            oauthAccount.Provider == OauthConstants.Providers.Discord && oauthAccount.ProviderUserId == meReply.Id, ct);
+        var accounts = await db.OauthAccounts
+            .AsNoTracking()
+            .Where(oauthAccount => oauthAccount.Provider == OauthConstants.Providers.Discord
+                                   && (oauthAccount.ProviderUserId == discordUser.Id || oauthAccount.UserUuid == user.Uuid))
+            .ToListAsync(ct);
+
+        var accountByDiscordId = accounts.SingleOrDefault(oauthAccount => oauthAccount.ProviderUserId == discordUser.Id);
         if (accountByDiscordId is not null && accountByDiscordId.UserUuid != user.Uuid)
             throw new CoreBusinessExceptions.Oauth.AccountLinkedToAnotherUserException();
 
-        var accountByUser = await db.OauthAccounts.SingleOrDefaultAsync(oauthAccount =>
-            oauthAccount.Provider == OauthConstants.Providers.Discord && oauthAccount.UserUuid == user.Uuid, ct);
-        if (accountByUser is not null && accountByUser.ProviderUserId != meReply.Id)
+        var accountByUser = accounts.SingleOrDefault(oauthAccount => oauthAccount.UserUuid == user.Uuid);
+        if (accountByUser is not null && accountByUser.ProviderUserId != discordUser.Id)
             throw new CoreBusinessExceptions.Oauth.UserHasAnotherAccountException();
     }
 
     var encryptedRefreshToken = encryptor.Encrypt(exchangeReply.RefreshToken);
     var now = DateTime.UtcNow;
 
-    await using var transaction = await db.Database.BeginTransactionAsync(ct);
-
-    await db.SaveChangesAsync(ct);
-
     await db.OauthAccounts.Upsert(new OauthAccount
         {
             Provider = OauthConstants.Providers.Discord,
-            ProviderUserId = meReply.Id,
+            ProviderUserId = discordUser.Id,
             UserUuid = user.Uuid,
             EncryptedRefreshToken = encryptedRefreshToken,
             Scope = exchangeReply.Scope,
@@ -69,8 +70,8 @@ internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionMan
             UpdatedAt = now,
         })
         .RunAsync(ct);
-
-    await transaction.CommitAsync(ct);
+    
+    
 
     var session = await sessionManager.CreateSession(user);
     var newPersonalUser = user.ToPersonalUser();
@@ -113,6 +114,8 @@ internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionMan
         
         var newUser = new User { Login = discordUser.Username, Nickname = discordUser.GlobalName ?? discordUser.Username, Email = email, Role = confirmedRole.Name, Locale = discordUser.Locale ?? "ru" };
         db.Users.Add(newUser);
+        
+        await db.SaveChangesAsync(ct);
 
         return new ResolveUserResult(newUser, ResolveUserStatus.New);
     }

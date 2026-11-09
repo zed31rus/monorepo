@@ -7,7 +7,6 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="dotenv.net" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
         <PackageReference Include="Scalar.AspNetCore" />
         <ProjectReference Include="$(RepoRoot)Apps\Authorization\Core\Core.csproj" />
@@ -28,6 +27,6 @@
             <ClientOutputDir>$(RepoRoot)Packages\Infra\Clients\Generated</ClientOutputDir>
         </PropertyGroup>
 
-        <Exec Command="kiota generate -l CSharp -d &quot;$(OpenApiJsonPath)&quot; -o &quot;$(ClientOutputDir)&quot; --namespace-name zed31rus.Infra.Clients.Auth --class-name AuthHttpClient --clean-output" />
+        <Exec Command="kiota generate -l CSharp -d $(OpenApiJsonPath) -o $(ClientOutputDir) --namespace-name zed31rus.Infra.Clients.Auth --class-name AuthHttpClient --clean-output" />
     </Target>
 </Project>

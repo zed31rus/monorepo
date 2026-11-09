@@ -43,7 +43,6 @@ public static class WebExternalClient
     {
         builder.Services.AddGlobalOptions();
         builder.Services.AddAppOptions();
-        builder.Services.AddInfra();
         builder.Services.AddAuthCore();
         builder.Services.AddManagers();
         builder.Services.AddOpenApi(options =>

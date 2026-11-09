@@ -2,7 +2,16 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Microsoft.Kiota.Abstractions" />
+    <PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Form" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Json" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Multipart" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Text" />
     <PackageReference Include="Newtonsoft.Json" />
     <ProjectReference Include="$(RepoRoot)Options\Infra\Infra.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Clients\" />
   </ItemGroup>
 </Project>

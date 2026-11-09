@@ -29,6 +29,12 @@
     <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.14" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.14" />
     <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="8.23.0" />
+    <PackageVersion Include="Microsoft.Kiota.Abstractions" Version="2.1.6" />
+    <PackageVersion Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="2.1.6" />
+    <PackageVersion Include="Microsoft.Kiota.Serialization.Form" Version="2.1.6" />
+    <PackageVersion Include="Microsoft.Kiota.Serialization.Json" Version="2.1.6" />
+    <PackageVersion Include="Microsoft.Kiota.Serialization.Multipart" Version="2.1.6" />
+    <PackageVersion Include="Microsoft.Kiota.Serialization.Text" Version="2.1.6" />
     <PackageVersion Include="Mjml.Net" Version="4.15.0" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
