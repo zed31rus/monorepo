@@ -65,8 +65,13 @@ public static class WebExternalClient
         builder.Services.AddRateLimiters();
         builder.Services.AddAuthorizationMiddleware();
 
-        var mvc = builder.Services.AddControllers(o =>
-            o.Conventions.Add(new RouteTokenTransformerConvention(new LowercaseParameterTransformer())));
+        var mvc = builder.Services.AddControllers(options =>
+            {
+                options.Conventions.Add(new RouteTokenTransformerConvention(new LowercaseParameterTransformer()));
+                options.Filters.Add
+            }
+        );
+        
         builder.Services.AddHttpLogging(o => { o.LoggingFields = HttpLoggingFields.RequestPropertiesAndHeaders | HttpLoggingFields.ResponsePropertiesAndHeaders; });
         configureMvc?.Invoke(mvc);
     }
