@@ -79,15 +79,15 @@ internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionMan
     return new OauthServiceCallbackReturn(newPersonalUser, session);
     }
 
-    private record ResolveUserResult(User User, ResolveUserStatus ResolveStatus);
+    private record ResolvedUser(User User, ResolveUserStatus ResolveStatus);
 
-    private async Task<ResolveUserResult> ResolveUser(PublicUser? publicUser, DiscordUser discordUser, CancellationToken ct = default)
+    private async Task<ResolvedUser> ResolveUser(PublicUser? publicUser, DiscordUser discordUser, CancellationToken ct = default)
     {
         if (publicUser is not null)
         {
             var user = await db.Users.SingleOrDefaultAsync(recordUser => recordUser.Uuid == publicUser.Uuid, ct);
             if (user is null) throw new CoreBusinessExceptions.UserNotFoundException();
-            return new ResolveUserResult(user, ResolveUserStatus.PublicUser);
+            return new ResolvedUser(user, ResolveUserStatus.PublicUser);
         }
 
         var existingOauth = await db.OauthAccounts.Include(oauthAccount => oauthAccount.User).SingleOrDefaultAsync(oauthAccount =>
@@ -95,7 +95,7 @@ internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionMan
         if (existingOauth is not null)
         {
             var user = existingOauth.User;
-            return new ResolveUserResult(user, ResolveUserStatus.Oauth);
+            return new ResolvedUser(user, ResolveUserStatus.Oauth);
         }
         if (discordUser.Email is null) throw new CoreBusinessExceptions.Oauth.EmailMissingException();
         if (discordUser.Verified is not true) throw new CoreBusinessExceptions.Oauth.EmailNotVerifiedException();
@@ -106,7 +106,7 @@ internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionMan
         if (existingEmail is not null)
         {
             if (!existingEmail.EmailConfirmed) throw new CoreBusinessExceptions.Oauth.EmailNotVerifiedException();
-            return new ResolveUserResult(existingEmail, ResolveUserStatus.Email);
+            return new ResolvedUser(existingEmail, ResolveUserStatus.Email);
         }
 
         if (await db.Users.AnyAsync(user => user.Login == discordUser.Username, ct))
@@ -117,7 +117,7 @@ internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionMan
         
         await db.SaveChangesAsync(ct);
 
-        return new ResolveUserResult(newUser, ResolveUserStatus.New);
+        return new ResolvedUser(newUser, ResolveUserStatus.New);
     }
 
     private enum ResolveUserStatus

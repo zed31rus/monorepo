@@ -1,6 +1,11 @@
-﻿namespace Zed31rus.Options.Auth.Options;
+﻿namespace Zed31rus.Options.Shared.Constants;
 
-public class Value
+public class ValueConstants
 {
-    
+    public enum ValueTypes
+    {
+        Dev,
+        Production,
+        Staged
+    }
 }

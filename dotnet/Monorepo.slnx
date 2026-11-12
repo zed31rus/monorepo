@@ -19,10 +19,10 @@
     <Project Path="Packages/Db/Auth/AuthDb.csproj" />
   </Folder>
   <Folder Name="/Options/">
+    <Project Path="Options/Shared/Shared.csproj"/>
     <Project Path="Options/Auth/Auth.csproj" />
-    <Project Path="Options/Mail/Mail.csproj" />
-    <Project Path="Options/Infra/Infra.csproj"/>
-    <Project Path="Options/Global/Global.csproj"/>
+    <Project Path="Options/Infra/Infra.csproj" />
+    <Project Path="Options/Global/Global.csproj" />
   </Folder>
   <Project Path="Shared/Shared.csproj" />
 </Solution>

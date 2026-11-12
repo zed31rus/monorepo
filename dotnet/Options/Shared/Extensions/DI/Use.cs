@@ -1,6 +1,11 @@
-﻿namespace Zed31rus.Options.Shared.Extensions.DI;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-public class Use
+namespace Zed31rus.Options.Shared.Extensions.DI;
+
+public class SharedUseDIOption
 {
-    
+    public static IServiceCollection SharedAddOption<T>() where T is 
+    {
+        
+    }
 }

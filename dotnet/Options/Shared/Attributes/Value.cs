@@ -6,4 +6,5 @@ namespace Zed31rus.Options.Auth.Attributes;
 internal class ValueAttribute(ServiceLifetime lifetime = ServiceLifetime.Singleton) : Attribute
 {
     public ServiceLifetime Lifetime { get; } = lifetime;
+
 }

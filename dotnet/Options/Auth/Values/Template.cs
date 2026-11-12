@@ -9,10 +9,11 @@ public  static class ExampleValues
     public static readonly JwtOption Jwt = new()
     {
         ExpiresIn = TimeSpan.FromMinutes(15),
+        ExpiresAt = DateTime.UtcNow.AddMinutes(15),
         TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(""u8.ToArray()),
+            IssuerSigningKey = new SymmetricSecurityKey("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"u8.ToArray()),
             ValidateIssuer = false,
             ValidateAudience = false,
             ValidateLifetime = true,
@@ -41,7 +42,7 @@ public  static class ExampleValues
                 Name = "refreshToken",
                 Options = new CookieOptions
                 {
-                    Path = "/",
+                    Path = "/auth/refresh",
                     HttpOnly = true,
                     SameSite = SameSiteMode.Lax,
                     Secure = false,
@@ -53,11 +54,11 @@ public  static class ExampleValues
 
     public static readonly AuthOption Auth = new()
     {
-        DummyPasswordHash = "$argon2id$v=19$m=65536,t=3,p=4$3I+4zxM3XsUAFibLbKm4CA$itjGhZi7sUXbZnefyvNoka8k2vUdn+i2dDHv0cVhj1w"
+        DummyPasswordHash = "$argon2id$v=19$m=65536,t=3,p=4$AAAAAAAAAAA$AAAAAAAAAAAAAAAAAAAAAA"
     };
 
     public static readonly ConnectionOption Connection = new()
     {
-        Database = "Host=localhost;Port=5432;Database=db;Username=dev;Password=dev"
+        Database = "Host=localhost;Port=54321;Database=Template;Username=Template;Password=Template"
     };
 }
