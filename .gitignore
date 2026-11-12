@@ -22,4 +22,5 @@
 npm-debug.log*
 pnpm-debug.log*
 Thumbs.db
-dotnet/Options/*/Values
+dotnet/Options/*/Values/*
+!dotnet/Options/*/Values/Template.cs
