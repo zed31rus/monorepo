@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Zed31rus.Apps.Authorization.Core.Dto.User;
 using Zed31rus.Apps.Authorization.Core.Extensions.Getters;
 using Zed31rus.Apps.Authorization.Core.Services;
-using Zed31rus.Packages.Db.Auth;
 
-namespace Zed31rus.Apps.Authorization.Clients.External.Web.Controllers;
+namespace Zed31rus.Apps.Authorization.Clients.External.Web.Features.Me;
 
 public record UpdateNicknameRequest(string Nickname);
 public record UpdateEmailFindRequest(bool AllowEmailFind);
