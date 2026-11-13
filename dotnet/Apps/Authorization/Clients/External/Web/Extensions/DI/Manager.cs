@@ -13,7 +13,7 @@ internal static class ManagerOptionDiExtension
         
         foreach (var type in managerTypes)
         {
-            var primaryInterface = InterfaceReflection.ResolvePrimaryInterface(type);
+            var primaryInterface = type.ResolvePrimaryInterface();
             var attr = type.GetCustomAttribute<ManagerAttribute>()!;
             container.Add(new ServiceDescriptor(primaryInterface, type, attr.Lifetime));
         }

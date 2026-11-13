@@ -8,11 +8,13 @@ internal static class HandlerDiExtension
 {
     public static IServiceCollection AddHandlers(this IServiceCollection container)
     {
-        var handlerTypes = AttributeReflection.GetWhereAttribute<Attributes.HandlerAttribute>();
+        var assembly = Assembly.GetExecutingAssembly();
+        
+        var handlerTypes = AttributeReflection.GetWhereAttribute<Attributes.HandlerAttribute>(assembly);
 
         foreach (var type in handlerTypes)
         {
-            var primaryInterface = InterfaceReflection.ResolvePrimaryInterface(type);
+            var primaryInterface = type.ResolvePrimaryInterface();
             var attr = type.GetCustomAttribute<Attributes.HandlerAttribute>()!;
             container.Add(new ServiceDescriptor(primaryInterface, type, attr.Lifetime));
         }

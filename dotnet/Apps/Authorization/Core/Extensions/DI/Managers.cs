@@ -8,11 +8,13 @@ internal static class ManagerDiExtension
 {
     public static IServiceCollection AddManagers(this IServiceCollection container)
     {
-        var managerTypes = AttributeReflection.GetWhereAttribute<Attributes.ManagerAttribute>();
+        var assembly = Assembly.GetExecutingAssembly();
+        
+        var managerTypes = AttributeReflection.GetWhereAttribute<Attributes.ManagerAttribute>(assembly);
 
         foreach (var type in managerTypes)
         {
-            var primaryInterface = InterfaceReflection.ResolvePrimaryInterface(type);
+            var primaryInterface = type.ResolvePrimaryInterface();
             var attr = type.GetCustomAttribute<Attributes.ManagerAttribute>()!;
             container.Add(new ServiceDescriptor(primaryInterface, type, attr.Lifetime));
         }

@@ -13,5 +13,5 @@ public class JwtOption : IJwtOption
 {
     public required TokenValidationParameters TokenValidationParameters { get; init; }
     public required TimeSpan ExpiresIn { get; init; }
-    public required DateTime ExpiresAt { get; init; }
+    public DateTime ExpiresAt => DateTime.UtcNow.Add(ExpiresIn);
 }

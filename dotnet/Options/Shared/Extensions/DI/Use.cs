@@ -12,7 +12,7 @@ public static class SharedUseDIExtension
     {
         if (!Enum.TryParse<ValueConstants.ValueTypes>(env, ignoreCase: false, out var envType))
         {
-            return container.SharedAddOption(ValueConstants.ValueTypes.Template);
+            throw new ArgumentOutOfRangeException();
         }
         return container.SharedAddOption(envType);
     }

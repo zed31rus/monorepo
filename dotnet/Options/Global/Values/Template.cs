@@ -7,7 +7,7 @@ namespace Zed31rus.Options.Global.Values;
 public class TemplateValues
 {
     [Value(ValueConstants.ValueTypes.Template)]
-    public static readonly DomainOption DomainOption = new()
+    public static readonly IDomainOption DomainOption = new DomainOption()
     {
         MainDomain = "nicetemplate.website"
     };

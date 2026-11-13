@@ -13,10 +13,10 @@ internal static class ServiceDiExtension
     {
         var assembly = Assembly.GetExecutingAssembly();
 
-        var serviceTypes = AttributeReflection.GetWhereAttribute<Attributes.ServiceAttribute>();
+        var serviceTypes = AttributeReflection.GetWhereAttribute<Attributes.ServiceAttribute>(assembly);
         foreach (var type in serviceTypes)
         {
-            var primaryInterface = InterfaceReflection.ResolvePrimaryInterface(type);
+            var primaryInterface = type.ResolvePrimaryInterface();
             var attr = type.GetCustomAttribute<Attributes.ServiceAttribute>()!;
             var proxyType = typeof(ErrorHandlerProxy<>).MakeGenericType(primaryInterface);
             var createMethod = proxyType.GetMethod("Create", [primaryInterface, typeof(IExceptionHandlerBase)])!;

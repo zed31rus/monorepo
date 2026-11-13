@@ -12,7 +12,6 @@ public  static class ExampleValues
     public static readonly IJwtOption Jwt = new JwtOption()
     {
         ExpiresIn = TimeSpan.FromMinutes(15),
-        ExpiresAt = DateTime.UtcNow.AddMinutes(15),
         TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
@@ -38,7 +37,7 @@ public  static class ExampleValues
                     HttpOnly = false,
                     SameSite = SameSiteMode.Lax,
                     Secure = false,
-                    Expires = DateTimeOffset.UtcNow.AddMinutes(15)
+                    MaxAge = TimeSpan.FromDays(14)
                 }
             },
             Refresh = new()
@@ -50,7 +49,7 @@ public  static class ExampleValues
                     HttpOnly = true,
                     SameSite = SameSiteMode.Lax,
                     Secure = false,
-                    Expires = DateTimeOffset.UtcNow.AddDays(14)
+                    MaxAge = TimeSpan.FromDays(14)
                 }
             }
         }

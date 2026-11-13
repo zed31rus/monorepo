@@ -4,7 +4,7 @@ public class ValueConstants
 {
     public enum ValueTypes
     {
-        Dev,
+        Development,
         Production,
         Staged,
         Template

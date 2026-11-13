@@ -9,5 +9,5 @@ public interface IRefreshTokenOption
 public class RefreshTokenOption: IRefreshTokenOption
 {
     public required TimeSpan ExpiresIn { get; init; }
-    public required DateTime ExpiresAt { get; init; }
+    public DateTime ExpiresAt => DateTime.UtcNow.Add(ExpiresIn);
 }

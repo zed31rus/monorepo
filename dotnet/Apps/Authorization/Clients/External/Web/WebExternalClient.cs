@@ -41,8 +41,8 @@ public static class WebExternalClient
 
     private static void ConfigureServices(WebApplicationBuilder builder, Action<IMvcBuilder>? configureMvc)
     {
-        builder.Services.AddGlobalOptions();
-        builder.Services.AddAuthOptions();
+        builder.Services.AddGlobalOptions(builder.Environment.EnvironmentName);
+        builder.Services.AddAuthOptions(builder.Environment.EnvironmentName);
         builder.Services.AddAuthCore();
         builder.Services.AddManagers();
         builder.Services.AddOpenApi(options =>
@@ -68,7 +68,6 @@ public static class WebExternalClient
         var mvc = builder.Services.AddControllers(options =>
             {
                 options.Conventions.Add(new RouteTokenTransformerConvention(new LowercaseParameterTransformer()));
-                options.Filters.Add
             }
         );
         
