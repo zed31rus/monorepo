@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using Zed31rus.Options.Auth.Options;
+using Zed31rus.Options.Shared.Attributes;
+using Zed31rus.Options.Shared.Constants;
 
 namespace Zed31rus.Options.Auth.Values;
 
 public  static class ExampleValues
 {
+    [Value(ValueConstants.ValueTypes.Template)]
     public static readonly IJwtOption Jwt = new JwtOption()
     {
         ExpiresIn = TimeSpan.FromMinutes(15),
@@ -21,6 +24,7 @@ public  static class ExampleValues
         }
     };
 
+    [Value(ValueConstants.ValueTypes.Template)]
     public static readonly ISessionOption Session = new SessionOption()
     {
         Cookies = new()
@@ -52,11 +56,13 @@ public  static class ExampleValues
         }
     };
 
+    [Value(ValueConstants.ValueTypes.Template)]
     public static readonly IAuthOption Auth = new AuthOption()
     {
         DummyPasswordHash = "$argon2id$v=19$m=65536,t=3,p=4$AAAAAAAAAAA$AAAAAAAAAAAAAAAAAAAAAA"
     };
 
+    [Value(ValueConstants.ValueTypes.Template)]
     public static readonly IConnectionOption Connection = new ConnectionOption()
     {
         Database = "Host=localhost;Port=54321;Database=Template;Username=Template;Password=Template"

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Zed31rus.Options.Auth.Attributes;
+using Zed31rus.Options.Shared.Attributes;
 using Zed31rus.Options.Shared.Constants;
 using Zed31rus.Packages.Libs.Reflection;
 
