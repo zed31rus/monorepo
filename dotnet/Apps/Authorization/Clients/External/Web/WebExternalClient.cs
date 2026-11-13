@@ -42,7 +42,7 @@ public static class WebExternalClient
     private static void ConfigureServices(WebApplicationBuilder builder, Action<IMvcBuilder>? configureMvc)
     {
         builder.Services.AddGlobalOptions();
-        builder.Services.AddAppOptions();
+        builder.Services.AddAuthOptions();
         builder.Services.AddAuthCore();
         builder.Services.AddManagers();
         builder.Services.AddOpenApi(options =>

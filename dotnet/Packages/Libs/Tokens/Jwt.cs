@@ -1,7 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-using Zed31rus.Options.Auth.Options;
 
 namespace Zed31rus.Packages.Libs.Tokens;
 

@@ -13,7 +13,7 @@ internal static class ServiceDiExtension
     {
         var assembly = Assembly.GetExecutingAssembly();
 
-        var serviceTypes = AttributeReflection.GetWhereAttribute<Attributes.ServiceAttribute>(assembly);
+        var serviceTypes = AttributeReflection.GetWhereAttribute<Attributes.ServiceAttribute>();
         foreach (var type in serviceTypes)
         {
             var primaryInterface = InterfaceReflection.ResolvePrimaryInterface(type);

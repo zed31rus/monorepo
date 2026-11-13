@@ -9,9 +9,8 @@ internal static class PermissionsDiExtension
 {
     public static IServiceCollection AddPermissions(this IServiceCollection container)
     {
-        var assembly = Assembly.GetExecutingAssembly();
 
-        var permissionTypes = AttributeReflection.GetWhereAttribute<Attributes.PermissionAttribute>(assembly);
+        var permissionTypes = AttributeReflection.GetWhereAttribute<Attributes.PermissionAttribute>();
 
         foreach (var type in permissionTypes)
         {

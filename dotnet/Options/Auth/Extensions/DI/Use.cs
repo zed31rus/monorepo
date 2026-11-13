@@ -1,20 +1,13 @@
 using Microsoft.Extensions.DependencyInjection;
-using Zed31rus.Options.Auth.Options;
-using Zed31rus.Options.Auth.Values;
+using Zed31rus.Options.Shared.Constants;
+using Zed31rus.Options.Shared.Extensions.DI;
 
 namespace Zed31rus.Options.Auth.Extensions.DI;
 
 public static class UseDiExtension
 {
-    public static IServiceCollection AddAppOptions(this IServiceCollection container)
+    public static IServiceCollection AddAuthOptions(this IServiceCollection container, string? env)
     {
-        container.AddSingleton<IJwtOption>(DevValues.Jwt);
-        container.AddSingleton<IRefreshTokenOption>(DevValues.RefreshToken);
-        container.AddSingleton<ISessionOption>(DevValues.Session);
-        container.AddSingleton<IAuthOption>(DevValues.Auth);
-        container.AddSingleton<IConnectionOption>(DevValues.Connection);
-        container.AddSingleton<IEncryptionOption>(DevValues.Encryption);
-
-        return container;
+        return container.SharedSafeAddOption(env);
     }
 }

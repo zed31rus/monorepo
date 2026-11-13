@@ -6,7 +6,7 @@ namespace Zed31rus.Options.Auth.Values;
 
 public  static class ExampleValues
 {
-    public static readonly JwtOption Jwt = new()
+    public static readonly IJwtOption Jwt = new JwtOption()
     {
         ExpiresIn = TimeSpan.FromMinutes(15),
         ExpiresAt = DateTime.UtcNow.AddMinutes(15),
@@ -21,7 +21,7 @@ public  static class ExampleValues
         }
     };
 
-    public static readonly SessionOption Session = new()
+    public static readonly ISessionOption Session = new SessionOption()
     {
         Cookies = new()
         {
@@ -52,12 +52,12 @@ public  static class ExampleValues
         }
     };
 
-    public static readonly AuthOption Auth = new()
+    public static readonly IAuthOption Auth = new AuthOption()
     {
         DummyPasswordHash = "$argon2id$v=19$m=65536,t=3,p=4$AAAAAAAAAAA$AAAAAAAAAAAAAAAAAAAAAA"
     };
 
-    public static readonly ConnectionOption Connection = new()
+    public static readonly IConnectionOption Connection = new ConnectionOption()
     {
         Database = "Host=localhost;Port=54321;Database=Template;Username=Template;Password=Template"
     };

@@ -1,6 +1,5 @@
 using System.Security.Cryptography;
 using System.Text;
-using Zed31rus.Options.Auth.Options;
 
 namespace Zed31rus.Packages.Libs.Encryption;
 
@@ -18,12 +17,12 @@ public class Aes256Gcm: IAes256Gcm
 
     private readonly byte[] _key;
 
-    public Aes256Gcm(IEncryptionOption options)
+    public Aes256Gcm(string key)
     {
-        _key = Convert.FromBase64String(options.Key);
+        _key = Convert.FromBase64String(key);
 
         if (_key.Length != KeySize)
-            throw new ArgumentException($"Ключ должен быть {KeySize} байта (AES-256)", nameof(options));
+            throw new ArgumentException($"Ключ должен быть {KeySize} байта (AES-256)");
     }
 
     public string Encrypt(string plainText, string? associatedData = null)

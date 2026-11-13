@@ -2,11 +2,8 @@
     <ItemGroup>
         <PackageReference Include="FluentValidation" />
         <PackageReference Include="Konscious.Security.Cryptography.Argon2" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
-        <PackageReference Include="Microsoft.Extensions.Options" />
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
         <ProjectReference Include="$(RepoRoot)Shared/Shared.csproj" />
-        <ProjectReference Include="$(RepoRoot)Options/Auth/Auth.csproj"/>
     </ItemGroup>
 </Project>

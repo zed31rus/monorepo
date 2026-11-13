@@ -8,9 +8,7 @@ internal static class HandlerDiExtension
 {
     public static IServiceCollection AddHandlers(this IServiceCollection container)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-
-        var handlerTypes = AttributeReflection.GetWhereAttribute<Attributes.HandlerAttribute>(assembly);
+        var handlerTypes = AttributeReflection.GetWhereAttribute<Attributes.HandlerAttribute>();
 
         foreach (var type in handlerTypes)
         {

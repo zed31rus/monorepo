@@ -9,9 +9,7 @@ internal static class RolesDiExtension
 {
     public static IServiceCollection AddRoles(this IServiceCollection container)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-
-        var roleTypes = AttributeReflection.GetWhereAttribute<Attributes.RoleAttribute>(assembly);
+        var roleTypes = AttributeReflection.GetWhereAttribute<Attributes.RoleAttribute>();
 
         foreach (var type in roleTypes)
         {

@@ -8,9 +8,7 @@ internal static class ManagerDiExtension
 {
     public static IServiceCollection AddManagers(this IServiceCollection container)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-
-        var managerTypes = AttributeReflection.GetWhereAttribute<Attributes.ManagerAttribute>(assembly);
+        var managerTypes = AttributeReflection.GetWhereAttribute<Attributes.ManagerAttribute>();
 
         foreach (var type in managerTypes)
         {

@@ -6,6 +6,7 @@ public class ValueConstants
     {
         Dev,
         Production,
-        Staged
+        Staged,
+        Template
     }
 }
