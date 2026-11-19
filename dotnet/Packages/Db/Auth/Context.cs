@@ -42,7 +42,7 @@ internal class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContex
         foreach (var entry in modifiedEntries)
         {
             var property = entry.Properties.FirstOrDefault(p => p.Metadata.Name == "UpdatedAt");
-            if (property != null) property.CurrentValue = DateTime.UtcNow;
+            property?.CurrentValue = DateTime.UtcNow;
         }
 
         return base.SaveChangesAsync(cancellationToken);

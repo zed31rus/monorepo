@@ -8,20 +8,21 @@ namespace Zed31rus.Options.Shared.Extensions.DI;
 
 public static class SharedUseDIExtension
 {
-    public static IServiceCollection SharedSafeAddOption(this IServiceCollection container,string? env)
+    public static IServiceCollection SharedSafeAddOption(this IServiceCollection container, Assembly assembly, string? env)
     {
+        if (env is null || string.IsNullOrWhiteSpace(env)) return container.SharedAddOption(ValueConstants.ValueTypes.Template, assembly);
         if (!Enum.TryParse<ValueConstants.ValueTypes>(env, ignoreCase: false, out var envType))
         {
             throw new ArgumentOutOfRangeException();
         }
-        return container.SharedAddOption(envType);
+        return container.SharedAddOption(envType, assembly);
     }
     
     public static IServiceCollection SharedAddOption(
         this IServiceCollection container,
-        ValueConstants.ValueTypes valueType)
+        ValueConstants.ValueTypes valueType,
+        Assembly assembly)
     {
-        var assembly = Assembly.GetExecutingAssembly();
 
         var fields = assembly
             .GetTypes()

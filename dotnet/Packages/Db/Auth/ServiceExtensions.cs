@@ -11,15 +11,15 @@ public static class ServiceExtensions
         Func<IServiceProvider, string> connectionString,
         Action<NpgsqlDbContextOptionsBuilder>? npgsqlOptions = null)
     {
-        services.AddDbContext<AuthDbContext>((serviceProvider, options) =>
+        services.AddDbContext<Context>((serviceProvider, options) =>
             options.UseNpgsql(connectionString(serviceProvider), builder =>
             {
-                builder.MigrationsAssembly(typeof(AuthDbContext).Assembly.FullName);
+                builder.MigrationsAssembly(typeof(Context).Assembly.FullName);
 
                 npgsqlOptions?.Invoke(builder);
             }));
 
-        services.AddScoped<IAuthDbContext>(serviceProvider => serviceProvider.GetRequiredService<AuthDbContext>());
+        services.AddScoped<IContext>(serviceProvider => serviceProvider.GetRequiredService<Context>());
 
         return services;
     }

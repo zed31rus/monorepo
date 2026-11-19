@@ -37,7 +37,7 @@ public  static class ExampleValues
                     HttpOnly = false,
                     SameSite = SameSiteMode.Lax,
                     Secure = false,
-                    MaxAge = TimeSpan.FromDays(14)
+                    MaxAge = TimeSpan.FromMinutes(15)
                 }
             },
             Refresh = new()
