@@ -1,5 +1,5 @@
 {
-  "openapi": "3.1.1",
+  "openapi": "3.2.0",
   "info": {
     "title": "Zed31rus.Apps.Authorization.Clients.External.Web | v1",
     "version": "1.0.0"
@@ -8,35 +8,58 @@
     "/auth/register": {
       "post": {
         "tags": [
-          "Auth"
+          "AuthController"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterRequest"
-              }
+        "operationId": "Auth.Register",
+        "parameters": [
+          {
+            "name": "Login",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           },
-          "required": true
-        },
+          {
+            "name": "Nickname",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Password",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Locale",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PublicUser"
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }
@@ -137,45 +160,34 @@
     "/auth/login": {
       "post": {
         "tags": [
-          "Auth"
+          "AuthController"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
+        "operationId": "Auth.Login",
+        "parameters": [
+          {
+            "name": "Login",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           },
-          "required": true
-        },
+          {
+            "name": "Password",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }
@@ -276,25 +288,16 @@
     "/auth/refresh": {
       "post": {
         "tags": [
-          "Auth"
+          "AuthController"
         ],
+        "operationId": "Auth.Refresh",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RefreshResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }
@@ -395,24 +398,12 @@
     "/auth/logout": {
       "post": {
         "tags": [
-          "Auth"
+          "AuthController"
         ],
+        "operationId": "Auth.Logout",
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": { }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
+            "description": "OK"
           },
           "500": {
             "description": "INTERNAL",
@@ -510,7 +501,7 @@
     "/me/get": {
       "get": {
         "tags": [
-          "Me"
+          "MeController"
         ],
         "responses": {
           "200": {
@@ -518,231 +509,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonalUser"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "INTERNAL",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "title": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "status": {
-                      "pattern": "^-?(?:0|[1-9]\\d*)$",
-                      "type": [
-                        "null",
-                        "integer",
-                        "string"
-                      ],
-                      "format": "int32"
-                    },
-                    "detail": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "instance": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "TOO_MANY_REQUESTS",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "title": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "status": {
-                      "pattern": "^-?(?:0|[1-9]\\d*)$",
-                      "type": [
-                        "null",
-                        "integer",
-                        "string"
-                      ],
-                      "format": "int32"
-                    },
-                    "detail": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "instance": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "UNAUTHORIZED",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "title": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "status": {
-                      "pattern": "^-?(?:0|[1-9]\\d*)$",
-                      "type": [
-                        "null",
-                        "integer",
-                        "string"
-                      ],
-                      "format": "int32"
-                    },
-                    "detail": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "instance": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "FORBIDDEN",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "title": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "status": {
-                      "pattern": "^-?(?:0|[1-9]\\d*)$",
-                      "type": [
-                        "null",
-                        "integer",
-                        "string"
-                      ],
-                      "format": "int32"
-                    },
-                    "detail": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "instance": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "Bearer": [ ]
-          }
-        ]
-      }
-    },
-    "/me/update/nickname": {
-      "patch": {
-        "tags": [
-          "Me"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateNicknameRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateNicknameRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateNicknameRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PersonalUser"
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }
@@ -938,23 +705,13 @@
     "/me/update/find/email": {
       "patch": {
         "tags": [
-          "Me"
+          "MeController"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateEmailFindRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateEmailFindRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateEmailFindRequest"
+                "$ref": "#/components/schemas/Request"
               }
             }
           },
@@ -966,7 +723,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonalUser"
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }
@@ -1162,23 +919,13 @@
     "/me/update/find/login": {
       "patch": {
         "tags": [
-          "Me"
+          "MeController"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateLoginFindRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateLoginFindRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateLoginFindRequest"
+                "$ref": "#/components/schemas/Request"
               }
             }
           },
@@ -1190,7 +937,221 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonalUser"
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "title": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "status": {
+                      "pattern": "^-?(?:0|[1-9]\\d*)$",
+                      "type": [
+                        "null",
+                        "integer",
+                        "string"
+                      ],
+                      "format": "int32"
+                    },
+                    "detail": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "instance": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO_MANY_REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "title": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "status": {
+                      "pattern": "^-?(?:0|[1-9]\\d*)$",
+                      "type": [
+                        "null",
+                        "integer",
+                        "string"
+                      ],
+                      "format": "int32"
+                    },
+                    "detail": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "instance": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "title": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "status": {
+                      "pattern": "^-?(?:0|[1-9]\\d*)$",
+                      "type": [
+                        "null",
+                        "integer",
+                        "string"
+                      ],
+                      "format": "int32"
+                    },
+                    "detail": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "instance": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "title": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "status": {
+                      "pattern": "^-?(?:0|[1-9]\\d*)$",
+                      "type": [
+                        "null",
+                        "integer",
+                        "string"
+                      ],
+                      "format": "int32"
+                    },
+                    "detail": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "instance": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/me/update/nickname": {
+      "patch": {
+        "tags": [
+          "MeController"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }
@@ -1386,12 +1347,14 @@
     "/users/get/uuid": {
       "get": {
         "tags": [
-          "Users"
+          "UsersController"
         ],
+        "operationId": "Users.GetByUuid",
         "parameters": [
           {
-            "name": "uuid",
+            "name": "Uuid",
             "in": "query",
+            "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -1404,7 +1367,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PublicUser"
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }
@@ -1412,230 +1375,7 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "INTERNAL",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "title": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "status": {
-                      "pattern": "^-?(?:0|[1-9]\\d*)$",
-                      "type": [
-                        "null",
-                        "integer",
-                        "string"
-                      ],
-                      "format": "int32"
-                    },
-                    "detail": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "instance": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "TOO_MANY_REQUESTS",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "title": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "status": {
-                      "pattern": "^-?(?:0|[1-9]\\d*)$",
-                      "type": [
-                        "null",
-                        "integer",
-                        "string"
-                      ],
-                      "format": "int32"
-                    },
-                    "detail": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "instance": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "UNAUTHORIZED",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "title": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "status": {
-                      "pattern": "^-?(?:0|[1-9]\\d*)$",
-                      "type": [
-                        "null",
-                        "integer",
-                        "string"
-                      ],
-                      "format": "int32"
-                    },
-                    "detail": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "instance": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "FORBIDDEN",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "title": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "status": {
-                      "pattern": "^-?(?:0|[1-9]\\d*)$",
-                      "type": [
-                        "null",
-                        "integer",
-                        "string"
-                      ],
-                      "format": "int32"
-                    },
-                    "detail": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    },
-                    "instance": {
-                      "type": [
-                        "null",
-                        "string"
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "Bearer": [ ]
-          }
-        ]
-      }
-    },
-    "/users/get/login": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "parameters": [
-          {
-            "name": "login",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicUser"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -1833,12 +1573,14 @@
     "/users/get/email": {
       "get": {
         "tags": [
-          "Users"
+          "UsersController"
         ],
+        "operationId": "Users.GetByEmail",
         "parameters": [
           {
-            "name": "email",
+            "name": "Email",
             "in": "query",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -1850,7 +1592,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PublicUser"
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }
@@ -1858,7 +1600,232 @@
           "404": {
             "description": "Not Found",
             "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL",
+            "content": {
               "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "title": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "status": {
+                      "pattern": "^-?(?:0|[1-9]\\d*)$",
+                      "type": [
+                        "null",
+                        "integer",
+                        "string"
+                      ],
+                      "format": "int32"
+                    },
+                    "detail": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "instance": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO_MANY_REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "title": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "status": {
+                      "pattern": "^-?(?:0|[1-9]\\d*)$",
+                      "type": [
+                        "null",
+                        "integer",
+                        "string"
+                      ],
+                      "format": "int32"
+                    },
+                    "detail": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "instance": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "title": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "status": {
+                      "pattern": "^-?(?:0|[1-9]\\d*)$",
+                      "type": [
+                        "null",
+                        "integer",
+                        "string"
+                      ],
+                      "format": "int32"
+                    },
+                    "detail": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "instance": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "title": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "status": {
+                      "pattern": "^-?(?:0|[1-9]\\d*)$",
+                      "type": [
+                        "null",
+                        "integer",
+                        "string"
+                      ],
+                      "format": "int32"
+                    },
+                    "detail": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    },
+                    "instance": {
+                      "type": [
+                        "null",
+                        "string"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/users/get/login": {
+      "get": {
+        "tags": [
+          "UsersController"
+        ],
+        "operationId": "Users.GetByLogin",
+        "parameters": [
+          {
+            "name": "Login",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -2056,12 +2023,14 @@
     "/users/get/nickname": {
       "get": {
         "tags": [
-          "Users"
+          "UsersController"
         ],
+        "operationId": "Users.GetByNickName",
         "parameters": [
           {
-            "name": "nickname",
+            "name": "NickName",
             "in": "query",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -2073,7 +2042,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PublicUser"
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }
@@ -2081,7 +2050,7 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "application/json": {
+              "application/problem+json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -2279,91 +2248,6 @@
   },
   "components": {
     "schemas": {
-      "LoginRequest": {
-        "required": [
-          "login",
-          "password"
-        ],
-        "type": "object",
-        "properties": {
-          "login": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          }
-        }
-      },
-      "LoginResponse": {
-        "required": [
-          "user",
-          "accessToken",
-          "accessTokenExpiresAt"
-        ],
-        "type": "object",
-        "properties": {
-          "user": {
-            "$ref": "#/components/schemas/PersonalUser"
-          },
-          "accessToken": {
-            "type": "string"
-          },
-          "accessTokenExpiresAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "PersonalUser": {
-        "required": [
-          "login",
-          "email",
-          "nickname",
-          "locale",
-          "role"
-        ],
-        "type": "object",
-        "properties": {
-          "uuid": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "login": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "nickname": {
-            "type": "string"
-          },
-          "avatar": {
-            "type": [
-              "null",
-              "string"
-            ]
-          },
-          "locale": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string"
-          },
-          "emailConfirmed": {
-            "type": "boolean"
-          },
-          "allowEmailFind": {
-            "type": "boolean"
-          },
-          "allowLoginFind": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -2431,54 +2315,7 @@
           }
         }
       },
-      "RefreshResponse": {
-        "required": [
-          "user",
-          "accessToken",
-          "accessTokenExpiresAt"
-        ],
-        "type": "object",
-        "properties": {
-          "user": {
-            "$ref": "#/components/schemas/PersonalUser"
-          },
-          "accessToken": {
-            "type": "string"
-          },
-          "accessTokenExpiresAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "RegisterRequest": {
-        "required": [
-          "login",
-          "nickname",
-          "password",
-          "email",
-          "locale"
-        ],
-        "type": "object",
-        "properties": {
-          "login": {
-            "type": "string"
-          },
-          "nickname": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "locale": {
-            "type": "string"
-          }
-        }
-      },
-      "UpdateEmailFindRequest": {
+      "Request": {
         "required": [
           "allowEmailFind"
         ],
@@ -2489,25 +2326,14 @@
           }
         }
       },
-      "UpdateLoginFindRequest": {
+      "Response": {
         "required": [
-          "allowLoginFind"
+          "user"
         ],
         "type": "object",
         "properties": {
-          "allowLoginFind": {
-            "type": "boolean"
-          }
-        }
-      },
-      "UpdateNicknameRequest": {
-        "required": [
-          "nickname"
-        ],
-        "type": "object",
-        "properties": {
-          "nickname": {
-            "type": "string"
+          "user": {
+            "$ref": "#/components/schemas/PublicUser"
           }
         }
       }
@@ -2522,13 +2348,13 @@
   },
   "tags": [
     {
-      "name": "Auth"
+      "name": "AuthController"
     },
     {
-      "name": "Me"
+      "name": "MeController"
     },
     {
-      "name": "Users"
+      "name": "UsersController"
     }
   ]
 }

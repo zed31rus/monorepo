@@ -11,6 +11,7 @@ public  static class ExampleValues
     {
         ClientId = "123456789012345678",
         ClientSecret = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        ApiEndpoint = "https://nicetemplate.website"
+        ApiEndpoint = "https://nicetemplate.website",
+        RedirectUri = "http://localhost:3000/oauth2/discord/callback"
     };
 }

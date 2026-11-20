@@ -40,7 +40,7 @@ internal sealed class ErrorResponsesTransformer : IOpenApiOperationTransformer
         operation.Responses![code] = new OpenApiResponse
         {
             Description = description,
-            Content = new Dictionary<string, OpenApiMediaType>
+            Content = new Dictionary<string, IOpenApiMediaType>
             {
                 ["application/json"] = new OpenApiMediaType { Schema = schema }
             }

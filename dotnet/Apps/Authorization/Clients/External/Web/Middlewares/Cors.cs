@@ -13,17 +13,23 @@ public static class CorsAppMiddleware
     
     public static IServiceCollection AddMainCorsPolicy(this IServiceCollection container)
     {
-        container.AddOptions<CorsOptions>().Configure<IDomainOption>((options, domainOption) =>
-        {
-            options.AddPolicy(PolicyNames.Main, policy =>
+        container.AddCors();
+
+        container.AddOptions<CorsOptions>()
+            .Configure<IDomainOption>((options, domainOption) =>
             {
-                policy.WithOrigins($"https://{domainOption.MainDomain}", $"https://*.{domainOption.MainDomain}")
-                    .SetIsOriginAllowedToAllowWildcardSubdomains()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
+                options.AddPolicy(PolicyNames.Main, policy =>
+                {
+                    policy
+                        .WithOrigins(
+                            $"https://{domainOption.MainDomain}",
+                            $"https://*.{domainOption.MainDomain}")
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
             });
-        });
 
         return container;
     }

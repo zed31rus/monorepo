@@ -40,7 +40,8 @@ public class DiscordOauth(IDiscordOption discordOption, HttpClient httpClient): 
         var content = new FormUrlEncodedContent(new Dictionary<string, string>
         {
             ["grant_type"] = "authorization_code",
-            ["code"] = code
+            ["code"] = code,
+            ["redirect_uri"] = discordOption.RedirectUri
         });
 
         return await SendTokenRequestAsync(content, cancellationToken);

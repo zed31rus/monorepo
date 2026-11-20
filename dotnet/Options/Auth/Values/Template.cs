@@ -6,7 +6,7 @@ using Zed31rus.Options.Shared.Constants;
 
 namespace Zed31rus.Options.Auth.Values;
 
-public  static class ExampleValues
+public  static class TemplateValues
 {
     [Value(ValueConstants.ValueTypes.Template)]
     public static readonly IJwtOption Jwt = new JwtOption()
@@ -65,5 +65,17 @@ public  static class ExampleValues
     public static readonly IConnectionOption Connection = new ConnectionOption()
     {
         Database = "Host=localhost;Port=54321;Database=Template;Username=Template;Password=Template"
+    };
+    
+    [Value(ValueConstants.ValueTypes.Template)]
+    public static readonly IRefreshTokenOption RefreshToken = new RefreshTokenOption()
+    {
+        ExpiresIn = TimeSpan.FromDays(14)
+    };
+
+    [Value(ValueConstants.ValueTypes.Template)]
+    public static readonly IEncryptionOption Encryption = new EncryptionOption()
+    {
+        Key = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     };
 }

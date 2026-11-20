@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Scalar.AspNetCore;
@@ -44,8 +45,11 @@ public static class WebExternalClient
 
     private static void ConfigureServices(WebApplicationBuilder builder)
     {
-        builder.Services.AddGlobalOptions(builder.Environment.EnvironmentName);
-        builder.Services.AddAuthOptions(builder.Environment.EnvironmentName);
+        var isDocGen = Assembly.GetEntryAssembly()?.GetName().Name == "GetDocument.Insider";
+        var optionsEnv = isDocGen ? null : builder.Environment.EnvironmentName;
+
+        builder.Services.AddGlobalOptions(optionsEnv);
+        builder.Services.AddAuthOptions(optionsEnv);
         builder.Services.AddAuthCore();
         builder.Services.AddManagers();
         builder.Services.AddOpenApi(options =>
@@ -97,8 +101,6 @@ public static class WebExternalClient
         rootGroup.UseAuthController();
         rootGroup.UseMeController();
         rootGroup.UseUsersController();
-
-        app.MapControllers().RequireRateLimiting(RateLimiterAppMiddleware.PolicyNames.Default);
 
         if (!app.Environment.IsProduction())
         {

@@ -12,7 +12,7 @@ public static class CoreExternalUseDiExtension
     {
         container.AddArgon2();
         container.AddSha256();
-        container.AddAes256Gcm();
+        container.AddAes256Gcm(sp => sp.GetRequiredService<IEncryptionOption>().Key);
         container.AddOauthConstants();
         container.AddHex();
         container.AddJwt();

@@ -23,14 +23,14 @@ public static class SharedUseDIExtension
         ValueConstants.ValueTypes valueType,
         Assembly assembly)
     {
-
         var fields = assembly
             .GetTypes()
             .SelectMany(type => type.GetFields(
                 BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
             .Select(field => (Field: field, Attribute: field.GetCustomAttribute<ValueAttribute>()))
-            .Where(fieldAttr => fieldAttr.Attribute?.ValueType == valueType);
-
+            .Where(fieldAttr => fieldAttr.Attribute?.ValueType == valueType)
+            .ToList();
+        
         foreach (var (field, attr) in fields)
         {
             var primaryInterface = field.FieldType.ResolvePrimaryInterface();
