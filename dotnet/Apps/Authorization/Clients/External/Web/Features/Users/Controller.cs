@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Zed31rus.Apps.Authorization.Core.Dto.User;
 using Zed31rus.Apps.Authorization.Core.Services;
@@ -10,7 +11,8 @@ namespace Zed31rus.Apps.Authorization.Clients.External.Web.Features.Users;
 [Produces("application/json")]
 [ProducesResponseType<PublicUser>(StatusCodes.Status200OK)]
 [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
-public class UsersController(IUsersService usersService) : ControllerBase
+[Obsolete("Migrate to minimalApi")]
+public class DeprecatedUsersController(IUsersService usersService) : ControllerBase
 {
     [HttpGet("get/uuid")]
     [Authorize(Policy = "get-users")]
@@ -43,4 +45,9 @@ public class UsersController(IUsersService usersService) : ControllerBase
         var user = await usersService.GetByNickname(nickname, ct);
         return user;
     }
+}
+
+public class UsersController
+{
+    public static async Task<Ok<>>
 }

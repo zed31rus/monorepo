@@ -4,7 +4,7 @@ using Zed31rus.Options.Shared.Extensions.DI;
 
 namespace Zed31rus.Options.Auth.Extensions.DI;
 
-public static class UseDiExtension
+public static class UseDIExtension
 {
     public static IServiceCollection AddAuthOptions(this IServiceCollection container, string? env)
     {
