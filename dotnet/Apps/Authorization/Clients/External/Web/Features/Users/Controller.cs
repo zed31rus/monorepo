@@ -1,53 +1,43 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Zed31rus.Apps.Authorization.Core.Dto.User;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Zed31rus.Apps.Authorization.Core.Services;
 
 namespace Zed31rus.Apps.Authorization.Clients.External.Web.Features.Users;
 
-[ApiController]
-[Route("[controller]")]
-[Produces("application/json")]
-[ProducesResponseType<PublicUser>(StatusCodes.Status200OK)]
-[ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
-[Obsolete("Migrate to minimalApi")]
-public class DeprecatedUsersController(IUsersService usersService) : ControllerBase
+public static class UsersController
 {
-    [HttpGet("get/uuid")]
-    [Authorize(Policy = "get-users")]
-    public async Task<ActionResult<PublicUser>> GetByUuid([FromQuery] Guid uuid, CancellationToken ct)
+    public static IEndpointRouteBuilder Use(this IEndpointRouteBuilder app)
     {
-        var user = await usersService.GetByUuid(uuid, ct);
-        return user;
-    }
-    
-    [HttpGet("get/login")]
-    [Authorize(Policy = "get-users")]
-    public async Task<ActionResult<PublicUser>> GetByLogin([FromQuery] string login, CancellationToken ct)
-    {
-        var user = await usersService.GetByLogin(login, ct);
-        return user;
-    }
-    
-    [HttpGet("get/email")]
-    [Authorize(Policy = "get-users")]
-    public async Task<ActionResult<PublicUser>> GetByEmail([FromQuery] string email, CancellationToken ct)
-    {
-        var user = await usersService.GetByEmail(email, ct);
-        return user;
-    }
-    
-    [HttpGet("get/nickname")]
-    [Authorize(Policy = "get-users")]
-    public async Task<ActionResult<PublicUser>> GetByNickName([FromQuery] string nickname, CancellationToken ct)
-    {
-        var user = await usersService.GetByNickname(nickname, ct);
-        return user;
-    }
-}
+        var group = app.MapGroup(UsersRoutes.Group).RequireAuthorization("get-users").ProducesProblem(StatusCodes.Status404NotFound);
 
-public class UsersController
-{
-    public static async Task<Ok<>>
+        group.MapGet(UsersRoutes.Paths.GetByUuid, GetByUuid);
+        group.MapGet(UsersRoutes.Paths.GetByEmail, GetByEmail);
+        group.MapGet(UsersRoutes.Paths.GetByLogin, GetByLogin);
+        group.MapGet(UsersRoutes.Paths.GetByNickName, GetByNickName);
+
+        return app;
+    }
+
+    public static async Task<Ok<UsersDto.GetByUuid.Response>> GetByUuid([AsParameters] UsersDto.GetByUuid.Request req, IUsersService usersService, CancellationToken ct)
+    {
+        var user = await usersService.GetByUuid(req.Uuid, ct);
+        return TypedResults.Ok(new UsersDto.GetByUuid.Response(user));
+    }
+
+    public static async Task<Ok<UsersDto.GetByLogin.Response>> GetByLogin([AsParameters] UsersDto.GetByLogin.Request req, IUsersService usersService, CancellationToken ct)
+    {
+        var user = await usersService.GetByLogin(req.Login, ct);
+        return TypedResults.Ok(new UsersDto.GetByLogin.Response(user));
+    }
+    
+    public static async Task<Ok<UsersDto.GetByEmail.Response>> GetByEmail([AsParameters] UsersDto.GetByEmail.Request req, IUsersService usersService, CancellationToken ct)
+    {
+        var user = await usersService.GetByEmail(req.Email, ct);
+        return TypedResults.Ok(new UsersDto.GetByEmail.Response(user));
+    }
+
+    public static async Task<Ok<UsersDto.GetByNickName.Response>> GetByNickName([AsParameters] UsersDto.GetByNickName.Request req, IUsersService usersService, CancellationToken ct)
+    {
+        var user = await usersService.GetByNickname(req.NickName, ct);
+        return TypedResults.Ok(new UsersDto.GetByNickName.Response(user));
+    }
 }

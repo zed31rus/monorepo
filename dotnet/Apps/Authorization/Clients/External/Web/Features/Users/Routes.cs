@@ -1,12 +1,12 @@
 namespace Zed31rus.Apps.Authorization.Clients.External.Web.Features.Users;
 
-public sealed class UsersRoutes
+public static class UsersRoutes
 {
     public const string Group = "/users";
 
-    public Endpoints Paths { get; init; } = new();
+    public static Endpoints Paths = new();
 
-    public sealed record Endpoints(
+    public record Endpoints(
         string GetByUuid = "/get/uuid",
         string GetByLogin = "/get/login",
         string GetByEmail = "/get/email",
