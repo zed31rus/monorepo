@@ -4,10 +4,7 @@ using Zed31rus.Apps.Authorization.Core.Permissions;
 
 namespace Zed31rus.Apps.Authorization.Core.Roles;
 
-public interface IUnconfirmedRole: IBaseRole
-{
-    public new string Name => "unconfirmed";
-}
+public interface IUnconfirmedRole : IBaseRole;
 
 [Role]
 internal class UnconfirmedRole(ConfirmationPermission confirmationPermission, MePermission mePermission): BaseRole, IUnconfirmedRole

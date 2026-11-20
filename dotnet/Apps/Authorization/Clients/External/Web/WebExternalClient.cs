@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Scalar.AspNetCore;
 using Zed31rus.Apps.Authorization.Clients.External.Web.Extensions.DI;
+using Zed31rus.Apps.Authorization.Clients.External.Web.Features.Auth;
+using Zed31rus.Apps.Authorization.Clients.External.Web.Features.Me;
+using Zed31rus.Apps.Authorization.Clients.External.Web.Features.Users;
 using Zed31rus.Apps.Authorization.Clients.External.Web.Handlers;
 using Zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
 using Zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
@@ -21,7 +24,7 @@ public static class WebExternalClient
         app.Run();
     }
 
-    public static WebApplication CreateApp(string[] args, Action<IMvcBuilder>? configureMvc = null)
+    public static WebApplication CreateApp(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.Host.UseDefaultServiceProvider((context, options) =>
@@ -30,7 +33,7 @@ public static class WebExternalClient
             options.ValidateScopes = true;
         });
 
-        ConfigureServices(builder, configureMvc);
+        ConfigureServices(builder);
 
         var app = builder.Build();
 
@@ -39,7 +42,7 @@ public static class WebExternalClient
         return app;
     }
 
-    private static void ConfigureServices(WebApplicationBuilder builder, Action<IMvcBuilder>? configureMvc)
+    private static void ConfigureServices(WebApplicationBuilder builder)
     {
         builder.Services.AddGlobalOptions(builder.Environment.EnvironmentName);
         builder.Services.AddAuthOptions(builder.Environment.EnvironmentName);
@@ -64,15 +67,8 @@ public static class WebExternalClient
         builder.Services.AddAuthenticationMiddleware();
         builder.Services.AddRateLimiters();
         builder.Services.AddAuthorizationMiddleware();
-
-        var mvc = builder.Services.AddControllers(options =>
-            {
-                options.Conventions.Add(new RouteTokenTransformerConvention(new LowercaseParameterTransformer()));
-            }
-        );
         
         builder.Services.AddHttpLogging(o => { o.LoggingFields = HttpLoggingFields.RequestPropertiesAndHeaders | HttpLoggingFields.ResponsePropertiesAndHeaders; });
-        configureMvc?.Invoke(mvc);
     }
 
     private static void ConfigurePipeline(WebApplication app)
@@ -92,6 +88,15 @@ public static class WebExternalClient
         app.UseAuthentication();
         app.UseRateLimiter();
         app.UseAuthorization();
+        
+        var defaultRateLimit = RateLimiterAppMiddleware.PolicyNames.Default;
+        
+        var rootGroup = app.MapGroup(string.Empty)
+            .RequireRateLimiting(defaultRateLimit);
+
+        rootGroup.UseAuthController();
+        rootGroup.UseMeController();
+        rootGroup.UseUsersController();
 
         app.MapControllers().RequireRateLimiting(RateLimiterAppMiddleware.PolicyNames.Default);
 

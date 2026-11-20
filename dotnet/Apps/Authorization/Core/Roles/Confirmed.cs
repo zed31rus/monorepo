@@ -4,10 +4,7 @@ using Zed31rus.Apps.Authorization.Core.Permissions;
 
 namespace Zed31rus.Apps.Authorization.Core.Roles;
 
-public interface IConfirmedRole: IBaseRole
-{
-    public new string Name => "confirmed";
-}
+public interface IConfirmedRole : IBaseRole;
 
 [Role]
 internal class ConfirmedRole(DefaultUserRole defaultUserRole, GetUsersPermission getUsersPermission): BaseRole, IConfirmedRole

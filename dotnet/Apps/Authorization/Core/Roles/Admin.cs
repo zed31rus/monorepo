@@ -3,10 +3,7 @@ using Zed31rus.Apps.Authorization.Core.Base;
 
 namespace Zed31rus.Apps.Authorization.Core.Roles;
 
-interface IAdminRole: IBaseRole
-{
-    public new string Name => "admin";
-}
+interface IAdminRole : IBaseRole;
 
 [Role]
 internal class AdminRole(ConfirmedRole confirmedRole): BaseRole, IAdminRole

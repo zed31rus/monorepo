@@ -1,119 +1,56 @@
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Zed31rus.Apps.Authorization.Clients.External.Web.Features.Users;
 using Zed31rus.Apps.Authorization.Clients.External.Web.Managers;
-using Zed31rus.Apps.Authorization.Core.Dto.User;
 using Zed31rus.Apps.Authorization.Core.Services;
 
 namespace Zed31rus.Apps.Authorization.Clients.External.Web.Features.Auth;
 
-public record RegisterRequest(string Login, string Nickname, string Password, string Email, string Locale);
-
-public record LoginRequest(string Login, string Password);
-
-public record LoginResponse(PersonalUser User, string AccessToken, DateTime AccessTokenExpiresAt);
-public record RefreshResponse(PersonalUser User, string AccessToken, DateTime AccessTokenExpiresAt);
-
-[ApiController]
-[Route("[controller]")]
-[Produces("application/json")]
-[Obsolete("Migrate to minimalApi")]
-public class DeprecatedAuthController(IAuthService authService, ISessionManager sessionManager) : ControllerBase
-{
-    [HttpPost("register")]
-    [ProducesResponseType<PublicUser>(StatusCodes.Status201Created)]
-    public async Task<ActionResult<PublicUser>> Register(RegisterRequest req, CancellationToken ct)
-    {
-        var user = await authService.Register(req.Login, req.Nickname, req.Password, req.Email, req.Locale, ct);
-        return StatusCode(StatusCodes.Status201Created, user);
-    }
-
-    [HttpPost("login")]
-    [ProducesResponseType<LoginResponse>(StatusCodes.Status200OK)]
-    [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<LoginResponse>> Login(LoginRequest req, CancellationToken ct)
-    {
-        var loginReturn = await authService.Login(req.Login, req.Password, ct);
-        var user = loginReturn.User;
-        var session = loginReturn.Session;
-        sessionManager.Send.Refresh(Response, session.Refresh);
-        return StatusCode(StatusCodes.Status200OK, new LoginResponse(user, session.Access.Token, session.Access.Expires.At));
-    }
-
-    [HttpPost("refresh")]
-    [ProducesResponseType<RefreshResponse>(StatusCodes.Status200OK)]
-    [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
-
-    public async Task<ActionResult<RefreshResponse>> Refresh(CancellationToken ct)
-    {
-        var incomingRefreshToken = sessionManager.Get.Refresh(Request);
-
-        var refreshReturn = await authService.Refresh(incomingRefreshToken, ct);
-        var user = refreshReturn.User;
-        var session = refreshReturn.Session;
-        sessionManager.Send.Refresh(Response, session.Refresh);
-        return StatusCode(StatusCodes.Status200OK, new RefreshResponse(user, session.Access.Token, session.Access.Expires.At));
-    }
-
-    [HttpPost("logout")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult> Logout(CancellationToken ct)
-    {
-        var incomingRefreshToken = sessionManager.Get.Refresh(Request);
-
-        await authService.Logout(incomingRefreshToken, ct);
-        sessionManager.Delete.Session(Response);
-        return StatusCode(StatusCodes.Status200OK);
-    }
-}
-
 public static class AuthController
 {
-    public static async Task<Created<PublicUser>> Register(RegisterRequest req, IAuthService authService, UsersRoutes usersRoutes, LinkGenerator linkGenerator, CancellationToken ct)
+    public static IEndpointRouteBuilder UseAuthController(this IEndpointRouteBuilder app)
+    {
+        var group = app.MapGroup(AuthRoutes.Group);
+        group.MapPost(AuthRoutes.Endpoints.Register.Path, Register).WithName(AuthRoutes.Endpoints.Register.Name);
+        group.MapPost(AuthRoutes.Endpoints.Login.Path, Login).WithName(AuthRoutes.Endpoints.Login.Name);
+        group.MapPost(AuthRoutes.Endpoints.Refresh.Path, Refresh).WithName(AuthRoutes.Endpoints.Refresh.Name);
+        group.MapPost(AuthRoutes.Endpoints.Logout.Path, Logout).WithName(AuthRoutes.Endpoints.Logout.Name);
+
+        return app;
+    }
+    
+    public static async Task<Created<AuthDto.Register.Response>> Register([AsParameters] AuthDto.Register.Request req, IAuthService authService, LinkGenerator linkGenerator, CancellationToken ct)
     {
         var user = await authService.Register(req.Login, req.Nickname, req.Password, req.Email, req.Locale, ct);
-        var location = linkGenerator.GetPathByName();
-        
-        return TypedResults.Created(user);
-    }
+        var location = linkGenerator.GetPathByName(UsersRoutes.Endpoints.GetByUuid.Name, values: new { Uuid = user.Uuid });
 
-    [HttpPost("login")]
-    [ProducesResponseType<LoginResponse>(StatusCodes.Status200OK)]
-    [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<LoginResponse>> Login(LoginRequest req, CancellationToken ct)
+        return TypedResults.Created(location, new AuthDto.Register.Response(user));
+    }
+    
+    public static async Task<Ok<AuthDto.Login.Response>> Login([AsParameters] AuthDto.Login.Request req, IAuthService authService, ISessionManager sessionManager, HttpResponse response, CancellationToken ct)
     {
         var loginReturn = await authService.Login(req.Login, req.Password, ct);
         var user = loginReturn.User;
         var session = loginReturn.Session;
-        sessionManager.Send.Refresh(Response, session.Refresh);
-        return StatusCode(StatusCodes.Status200OK, new LoginResponse(user, session.Access.Token, session.Access.Expires.At));
+        sessionManager.Send.Refresh(response, session.Refresh);
+        return TypedResults.Ok(new AuthDto.Login.Response(user, session.Access.Token, session.Access.Expires.At));
     }
-
-    [HttpPost("refresh")]
-    [ProducesResponseType<RefreshResponse>(StatusCodes.Status200OK)]
-    [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
-
-    public async Task<ActionResult<RefreshResponse>> Refresh(CancellationToken ct)
+    
+    public static async Task<Ok<AuthDto.Refresh.Response>> Refresh(IAuthService authService, ISessionManager sessionManager, HttpRequest request, HttpResponse response, CancellationToken ct)
     {
-        var incomingRefreshToken = sessionManager.Get.Refresh(Request);
+        var incomingRefreshToken = sessionManager.Get.Refresh(request);
 
         var refreshReturn = await authService.Refresh(incomingRefreshToken, ct);
         var user = refreshReturn.User;
         var session = refreshReturn.Session;
-        sessionManager.Send.Refresh(Response, session.Refresh);
-        return StatusCode(StatusCodes.Status200OK, new RefreshResponse(user, session.Access.Token, session.Access.Expires.At));
+        sessionManager.Send.Refresh(response, session.Refresh);
+        return TypedResults.Ok(new AuthDto.Refresh.Response(user, session.Access.Token, session.Access.Expires.At));
     }
-
-    [HttpPost("logout")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult> Logout(CancellationToken ct)
+    public static async Task<Ok> Logout(IAuthService authService, ISessionManager sessionManager, HttpRequest request, HttpResponse response, CancellationToken ct)
     {
-        var incomingRefreshToken = sessionManager.Get.Refresh(Request);
+        var incomingRefreshToken = sessionManager.Get.Refresh(request);
 
         await authService.Logout(incomingRefreshToken, ct);
-        sessionManager.Delete.Session(Response);
-        return StatusCode(StatusCodes.Status200OK);
+        sessionManager.Delete.Session(response);
+        return TypedResults.Ok();
     }
 }

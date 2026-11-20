@@ -1,18 +1,21 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Zed31rus.Apps.Authorization.Core.Permissions;
 using Zed31rus.Apps.Authorization.Core.Services;
 
 namespace Zed31rus.Apps.Authorization.Clients.External.Web.Features.Users;
 
 public static class UsersController
 {
-    public static IEndpointRouteBuilder Use(this IEndpointRouteBuilder app)
+    public static IEndpointRouteBuilder UseUsersController(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup(UsersRoutes.Group).RequireAuthorization("get-users").ProducesProblem(StatusCodes.Status404NotFound);
+        var group = app.MapGroup(UsersRoutes.Group)
+            .RequireAuthorization(app.ServiceProvider.GetRequiredService<IGetUsersPermission>().Name)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
-        group.MapGet(UsersRoutes.Paths.GetByUuid, GetByUuid);
-        group.MapGet(UsersRoutes.Paths.GetByEmail, GetByEmail);
-        group.MapGet(UsersRoutes.Paths.GetByLogin, GetByLogin);
-        group.MapGet(UsersRoutes.Paths.GetByNickName, GetByNickName);
+        group.MapGet(UsersRoutes.Endpoints.GetByUuid.Path, GetByUuid).WithName(UsersRoutes.Endpoints.GetByUuid.Name);
+        group.MapGet(UsersRoutes.Endpoints.GetByEmail.Path, GetByEmail).WithName(UsersRoutes.Endpoints.GetByEmail.Name);
+        group.MapGet(UsersRoutes.Endpoints.GetByLogin.Path, GetByLogin).WithName(UsersRoutes.Endpoints.GetByLogin.Name);
+        group.MapGet(UsersRoutes.Endpoints.GetByNickName.Path, GetByNickName).WithName(UsersRoutes.Endpoints.GetByNickName.Name);
 
         return app;
     }
@@ -37,7 +40,7 @@ public static class UsersController
 
     public static async Task<Ok<UsersDto.GetByNickName.Response>> GetByNickName([AsParameters] UsersDto.GetByNickName.Request req, IUsersService usersService, CancellationToken ct)
     {
-        var user = await usersService.GetByNickname(req.NickName, ct);
+        var user = await usersService.GetByNickName(req.NickName, ct);
         return TypedResults.Ok(new UsersDto.GetByNickName.Response(user));
     }
 }

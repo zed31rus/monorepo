@@ -3,11 +3,7 @@ using Zed31rus.Apps.Authorization.Core.Base;
 
 namespace Zed31rus.Apps.Authorization.Core.Roles;
 
-public interface IOwner: IBaseRole
-{
-    public new string Name => "owner";
-}
-
+public interface IOwner : IBaseRole;
 [Role]
 internal class Owner(AdminRole adminRole): BaseRole, IOwner
 {

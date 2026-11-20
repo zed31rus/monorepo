@@ -1,54 +1,51 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Zed31rus.Apps.Authorization.Core.Dto.User;
 using Zed31rus.Apps.Authorization.Core.Extensions.Getters;
+using Zed31rus.Apps.Authorization.Core.Permissions;
 using Zed31rus.Apps.Authorization.Core.Services;
 
 namespace Zed31rus.Apps.Authorization.Clients.External.Web.Features.Me;
 
-public record UpdateNicknameRequest(string Nickname);
-public record UpdateEmailFindRequest(bool AllowEmailFind);
-public record UpdateLoginFindRequest(bool AllowLoginFind);
-
-
-[ApiController]
-[Route("[controller]")]
-[Produces("application/json")]
-public class MeController(IMeService service) : ControllerBase
+public static class MeController
 {
-    [HttpGet("get")]
-    [Authorize(Policy = "me")]
-    public async Task<ActionResult<PersonalUser>> Get(CancellationToken ct)
+    public static IEndpointRouteBuilder UseMeController(this IEndpointRouteBuilder app)
     {
-        var publicUser = User.GetPublicUser();
+        var group = app.MapGroup(MeRoutes.Group)
+            .RequireAuthorization(app.ServiceProvider.GetRequiredService<IMePermission>().Name);
+        group.MapGet(MeRoutes.Endpoints.Get.Path, Get);
+        group.MapPatch(MeRoutes.Endpoints.UpdateEmailFind.Path, UpdateEmailFind);
+        group.MapPatch(MeRoutes.Endpoints.UpdateLoginFind.Path, UpdateLoginFind);
+        group.MapPatch(MeRoutes.Endpoints.UpdateNickname.Path, UpdateNickname);
+
+        return app;
+    }
+    
+    public static async Task<Ok<MeDto.Get.Response>> Get(IMeService service, ClaimsPrincipal requestUser, CancellationToken ct)
+    {
+        var publicUser = requestUser.GetPublicUser();
         var user = await service.Get(publicUser.Uuid, ct);
-        return user;
+        return TypedResults.Ok(new MeDto.Get.Response(user));
     }
-    
-    [HttpPatch ("update/nickname")]
-    [Authorize(Policy = "me")]
-    public async Task<ActionResult<PersonalUser>> UpdateNickname(UpdateNicknameRequest req, CancellationToken ct)
+
+    public static async Task<Ok<MeDto.UpdateNickname.Response>> UpdateNickname([FromBody] MeDto.UpdateNickname.Request req, IMeService service, ClaimsPrincipal requestUser,  CancellationToken ct)
     {
-        var publicUser = User.GetPublicUser();
+        var publicUser = requestUser.GetPublicUser();
         var user = await service.UpdateNickname(req.Nickname, publicUser.Uuid, ct);
-        return user;
+        return TypedResults.Ok(new MeDto.UpdateNickname.Response(user));
     }
-    
-    [HttpPatch ("update/find/email")]
-    [Authorize(Policy = "me")]
-    public async Task<ActionResult<PersonalUser>> UpdateEmailFind(UpdateEmailFindRequest req, CancellationToken ct)
+
+    public static async Task<Ok<MeDto.UpdateEmailFind.Response>> UpdateEmailFind([FromBody] MeDto.UpdateEmailFind.Request req, IMeService service, ClaimsPrincipal requestUser,  CancellationToken ct)
     {
-        var publicUser = User.GetPublicUser();
+        var publicUser = requestUser.GetPublicUser();
         var user = await service.UpdateEmailFind(req.AllowEmailFind, publicUser.Uuid, ct);
-        return user;
+        return TypedResults.Ok(new MeDto.UpdateEmailFind.Response(user));
     }
-    
-    [HttpPatch ("update/find/login")]
-    [Authorize(Policy = "me")]
-    public async Task<ActionResult<PersonalUser>> UpdateLoginFind(UpdateLoginFindRequest req, CancellationToken ct)
+
+    public static async Task<Ok<MeDto.UpdateLoginFind.Response>> UpdateLoginFind([FromBody] MeDto.UpdateLoginFind.Request req, IMeService service, ClaimsPrincipal requestUser,  CancellationToken ct)
     {
-        var publicUser = User.GetPublicUser();
+        var publicUser = requestUser.GetPublicUser();
         var user = await service.UpdateLoginFind(req.AllowLoginFind, publicUser.Uuid, ct);
-        return user;
+        return TypedResults.Ok(new MeDto.UpdateLoginFind.Response(user));
     }
 }

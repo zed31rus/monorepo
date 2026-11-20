@@ -3,7 +3,7 @@ using Zed31rus.Apps.Authorization.Core.Dto.User;
 
 namespace Zed31rus.Apps.Authorization.Clients.External.Web.Features.Users;
 
-public class UsersDto
+public static class UsersDto
 {
     public static class GetByUuid
     {
