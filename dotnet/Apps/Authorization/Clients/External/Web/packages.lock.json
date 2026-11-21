@@ -2,6 +2,21 @@
   "version": 2,
   "dependencies": {
     "net11.0": {
+      "FluentValidation": {
+        "type": "Direct",
+        "requested": "[12.2.0, )",
+        "resolved": "12.2.0",
+        "contentHash": "DR3lFbdnKucaaj1/8zMNOACMz/64igzox1yVZSFVsLxYB5mxAB+wFP1WZ8fjwrZnbU1KA1DoMzHKYKxUfuZ4wQ=="
+      },
+      "FluentValidation.DependencyInjectionExtensions": {
+        "type": "Direct",
+        "requested": "[12.2.0, )",
+        "resolved": "12.2.0",
+        "contentHash": "QpKXgiO9E6wXCh19X2Musn8MZM0xt7KQt/QrD6GDBn3MCUfy8a+rkhCzrYJNCfoxTsTRQ7bpKP8T3geTnJNNeQ==",
+        "dependencies": {
+          "FluentValidation": "12.2.0"
+        }
+      },
       "Microsoft.AspNetCore.Authentication.JwtBearer": {
         "type": "Direct",
         "requested": "[11.0.0, )",
@@ -195,12 +210,6 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Relational": "[11.0.0, 12.0.0)"
         }
-      },
-      "FluentValidation": {
-        "type": "CentralTransitive",
-        "requested": "[12.2.0, )",
-        "resolved": "12.2.0",
-        "contentHash": "DR3lFbdnKucaaj1/8zMNOACMz/64igzox1yVZSFVsLxYB5mxAB+wFP1WZ8fjwrZnbU1KA1DoMzHKYKxUfuZ4wQ=="
       },
       "Konscious.Security.Cryptography.Argon2": {
         "type": "CentralTransitive",

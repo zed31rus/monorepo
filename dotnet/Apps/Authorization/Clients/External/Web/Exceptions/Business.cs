@@ -6,4 +6,9 @@ public static class WebExternalClientExceptions
 {
     public class RefreshTokenMissingExternalClientException() : WebExternalClientException("REFRESH_TOKEN_MISSING");
 
+    public class ValidationFailedExternalClientException(IReadOnlyDictionary<string, string[]> errors)
+        : WebExternalClientException("VALIDATION_FAILED")
+    {
+        public IReadOnlyDictionary<string, string[]> Errors { get; } = errors;
+    }
 }
