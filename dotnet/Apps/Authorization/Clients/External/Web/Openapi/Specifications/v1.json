@@ -11,55 +11,23 @@
           "AuthController"
         ],
         "operationId": "Auth.Register",
-        "parameters": [
-          {
-            "name": "Login",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthRegisterRequest"
+              }
             }
           },
-          {
-            "name": "Nickname",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Password",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Email",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Locale",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+          "required": true
+        },
         "responses": {
           "201": {
             "description": "Created",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/AuthRegisterResponse"
                 }
               }
             }
@@ -163,31 +131,23 @@
           "AuthController"
         ],
         "operationId": "Auth.Login",
-        "parameters": [
-          {
-            "name": "Login",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthLoginRequest"
+              }
             }
           },
-          {
-            "name": "Password",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/AuthLoginResponse"
                 }
               }
             }
@@ -297,7 +257,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/AuthRefreshResponse"
                 }
               }
             }
@@ -509,7 +469,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/MeGetResponse"
                 }
               }
             }
@@ -711,7 +671,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Request"
+                "$ref": "#/components/schemas/MeUpdateEmailFindRequest"
               }
             }
           },
@@ -723,7 +683,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/MeUpdateEmailFindResponse"
                 }
               }
             }
@@ -925,7 +885,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Request"
+                "$ref": "#/components/schemas/MeUpdateLoginFindRequest"
               }
             }
           },
@@ -937,7 +897,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/MeUpdateLoginFindResponse"
                 }
               }
             }
@@ -1139,7 +1099,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Request"
+                "$ref": "#/components/schemas/MeUpdateNicknameRequest"
               }
             }
           },
@@ -1151,7 +1111,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/MeUpdateNicknameResponse"
                 }
               }
             }
@@ -1367,7 +1327,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/UsersGetByUuidResponse"
                 }
               }
             }
@@ -1592,7 +1552,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/UsersGetByEmailResponse"
                 }
               }
             }
@@ -1817,7 +1777,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/UsersGetByLoginResponse"
                 }
               }
             }
@@ -2042,7 +2002,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/UsersGetByNickNameResponse"
                 }
               }
             }
@@ -2248,6 +2208,226 @@
   },
   "components": {
     "schemas": {
+      "AuthLoginRequest": {
+        "required": [
+          "login",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthLoginResponse": {
+        "required": [
+          "user",
+          "accessToken",
+          "accessTokenExpiresAt"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/PersonalUser"
+          },
+          "accessToken": {
+            "type": "string"
+          },
+          "accessTokenExpiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AuthRefreshResponse": {
+        "required": [
+          "user",
+          "accessToken",
+          "accessTokenExpiresAt"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/PersonalUser"
+          },
+          "accessToken": {
+            "type": "string"
+          },
+          "accessTokenExpiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AuthRegisterRequest": {
+        "required": [
+          "login",
+          "nickname",
+          "password",
+          "email",
+          "locale"
+        ],
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "locale": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthRegisterResponse": {
+        "required": [
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/PublicUser"
+          }
+        }
+      },
+      "MeGetResponse": {
+        "required": [
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/PersonalUser"
+          }
+        }
+      },
+      "MeUpdateEmailFindRequest": {
+        "required": [
+          "allowEmailFind"
+        ],
+        "type": "object",
+        "properties": {
+          "allowEmailFind": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MeUpdateEmailFindResponse": {
+        "required": [
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/PersonalUser"
+          }
+        }
+      },
+      "MeUpdateLoginFindRequest": {
+        "required": [
+          "allowLoginFind"
+        ],
+        "type": "object",
+        "properties": {
+          "allowLoginFind": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MeUpdateLoginFindResponse": {
+        "required": [
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/PersonalUser"
+          }
+        }
+      },
+      "MeUpdateNicknameRequest": {
+        "required": [
+          "nickname"
+        ],
+        "type": "object",
+        "properties": {
+          "nickname": {
+            "type": "string"
+          }
+        }
+      },
+      "MeUpdateNicknameResponse": {
+        "required": [
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/PersonalUser"
+          }
+        }
+      },
+      "PersonalUser": {
+        "required": [
+          "login",
+          "email",
+          "nickname",
+          "locale",
+          "role"
+        ],
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "login": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "locale": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "emailConfirmed": {
+            "type": "boolean"
+          },
+          "allowEmailFind": {
+            "type": "boolean"
+          },
+          "allowLoginFind": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -2315,18 +2495,40 @@
           }
         }
       },
-      "Request": {
+      "UsersGetByEmailResponse": {
         "required": [
-          "allowEmailFind"
+          "user"
         ],
         "type": "object",
         "properties": {
-          "allowEmailFind": {
-            "type": "boolean"
+          "user": {
+            "$ref": "#/components/schemas/PublicUser"
           }
         }
       },
-      "Response": {
+      "UsersGetByLoginResponse": {
+        "required": [
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/PublicUser"
+          }
+        }
+      },
+      "UsersGetByNickNameResponse": {
+        "required": [
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/PublicUser"
+          }
+        }
+      },
+      "UsersGetByUuidResponse": {
         "required": [
           "user"
         ],

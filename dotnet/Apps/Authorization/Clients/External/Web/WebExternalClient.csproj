@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
-        <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)\Openapi</OpenApiDocumentsDirectory>
+        <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)\Openapi\Specifications\</OpenApiDocumentsDirectory>
         <OpenApiGenerateDocumentsOptions>--file-name v1</OpenApiGenerateDocumentsOptions>
     </PropertyGroup>
     
@@ -17,10 +17,6 @@
         <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" />
         <ProjectReference Include="$(RepoRoot)Options\Global\Global.csproj" />
         <ProjectReference Include="$(RepoRoot)Packages\Infra\Infra.csproj" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="Openapi\" />
     </ItemGroup>
 
     <Target Name="GenerateKiotaClient" AfterTargets="GenerateOpenApiDocuments">

@@ -1,4 +1,5 @@
 using System.Reflection;
+using FluentValidation;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Scalar.AspNetCore;
@@ -8,6 +9,7 @@ using Zed31rus.Apps.Authorization.Clients.External.Web.Features.Me;
 using Zed31rus.Apps.Authorization.Clients.External.Web.Features.Users;
 using Zed31rus.Apps.Authorization.Clients.External.Web.Handlers;
 using Zed31rus.Apps.Authorization.Clients.External.Web.Middlewares;
+using Zed31rus.Apps.Authorization.Clients.External.Web.Openapi;
 using Zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
 using Zed31rus.Apps.Authorization.Core.Extensions.DI;
 using Zed31rus.Options.Auth.Extensions.DI;
@@ -52,11 +54,7 @@ public static class WebExternalClient
         builder.Services.AddAuthOptions(optionsEnv);
         builder.Services.AddAuthCore();
         builder.Services.AddManagers();
-        builder.Services.AddOpenApi(options =>
-        {
-            options.AddDocumentTransformer<BearerSecurityTransformer>();
-            options.AddOperationTransformer<ErrorResponsesTransformer>();
-        });
+        builder.Services.AddAppOpenApi();
         builder.Services.AddExceptionHandler<AppExceptionHandler>();
         if (!builder.Environment.IsProduction())
         {
@@ -71,6 +69,7 @@ public static class WebExternalClient
         builder.Services.AddAuthenticationMiddleware();
         builder.Services.AddRateLimiters();
         builder.Services.AddAuthorizationMiddleware();
+        builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         
         builder.Services.AddHttpLogging(o => { o.LoggingFields = HttpLoggingFields.RequestPropertiesAndHeaders | HttpLoggingFields.ResponsePropertiesAndHeaders; });
     }
