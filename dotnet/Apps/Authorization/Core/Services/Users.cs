@@ -12,7 +12,7 @@ public interface IUsersService
     public Task<PublicUser> GetByUuid(Guid uuid, CancellationToken ct = default);
     public Task<PublicUser> GetByEmail(string email, CancellationToken ct = default);
     public Task<PublicUser> GetByLogin(string login, CancellationToken ct = default);
-    public Task<PublicUser> GetByNickName(string nickName, CancellationToken ct = default);
+    public Task<PublicUser[]> GetByNickName(string nickName, CancellationToken ct = default);
 }
 
 [Service]
@@ -45,10 +45,13 @@ internal class UsersService(IAuthDbContext db): IUsersService
         return rawUser.ToPublicUser();
     }
 
-    public async Task<PublicUser> GetByNickName(string nickName, CancellationToken ct = default)
+    public async Task<PublicUser[]> GetByNickName(string nickName, CancellationToken ct = default)
     {
-        var rawUser = await db.Users.FirstOrDefaultAsync(user => user.Nickname == nickName, ct);
-        if (rawUser is null) throw new CoreBusinessExceptions.NotFoundException();
-        return rawUser.ToPublicUser();
+        var rawUsers = await db.Users.Where(user => user.Nickname == nickName).ToArrayAsync(ct);
+        var publicUsers = rawUsers
+            .Select(user => user.ToPublicUser())
+            .ToArray();
+
+        return publicUsers;
     }
 }
