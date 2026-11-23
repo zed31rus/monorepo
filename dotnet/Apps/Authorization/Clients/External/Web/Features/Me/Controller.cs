@@ -20,11 +20,9 @@ public static class MeController
         group.MapPatch(MeRoutes.Endpoints.UpdateEmailFind.Path, UpdateEmailFind)
             .AddEndpointFilter<ValidationFilter<MeDto.UpdateEmailFind.Request>>();
 
-        group.MapPatch(MeRoutes.Endpoints.UpdateLoginFind.Path, UpdateLoginFind)
-            .AddEndpointFilter<ValidationFilter<MeDto.UpdateLoginFind.Request>>();
+        group.MapPatch(MeRoutes.Endpoints.UpdateLoginFind.Path, UpdateLoginFind);
 
-        group.MapPatch(MeRoutes.Endpoints.UpdateNickname.Path, UpdateNickname)
-            .AddEndpointFilter<ValidationFilter<MeDto.UpdateNickname.Request>>();
+        group.MapPatch(MeRoutes.Endpoints.UpdateNickname.Path, UpdateNickname);
 
         return app;
     }
