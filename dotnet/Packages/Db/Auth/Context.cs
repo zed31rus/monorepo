@@ -2,6 +2,7 @@ global using IContext = Zed31rus.Packages.Db.Auth.IAuthDbContext;
 global using Context = Zed31rus.Packages.Db.Auth.AuthDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Zed31rus.Packages.Db.Auth.Exceptions;
 using Zed31rus.Packages.Db.Auth.Models;
 
 namespace Zed31rus.Packages.Db.Auth;
@@ -34,7 +35,7 @@ internal class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContex
         base.OnModelCreating(modelBuilder);
     }
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var modifiedEntries = ChangeTracker.Entries()
             .Where(e => e.State == EntityState.Modified);
@@ -45,6 +46,13 @@ internal class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContex
             property?.CurrentValue = DateTime.UtcNow;
         }
 
-        return base.SaveChangesAsync(cancellationToken);
+        try
+        {
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException { SqlState: Npgsql.PostgresErrorCodes.UniqueViolation })
+        {
+            throw new DbExceptions.UniqueViolationException(ex);
+        }
     }
 }

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using Zed31rus.Apps.Authorization.Core.Attributes;
 using Zed31rus.Apps.Authorization.Core.Dto.User;
 using Zed31rus.Apps.Authorization.Core.Exceptions;
@@ -51,15 +52,22 @@ internal class AuthService(
     : IAuthService
 {
     public async Task<PublicUser> Register(string login, string nickname, string password, string email,
-        string locale,
-        CancellationToken ct = default)
+        string locale, CancellationToken ct = default)
     {
-        
-        var normalizedEmail = email.ToLowerInvariant();
+        var normalizedEmail = email.Trim().ToLowerInvariant();
+
+        if (await db.Users.AnyAsync(user => user.Login == login, ct))
+            throw new CoreBusinessExceptions.LoginAlreadyExists();
+
+        if (await db.Users.AnyAsync(user => user.Email == normalizedEmail, ct))
+            throw new CoreBusinessExceptions.EmailAlreadyExists();
+
         var passwordHash = await argon.CreateAsync(password);
         var rawUser = new User { Login = login, Nickname = nickname, Email = normalizedEmail, Role = unconfirmedRole.Name, PasswordHash = passwordHash, Locale = locale };
         db.Users.Add(rawUser);
+        
         await db.SaveChangesAsync(ct);
+
         return rawUser.ToPublicUser();
     }
 
