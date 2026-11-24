@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Zed31rus.Apps.Authorization.Core.Attributes;
 using Zed31rus.Apps.Authorization.Core.Constants;
 using Zed31rus.Apps.Authorization.Core.Dto.User;
@@ -109,15 +110,19 @@ internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionMan
             return new ResolvedUser(existingEmail, ResolveUserStatus.Email);
         }
 
-        if (await db.Users.AnyAsync(user => user.Login == discordUser.Username, ct))
-            throw new CoreBusinessExceptions.Oauth.LoginAlreadyExists();
-        
-        var newUser = new User { Login = discordUser.Username, Nickname = discordUser.GlobalName ?? discordUser.Username, Email = email, Role = confirmedRole.Name, Locale = discordUser.Locale ?? "ru" };
-        db.Users.Add(newUser);
-        
-        await db.SaveChangesAsync(ct);
+        var newUserNickName = discordUser.GlobalName ?? discordUser.Username;
+        var newUser = CreateUser(discordUser.Username, newUserNickName, discordUser.Email, confirmedRole.Name,
+            discordUser.Locale ?? "ru");
 
         return new ResolvedUser(newUser, ResolveUserStatus.New);
+    }
+
+    private User CreateUser(string login, string nickName, string email, string role, string locale)
+    {
+        var newUser = new User { Login = login, Nickname = nickName, Email = email, Role = role, Locale = locale };
+        db.Users.Add(newUser);
+
+        return newUser;
     }
 
     private enum ResolveUserStatus

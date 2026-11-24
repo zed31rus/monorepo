@@ -1,0 +1,27 @@
+{
+	"name": "@db/spotify",
+	"version": "1.0.0",
+	"private": "true",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"dependencies": {
+		"@prisma/adapter-pg": "^7.3.0",
+		"@prisma/client": "^7.3.0",
+		"@shared/config": "workspace:*",
+		"@shared/errors": "workspace:*",
+		"@zed31rus/base": "workspace:*",
+		"@zed31rus/types": "workspace:*",
+		"pg": "^8.17.2",
+		"prisma-json-types-generator": "^5.0.0",
+		"zod": "^4.3.6"
+	},
+	"devDependencies": {
+		"@types/pg": "^8.16.0",
+		"prisma": "^7.3.0"
+	}
+}
