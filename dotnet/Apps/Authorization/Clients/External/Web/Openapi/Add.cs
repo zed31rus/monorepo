@@ -16,6 +16,11 @@ public static class UseOpenApi
             {
                 var type = typeInfo.Type;
 
+                if (type.IsArray)
+                {
+                    return null;
+                }
+                
                 if (type.IsPrimitive || type == typeof(string) || type == typeof(decimal) ||
                     type == typeof(Guid) || type == typeof(DateTime) || type == typeof(DateTimeOffset) ||
                     type.IsEnum)
