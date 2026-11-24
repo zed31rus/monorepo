@@ -16,6 +16,10 @@
 		"@shared/errors": "workspace:*",
 		"@shared/logger": "workspace:*",
 		"@zed31rus/base": "workspace:*",
-		"@zed31rus/types": "workspace:*"
+		"@zed31rus/types": "workspace:*",
+		"nodemailer": "^7.0.13"
+	},
+	"devDependencies": {
+		"@types/nodemailer": "^7.0.11"
 	}
 }

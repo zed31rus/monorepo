@@ -73,7 +73,9 @@ internal class AuthService(
 
     public async Task<AuthServiceLoginReturn> Login(string login, string password, CancellationToken ct = default)
     {
-        var rawUser = await db.Users.SingleOrDefaultAsync(user => user.Login == login, ct);
+
+        var normalizedLogin = login.Trim().ToLowerInvariant();
+        var rawUser = await db.Users.SingleOrDefaultAsync(user => user.Login.Trim().Equals(normalizedLogin, StringComparison.InvariantCultureIgnoreCase), ct);
 
         var passwordHash = rawUser?.PasswordHash ?? authOptions.DummyPasswordHash;
         var isPasswordCorrect = await argon.CompareAsync(password, passwordHash);

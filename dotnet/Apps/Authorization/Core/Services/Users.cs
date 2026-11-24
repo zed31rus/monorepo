@@ -27,7 +27,8 @@ internal class UsersService(IAuthDbContext db): IUsersService
 
     public async Task<PublicUser> GetByEmail(string email, CancellationToken ct = default)
     {
-        var rawUser = await db.Users.FirstOrDefaultAsync(user => user.Email == email, ct);
+        var normalizedEmail = email.Trim().ToLowerInvariant();
+        var rawUser = await db.Users.FirstOrDefaultAsync(user => normalizedEmail == email, ct);
         if (rawUser is null || !rawUser.AllowEmailFind )
         {
             throw new CoreBusinessExceptions.NotFoundException();

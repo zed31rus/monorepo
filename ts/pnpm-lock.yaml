@@ -109,9 +109,6 @@ importers:
       '@discordjs/voice':
         specifier: ^0.19.2
         version: 0.19.2(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
-      '@packages/db':
-        specifier: workspace:*
-        version: link:../../packages/db
       '@packages/infra':
         specifier: workspace:*
         version: link:../../packages/infra
@@ -209,6 +206,13 @@ importers:
       '@zed31rus/types':
         specifier: workspace:*
         version: link:../../types
+      nodemailer:
+        specifier: ^7.0.13
+        version: 7.0.13
+    devDependencies:
+      '@types/nodemailer':
+        specifier: ^7.0.11
+        version: 7.0.11
 
   apps/spotify:
     dependencies:
@@ -224,9 +228,6 @@ importers:
       '@hono/zod-validator':
         specifier: ^0.7.6
         version: 0.7.6(hono@4.12.16)(zod@4.3.6)
-      '@packages/db':
-        specifier: workspace:*
-        version: link:../../packages/db
       '@packages/infra':
         specifier: workspace:*
         version: link:../../packages/infra
@@ -321,9 +322,6 @@ importers:
 
   packages/infra:
     dependencies:
-      '@packages/db':
-        specifier: workspace:*
-        version: link:../db
       '@prisma/adapter-pg':
         specifier: ^7.3.0
         version: 7.8.0

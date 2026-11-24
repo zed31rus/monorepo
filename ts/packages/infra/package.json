@@ -16,7 +16,6 @@
 		"@shared/errors": "workspace:*",
 		"@zed31rus/base": "workspace:*",
 		"@zed31rus/types": "workspace:*",
-		"@packages/db": "workspace:*",
 		"amqplib": "^1.0.3",
 		"pg": "^8.17.2",
 		"zod": "^4.3.6"
