@@ -52,7 +52,7 @@ public static class UsersController
 
     public static async Task<Ok<UsersDto.GetByNickName.Response>> GetByNickName([AsParameters] UsersDto.GetByNickName.Request req, IUsersService usersService, CancellationToken ct)
     {
-        var user = await usersService.GetByNickName(req.NickName, ct);
-        return TypedResults.Ok(new UsersDto.GetByNickName.Response(user));
+        var users = await usersService.GetByNickName(req.NickName, ct);
+        return TypedResults.Ok(new UsersDto.GetByNickName.Response(users));
     }
 }

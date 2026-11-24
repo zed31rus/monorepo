@@ -16,9 +16,12 @@ public class AppExceptionHandler(ILogger<AppExceptionHandler> logger): IExceptio
             CoreBusinessExceptions.NotFoundException => ("NOT_FOUND", StatusCodes.Status404NotFound),
             CoreBusinessExceptions.InvalidRole => ("INTERNAL", StatusCodes.Status500InternalServerError),
             CoreBusinessExceptions.InternalException => ("INTERNAL", StatusCodes.Status500InternalServerError),
+            CoreBusinessExceptions.LoginAlreadyExists => ("LOGIN_TAKEN", StatusCodes.Status409Conflict),
+            CoreBusinessExceptions.EmailAlreadyExists => ("EMAIL_TAKEN", StatusCodes.Status409Conflict),
             
             WebExternalClientExceptions.RefreshTokenMissingExternalClientException => ("UNAUTHORIZED", StatusCodes.Status401Unauthorized),
-
+            WebExternalClientExceptions.ValidationFailedExternalClientException => ("VALIDATION_FAILED", StatusCodes.Status400BadRequest),
+            
             _ => ("INTERNAL", StatusCodes.Status500InternalServerError)
         };
 

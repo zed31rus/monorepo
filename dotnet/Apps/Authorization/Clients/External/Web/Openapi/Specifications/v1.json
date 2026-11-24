@@ -2519,12 +2519,15 @@
       },
       "UsersGetByNickNameResponse": {
         "required": [
-          "user"
+          "users"
         ],
         "type": "object",
         "properties": {
-          "user": {
-            "$ref": "#/components/schemas/PublicUser"
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicUser"
+            }
           }
         }
       },

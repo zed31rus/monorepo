@@ -6,7 +6,7 @@ namespace Zed31rus.Options.Infra.Extensions.DI;
 
 public static class UseDIExtension
 {
-    public static IServiceCollection AddInfraOptions(this IServiceCollection container, string env)
+    public static IServiceCollection AddInfraOptions(this IServiceCollection container, string? env)
     {
         var assembly = Assembly.GetExecutingAssembly();
         

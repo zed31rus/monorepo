@@ -6,7 +6,7 @@ namespace Zed31rus.Options.Global.Extensions.DI;
 
 public static class UseDIExtension
 {
-    public static IServiceCollection AddGlobalOptions(this IServiceCollection container, string env)
+    public static IServiceCollection AddGlobalOptions(this IServiceCollection container, string? env)
     {
         var assembly = Assembly.GetExecutingAssembly();
         

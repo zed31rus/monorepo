@@ -14,6 +14,7 @@ using Zed31rus.Apps.Authorization.Clients.External.Web.Transformers;
 using Zed31rus.Apps.Authorization.Core.Extensions.DI;
 using Zed31rus.Options.Auth.Extensions.DI;
 using Zed31rus.Options.Global.Extensions.DI;
+using Zed31rus.Options.Infra.Extensions.DI;
 using Zed31rus.Packages.Infra.Extensions.DI;
 
 namespace Zed31rus.Apps.Authorization.Clients.External.Web;
@@ -52,6 +53,7 @@ public static class WebExternalClient
 
         builder.Services.AddGlobalOptions(optionsEnv);
         builder.Services.AddAuthOptions(optionsEnv);
+        builder.Services.AddInfraOptions(optionsEnv);
         builder.Services.AddAuthCore();
         builder.Services.AddManagers();
         builder.Services.AddAppOpenApi();

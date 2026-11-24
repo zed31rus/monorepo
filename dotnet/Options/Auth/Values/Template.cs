@@ -45,7 +45,7 @@ public  static class TemplateValues
                 Name = "refreshToken",
                 Options = new CookieOptions
                 {
-                    Path = "/auth/refresh",
+                    Path = "/auth",
                     HttpOnly = true,
                     SameSite = SameSiteMode.Lax,
                     Secure = false,

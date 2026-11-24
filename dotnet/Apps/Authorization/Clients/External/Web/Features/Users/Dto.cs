@@ -30,6 +30,6 @@ public static class UsersDto
     {
         public record Request([FromQuery] string NickName);
         
-        public record Response(PublicUser User);
+        public record Response(PublicUser[] Users);
     }
 }
