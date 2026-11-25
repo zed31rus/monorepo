@@ -26,8 +26,8 @@ public class AuthValidator
         {
             public Request()
             {
-                RuleFor(x => x.Login).Login();
-                RuleFor(x => x.Password).Password();
+                RuleFor(x => x.Login).LoginBase();
+                RuleFor(x => x.Password).PasswordBase();
             }
         }
     }

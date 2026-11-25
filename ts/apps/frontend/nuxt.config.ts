@@ -1,37 +1,9 @@
-import tailwindcss from '@tailwindcss/vite';
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	compatibilityDate: '2025-07-15',
 	devtools: { enabled: true },
-	css: ['./app/main.css'],
+	css: ['~/assets/preflight.css'],
 	devServer: {
-		host: '0.0.0.0',
-		port: 3003,
+		port: 3000,
 	},
-	vite: {
-		plugins: [tailwindcss()],
-		optimizeDeps: {
-			include: ['@iconify/vue', 'motion-v'],
-		},
-	},
-
-	typescript: {
-		tsConfig: {
-			include: ['./types/**/*.d.ts'],
-		},
-	},
-
-	app: {
-		head: {
-			link: [
-				{
-					rel: 'stylesheet',
-					href: 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap',
-				},
-			],
-		},
-	},
-
-	modules: ['@vueuse/nuxt', '@nuxtjs/device', '@pinia/nuxt'],
 });
