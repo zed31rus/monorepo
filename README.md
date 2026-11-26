@@ -1,5 +1,5 @@
 
-```structure
+```
 monorepo
 ├─ .dockerignore
 ├─ .prettierrc
@@ -20,11 +20,22 @@ monorepo
 │  │  │  │        │     └─ Manager.cs
 │  │  │  │        ├─ Features
 │  │  │  │        │  ├─ Auth
-│  │  │  │        │  │  └─ Controller.cs
+│  │  │  │        │  │  ├─ Controller.cs
+│  │  │  │        │  │  ├─ Dto.cs
+│  │  │  │        │  │  ├─ Routes.cs
+│  │  │  │        │  │  └─ Validator.cs
 │  │  │  │        │  ├─ Me
-│  │  │  │        │  │  └─ Controller.cs
+│  │  │  │        │  │  ├─ Controller.cs
+│  │  │  │        │  │  ├─ Dto.cs
+│  │  │  │        │  │  ├─ Routes.cs
+│  │  │  │        │  │  └─ Validator.cs
 │  │  │  │        │  └─ Users
-│  │  │  │        │     └─ Controller.cs
+│  │  │  │        │     ├─ Controller.cs
+│  │  │  │        │     ├─ Dto.cs
+│  │  │  │        │     ├─ Routes.cs
+│  │  │  │        │     └─ Validator.cs
+│  │  │  │        ├─ Filters
+│  │  │  │        │  └─ Validation.cs
 │  │  │  │        ├─ Handlers
 │  │  │  │        │  └─ Exception.cs
 │  │  │  │        ├─ Managers
@@ -35,13 +46,18 @@ monorepo
 │  │  │  │        │  ├─ Cors.cs
 │  │  │  │        │  └─ RateLimiter.cs
 │  │  │  │        ├─ Openapi
-│  │  │  │        │  └─ v1.json
+│  │  │  │        │  ├─ Add.cs
+│  │  │  │        │  └─ Specifications
+│  │  │  │        │     └─ v1.json
+│  │  │  │        ├─ packages.lock.json
 │  │  │  │        ├─ Properties
 │  │  │  │        │  └─ launchSettings.json
 │  │  │  │        ├─ Transformers
 │  │  │  │        │  ├─ BearerSecurity.cs
-│  │  │  │        │  ├─ ErrorResponses.cs
-│  │  │  │        │  └─ LowercaseParameter.cs
+│  │  │  │        │  └─ ErrorResponses.cs
+│  │  │  │        ├─ Validators
+│  │  │  │        │  └─ Rules
+│  │  │  │        │     └─ User.cs
 │  │  │  │        ├─ WebExternalClient.cs
 │  │  │  │        └─ WebExternalClient.csproj
 │  │  │  └─ Core
@@ -81,10 +97,11 @@ monorepo
 │  │  │     ├─ Managers
 │  │  │     │  ├─ Role.cs
 │  │  │     │  └─ Session.cs
+│  │  │     ├─ packages.lock.json
 │  │  │     ├─ Permissions
 │  │  │     │  ├─ Confirmation.cs
-│  │  │     │  ├─ Me.cs
-│  │  │     │  └─ Users.cs
+│  │  │     │  ├─ GetUsers.cs
+│  │  │     │  └─ Me.cs
 │  │  │     ├─ Roles
 │  │  │     │  ├─ Admin.cs
 │  │  │     │  ├─ Confirmed.cs
@@ -99,6 +116,7 @@ monorepo
 │  │  │        │  └─ Discord.cs
 │  │  │        └─ Users.cs
 │  │  └─ Util
+│  │     ├─ packages.lock.json
 │  │     ├─ Program.cs
 │  │     └─ Util.csproj
 │  ├─ Directory.Build.props
@@ -110,24 +128,30 @@ monorepo
 │  │  │  ├─ Extensions
 │  │  │  │  └─ DI
 │  │  │  │     └─ Use.cs
-│  │  │  └─ Options
-│  │  │     ├─ Auth.cs
-│  │  │     ├─ Connection.cs
-│  │  │     ├─ Encryption.cs
-│  │  │     ├─ Jwt.cs
-│  │  │     ├─ RefreshToken.cs
-│  │  │     └─ Session.cs
+│  │  │  ├─ Options
+│  │  │  │  ├─ Auth.cs
+│  │  │  │  ├─ Connection.cs
+│  │  │  │  ├─ Encryption.cs
+│  │  │  │  ├─ Jwt.cs
+│  │  │  │  ├─ RefreshToken.cs
+│  │  │  │  └─ Session.cs
+│  │  │  └─ packages.lock.json
 │  │  ├─ Global
 │  │  │  ├─ Extensions
 │  │  │  │  └─ DI
 │  │  │  │     └─ Use.cs
 │  │  │  ├─ Global.csproj
-│  │  │  └─ Options
-│  │  │     └─ Domain.cs
+│  │  │  ├─ Options
+│  │  │  │  └─ Domain.cs
+│  │  │  └─ packages.lock.json
 │  │  ├─ Infra
+│  │  │  ├─ Extensions
+│  │  │  │  └─ DI
+│  │  │  │     └─ Use.cs
 │  │  │  ├─ Infra.csproj
-│  │  │  └─ Options
-│  │  │     └─ Discord.cs
+│  │  │  ├─ Options
+│  │  │  │  └─ Discord.cs
+│  │  │  └─ packages.lock.json
 │  │  └─ Shared
 │  │     ├─ Attributes
 │  │     │  └─ Value.cs
@@ -136,6 +160,7 @@ monorepo
 │  │     ├─ Extensions
 │  │     │  └─ DI
 │  │     │     └─ Use.cs
+│  │     ├─ packages.lock.json
 │  │     └─ Shared.csproj
 │  ├─ Packages
 │  │  ├─ Db
@@ -148,112 +173,21 @@ monorepo
 │  │  │     │  └─ VerificationCode.cs
 │  │  │     ├─ Context.cs
 │  │  │     ├─ ContextFactory.cs
+│  │  │     ├─ Exceptions
+│  │  │     │  └─ Db.cs
 │  │  │     ├─ Migrations
-│  │  │     │  ├─ 20261101071750_Initial.cs
-│  │  │     │  ├─ 20261101071750_Initial.Designer.cs
+│  │  │     │  ├─ 20260921100226_Initial.cs
+│  │  │     │  ├─ 20260921100226_Initial.Designer.cs
 │  │  │     │  └─ AuthDbContextModelSnapshot.cs
 │  │  │     ├─ Models
 │  │  │     │  ├─ OauthAccount.cs
 │  │  │     │  ├─ RefreshToken.cs
 │  │  │     │  ├─ User.cs
 │  │  │     │  └─ VerificationCode.cs
+│  │  │     ├─ packages.lock.json
 │  │  │     └─ ServiceExtensions.cs
 │  │  ├─ Infra
 │  │  │  ├─ Clients
-│  │  │  │  └─ Generated
-│  │  │  │     ├─ kiota-lock.json
-│  │  │  │     └─ Zed31rus
-│  │  │  │        └─ Infra
-│  │  │  │           └─ Clients
-│  │  │  │              └─ Auth
-│  │  │  │                 ├─ Auth
-│  │  │  │                 │  ├─ AuthRequestBuilder.cs
-│  │  │  │                 │  ├─ Login
-│  │  │  │                 │  │  ├─ LoginRequestBuilder.cs
-│  │  │  │                 │  │  ├─ LoginResponse429Error.cs
-│  │  │  │                 │  │  └─ LoginResponse500Error.cs
-│  │  │  │                 │  ├─ Logout
-│  │  │  │                 │  │  ├─ Logout429Error.cs
-│  │  │  │                 │  │  ├─ Logout500Error.cs
-│  │  │  │                 │  │  └─ LogoutRequestBuilder.cs
-│  │  │  │                 │  ├─ Refresh
-│  │  │  │                 │  │  ├─ RefreshRequestBuilder.cs
-│  │  │  │                 │  │  ├─ RefreshResponse429Error.cs
-│  │  │  │                 │  │  └─ RefreshResponse500Error.cs
-│  │  │  │                 │  └─ Register
-│  │  │  │                 │     ├─ PublicUser429Error.cs
-│  │  │  │                 │     ├─ PublicUser500Error.cs
-│  │  │  │                 │     └─ RegisterRequestBuilder.cs
-│  │  │  │                 ├─ AuthHttpClient.cs
-│  │  │  │                 ├─ Me
-│  │  │  │                 │  ├─ Get
-│  │  │  │                 │  │  ├─ GetRequestBuilder.cs
-│  │  │  │                 │  │  ├─ PersonalUser401Error.cs
-│  │  │  │                 │  │  ├─ PersonalUser403Error.cs
-│  │  │  │                 │  │  ├─ PersonalUser429Error.cs
-│  │  │  │                 │  │  └─ PersonalUser500Error.cs
-│  │  │  │                 │  ├─ MeRequestBuilder.cs
-│  │  │  │                 │  └─ Update
-│  │  │  │                 │     ├─ Find
-│  │  │  │                 │     │  ├─ Email
-│  │  │  │                 │     │  │  ├─ EmailRequestBuilder.cs
-│  │  │  │                 │     │  │  ├─ PersonalUser401Error.cs
-│  │  │  │                 │     │  │  ├─ PersonalUser403Error.cs
-│  │  │  │                 │     │  │  ├─ PersonalUser429Error.cs
-│  │  │  │                 │     │  │  └─ PersonalUser500Error.cs
-│  │  │  │                 │     │  ├─ FindRequestBuilder.cs
-│  │  │  │                 │     │  └─ Login
-│  │  │  │                 │     │     ├─ LoginRequestBuilder.cs
-│  │  │  │                 │     │     ├─ PersonalUser401Error.cs
-│  │  │  │                 │     │     ├─ PersonalUser403Error.cs
-│  │  │  │                 │     │     ├─ PersonalUser429Error.cs
-│  │  │  │                 │     │     └─ PersonalUser500Error.cs
-│  │  │  │                 │     ├─ Nickname
-│  │  │  │                 │     │  ├─ NicknameRequestBuilder.cs
-│  │  │  │                 │     │  ├─ PersonalUser401Error.cs
-│  │  │  │                 │     │  ├─ PersonalUser403Error.cs
-│  │  │  │                 │     │  ├─ PersonalUser429Error.cs
-│  │  │  │                 │     │  └─ PersonalUser500Error.cs
-│  │  │  │                 │     └─ UpdateRequestBuilder.cs
-│  │  │  │                 ├─ Models
-│  │  │  │                 │  ├─ LoginRequest.cs
-│  │  │  │                 │  ├─ LoginResponse.cs
-│  │  │  │                 │  ├─ PersonalUser.cs
-│  │  │  │                 │  ├─ ProblemDetails.cs
-│  │  │  │                 │  ├─ PublicUser.cs
-│  │  │  │                 │  ├─ RefreshResponse.cs
-│  │  │  │                 │  ├─ RegisterRequest.cs
-│  │  │  │                 │  ├─ UpdateEmailFindRequest.cs
-│  │  │  │                 │  ├─ UpdateLoginFindRequest.cs
-│  │  │  │                 │  └─ UpdateNicknameRequest.cs
-│  │  │  │                 └─ Users
-│  │  │  │                    ├─ Get
-│  │  │  │                    │  ├─ Email
-│  │  │  │                    │  │  ├─ EmailRequestBuilder.cs
-│  │  │  │                    │  │  ├─ PublicUser401Error.cs
-│  │  │  │                    │  │  ├─ PublicUser403Error.cs
-│  │  │  │                    │  │  ├─ PublicUser429Error.cs
-│  │  │  │                    │  │  └─ PublicUser500Error.cs
-│  │  │  │                    │  ├─ GetRequestBuilder.cs
-│  │  │  │                    │  ├─ Login
-│  │  │  │                    │  │  ├─ LoginRequestBuilder.cs
-│  │  │  │                    │  │  ├─ PublicUser401Error.cs
-│  │  │  │                    │  │  ├─ PublicUser403Error.cs
-│  │  │  │                    │  │  ├─ PublicUser429Error.cs
-│  │  │  │                    │  │  └─ PublicUser500Error.cs
-│  │  │  │                    │  ├─ Nickname
-│  │  │  │                    │  │  ├─ NicknameRequestBuilder.cs
-│  │  │  │                    │  │  ├─ PublicUser401Error.cs
-│  │  │  │                    │  │  ├─ PublicUser403Error.cs
-│  │  │  │                    │  │  ├─ PublicUser429Error.cs
-│  │  │  │                    │  │  └─ PublicUser500Error.cs
-│  │  │  │                    │  └─ Uuid
-│  │  │  │                    │     ├─ PublicUser401Error.cs
-│  │  │  │                    │     ├─ PublicUser403Error.cs
-│  │  │  │                    │     ├─ PublicUser429Error.cs
-│  │  │  │                    │     ├─ PublicUser500Error.cs
-│  │  │  │                    │     └─ UuidRequestBuilder.cs
-│  │  │  │                    └─ UsersRequestBuilder.cs
 │  │  │  ├─ Discord
 │  │  │  │  ├─ Oauth.cs
 │  │  │  │  └─ Users.cs
@@ -262,7 +196,8 @@ monorepo
 │  │  │  ├─ Extensions
 │  │  │  │  └─ DI
 │  │  │  │     └─ Use.cs
-│  │  │  └─ Infra.csproj
+│  │  │  ├─ Infra.csproj
+│  │  │  └─ packages.lock.json
 │  │  └─ Libs
 │  │     ├─ Encryption
 │  │     │  └─ Aes256Gcm.cs
@@ -275,6 +210,7 @@ monorepo
 │  │     │  ├─ Argon2.cs
 │  │     │  └─ Sha256.cs
 │  │     ├─ Libs.csproj
+│  │     ├─ packages.lock.json
 │  │     ├─ Proxies
 │  │     │  └─ ErrorHandler.cs
 │  │     ├─ Reflection
@@ -286,6 +222,7 @@ monorepo
 │  └─ Shared
 │     ├─ Base
 │     │  └─ ExceptionHandler.cs
+│     ├─ packages.lock.json
 │     ├─ Path.cs
 │     └─ Shared.csproj
 ├─ eslint.config.ts
@@ -293,90 +230,6 @@ monorepo
 ├─ README.md
 └─ ts
    ├─ apps
-   │  ├─ auth
-   │  │  ├─ core
-   │  │  │  ├─ base
-   │  │  │  │  ├─ core.ts
-   │  │  │  │  ├─ manager.ts
-   │  │  │  │  └─ service.ts
-   │  │  │  ├─ containers
-   │  │  │  │  ├─ index.ts
-   │  │  │  │  ├─ manager.ts
-   │  │  │  │  └─ services.ts
-   │  │  │  ├─ managers
-   │  │  │  │  ├─ otp.ts
-   │  │  │  │  └─ session.ts
-   │  │  │  ├─ services
-   │  │  │  │  ├─ account.ts
-   │  │  │  │  ├─ auth.ts
-   │  │  │  │  ├─ me.ts
-   │  │  │  │  ├─ oauth
-   │  │  │  │  │  └─ discord.ts
-   │  │  │  │  └─ users.ts
-   │  │  │  └─ types
-   │  │  │     └─ account.ts
-   │  │  ├─ package.json
-   │  │  ├─ start.ts
-   │  │  ├─ tsconfig.json
-   │  │  └─ web
-   │  │     ├─ base
-   │  │     │  ├─ handler.ts
-   │  │     │  ├─ manager.ts
-   │  │     │  ├─ middleware.ts
-   │  │     │  ├─ module.ts
-   │  │     │  ├─ openapi.ts
-   │  │     │  ├─ server.ts
-   │  │     │  ├─ web.ts
-   │  │     │  └─ wrapper.ts
-   │  │     ├─ containers
-   │  │     │  ├─ dto.ts
-   │  │     │  ├─ handler.ts
-   │  │     │  ├─ index.ts
-   │  │     │  ├─ managers.ts
-   │  │     │  ├─ middleware.ts
-   │  │     │  ├─ module.ts
-   │  │     │  ├─ openapi.ts
-   │  │     │  ├─ server.ts
-   │  │     │  └─ wrapper.ts
-   │  │     ├─ dto
-   │  │     │  ├─ cookie.ts
-   │  │     │  └─ file.ts
-   │  │     ├─ handlers
-   │  │     │  ├─ auth.ts
-   │  │     │  └─ error.ts
-   │  │     ├─ managers
-   │  │     │  └─ session.ts
-   │  │     ├─ middleware
-   │  │     │  └─ auth.ts
-   │  │     ├─ modules
-   │  │     │  ├─ external
-   │  │     │  │  ├─ account.ts
-   │  │     │  │  ├─ auth.ts
-   │  │     │  │  ├─ me.ts
-   │  │     │  │  ├─ oauth
-   │  │     │  │  │  └─ discord.ts
-   │  │     │  │  └─ users.ts
-   │  │     │  └─ internal
-   │  │     │     └─ users.ts
-   │  │     ├─ openapi
-   │  │     │  ├─ external
-   │  │     │  │  ├─ account.ts
-   │  │     │  │  ├─ auth.ts
-   │  │     │  │  ├─ me.ts
-   │  │     │  │  ├─ oauth
-   │  │     │  │  │  └─ discord.ts
-   │  │     │  │  └─ users.ts
-   │  │     │  └─ internal
-   │  │     │     └─ users.ts
-   │  │     ├─ servers
-   │  │     │  ├─ external.ts
-   │  │     │  └─ internal.ts
-   │  │     ├─ types
-   │  │     │  └─ Env.ts
-   │  │     └─ wrappers
-   │  │        ├─ cors.ts
-   │  │        ├─ rateLimiter.ts
-   │  │        └─ validator.ts
    │  ├─ discordBot
    │  │  ├─ core
    │  │  │  ├─ base
@@ -536,10 +389,16 @@ monorepo
    │  │  ├─ package.json
    │  │  ├─ public
    │  │  │  ├─ favicon.ico
+   │  │  │  ├─ resources
    │  │  │  └─ robots.txt
    │  │  ├─ README.md
    │  │  └─ tsconfig.json
    │  ├─ mail
+   │  │  ├─ core
+   │  │  │  ├─ manager
+   │  │  │  │  └─ mail.ts
+   │  │  │  └─ services
+   │  │  │     └─ mail.ts
    │  │  ├─ package.json
    │  │  └─ tsconfig.json
    │  ├─ spotify
@@ -607,72 +466,42 @@ monorepo
    ├─ package.json
    ├─ packages
    │  ├─ db
-   │  │  ├─ index.ts
-   │  │  ├─ package.json
-   │  │  ├─ src
-   │  │  │  ├─ auth
-   │  │  │  │  ├─ auth.ts
-   │  │  │  │  ├─ config.ts
-   │  │  │  │  ├─ oauth
-   │  │  │  │  │  ├─ cases
-   │  │  │  │  │  │  ├─ create.ts
-   │  │  │  │  │  │  ├─ get.ts
-   │  │  │  │  │  │  ├─ update.ts
-   │  │  │  │  │  │  └─ upsert.ts
-   │  │  │  │  │  └─ oauth.ts
-   │  │  │  │  ├─ refreshToken
-   │  │  │  │  │  ├─ cases
-   │  │  │  │  │  │  ├─ create.ts
-   │  │  │  │  │  │  ├─ delete.ts
-   │  │  │  │  │  │  └─ get.ts
-   │  │  │  │  │  └─ refreshToken.ts
-   │  │  │  │  ├─ schema.prisma
-   │  │  │  │  ├─ user
-   │  │  │  │  │  ├─ cases
-   │  │  │  │  │  │  ├─ create.ts
-   │  │  │  │  │  │  ├─ get.ts
-   │  │  │  │  │  │  └─ update.ts
-   │  │  │  │  │  └─ user.ts
-   │  │  │  │  └─ verificationCode
-   │  │  │  │     ├─ cases
-   │  │  │  │     │  ├─ delete.ts
-   │  │  │  │     │  ├─ get.ts
-   │  │  │  │     │  └─ upsert.ts
-   │  │  │  │     └─ verificationCode.ts
-   │  │  │  ├─ db.base.ts
-   │  │  │  ├─ db.container.ts
-   │  │  │  ├─ discordBot
-   │  │  │  │  ├─ activityStatus
-   │  │  │  │  │  ├─ activityStatus.ts
-   │  │  │  │  │  └─ cases
-   │  │  │  │  │     ├─ create.ts
-   │  │  │  │  │     ├─ delete.ts
-   │  │  │  │  │     └─ get.ts
-   │  │  │  │  ├─ config.ts
-   │  │  │  │  ├─ db.ts
-   │  │  │  │  ├─ features
-   │  │  │  │  │  ├─ cases
-   │  │  │  │  │  │  ├─ settings.ts
-   │  │  │  │  │  │  └─ status.ts
-   │  │  │  │  │  └─ features.ts
-   │  │  │  │  ├─ guilds
-   │  │  │  │  │  ├─ cases
-   │  │  │  │  │  │  ├─ create.ts
-   │  │  │  │  │  │  ├─ delete.ts
-   │  │  │  │  │  │  └─ get.ts
-   │  │  │  │  │  └─ guilds.ts
-   │  │  │  │  └─ schema.prisma
-   │  │  │  ├─ spotify
-   │  │  │  │  ├─ config.ts
-   │  │  │  │  ├─ dailyTrack
-   │  │  │  │  │  ├─ cases
-   │  │  │  │  │  │  ├─ get.ts
-   │  │  │  │  │  │  └─ upsert.ts
-   │  │  │  │  │  └─ dailyTrack.ts
-   │  │  │  │  ├─ db.ts
-   │  │  │  │  └─ schema.prisma
+   │  │  ├─ discordBot
+   │  │  │  ├─ activityStatus
+   │  │  │  │  ├─ activityStatus.ts
+   │  │  │  │  └─ cases
+   │  │  │  │     ├─ create.ts
+   │  │  │  │     ├─ delete.ts
+   │  │  │  │     └─ get.ts
+   │  │  │  ├─ config.ts
+   │  │  │  ├─ db.ts
+   │  │  │  ├─ features
+   │  │  │  │  ├─ cases
+   │  │  │  │  │  ├─ settings.ts
+   │  │  │  │  │  └─ status.ts
+   │  │  │  │  └─ features.ts
+   │  │  │  ├─ guilds
+   │  │  │  │  ├─ cases
+   │  │  │  │  │  ├─ create.ts
+   │  │  │  │  │  ├─ delete.ts
+   │  │  │  │  │  └─ get.ts
+   │  │  │  │  └─ guilds.ts
+   │  │  │  ├─ package.json
+   │  │  │  ├─ schema.prisma
+   │  │  │  ├─ tsconfig.json
    │  │  │  └─ types
    │  │  │     └─ declarations.ts
+   │  │  ├─ spotify
+   │  │  │  ├─ config.ts
+   │  │  │  ├─ dailyTrack
+   │  │  │  │  ├─ cases
+   │  │  │  │  │  ├─ get.ts
+   │  │  │  │  │  └─ upsert.ts
+   │  │  │  │  └─ dailyTrack.ts
+   │  │  │  ├─ db.ts
+   │  │  │  ├─ package.json
+   │  │  │  ├─ schema.prisma
+   │  │  │  └─ tsconfig.json
    │  │  └─ tsconfig.json
    │  ├─ infra
    │  │  ├─ index.ts
@@ -680,14 +509,6 @@ monorepo
    │  │  ├─ src
    │  │  │  ├─ base.ts
    │  │  │  ├─ container.ts
-   │  │  │  ├─ discord
-   │  │  │  │  ├─ oauth.ts
-   │  │  │  │  └─ users.ts
-   │  │  │  ├─ internal
-   │  │  │  │  └─ auth
-   │  │  │  │     └─ users.ts
-   │  │  │  ├─ rabbitmq
-   │  │  │  │  └─ rabbitmq.ts
    │  │  │  └─ spotify
    │  │  │     └─ oauth.ts
    │  │  └─ tsconfig.json
@@ -698,18 +519,10 @@ monorepo
    │  │  │  ├─ base.ts
    │  │  │  ├─ container.ts
    │  │  │  └─ libs
-   │  │  │     ├─ hash
-   │  │  │     │  └─ hash.ts
    │  │  │     ├─ i18n
    │  │  │     │  └─ i18n.ts
-   │  │  │     ├─ jwt
-   │  │  │     │  └─ jwt.ts
-   │  │  │     ├─ mail
-   │  │  │     │  └─ mail.ts
-   │  │  │     ├─ refreshToken
-   │  │  │     │  └─ refreshToken.ts
-   │  │  │     └─ verificationCode
-   │  │  │        └─ verificationCode.ts
+   │  │  │     └─ mail
+   │  │  │        └─ mail.ts
    │  │  └─ tsconfig.json
    │  └─ tsconfig.base.json
    ├─ pnpm-lock.yaml

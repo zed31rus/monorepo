@@ -36,7 +36,7 @@ internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionMan
         var accounts = await db.OauthAccounts
             .AsNoTracking()
             .Where(oauthAccount => oauthAccount.Provider == OauthConstants.Providers.Discord
-                                   && (oauthAccount.ProviderUserId == discordUser.Id || oauthAccount.UserUuid == user.Uuid))
+                && (oauthAccount.ProviderUserId == discordUser.Id || oauthAccount.UserUuid == user.Uuid))
             .ToListAsync(ct);
 
         var accountByDiscordId = accounts.SingleOrDefault(oauthAccount => oauthAccount.ProviderUserId == discordUser.Id);
@@ -110,18 +110,12 @@ internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionMan
         }
 
         var newUserNickName = discordUser.GlobalName ?? discordUser.Username;
-        var newUser = CreateUser(discordUser.Username, newUserNickName, discordUser.Email, confirmedRole.Name,
-            discordUser.Locale ?? "ru");
+        var newUser = new User { discordUser.Username, newUserNickName, discordUser.Email, confirmedRole.Name,
+            discordUser.Locale ?? "ru"};
 
-        return new ResolvedUser(newUser, ResolveUserStatus.New);
-    }
-
-    private User CreateUser(string login, string nickName, string email, string role, string locale)
-    {
-        var newUser = new User { Login = login, Nickname = nickName, Email = email, Role = role, Locale = locale };
         db.Users.Add(newUser);
 
-        return newUser;
+        return new ResolvedUser(newUser, ResolveUserStatus.New);
     }
 
     private enum ResolveUserStatus
