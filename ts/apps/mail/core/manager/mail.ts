@@ -12,8 +12,6 @@ export default class MailManager {
 		},
 	});
 
-	private constructor() {}
-
 	public static Create() {
 		if (this.instance) {
 			return this.instance;
@@ -23,5 +21,12 @@ export default class MailManager {
 		return instance;
 	}
 
-	public SendMessage(message: string) {}
+	public async SendMessage(from: string, to: string, html: string, text: string) {
+		await this.transporter.sendMail({
+			from,
+			to,
+			html,
+			text,
+		});
+	}
 }

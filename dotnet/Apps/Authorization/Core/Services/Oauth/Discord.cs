@@ -12,18 +12,18 @@ using Zed31rus.Packages.Libs.Encryption;
 
 namespace Zed31rus.Apps.Authorization.Core.Services.Oauth;
 
-public record OauthServiceCallbackReturn(PersonalUser User, CoreSessionManagerSessionReturn Session);
+public record DiscordOauthServiceCallbackReturn(PersonalUser User, CoreSessionManagerSessionReturn Session);
 
 public interface IDiscordOauthService
 {
-    public Task<OauthServiceCallbackReturn> Callback(string code, PublicUser? publicUser,
+    public Task<DiscordOauthServiceCallbackReturn> Callback(string code, PublicUser? publicUser,
         CancellationToken ct = default);
 }
 
 [Service]
 internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionManager, IDiscordOauth discordOauth, IDiscordUsers discordUsers, IAes256Gcm encryptor, IConfirmedRole confirmedRole): IDiscordOauthService
 {
-    public async Task<OauthServiceCallbackReturn> Callback(string code, PublicUser? publicUser, CancellationToken ct = default)
+    public async Task<DiscordOauthServiceCallbackReturn> Callback(string code, PublicUser? publicUser, CancellationToken ct = default)
     {
         
     var exchangeReply = await discordOauth.ExchangeCodeAsync(code, ct);
@@ -76,7 +76,7 @@ internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionMan
     var session = await sessionManager.CreateSession(user);
     var newPersonalUser = user.ToPersonalUser();
 
-    return new OauthServiceCallbackReturn(newPersonalUser, session);
+    return new DiscordOauthServiceCallbackReturn(newPersonalUser, session);
     }
 
     private record ResolvedUser(User User, ResolveUserStatus ResolveStatus);
