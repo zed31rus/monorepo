@@ -110,13 +110,18 @@ internal class DiscordOauthService(IAuthDbContext db, ISessionManager sessionMan
         }
 
         var newUserNickName = discordUser.GlobalName ?? discordUser.Username;
-        var newUser = new User { discordUser.Username, newUserNickName, discordUser.Email, confirmedRole.Name,
-            discordUser.Locale ?? "ru"};
-
+        var newUser = new User
+        {
+            Login = discordUser.Username, Nickname = newUserNickName, Email = discordUser.Email,
+            Role = confirmedRole.Name,
+            Locale = discordUser.Locale ?? "ru"
+        };
+        
         db.Users.Add(newUser);
 
         return new ResolvedUser(newUser, ResolveUserStatus.New);
     }
+    
 
     private enum ResolveUserStatus
     {
