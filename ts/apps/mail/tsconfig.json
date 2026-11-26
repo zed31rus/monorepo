@@ -3,6 +3,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "./dist",
+    "jsx": "react-jsx",
     "paths": {
       "@zed31rus/types": ["../../types/index.ts"],
       "@shared/errors": ["../../shared/errors/index.ts"],

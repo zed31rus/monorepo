@@ -1,6 +1,7 @@
 packages:
   - 'apps/*'
   - 'packages/*'
+  - 'options/*'
   - 'types'
   - 'base'
   - 'shared/*'
